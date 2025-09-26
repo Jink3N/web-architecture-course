@@ -10,7 +10,66 @@
   ],
   "headers": [
     {
-      "source": "/(.*)\\.(js|css|html|json|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)",
+      "source": "/(.*)\\.css",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/css"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/javascript"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.html",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/html"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(json|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -37,7 +96,7 @@
           "key": "X-Robots-Tag",
           "value": "all"
         }
-      ]
+            ]
     }
   ]
 }
