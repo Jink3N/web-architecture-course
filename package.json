@@ -1,19 +1,15 @@
 {
   "name": "web-architecture-course",
   "version": "1.0.0",
-  "description": "Corso interattivo completo sull'architettura web - dalla storia ai microservizi con Node.js",
-  "main": "server.js",
+  "description": "Corso interattivo completo sull'architettura web - dalla storia ai microservizi",
+  "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
     "build": "echo 'Build completed - static files ready'",
-    "vercel-build": "echo 'Vercel build process completed'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "vercel-build": "echo 'Vercel build process completed'"
   },
   "keywords": [
     "web-architecture",
     "spa",
-    "node.js",
     "education",
     "corso",
     "microservizi",
@@ -21,16 +17,7 @@
   ],
   "author": "Steve Jobs Academy",
   "license": "MIT",
-  "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "helmet": "^7.0.0",
-    "compression": "^1.7.4"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   }
 }
