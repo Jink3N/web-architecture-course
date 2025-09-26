@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architettura Web - Corso Interattivo</title>
+    <meta name="description" content="Shell SPA per il corso di Architettura Web con caricamento dinamico sezioni." />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <select id="lessonSelector" class="lesson-selector" aria-label="Seleziona lezione">
+                <option value="lezione-1">🏗️ Lezione 1: Fondamenti</option>
+                <option value="lezione-2">🚀 Lezione 2: Avanzate</option>
+            </select>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="app-container">
+                    <aside class="sidebar" id="sidebar">
+                        <div class="sidebar-header">
+                            <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                            <p class="sidebar-subtitle">Dal Mainframe al Cloud</p>
+                            <div class="progress-indicator">
+                                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                                <span class="progress-text" id="progressText">Sezione 1 di 25</span>
+                            </div>
+                        </div>
+                        <nav class="sidebar-nav">
+                            <ul class="nav-list" id="navList">
+                                <!-- La navigazione verrà popolata dinamicamente da app.js -->
+                                <li class="nav-item active" data-section="intro">
+                                    <a href="#intro" class="nav-link" data-file="intro.html">
+                                        <span class="nav-icon">�️</span>
+                                        <span class="nav-text">Caricamento...</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="sidebar-footer">
+                            <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar"><span>←</span></button>
+                        </div>
+                    </aside>
+
+                    <main class="main-content" id="mainContent">
+                        <div class="content-container" id="contentContainer">
+                            <section class="content-section active" id="intro">
+                                <div class="section-content">
+                                    <header class="section-header">
+                                        <h1>🏗️ Architettura Web - Corso Multi-Lezione</h1>
+                                        <p class="section-description">Scegli una lezione dal selettore in alto, poi naviga tra le sezioni dal menu a sinistra.</p>
+                                    </header>
+                                    <article class="subsection">
+                                        <div class="info-box welcome">
+                                            <h3>📚 Sistema Multi-Lezione</h3>
+                                            <p>Questo corso è organizzato in <strong>lezioni multiple</strong> con contenuti dinamici:</p>
+                                            <ul>
+                                                <li><strong>🏗️ Lezione 1:</strong> Fondamenti di Architettura Web (25 sezioni)</li>
+                                                <li><strong>🚀 Lezione 2:</strong> Architetture Avanzate (4 sezioni)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="info-box info">
+                                            <h3>ℹ️ Come Funziona</h3>
+                                            <p>Questa è una <strong>Single Page Application (SPA)</strong> con caricamento dinamico:</p>
+                                            <ul>
+                                                <li><strong>Selettore Lezioni:</strong> Dropdown in alto per cambiare lezione</li>
+                                                <li><strong>Navigazione:</strong> Menu a sinistra per le sezioni della lezione corrente</li>
+                                                <li><strong>Accessibilità:</strong> Frecce ← → per precedente/successivo</li>
+                                                <li><strong>Progress:</strong> Barra aggiornata in base alla sezione corrente</li>
+                                                <li><strong>Tema:</strong> Premi T oppure usa il toggle in alto</li>
+                                            </ul>
+                                        </div>
+                                        <div class="info-box curiosity">
+                                            <h3>🚀 Suggerimento</h3>
+                                            <p>Premi il pulsante qui sotto per iniziare subito dal modello Client-Server, base di tutta l'architettura web moderna.</p>
+                                        </div>
+                                    </article>
+                                    <div class="section-navigation">
+                                        <button class="btn btn--primary" id="startCourseBtn">Inizia il Corso →</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </main>
+                </div>
+
+    <script src="app.js" defer></script>
+</body>
+</html>

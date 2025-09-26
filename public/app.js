@@ -904,6 +904,9 @@ class WebArchitectureApp {
                 this.contentContainer.appendChild(extracted);
             }
 
+            // Aggiungi listener per i pulsanti di navigazione nella sezione caricata
+            this.setupSectionNavigationButtons(extracted);
+
             this.sectionCache.set(sectionId, true);
             this.contentSections.push(extracted);
         } catch (e) {
@@ -931,6 +934,52 @@ class WebArchitectureApp {
         } finally {
             if (this._currentFetch === abortController) this._currentFetch = null;
             this._loadingSection = null;
+        }
+    }
+
+    setupSectionNavigationButtons(sectionElement) {
+        // Gestisce i pulsanti di navigazione nelle sezioni caricate dinamicamente
+        const navigationButtons = sectionElement.querySelectorAll('.section-navigation .btn');
+        
+        navigationButtons.forEach(btn => {
+            // Rimuovi listener esistenti per evitare duplicati
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            
+            if (newBtn.textContent.includes('Successivo')) {
+                newBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.navigateToNextSection();
+                });
+            } else if (newBtn.textContent.includes('Precedente')) {
+                newBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.navigateToPreviousSection();
+                });
+            } else if (newBtn.textContent.includes('Completato') || newBtn.textContent.includes('Completa')) {
+                // Se siamo nell'ultima sezione, passa alla lezione successiva
+                newBtn.disabled = false;
+                newBtn.textContent = '🚀 Lezione Successiva';
+                newBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.goToNextLesson();
+                });
+            }
+        });
+
+        console.log(`✅ Navigation buttons configurati per sezione: ${sectionElement.id}`);
+    }
+
+    goToNextLesson() {
+        if (this.currentLesson === 'lezione-1' && this.lessonsConfig.lessons['lezione-2']) {
+            // Passa alla lezione 2
+            this.switchLesson('lezione-2');
+            this.announceMessage('🎉 Benvenuto nella Lezione 2! Architetture Avanzate');
+        } else {
+            this.announceMessage('🎊 Complimenti! Hai completato tutto il corso di Architettura Web!');
         }
     }
 
@@ -968,12 +1017,20 @@ class WebArchitectureApp {
             const dynamicLoad = nextSection !== 'intro';
             this.navigateToSection(nextSection, true, dynamicLoad);
         } else {
-            // Se siamo all'ultima sezione della lezione corrente, offri di passare alla lezione successiva
-            if (this.currentLesson === 'lezione-1' && this.lessonsConfig.lessons['lezione-2']) {
-                this.announceMessage('Hai completato la Lezione 1! Passa alla Lezione 2 dal selettore in alto.');
-            } else {
-                this.announceMessage('Hai completato tutte le sezioni del corso!');
-            }
+            // Se siamo all'ultima sezione della lezione corrente, passa alla lezione successiva
+            this.goToNextLesson();
+        }
+    }
+
+    navigateToPreviousSection() {
+        const currentIndex = this.sections.indexOf(this.currentSection);
+        if (currentIndex > 0) {
+            const prevSection = this.sections[currentIndex - 1];
+            // Per intro non eseguire caricamento dinamico
+            const dynamicLoad = prevSection !== 'intro';
+            this.navigateToSection(prevSection, true, dynamicLoad);
+        } else {
+            this.announceMessage('Sei già nella prima sezione della lezione.');
         }
     }
 
