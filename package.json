@@ -1,0 +1,29 @@
+{
+  "name": "web-architecture-course",
+  "version": "1.0.0",
+  "description": "Corso interattivo completo sull'architettura web - dalla storia ai microservizi",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js",
+    "build": "echo 'Build completed'",
+    "vercel-build": "echo 'Vercel build process completed'"
+  },
+  "keywords": [
+    "web-architecture",
+    "spa",
+    "education",
+    "corso",
+    "microservizi",
+    "client-server"
+  ],
+  "author": "Steve Jobs Academy",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

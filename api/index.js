@@ -2,7 +2,7 @@
  * API Serverless per Vercel - Corso Architettura Web
  */
 
-export default function handler(req, res) {
+function handler(req, res) {
     const { method, url } = req;
     
     // CORS Configuration con Best Practices
@@ -87,3 +87,7 @@ export default function handler(req, res) {
         path: url
     });
 }
+
+// Export per CommonJS (Node.js) e ES modules (Vercel)
+module.exports = handler;
+module.exports.default = handler;
