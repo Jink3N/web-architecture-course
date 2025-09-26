@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architettura Monolitica</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="Architettura Monolitica: storia, definizione, vantaggi e svantaggi.">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 3 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item active"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="monolithic">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>🏢 Architettura Monolitica</h1>
+                            <p class="section-description">Un'architettura monolitica è un modello di progettazione software dove tutti i componenti dell'applicazione sono unificati in un'unica unità deployabile coesa.</p>
+                        </header>
+
+                        <article class="subsection">
+                            <h2>📜 Storia del Monolite</h2>
+                            <p>Dal software degli <strong>anni '60</strong> fino ai primi web frameworks come <strong>Ruby on Rails (2004)</strong>, l'architettura monolitica è stata il paradigma dominante per decenni.</p>
+                            
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <h3>1960s-1980s - Era Mainframe</h3>
+                                    <p>Tutti i programmi erano monolitici per necessità. COBOL, FORTRAN, sistemi batch processing.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h3>1990s-2000s - Client-Server Monoliths</h3>
+                                    <p>Applicazioni desktop monolitiche (Microsoft Office), server applications (SAP R/3).</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h3>2004 - Rails Revolution</h3>
+                                    <p>Ruby on Rails rende l'architettura monolitica mainstream per web applications.</p>
+                                </div>
+                            </div>
+
+                            <p><strong>A cosa serve:</strong> Sviluppare applicazioni come singola unità deployabile con codebase unificato, shared database, e deployment atomico.</p>
+                            
+                            <p><strong>Quando utilizzarlo:</strong> Applicazioni piccole-medie, team piccoli (2-8 persone), proof of concept, startup MVP, sistemi con domain boundaries poco chiari.</p>
+
+                            <p><strong>Come implementarlo:</strong> Single codebase, shared database, unified deployment pipeline, monolithic frameworks (Rails, Django, Spring Boot).</p>
+
+                            <div class="principles-grid">
+                                <div class="principle-card advantage">
+                                    <h3>✅ Vantaggi</h3>
+                                    <ul>
+                                        <li><strong>Semplicità sviluppo:</strong> Un solo codebase da gestire</li>
+                                        <li><strong>Debugging facile:</strong> Stack trace complete</li>
+                                        <li><strong>Testing integrato:</strong> End-to-end testing diretto</li>
+                                        <li><strong>Deployment atomico:</strong> All-or-nothing deployment</li>
+                                        <li><strong>Performance:</strong> No network latency interna</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card disadvantage">
+                                    <h3>❌ Svantaggi</h3>
+                                    <ul>
+                                        <li><strong>Scaling limitations:</strong> Scale tutto o niente</li>
+                                        <li><strong>Technology lock-in:</strong> Un linguaggio/framework</li>
+                                        <li><strong>Team constraints:</strong> Difficile parallelismo</li>
+                                        <li><strong>Codebase complexity:</strong> Diventa ingestibile</li>
+                                        <li><strong>Single point failure:</strong> Un bug ferma tutto</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="info-box curiosity">
+                                <h3>🎭 Curiosità: Il Termine "Monolite"</h3>
+                                <p>Il termine <strong>"monolite"</strong> deriva dall'architettura fisica: un blocco unico di pietra come gli obelischi egizi o Stonehenge. È stato coniato per l'informatica negli anni '60 per descrivere programmi "carved from a single stone" - scolpiti da una singola pietra di codice!</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="client-server.html">← Precedente: Client-Server</a>
+                        <a class="btn btn--primary" href="microservices.html">Successivo: Microservizi →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

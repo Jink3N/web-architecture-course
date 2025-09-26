@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocollo HTTP</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="Protocollo HTTP: storia, metodi, status code, headers e best practices.">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 6 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item active"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="http">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>🌐 Protocollo HTTP</h1>
+                            <p class="section-description">HTTP è il protocollo fondamentale che abilita la comunicazione nel World Wide Web.</p>
+                        </header>
+                        <article class="subsection">
+                            <h2>📜 Storia del Protocollo HTTP</h2>
+                            <p>Inventato da <strong>Tim Berners-Lee nel 1989</strong>, standardizzato nel 1991. HTTP/2 nel 2015, HTTP/3 nel 2022.</p>
+                            
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <h3>1989-1991: HTTP/0.9</h3>
+                                    <p><strong>Il protocollo primitivo:</strong> Solo metodo GET, nessun header, solo HTML. "dammi questa pagina e chiudi connessione".</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h3>1996: HTTP/1.0</h3>
+                                    <p><strong>Prima standardizzazione:</strong> Headers, status codes, metodi POST/HEAD, supporto per diversi tipi di contenuto.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h3>1997: HTTP/1.1</h3>
+                                    <p><strong>Connessioni persistenti:</strong> Keep-alive, chunked encoding, caching migliorato, Host header obbligatorio.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h3>2015: HTTP/2</h3>
+                                    <p><strong>Rivoluzione binaria:</strong> Multiplexing, server push, compressione headers, prioritizzazione stream.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h3>2022: HTTP/3</h3>
+                                    <p><strong>QUIC Protocol:</strong> UDP-based, riduce latenza, connection migration, crittografia integrata.</p>
+                                </div>
+                            </div>
+
+                            <h2>🔧 Metodi HTTP Essenziali</h2>
+                            
+                            <div class="definition-cards">
+                                <div class="definition-card client">
+                                    <h3>📖 Metodi Sicuri (Safe)</h3>
+                                    <h4>GET - Leggi Risorsa</h4>
+                                    <ul>
+                                        <li><strong>Idempotente:</strong> Stessa richiesta = stesso risultato</li>
+                                        <li><strong>Cacheable:</strong> Può essere memorizzato in cache</li>
+                                        <li><strong>Sicuro:</strong> Non modifica lo stato del server</li>
+                                        <li><strong>Uso:</strong> Recuperare dati, pagine web, API read</li>
+                                    </ul>
+
+                                    <h4>HEAD - Solo Headers</h4>
+                                    <ul>
+                                        <li>Come GET ma senza body di risposta</li>
+                                        <li>Utile per metadati e validazione cache</li>
+                                        <li>Controllo esistenza risorsa</li>
+                                    </ul>
+
+                                    <h4>OPTIONS - Capabilities</h4>
+                                    <ul>
+                                        <li>Scopre metodi supportati dal server</li>
+                                        <li>Usato nei preflight CORS</li>
+                                        <li>Negoziazione capabilities</li>
+                                    </ul>
+                                </div>
+
+                                <div class="definition-card server">
+                                    <h3>✏️ Metodi di Modifica</h3>
+                                    <h4>POST - Crea/Processa</h4>
+                                    <ul>
+                                        <li><strong>Non idempotente:</strong> Ogni richiesta può avere effetti diversi</li>
+                                        <li><strong>Non cacheable:</strong> Di default non memorizzabile</li>
+                                        <li><strong>Flessibile:</strong> Creazione, processing, upload</li>
+                                        <li><strong>Uso:</strong> Form submit, API create, file upload</li>
+                                    </ul>
+
+                                    <h4>PUT - Sostituisci Completamente</h4>
+                                    <ul>
+                                        <li><strong>Idempotente:</strong> Stesso risultato se ripetuto</li>
+                                        <li>Sostituisce intera risorsa</li>
+                                        <li>Crea se non esiste</li>
+                                    </ul>
+
+                                    <h4>PATCH - Modifica Parziale</h4>
+                                    <ul>
+                                        <li>Modifica solo campi specificati</li>
+                                        <li>Più efficiente di PUT per update piccoli</li>
+                                        <li>Richiede formato patch definito</li>
+                                    </ul>
+
+                                    <h4>DELETE - Rimuovi Risorsa</h4>
+                                    <ul>
+                                        <li><strong>Idempotente:</strong> Eliminare qualcosa di già eliminato è OK</li>
+                                        <li>Può restituire 204 No Content</li>
+                                        <li>Soft vs hard delete</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <h2>📊 Status Codes Fondamentali</h2>
+
+                            <div class="communication-flow">
+                                <div class="flow-step">
+                                    <div class="step-number">2xx</div>
+                                    <div class="step-content">
+                                        <h3>✅ Successo</h3>
+                                        <ul>
+                                            <li><strong>200 OK:</strong> Richiesta completata con successo</li>
+                                            <li><strong>201 Created:</strong> Nuova risorsa creata</li>
+                                            <li><strong>204 No Content:</strong> Successo senza body di risposta</li>
+                                            <li><strong>206 Partial Content:</strong> Range request parziale</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="flow-step">
+                                    <div class="step-number">3xx</div>
+                                    <div class="step-content">
+                                        <h3>🔄 Redirection</h3>
+                                        <ul>
+                                            <li><strong>301 Moved Permanently:</strong> Risorsa spostata definitivamente</li>
+                                            <li><strong>302 Found:</strong> Redirection temporaneo</li>
+                                            <li><strong>304 Not Modified:</strong> Cache valida, non scaricare</li>
+                                            <li><strong>307 Temporary Redirect:</strong> Mantieni metodo HTTP</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="flow-step">
+                                    <div class="step-number">4xx</div>
+                                    <div class="step-content">
+                                        <h3>❌ Errori Client</h3>
+                                        <ul>
+                                            <li><strong>400 Bad Request:</strong> Sintassi richiesta non valida</li>
+                                            <li><strong>401 Unauthorized:</strong> Autenticazione richiesta</li>
+                                            <li><strong>403 Forbidden:</strong> Autorizzazione negata</li>
+                                            <li><strong>404 Not Found:</strong> Risorsa non esistente</li>
+                                            <li><strong>429 Too Many Requests:</strong> Rate limiting</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="flow-step">
+                                    <div class="step-number">5xx</div>
+                                    <div class="step-content">
+                                        <h3>💥 Errori Server</h3>
+                                        <ul>
+                                            <li><strong>500 Internal Server Error:</strong> Errore generico server</li>
+                                            <li><strong>502 Bad Gateway:</strong> Proxy/gateway error</li>
+                                            <li><strong>503 Service Unavailable:</strong> Server temporaneamente indisponibile</li>
+                                            <li><strong>504 Gateway Timeout:</strong> Timeout upstream</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>📋 Headers Cruciali</h2>
+
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>🗂️ Content Headers</h3>
+                                    <p><strong>Content-Type:</strong> Tipo MIME del body</p>
+                                    <p><strong>Content-Length:</strong> Dimensione in bytes</p>
+                                    <p><strong>Content-Encoding:</strong> Compressione (gzip, br)</p>
+                                    <p><em>Essenziali per interpretare i dati</em></p>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>🏪 Cache Headers</h3>
+                                    <p><strong>Cache-Control:</strong> Direttive di caching</p>
+                                    <p><strong>ETag:</strong> Identifier univoco versione</p>
+                                    <p><strong>Last-Modified:</strong> Data ultima modifica</p>
+                                    <p><em>Ottimizzano performance e bandwidth</em></p>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>🔐 Security Headers</h3>
+                                    <p><strong>Authorization:</strong> Credenziali di accesso</p>
+                                    <p><strong>X-Frame-Options:</strong> Protezione clickjacking</p>
+                                    <p><strong>Strict-Transport-Security:</strong> Forza HTTPS</p>
+                                    <p><em>Proteggono da vulnerabilità comuni</em></p>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>🌐 CORS Headers</h3>
+                                    <p><strong>Access-Control-Allow-Origin:</strong> Domini permessi</p>
+                                    <p><strong>Access-Control-Allow-Methods:</strong> Metodi consentiti</p>
+                                    <p><strong>Access-Control-Allow-Headers:</strong> Headers accettati</p>
+                                    <p><em>Gestiscono accesso cross-origin</em></p>
+                                </div>
+                            </div>
+
+                            <h2>🚀 HTTP/2 vs HTTP/3: Le Rivoluzioni</h2>
+
+                            <div class="principles-grid">
+                                <div class="principle-card advantage">
+                                    <h3>🔄 HTTP/2 Innovations</h3>
+                                    <p><strong>Protocollo binario</strong> più efficiente del testo.</p>
+                                    <ul>
+                                        <li><strong>Multiplexing:</strong> Più richieste sulla stessa connessione</li>
+                                        <li><strong>Server Push:</strong> Server invia risorse prima che siano richieste</li>
+                                        <li><strong>Header Compression:</strong> HPACK riduce overhead</li>
+                                        <li><strong>Stream Priority:</strong> Priorità delle richieste</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card advantage">
+                                    <h3>⚡ HTTP/3 + QUIC</h3>
+                                    <p><strong>UDP-based</strong> per ridurre latenza drasticamente.</p>
+                                    <ul>
+                                        <li><strong>0-RTT Handshake:</strong> Connessioni istantanee</li>
+                                        <li><strong>Connection Migration:</strong> Sopravvive al cambio rete</li>
+                                        <li><strong>Built-in Encryption:</strong> TLS integrato</li>
+                                        <li><strong>Head-of-line Blocking:</strong> Risolto a livello transport</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card advantage">
+                                    <h3>📈 Performance Impact</h3>
+                                    <p><strong>Miglioramenti misurabili</strong> in scenari reali.</p>
+                                    <ul>
+                                        <li><strong>HTTP/2:</strong> 10-30% più veloce su connessioni lente</li>
+                                        <li><strong>HTTP/3:</strong> 20-50% riduzione latenza</li>
+                                        <li><strong>Mobile Networks:</strong> Benefici maggiori</li>
+                                        <li><strong>File Multipli:</strong> Parallelizzazione ottimale</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card disadvantage">
+                                    <h3>⚙️ Considerazioni Implementation</h3>
+                                    <p><strong>Adozione graduale</strong> e compatibilità backward.</p>
+                                    <ul>
+                                        <li><strong>Server Support:</strong> Upgrade infrastructure richiesto</li>
+                                        <li><strong>Proxy/CDN:</strong> Supporto ancora parziale</li>
+                                        <li><strong>Debugging:</strong> Tool binari più complessi</li>
+                                        <li><strong>Browser Support:</strong> HTTP/3 ancora in rollout</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <h3>🔧 Best Practices HTTP</h3>
+                                <p><strong>Performance:</strong> Usa HTTP/2+, abilita compressione, implementa caching intelligente.</p>
+                                <p><strong>Sicurezza:</strong> Sempre HTTPS in produzione, implementa security headers, valida input.</p>
+                                <p><strong>API Design:</strong> Rispetta semantica HTTP, usa status codes appropriati, implementa rate limiting.</p>
+                                <p><strong>Monitoring:</strong> Logga richieste, monitora latenza, traccia errori 4xx/5xx.</p>
+                            </div>
+
+                            <div class="info-box curiosity">
+                                <h3>🏛️ Curiosità: HTTP/0.9</h3>
+                                <p><strong>HTTP/0.9 aveva solo il metodo GET</strong> e supportava solo HTML. Nessun header, nessun status code - solo "dammi questa pagina"!</p>
+                                <p><strong>Una richiesta tipica:</strong> <code>GET /index.html</code> seguita dalla chiusura immediata della connessione. Primitivo ma funzionale!</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="spa.html">← Precedente: SPA</a>
+                        <a class="btn btn--primary" href="cors.html">Successivo: CORS →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

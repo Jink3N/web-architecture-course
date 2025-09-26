@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT - JSON Web Token</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="JWT: cos'è, come funziona, vantaggi e rischi.">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 14 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item active"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="jwt">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>🔑 JWT - JSON Web Token</h1>
+                            <p class="section-description">Formato compatto, autoverificabile per trasportare claims tra sistemi distribuiti.</p>
+                        </header>
+                        <article class="subsection">
+                            <h2>🧬 Struttura di un JWT</h2>
+                            <div class="examples-grid">
+                                <div class="example-card"><h3>🔗 Formato</h3><pre><code>xxxxx.yyyyy.zzzzz
+header.payload.signature</code></pre><p>Tre blocchi Base64URL separati da punti.</p></div>
+                                <div class="example-card"><h3>🧾 Header</h3><pre><code>{
+  "alg": "RS256",
+  "typ": "JWT",
+  "kid": "key-2025-01"
+}</code></pre><p>Algoritmo, tipo token, key id.</p></div>
+                                <div class="example-card"><h3>📜 Payload (Claims)</h3><pre><code>{
+  "sub": "user-123",
+  "role": "admin",
+  "scope": ["users:read"],
+  "iat": 1732465200,
+  "exp": 1732468800
+}</code></pre><p>Dati business + claims standard.</p></div>
+                                <div class="example-card"><h3>✍️ Signature</h3><pre><code>sign( base64url(header)+"."+base64url(payload), key )</code></pre><p>Garantisce integrità & autenticità.</p></div>
+                            </div>
+                            <h2>📑 Claims Principali</h2>
+                            <div class="principles-grid">
+                                <div class="principle-card advantage"><h3>Identità</h3><ul><li><strong>sub:</strong> Subject (ID utente)</li><li><strong>iss:</strong> Issuer</li><li><strong>aud:</strong> Audience</li><li><strong>jti:</strong> ID token unico</li></ul></div>
+                                <div class="principle-card advantage"><h3>Tempo</h3><ul><li><strong>iat:</strong> Issued At</li><li><strong>exp:</strong> Expiry</li><li><strong>nbf:</strong> Not Before</li><li><strong>auth_time:</strong> Tempo autenticazione</li></ul></div>
+                                <div class="principle-card advantage"><h3>Autorizzazione</h3><ul><li><strong>scope:</strong> Permessi granulari</li><li><strong>role:</strong> Ruolo</li><li><strong>permissions:</strong> Lista custom</li><li><strong>acl:</strong> Access list</li></ul></div>
+                                <div class="principle-card disadvantage"><h3>Rischi</h3><ul><li>Token leakage</li><li>No revoca nativa</li><li>Alg confusion</li><li>XSS exposure</li></ul></div>
+                            </div>
+                            <h2>🔐 Firmare & Verificare</h2>
+                            <div class="examples-grid">
+                                <div class="example-card"><h3>HS256</h3><pre><code>jwt.sign(payload, secret, { expiresIn: '15m' });
+jwt.verify(token, secret);</code></pre><p>Chiave simmetrica condivisa.</p></div>
+                                <div class="example-card"><h3>RS256</h3><pre><code>jwt.sign(payload, privateKey, { algorithm: 'RS256' });
+jwt.verify(token, publicKey);</code></pre><p>Chiave privata/pubblica – ideale microservizi.</p></div>
+                                <div class="example-card"><h3>JWKS</h3><pre><code>GET /.well-known/jwks.json
+{ "keys": [ {"kid":"2025-01","kty":"RSA", ...} ] }</code></pre><p>Rotazione & discovery chiavi.</p></div>
+                                <div class="example-card"><h3>Alg None (storico)</h3><pre><code>{ "alg": "none" } // Vulnerabilità</code></pre><p>Whitelist algoritmi sempre.</p></div>
+                            </div>
+                            <h2>🔄 Access vs Refresh</h2>
+                            <div class="definition-cards">
+                                <div class="definition-card client"><h3>⚡ Access Token</h3><h4>Breve durata (5–15m)</h4><ul><li>Usato nelle API</li><li>Nessuna revoca centralizzata</li><li>Contiene scopes</li><li>Lightweight</li></ul></div>
+                                <div class="definition-card server"><h3>🔁 Refresh Token</h3><h4>Durata lunga</h4><ul><li>Conservato HttpOnly cookie</li><li>Rotazione obbligatoria</li><li>Revocabile</li><li>Tracciato server-side</li></ul></div>
+                            </div>
+                            <h2>🧰 Middleware di Validazione</h2>
+                            <div class="examples-grid">
+                                <div class="example-card"><h3>Express</h3><pre><code>function auth(req,res,next){
+  const t=req.headers.authorization?.split(' ')[1];
+  try {
+    req.user = jwt.verify(t, publicKey, {
+      algorithms:['RS256'],
+      issuer:'auth.example.com',
+      audience:'api.example.com'
+    });
+    next();
+  } catch { res.status(401).json({error:'invalid_token'}); }
+}</code></pre></div>
+                                <div class="example-card"><h3>Rotazione Refresh</h3><pre><code>POST /auth/refresh
+1. Verifica refresh
+2. Invalida jti precedente
+3. Emissione nuova coppia
+4. Log sicurezza</code></pre></div>
+                                <div class="example-card"><h3>Logout Sicuro</h3><pre><code>POST /auth/logout
+blacklist.add(refresh.jti)
+clear refresh cookie</code></pre></div>
+                                <div class="example-card"><h3>Blacklist</h3><pre><code>// Redis TTL = exp - now
+SET blacklist:&lt;jti&gt; 1 EX 900</code></pre></div>
+                            </div>
+                            <h2>🛡️ Best Practices</h2>
+                            <div class="principles-grid">
+                                <div class="principle-card advantage"><h3>Sicurezza</h3><ul><li>Exp breve access token</li><li>Refresh HttpOnly</li><li>Validate iss/aud/exp/nbf</li><li>Rotate keys (kid)</li></ul></div>
+                                <div class="principle-card disadvantage"><h3>Anti-Abuso</h3><ul><li>Rate limiting</li><li>Device binding opzionale</li><li>Anomaly detection</li><li>Blacklist compromise</li></ul></div>
+                                <div class="principle-card advantage"><h3>Operatività</h3><ul><li>Monitor exp near-future</li><li>Central JWKS cache</li><li>Structured logging claims</li><li>Tracing correlation (jti)</li></ul></div>
+                                <div class="principle-card disadvantage"><h3>Rischi Comune</h3><ul><li>Salvare in localStorage</li><li>Exp troppo lunghi</li><li>Algoritmo non fissato</li><li>Claims eccessivi</li></ul></div>
+                            </div>
+                            <div class="info-box"><h3>🎯 Sintesi</h3><p>JWT abilita autenticazione stateless scalabile. Minimizza durata, proteggi refresh, monitora anomalie.</p></div>
+                            <div class="info-box curiosity"><h3>🧪 Curiosità</h3><p>Il bug "alg none" ha spinto audit globali migliorando la robustezza delle librerie.</p></div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="json-xml.html">← Precedente</a>
+                        <a class="btn btn--primary" href="cookie-session.html">Successivo →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

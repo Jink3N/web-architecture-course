@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="CORS: Cross-Origin Resource Sharing, sicurezza e configurazione.">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 7 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item active"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="cors">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>🔐 CORS - Cross-Origin Resource Sharing</h1>
+                            <p class="section-description">CORS è un meccanismo di sicurezza che controlla l'accesso a risorse cross-domain.</p>
+                        </header>
+                        <article class="subsection">
+                            <h2>📜 Storia di CORS</h2>
+                            <p>Creato nel <strong>2004</strong> come risposta ai problemi di sicurezza. Standardizzato W3C nel 2014.</p>
+
+                            <h2>🛡️ Il Problema della Same-Origin Policy</h2>
+                            <p>I browser implementano la <strong>Same-Origin Policy</strong> per sicurezza: le pagine web possono accedere solo a risorse della stessa origine (protocollo + dominio + porta).</p>
+
+                            <div class="definition-cards">
+                                <div class="definition-card client">
+                                    <h3>✅ Same Origin - Permesso</h3>
+                                    <h4>Origine: https://example.com:443</h4>
+                                    <ul>
+                                        <li><strong>✅ https://example.com/api/users</strong> - Stesso schema, dominio, porta</li>
+                                        <li><strong>✅ https://example.com:443/data</strong> - Porta 443 è default per HTTPS</li>
+                                        <li><strong>✅ https://example.com/subfolder/page</strong> - Stesso dominio, path diverso OK</li>
+                                    </ul>
+                                    <p><strong>Permesso:</strong> XMLHttpRequest, Fetch API, DOM access diretto</p>
+                                </div>
+
+                                <div class="definition-card server">
+                                    <h3>❌ Cross-Origin - Bloccato</h3>
+                                    <h4>Origine: https://example.com:443</h4>
+                                    <ul>
+                                        <li><strong>❌ http://example.com</strong> - Schema diverso (http vs https)</li>
+                                        <li><strong>❌ https://api.example.com</strong> - Subdomain diverso</li>
+                                        <li><strong>❌ https://example.com:8080</strong> - Porta diversa</li>
+                                        <li><strong>❌ https://other-site.com</strong> - Dominio completamente diverso</li>
+                                    </ul>
+                                    <p><strong>Bloccato di default:</strong> AJAX requests, API calls, font loading</p>
+                                </div>
+                            </div>
+
+                            <h2>🔓 Come CORS Risolve il Problema</h2>
+                            <p>CORS consente al <strong>server</strong> di specificare esplicitamente quali origini possono accedere alle sue risorse tramite header HTTP specializzati.</p>
+
+                            <div class="communication-flow">
+                                <div class="flow-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-content">
+                                        <h3>🌐 Simple Request</h3>
+                                        <p>Per richieste "semplici" (GET, POST con content-type basic), il browser invia direttamente la richiesta con header Origin.</p>
+                                        <ul>
+                                            <li><strong>Metodi:</strong> GET, HEAD, POST</li>
+                                            <li><strong>Content-Type:</strong> application/x-www-form-urlencoded, multipart/form-data, text/plain</li>
+                                            <li><strong>Header automatico:</strong> Origin: https://frontend.com</li>
+                                            <li><strong>Controllo:</strong> Browser verifica response headers</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="flow-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-content">
+                                        <h3>✈️ Preflight Request</h3>
+                                        <p>Per richieste "complesse", il browser effettua prima una richiesta OPTIONS di verifica.</p>
+                                        <ul>
+                                            <li><strong>Trigger:</strong> PUT, DELETE, Content-Type: application/json</li>
+                                            <li><strong>Headers custom:</strong> Authorization, X-Custom-Header</li>
+                                            <li><strong>OPTIONS check:</strong> Verifica permessi prima della richiesta reale</li>
+                                            <li><strong>Cache:</strong> Risultato può essere cachato</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="flow-step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-content">
+                                        <h3>📝 Server Response</h3>
+                                        <p>Il server risponde con header CORS che specificano le permission di accesso.</p>
+                                        <ul>
+                                            <li><strong>Access-Control-Allow-Origin:</strong> Domini autorizzati</li>
+                                            <li><strong>Access-Control-Allow-Methods:</strong> Metodi HTTP permessi</li>
+                                            <li><strong>Access-Control-Allow-Headers:</strong> Header custom accettati</li>
+                                            <li><strong>Access-Control-Max-Age:</strong> Cache duration preflight</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="flow-step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-content">
+                                        <h3>🔍 Browser Validation</h3>
+                                        <p>Il browser valida gli header di risposta e decide se permettere l'accesso ai dati.</p>
+                                        <ul>
+                                            <li><strong>Origin match:</strong> Verifica origine permessa</li>
+                                            <li><strong>Method check:</strong> Controlla metodo autorizzato</li>
+                                            <li><strong>Headers validation:</strong> Verifica header custom</li>
+                                            <li><strong>Credentials handling:</strong> Gestione cookies e auth</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>🔧 Header CORS Essenziali</h2>
+
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>🌍 Access-Control-Allow-Origin</h3>
+                                    <p><strong>Il più importante:</strong> Specifica quali domini possono accedere.</p>
+                                    <pre><code># Permetti tutti (ATTENZIONE: security risk)
+Access-Control-Allow-Origin: *
+
+# Permetti dominio specifico
+Access-Control-Allow-Origin: https://myapp.com
+
+# Multiple origins richiede logica server-side</code></pre>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>� Access-Control-Allow-Methods</h3>
+                                    <p><strong>Metodi HTTP permessi</strong> per richieste cross-origin.</p>
+                                    <pre><code># Metodi base
+Access-Control-Allow-Methods: GET, POST
+
+# Metodi completi API REST
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS</code></pre>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>📋 Access-Control-Allow-Headers</h3>
+                                    <p><strong>Header custom permessi</strong> nelle richieste client.</p>
+                                    <pre><code># Headers comuni
+Access-Control-Allow-Headers: Content-Type, Authorization
+
+# Headers extended
+Access-Control-Allow-Headers: Content-Type, Authorization, X-API-Key, X-Requested-With</code></pre>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>🍪 Access-Control-Allow-Credentials</h3>
+                                    <p><strong>Abilita invio cookies</strong> e header di autenticazione.</p>
+                                    <pre><code># Permetti cookies cross-origin
+Access-Control-Allow-Credentials: true
+
+# ATTENZIONE: Non compatibile con Origin: *</code></pre>
+                                </div>
+                            </div>
+
+                            <h2>⚠️ Problemi e Soluzioni Comuni</h2>
+
+                            <div class="principles-grid">
+                                <div class="principle-card disadvantage">
+                                    <h3>🚨 Errore: "CORS policy blocked"</h3>
+                                    <p><strong>Cause comuni:</strong></p>
+                                    <ul>
+                                        <li>Server non restituisce header CORS</li>
+                                        <li>Origin non nell'allow list</li>
+                                        <li>Preflight fallisce per metodo/header</li>
+                                        <li>Credenziali richieste ma non permesse</li>
+                                    </ul>
+                                    <p><strong>Debug:</strong> Usa DevTools Network tab, controlla response headers</p>
+                                </div>
+
+                                <div class="principle-card advantage">
+                                    <h3>🔧 Configurazione Server Sicura</h3>
+                                    <p><strong>Best practices:</strong></p>
+                                    <ul>
+                                        <li><strong>Origin whitelist:</strong> Mai usare * in produzione</li>
+                                        <li><strong>Metodi specifici:</strong> Solo quelli necessari</li>
+                                        <li><strong>Headers minimali:</strong> Evita header non utilizzati</li>
+                                        <li><strong>Credentials:</strong> Solo se strettamente necessari</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card advantage">
+                                    <h3>⚡ Performance Optimization</h3>
+                                    <p><strong>Ottimizzazioni preflight:</strong></p>
+                                    <ul>
+                                        <li><strong>Access-Control-Max-Age:</strong> Cache preflight 24h</li>
+                                        <li><strong>Simple requests:</strong> Evita preflight quando possibile</li>
+                                        <li><strong>Batch requests:</strong> Raggruppa multiple chiamate</li>
+                                        <li><strong>CDN CORS:</strong> Configura edge server</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card disadvantage">
+                                    <h3>🛡️ Security Considerations</h3>
+                                    <p><strong>Attenzioni sicurezza:</strong></p>
+                                    <ul>
+                                        <li><strong>CSRF:</strong> CORS non protegge da CSRF</li>
+                                        <li><strong>Data exposure:</strong> Controlla cosa esponi</li>
+                                        <li><strong>Subdomain risk:</strong> Attenzione ai wildcard</li>
+                                        <li><strong>Internal APIs:</strong> Non esporre endpoint interni</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <h2>💻 Esempi Pratici di Configurazione</h2>
+
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>🟢 Node.js + Express</h3>
+                                    <pre><code>const cors = require('cors');
+
+// Basic CORS
+app.use(cors());
+
+// Configured CORS
+const corsOptions = {
+  origin: ['https://myapp.com', 'https://admin.myapp.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+app.use(cors(corsOptions));</code></pre>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>🐍 Python + Flask</h3>
+                                    <pre><code>from flask_cors import CORS
+
+# Basic CORS
+CORS(app)
+
+# Configured CORS
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["https://myapp.com"],
+        "methods": ["GET", "POST"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})</code></pre>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>🌐 Nginx Configuration</h3>
+                                    <pre><code>location /api/ {
+    if ($request_method = 'OPTIONS') {
+        add_header Access-Control-Allow-Origin 'https://myapp.com';
+        add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
+        add_header Access-Control-Allow-Headers 'Content-Type, Authorization';
+        add_header Access-Control-Max-Age 86400;
+        return 204;
+    }
+    
+    add_header Access-Control-Allow-Origin 'https://myapp.com';
+    proxy_pass http://backend;
+}</code></pre>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>☁️ AWS CloudFront</h3>
+                                    <pre><code># CloudFormation template
+Resources:
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        CacheBehaviors:
+          - PathPattern: "/api/*"
+            ResponseHeadersPolicy: !Ref CORSPolicy
+            
+  CORSPolicy:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        CorsConfig:
+          AccessControlAllowOrigins:
+            - "https://myapp.com"
+          AccessControlAllowMethods:
+            - GET
+            - POST
+            - OPTIONS
+          AccessControlAllowHeaders:
+            - Content-Type
+            - Authorization</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <h3>🎯 Best Practices CORS</h3>
+                                <p><strong>Sviluppo:</strong> Usa origin specifici anche in dev, testa sempre preflight, monitora errori browser.</p>
+                                <p><strong>Produzione:</strong> Whitelist esplicita di domini, headers minimi necessari, cache preflight appropriato.</p>
+                                <p><strong>Sicurezza:</strong> Mai Access-Control-Allow-Origin: * con credentials, valida sempre input, audita configurazione regolarmente.</p>
+                                <p><strong>Performance:</strong> Minimizza preflight requests, usa CDN con CORS support, cache header appropriati.</p>
+                            </div>
+
+                            <div class="info-box curiosity">
+                                <h3>🐛 Curiosità: Firefox Vulnerability</h3>
+                                <p>CORS nacque da una <strong>vulnerabilità scoperta in Firefox</strong> che permetteva attacchi cross-site. La soluzione divenne poi uno standard!</p>
+                                <p><strong>Il bug:</strong> Firefox permetteva di leggere risposte cross-origin tramite un exploit con XMLHttpRequest, violando la same-origin policy.</p>
+                                <p><strong>La fix:</strong> Invece di una patch rapida, i browser vendor collaborarono per creare CORS come standard W3C.</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="http.html">← Precedente: HTTP</a>
+                        <a class="btn btn--primary" href="csrf.html">Successivo: CSRF →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduzione all'Architettura Web</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="Introduzione all'architettura web: storia, funzioni, vantaggi e svantaggi.">
+</head>
+<body>
+    <!-- Header con toggle tema -->
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <!-- Sidebar di navigazione fissa -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 1 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item active"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione X all'Architettura Web</span></a></li>
+                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <!-- Area principale del contenuto -->
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <!-- Sezione: Introduzione all'Architettura Web -->
+                <section class="content-section active" id="intro">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>🏗️ Introduzione all'Architettura Web</h1>
+                            <p class="section-description">L'architettura web rappresenta la spina dorsale della comunicazione digitale moderna, definendo come componenti software interagiscono per creare esperienze utente seamless e sistemi scalabili.</p>
+                        </header>
+                        <article class="subsection">
+                            <h2>📜 Storia dell'Architettura Software</h2>
+                            <p>L'architettura software ha radici profonde che risalgono agli <strong>anni '60 con i primi mainframe IBM</strong>. Il concetto nacque dalla necessità di organizzare sistemi informatici sempre più complessi che gestivano elaborazioni per intere università e aziende.</p>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <h3>1968 - NATO Software Engineering Conference</h3>
+                                    <p>La conferenza NATO conia il termine <strong>'ingegneria del software'</strong>, riconoscendo per la prima volta la necessità di approcci strutturati e metodologici nello sviluppo software. Questo evento segna l'inizio dell'architettura software come disciplina.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h3>1970s - Pattern Architetturali</h3>
+                                    <p>Gli anni '70 vedono nascere i primi pattern con il lavoro rivoluzionario di <strong>Christopher Alexander</strong> in architettura fisica. Il suo libro "A Pattern Language" ispira l'informatica, introducendo il concetto di pattern riusabili.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h3>1980s - Formalizzazione</h3>
+                                    <p>Il concetto di 'architettura software' viene formalizzato negli anni '80 con il lavoro pioneristico di <strong>Mary Shaw e David Garlan alla Carnegie Mellon University</strong>. Introducono stili architetturali e componenti come elementi fondamentali.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h3>1990s-2000s - Era del Web</h3>
+                                    <p>Con l'avvento del World Wide Web, l'architettura software evolve verso sistemi distribuiti, client-server, e architetture orientate ai servizi (SOA).</p>
+                                </div>
+                            </div>
+                            <div class="info-box">
+                                <h3>🎯 A Cosa Serve l'Architettura Web</h3>
+                                <p>L'architettura web definisce la <strong>struttura fondamentale</strong> di come i componenti software interagiscono per creare sistemi web scalabili, manutenibili e sicuri. Fornisce un <em>blueprint</em> che guida sviluppatori e ingegneri nella costruzione di sistemi complessi.</p>
+                                <h4>Funzioni Primarie:</h4>
+                                <ul>
+                                    <li><strong>Separation of Concerns:</strong> Definire responsabilità chiare per ogni componente</li>
+                                    <li><strong>Scalabilità:</strong> Permettere crescita orizzontale e verticale</li>
+                                    <li><strong>Interoperabilità:</strong> Abilitare comunicazione tra sistemi eterogenei</li>
+                                    <li><strong>Manutenibilità:</strong> Facilitare modifiche e aggiornamenti</li>
+                                    <li><strong>Sicurezza:</strong> Implementare controlli di accesso e protezione dati</li>
+                                </ul>
+                            </div>
+                            <h2>⏰ Quando Utilizzare l'Architettura Web</h2>
+                            <p>L'architettura è <strong>essenziale sempre</strong> quando si progettano sistemi software complessi. Non è un lusso, ma una necessità per qualsiasi sistema che:</p>
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>🏢 Applicazioni Enterprise</h3>
+                                    <p><strong>Scenario:</strong> ERP, CRM, sistemi bancari</p>
+                                    <p><strong>Complessità:</strong> Migliaia di utenti concorrenti, integrazioni multiple, compliance normativa</p>
+                                    <p><strong>Architettura Tipica:</strong> Microservizi con API Gateway, database distribuiti, event sourcing</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>🛒 Piattaforme E-commerce</h3>
+                                    <p><strong>Scenario:</strong> Amazon, eBay, Shopify</p>
+                                    <p><strong>Complessità:</strong> Milioni di prodotti, transazioni finanziarie, gestione inventario real-time</p>
+                                    <p><strong>Architettura Tipica:</strong> Microservizi, CDN globale, database NoSQL, message queues</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>💰 Sistemi Fintech</h3>
+                                    <p><strong>Scenario:</strong> Banche digitali, wallet, criptovalute</p>
+                                    <p><strong>Complessità:</strong> Sicurezza massima, compliance, transazioni ad alta frequenza</p>
+                                    <p><strong>Architettura Tipica:</strong> Event-driven, blockchain, sistemi fault-tolerant</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>🏥 Applicazioni Healthcare</h3>
+                                    <p><strong>Scenario:</strong> Cartelle cliniche, telemedicina</p>
+                                    <p><strong>Complessità:</strong> Privacy critica (GDPR/HIPAA), integrazione dispositivi medici</p>
+                                    <p><strong>Architettura Tipica:</strong> Zero-trust security, API HL7 FHIR, cloud ibrido</p>
+                                </div>
+                            </div>
+                            <h2>🛠️ Come Implementare l'Architettura Web</h2>
+                            <div class="communication-flow">
+                                <div class="flow-step"><div class="step-number">1</div><div class="step-content"><h3>Analisi Requirements</h3><p><strong>Funzionali:</strong> Cosa deve fare il sistema (use cases, user stories)</p><p><strong>Non-funzionali:</strong> Performance, scalabilità, sicurezza, availability</p><ul><li>Load previsto (utenti concorrenti, transazioni/sec)</li><li>Vincoli di latenza e throughput</li><li>Requisiti di compliance e sicurezza</li></ul></div></div>
+                                <div class="flow-step"><div class="step-number">2</div><div class="step-content"><h3>Scelta Pattern Architetturali</h3><p>Selezionare pattern appropriati basati sui requirements:</p><ul><li><strong>Layered Architecture:</strong> per separazione logica chiara</li><li><strong>Microservices:</strong> per scalabilità e team autonomi</li><li><strong>Event-Driven:</strong> per sistemi reactive</li><li><strong>CQRS:</strong> per ottimizzazione read/write separate</li></ul></div></div>
+                                <div class="flow-step"><div class="step-number">3</div><div class="step-content"><h3>Definizione Componenti</h3><p>Identificare e definire responsabilità specifiche:</p><ul><li><strong>Frontend:</strong> User interface, user experience</li><li><strong>API Gateway:</strong> Routing, authentication, rate limiting</li><li><strong>Business Logic:</strong> Domain services, business rules</li><li><strong>Data Layer:</strong> Repository pattern, data access</li></ul></div></div>
+                                <div class="flow-step"><div class="step-number">4</div><div class="step-content"><h3>Specifiche di Comunicazione</h3><p>Definire interfacce e protocolli:</p><ul><li><strong>API Design:</strong> REST, GraphQL, gRPC</li><li><strong>Message Patterns:</strong> Request/Response, Publish/Subscribe</li><li><strong>Data Formats:</strong> JSON, Protocol Buffers, Avro</li><li><strong>Security:</strong> OAuth 2.0, JWT, API Keys</li></ul></div></div>
+                            </div>
+                            <h2>✅ Vantaggi dell'Architettura Web Strutturata</h2>
+                            <div class="principles-grid">
+                                <div class="principle-card advantage"><h3>🔧 Manutenibilità Elevata</h3><p>Separazione delle responsabilità permette modifiche isolate senza impatti a cascata. Ogni componente ha un'area di competenza ben definita.</p><p><strong>Esempio:</strong> Modificare l'algoritmo di raccomandazione senza toccare il sistema di pagamenti.</p></div>
+                                <div class="principle-card advantage"><h3>📈 Scalabilità Avanzata</h3><p>Scaling orizzontale e verticale indipendente per ogni componente basato sul carico effettivo.</p><p><strong>Esempio:</strong> Scalare solo il servizio di ricerca durante il Black Friday senza sovra-dimensionare tutto il sistema.</p></div>
+                                <div class="principle-card advantage"><h3>♻️ Riusabilità Componenti</h3><p>Componenti ben progettati possono essere riutilizzati in progetti diversi, riducendo time-to-market.</p><p><strong>Esempio:</strong> Sistema di autenticazione riutilizzabile tra web app, mobile app, e API.</p></div>
+                                <div class="principle-card advantage"><h3>👥 Team Independence</h3><p>Team autonomi possono lavorare in parallelo su componenti diversi con interfacce ben definite.</p><p><strong>Esempio:</strong> Team frontend e backend lavorano simultaneamente usando API contract-first.</p></div>
+                            </div>
+                            <h2>❌ Svantaggi e Challenges</h2>
+                            <div class="principles-grid">
+                                <div class="principle-card disadvantage"><h3>🏗️ Complessità Iniziale</h3><p>Setup iniziale più complesso richiede decisioni architetturali ponderate e expertise approfondita.</p><p><strong>Mitigazione:</strong> Iniziare semplice e evolvere incrementalmente (evolutionary architecture).</p></div>
+                                <div class="principle-card disadvantage"><h3>⚠️ Over-engineering Risk</h3><p>Rischio di creare soluzioni troppo complesse per problemi semplici (gold plating).</p><p><strong>Mitigazione:</strong> Principio YAGNI (You Aren't Gonna Need It) e feedback loop continui.</p></div>
+                                <div class="principle-card disadvantage"><h3>📚 Learning Curve</h3><p>Team junior necessitano formazione approfondita su pattern architetturali e best practices.</p><p><strong>Mitigazione:</strong> Mentoring, documentazione chiara, code review strutturate.</p></div>
+                                <div class="principle-card disadvantage"><h3>📄 Maintenance Overhead</h3><p>Documentazione architetturale richiede aggiornamento costante per rimanere rilevante.</p><p><strong>Mitigazione:</strong> Documentation-as-code, automated architecture diagrams.</p></div>
+                            </div>
+                            <div class="info-box curiosity">
+                                <h3>🎉 Curiosità: Il Sistema SAGE</h3>
+                                <p>La <strong>prima architettura software documentata</strong> fu il sistema <em>SAGE (Semi-Automatic Ground Environment)</em> sviluppato nel <strong>1958</strong> per la difesa aerea USA durante la Guerra Fredda.</p>
+                                <p>Questo progetto monumentale:</p>
+                                <ul>
+                                    <li>💰 <strong>Costò $61 miliardi</strong> in dollari odierni (più del programma Apollo!)</li>
+                                    <li>🖥️ Fu il <strong>più grande progetto software</strong> prima del programma spaziale</li>
+                                    <li>🚀 Introdusse concetti <strong>rivoluzionari</strong>: real-time computing, networking, user interfaces grafiche</li>
+                                    <li>📡 Connetteva <strong>24 centri di comando</strong> attraverso gli USA con linee telefoniche dedicate</li>
+                                    <li>⚡ Processava dati radar in <strong>tempo reale</strong> da centinaia di stazioni</li>
+                                </ul>
+                                <p>SAGE introduceva tutti i principi fondamentali dell'architettura web moderna: <em>sistemi distribuiti, real-time processing, fault tolerance, e human-machine interfaces</em>. Senza SAGE, probabilmente non avremmo mai avuto Internet!</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" disabled>← Precedente</a>
+                        <a class="btn btn--primary" href="client-server.html">Successivo: Architettura Client-Server →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

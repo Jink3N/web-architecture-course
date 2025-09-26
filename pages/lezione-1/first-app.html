@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prima Applicazione Node.js</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="Creazione passo passo della prima applicazione Node.js con Express.">
+</head>
+<body>
+<header class="app-header">
+    <div class="header-content">
+        <h1 class="header-title">🏗️ Architettura Web</h1>
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+            <span class="theme-toggle-icon">🌙</span>
+            <span class="theme-toggle-text">Dark</span>
+        </button>
+    </div>
+</header>
+<div class="app-container">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+            <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+            <div class="progress-indicator">
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                <span class="progress-text" id="progressText">Sezione 18 di 20</span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="nav-list" id="navList">
+                <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                <li class="nav-item active"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer"><button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar"><span>←</span></button></div>
+    </aside>
+    <main class="main-content" id="mainContent">
+        <div class="content-container" id="contentContainer">
+            <section class="content-section active" id="first-app">
+                <div class="section-content">
+                    <header class="section-header">
+                        <h1>🚀 Prima App Node.js</h1>
+                        <p class="section-description">Creiamo la nostra prima applicazione Node.js completa step-by-step.</p>
+                    </header>
+                    <article class="subsection">
+                        <h2>📁 Struttura Progetto</h2>
+                        <div class="examples-grid">
+                            <div class="example-card">
+                                <h3>🏗️ Setup Iniziale</h3>
+<pre><code># Crea directory progetto
+mkdir my-first-node-app
+cd my-first-node-app
+
+# Inizializza npm
+npm init -y
+
+# Struttura cartelle
+mkdir src
+mkdir public
+mkdir routes</code></pre>
+                            </div>
+                            <div class="example-card">
+                                <h3>📦 package.json</h3>
+<pre><code>{
+  "name": "my-first-node-app",
+  "version": "1.0.0",
+  "description": "La mia prima app Node.js",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                        <h2>💻 Codice Applicazione</h2>
+                        <div class="examples-grid">
+                            <div class="example-card">
+                                <h3>🌐 src/app.js - Server Express</h3>
+<pre><code>const express = require('express');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
+app.use(express.static('public'));
+app.use(express.json());
+
+// Routes
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+
+app.get('/api/hello', (req, res) => {
+  res.json({ 
+    message: 'Hello from Node.js!',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});</code></pre>
+                            </div>
+                            <div class="example-card">
+                                <h3>🎨 public/index.html</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My First Node.js App&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;🚀 Benvenuto in Node.js!&lt;/h1&gt;
+    &lt;button onclick="testAPI()"&gt;Test API&lt;/button&gt;
+    &lt;div id="result"&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+        async function testAPI() {
+            const response = await fetch('/api/hello');
+            const data = await response.json();
+            document.getElementById('result').innerHTML = 
+                `&lt;p&gt;${data.message}&lt;/p&gt;&lt;p&gt;${data.timestamp}&lt;/p&gt;`;
+        }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                            </div>
+                        </div>
+                        <div class="info-box">
+                            <h3>🚀 Avvio Applicazione</h3>
+                            <p><strong>Installa dipendenze:</strong> npm install</p>
+                            <p><strong>Avvia server:</strong> npm start</p>
+                            <p><strong>Sviluppo:</strong> npm run dev (con auto-reload)</p>
+                            <p><strong>Test:</strong> Apri http://localhost:3000</p>
+                        </div>
+                    </article>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="vscode.html">← Precedente</a>
+                        <a class="btn btn--primary" href="spa-details.html">Successivo →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

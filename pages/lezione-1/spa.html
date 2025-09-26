@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Page Application</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="Single Page Application: storia, architettura, vantaggi e svantaggi.">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 5 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item active"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="spa">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>📱 Single Page Application</h1>
+                            <p class="section-description">Una SPA è un'applicazione web che interagisce dinamicamente con l'utente riscrivendo la pagina corrente piuttosto che caricare intere nuove pagine dal server.</p>
+                        </header>
+                        <article class="subsection">
+                            <h2>📜 Storia delle Single Page Applications</h2>
+                            <p>Da <strong>AJAX (2005)</strong> a framework moderni. <strong>Gmail (2004)</strong> fu una delle prime SPA mainstream, seguita da Google Maps.</p>
+                            <p><strong>A cosa serve:</strong> Creare applicazioni web che si comportano come desktop apps con user experience fluida e responsive.</p>
+                            <p><strong>Quando usarla:</strong> User experience premium richiesta, applicazioni interattive, real-time data, dashboards complesse.</p>
+
+                            <h2>🏗️ Architettura di una SPA</h2>
+                            <div class="communication-flow">
+                                <div class="flow-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-content">
+                                        <h3>🚀 Caricamento Iniziale</h3>
+                                        <p>Il browser scarica l'HTML minimale, CSS e bundle JavaScript dell'intera applicazione.</p>
+                                        <ul>
+                                            <li>HTML skeleton con div root</li>
+                                            <li>Bundle JS contenente l'app</li>
+                                            <li>Fogli di stile CSS</li>
+                                            <li>Asset statici necessari</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="flow-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-content">
+                                        <h3>🎮 Bootstrap dell'App</h3>
+                                        <p>Il framework JavaScript inizializza l'applicazione e configura il router client-side.</p>
+                                        <ul>
+                                            <li>Mounting dei componenti</li>
+                                            <li>Inizializzazione del router</li>
+                                            <li>Setup dello state management</li>
+                                            <li>Configurazione dei servizi</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="flow-step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-content">
+                                        <h3>🔄 Navigazione Dinamica</h3>
+                                        <p>JavaScript intercetta navigazione e aggiorna solo il contenuto necessario senza ricaricare la pagina.</p>
+                                        <ul>
+                                            <li>History API per URL</li>
+                                            <li>Rendering condizionale</li>
+                                            <li>Gestione dello stato</li>
+                                            <li>Transizioni fluide</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="flow-step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-content">
+                                        <h3>📡 Comunicazione API</h3>
+                                        <p>L'app comunica con il backend via AJAX/Fetch per dati JSON, aggiornando UI dinamicamente.</p>
+                                        <ul>
+                                            <li>Chiamate HTTP asincrone</li>
+                                            <li>Parsing JSON responses</li>
+                                            <li>Update reattivo dell'UI</li>
+                                            <li>Error handling</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>⚡ Vantaggi vs ⚠️ Svantaggi</h2>
+                            
+                            <div class="principles-grid">
+                                <div class="principle-card advantage">
+                                    <h3>🏎️ Performance Dinamica</h3>
+                                    <p>Dopo il caricamento iniziale, la navigazione è istantanea e fluida.</p>
+                                    <ul>
+                                        <li>No page reload</li>
+                                        <li>Caching intelligente</li>
+                                        <li>Lazy loading</li>
+                                        <li>Ottimizzazioni runtime</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card advantage">
+                                    <h3>🎨 UX Premium</h3>
+                                    <p>Esperienza utente simile alle app native desktop/mobile.</p>
+                                    <ul>
+                                        <li>Transizioni smooth</li>
+                                        <li>Feedback immediato</li>
+                                        <li>Stato persistente</li>
+                                        <li>Interazioni ricche</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card disadvantage">
+                                    <h3>🔍 SEO Complesso</h3>
+                                    <p>Indicizzazione difficile per contenuto generato dinamicamente.</p>
+                                    <ul>
+                                        <li>JS-rendered content</li>
+                                        <li>URL routing complesso</li>
+                                        <li>Meta tags dinamici</li>
+                                        <li>Server-side rendering necessario</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card disadvantage">
+                                    <h3>⏱️ First Load Pesante</h3>
+                                    <p>Caricamento iniziale lento per bundle JavaScript grandi.</p>
+                                    <ul>
+                                        <li>Bundle size elevato</li>
+                                        <li>Time to Interactive alto</li>
+                                        <li>Code splitting necessario</li>
+                                        <li>Progressive loading complesso</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <h2>🛠️ Framework Moderni</h2>
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>⚛️ React</h3>
+                                    <p><strong>Libreria di Facebook:</strong> Component-based, Virtual DOM, ecosistema vastissimo.</p>
+                                    <p><em>Ideale per:</em> App complesse, team grandi, ecosistema maturo</p>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>🅰️ Angular</h3>
+                                    <p><strong>Framework Google:</strong> TypeScript-first, dependency injection, CLI potente.</p>
+                                    <p><em>Ideale per:</em> Enterprise, applicazioni grandi, team strutturati</p>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>💚 Vue.js</h3>
+                                    <p><strong>Framework progressivo:</strong> Curva apprendimento dolce, template intuitivi.</p>
+                                    <p><em>Ideale per:</em> Progetti medi, team misti, migrazione graduale</p>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>⚡ Svelte</h3>
+                                    <p><strong>Compilatore:</strong> No runtime overhead, bundle piccoli, performance native.</p>
+                                    <p><em>Ideale per:</em> Performance critiche, bundle size limitato</p>
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <h3>🎯 Quando Scegliere SPA vs MPA?</h3>
+                                <p><strong>Scegli SPA quando:</strong> UX interattiva prioritaria, app complessa, separazione frontend/backend, sviluppo mobile parallelo.</p>
+                                <p><strong>Scegli MPA quando:</strong> SEO critico, contenuto principalmente statico, semplicità di sviluppo, supporto browser legacy.</p>
+                            </div>
+
+                            <div class="info-box curiosity">
+                                <h3>📧 Curiosità: Gmail "Project Caribou"</h3>
+                                <p>Gmail fu sviluppata in <strong>segreto come "Project Caribou"</strong> e quasi chiamata "Javelin". Fu una delle prime applicazioni a dimostrare che il web poteva competere con il desktop!</p>
+                                <p><strong>Innovazioni di Gmail:</strong> AJAX pesante, interfaccia ricca, gestione email rivoluzionaria, conversation threading.</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="microservices.html">← Precedente: Microservizi</a>
+                        <a class="btn btn--primary" href="http.html">Successivo: HTTP →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

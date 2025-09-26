@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Web Storage</title><link rel="stylesheet" href="../style.css"><meta name="description" content="localStorage e sessionStorage: uso, limiti e sicurezza."></head>
+<body><header class="app-header"><div class="header-content"><h1 class="header-title">🏗️ Architettura Web</h1><button class="theme-toggle" id="themeToggle"><span class="theme-toggle-icon">🌙</span><span class="theme-toggle-text">Dark</span></button></div></header>
+<div class="app-container"><aside class="sidebar" id="sidebar"><div class="sidebar-header"><h1 class="sidebar-title">🏗️ Architettura Web</h1><p class="sidebar-subtitle">Dal Mainframe al Cloud</p><div class="progress-indicator"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><span class="progress-text" id="progressText">Sezione 16 di 25</span></div></div><nav class="sidebar-nav"><ul class="nav-list" id="navList">
+<li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione</span></a></li>
+<li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Client-Server</span></a></li>
+<li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Monolitica</span></a></li>
+<li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Microservizi</span></a></li>
+<li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">SPA</span></a></li>
+<li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">HTTP</span></a></li>
+<li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+<li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+<li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL & URI</span></a></li>
+<li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">REST vs SOAP</span></a></li>
+<li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">REST</span></a></li>
+<li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">Endpoints</span></a></li>
+<li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+<li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT</span></a></li>
+<li class="nav-item"><a href="cookie-session.html" class="nav-link"><span class="nav-icon">🍪</span><span class="nav-text">Cookie & Session</span></a></li>
+<li class="nav-item active"><a href="webstorage.html" class="nav-link"><span class="nav-icon">💾</span><span class="nav-text">Web Storage</span></a></li>
+<li class="nav-item"><a href="api-keys.html" class="nav-link"><span class="nav-icon">🗝️</span><span class="nav-text">API Keys</span></a></li>
+<li class="nav-item"><a href="oauth.html" class="nav-link"><span class="nav-icon">🔓</span><span class="nav-text">OAuth 2.0</span></a></li>
+<li class="nav-item"><a href="oidc.html" class="nav-link"><span class="nav-icon">🆔</span><span class="nav-text">OpenID Connect</span></a></li>
+<li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Node.js Intro</span></a></li>
+<li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione</span></a></li>
+<li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">VS Code</span></a></li>
+<li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima App</span></a></li>
+<li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli</span></a></li>
+<li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA Node.js</span></a></li>
+</ul></nav><div class="sidebar-footer"><button class="toggle-sidebar" id="toggleSidebar"><span>←</span></button></div></aside>
+<main class="main-content" id="mainContent"><div class="content-container" id="contentContainer"><section class="content-section active" id="webstorage"><div class="section-content">
+<header class="section-header"><h1>💾 Web Storage</h1><p class="section-description">Persistenza client-side oltre i cookie.</p></header>
+<article class="subsection">
+<h2>📦 API</h2><div class="definition-cards"><div class="definition-card client"><h3>localStorage</h3><h4>Persistente</h4><ul><li>Multi-tab</li><li>5-10MB</li><li>Per origine</li><li>Manual purge</li></ul></div><div class="definition-card server"><h3>sessionStorage</h3><h4>Tab isolata</h4><ul><li>Solo tab corrente</li><li>Clear on close</li><li>Stessa API</li><li>No sharing</li></ul></div></div>
+<h2>🔑 Operazioni</h2><div class="examples-grid"><div class="example-card"><h3>CRUD</h3><pre><code>localStorage.setItem('k','v');\nlocalStorage.getItem('k');\nlocalStorage.removeItem('k');\nlocalStorage.clear();</code></pre></div><div class="example-card"><h3>JSON</h3><pre><code>localStorage.setItem('user', JSON.stringify(obj));\nJSON.parse(localStorage.getItem('user'));</code></pre></div><div class="example-card"><h3>Iterazione</h3><pre><code>for(let i=0;i<localStorage.length;i++){\n console.log(localStorage.key(i));\n}</code></pre></div><div class="example-card"><h3>Sync Event</h3><pre><code>window.addEventListener('storage', e=>{\n  console.log(e.key,e.newValue);\n});</code></pre><p>Solo su altre tab.</p></div></div>
+<h2>🛡️ Limiti & Rischi</h2><div class="principles-grid"><div class="principle-card disadvantage"><h3>XSS Risk</h3><ul><li>No dati sensibili</li><li>Niente token auth</li><li>CSP forte</li><li>Escape output</li></ul></div><div class="principle-card disadvantage"><h3>Quota</h3><ul><li>~5MB</li><li>Eccezione on overflow</li><li>No streaming</li><li>Blocked in private mode</li></ul></div><div class="principle-card advantage"><h3>Performance</h3><ul><li>Riduce latch rete</li><li>Cache UI</li><li>Startup veloce</li><li>Offline base</li></ul></div><div class="principle-card disadvantage"><h3>Sincronizzazione</h3><ul><li>No multi-device</li><li>No encryption</li><li>Manual invalidation</li><li>Versioning custom</li></ul></div></div>
+<h2>🧰 Pattern</h2><div class="examples-grid"><div class="example-card"><h3>Cache TTL</h3><pre><code>function setCache(k,v,ttl){\n const r={v,exp:Date.now()+ttl};\n localStorage.setItem(k,JSON.stringify(r));\n}\nfunction getCache(k){\n const r=localStorage.getItem(k); if(!r) return null;\n const {v,exp}=JSON.parse(r); if(Date.now()>exp){localStorage.removeItem(k);return null;} return v;\n}</code></pre></div><div class="example-card"><h3>Feature Flag</h3><pre><code>const ff=k=>localStorage.getItem('ff:'+k)==='1';</code></pre></div><div class="example-card"><h3>Draft Form</h3><pre><code>saveDraft = d => localStorage.setItem('draft',JSON.stringify(d));</code></pre></div><div class="example-card"><h3>Theme</h3><pre><code>setTheme(t){localStorage.setItem('theme',t);}</code></pre></div></div>
+<div class="info-box"><h3>🎯 Sintesi</h3><p>Web Storage è semplice e veloce ma non sicuro per secrets: usarlo per dati non sensibili e caching leggero.</p></div>
+<div class="info-box curiosity"><h3>📚 Curiosità</h3><p>Introdotto con HTML5 per sostituire hack basati su Flash SharedObjects.</p></div>
+</article>
+<div class="section-navigation"><a class="btn btn--outline" href="cookie-session.html">← Precedente</a><a class="btn btn--primary" href="api-keys.html">Successivo →</a></div>
+</div></section></div></main></div>
+<script src="../app.js"></script>
+</body></html>

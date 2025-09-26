@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON vs XML</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="JSON vs XML: differenze, vantaggi, limiti, esempi.">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 13 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item active"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="json-xml">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>📄 JSON vs XML</h1>
+                            <p class="section-description">Due formati di serializzazione dati con filosofie e casi d'uso differenti.</p>
+                        </header>
+                        <article class="subsection">
+                            <h2>📜 Storia</h2>
+                            <p><strong>XML</strong> nasce nel 1998 (W3C) per documenti strutturati e interoperabilità enterprise. <strong>JSON</strong> (Douglas Crockford, 2001) emerge come formato leggero per il web dinamico.</p>
+
+                            <h2>🧩 Struttura Base</h2>
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>JSON</h3>
+                                    <pre><code>{
+  "user": {
+    "id": 123,
+    "name": "Ada",
+    "roles": ["admin", "editor"],
+    "active": true
+  }
+}</code></pre>
+                                    <p>Oggetti, array, scalari nativi.</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>XML</h3>
+                                    <pre><code>&lt;user id="123" active="true"&gt;
+  &lt;name&gt;Ada&lt;/name&gt;
+  &lt;roles&gt;
+    &lt;role&gt;admin&lt;/role&gt;
+    &lt;role&gt;editor&lt;/role&gt;
+  &lt;/roles&gt;
+&lt;/user&gt;</code></pre>
+                                    <p>Elementi, attributi, gerarchie flessibili.</p>
+                                </div>
+                            </div>
+
+                            <h2>🔍 Differenze Chiave</h2>
+                            <div class="principles-grid">
+                                <div class="principle-card advantage"><h3>JSON</h3><p>Sintassi compatta, parsing veloce nativo in JS.</p></div>
+                                <div class="principle-card advantage"><h3>XML</h3><p>Supporta namespaces, validazione schema forte (XSD).</p></div>
+                                <div class="principle-card disadvantage"><h3>JSON Limiti</h3><p>Nessun commento, niente namespaces, tipizzazione meno rigorosa.</p></div>
+                                <div class="principle-card disadvantage"><h3>XML Limiti</h3><p>Verboso, parsing più lento, overhead maggiore.</p></div>
+                            </div>
+
+                            <h2>🛡️ Sicurezza</h2>
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>JSON Rischi</h3>
+                                    <ul>
+                                        <li>Injection se eval usato</li>
+                                        <li>Prototype pollution</li>
+                                        <li>Exfiltration via JSONP (storico)</li>
+                                    </ul>
+                                </div>
+                                <div class="example-card">
+                                    <h3>XML Rischi</h3>
+                                    <ul>
+                                        <li>XXE (Entity Expansion)</li>
+                                        <li>Billion laughs attack</li>
+                                        <li>XPath injection</li>
+                                    </ul>
+                                </div>
+                                <div class="example-card">
+                                    <h3>Mitigazioni JSON</h3>
+                                    <ul>
+                                        <li>Usare JSON.parse</li>
+                                        <li>Validare tipi</li>
+                                        <li>Sanitizzare input</li>
+                                    </ul>
+                                </div>
+                                <div class="example-card">
+                                    <h3>Mitigazioni XML</h3>
+                                    <ul>
+                                        <li>Disabilitare DTD</li>
+                                        <li>Parser sicuri</li>
+                                        <li>Limiti dimensione</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <h2>🔄 Conversione</h2>
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>XML → JSON</h3>
+                                    <pre><code>&lt;item price="10"&gt;Book&lt;/item&gt;
+{
+  "item": {
+    "_text": "Book",
+    "price": 10
+  }
+}</code></pre>
+                                    <p>Attributi ↔ proprietà.</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>Array Heuristic</h3>
+                                    <pre><code>&lt;tags&gt;
+  &lt;tag&gt;a&lt;/tag&gt;
+  &lt;tag&gt;b&lt;/tag&gt;
+&lt;/tags&gt;
+{"tags": ["a", "b"]}</code></pre>
+                                    <p>Elementi ripetuti → array.</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>Date Handling</h3>
+                                    <pre><code>{"createdAt": "2024-09-10T12:30:00Z"}</code></pre>
+                                    <p>Stringhe ISO 8601 standard.</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>Schema XML</h3>
+                                    <pre><code>&lt;xs:element name="price" type="xs:decimal"/&gt;</code></pre>
+                                    <p>Tipizzazione forte.</p>
+                                </div>
+                            </div>
+
+                            <h2>⚙️ Performance</h2>
+                            <div class="principles-grid">
+                                <div class="principle-card advantage"><h3>JSON Parsing</h3><p>Lineare, supporto nativo motori JS.</p></div>
+                                <div class="principle-card advantage"><h3>XML Streaming</h3><p>Con parser SAX/StAX gestisce grandi file.</p></div>
+                                <div class="principle-card disadvantage"><h3>Overhead XML</h3><p>Tag di apertura/chiusura aumentano dimensione.</p></div>
+                                <div class="principle-card disadvantage"><h3>Compressione</h3><p>Gzip riduce gap ma JSON resta più piccolo.</p></div>
+                            </div>
+
+                            <h2>🧪 Validazione</h2>
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>JSON Schema</h3>
+                                    <pre><code>{
+  "type": "object",
+  "properties": {"id": {"type": "integer"}},
+  "required": ["id"]
+}</code></pre>
+                                </div>
+                                <div class="example-card">
+                                    <h3>XSD</h3>
+                                    <pre><code>&lt;xs:element name="id" type="xs:int"/&gt;</code></pre>
+                                </div>
+                                <div class="example-card">
+                                    <h3>Relax NG</h3>
+                                    <pre><code>&lt;element name="user"&gt;
+  &lt;element name="id" type="int"/&gt;
+&lt;/element&gt;</code></pre>
+                                </div>
+                                <div class="example-card">
+                                    <h3>Valori Null</h3>
+                                    <pre><code>{"middleName": null}</code></pre>
+                                    <p>XML: elemento mancante vs vuoto.</p>
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <h3>🎯 Quando Usare Cosa</h3>
+                                <p><strong>JSON:</strong> API web, mobile, microservizi, payload leggeri.</p>
+                                <p><strong>XML:</strong> Sistemi legacy, documenti complessi, SOAP, standard enterprise.</p>
+                                <p><strong>Entrambi:</strong> Conversione in pipeline ETL, interoperabilità tra sistemi.</p>
+                            </div>
+
+                            <div class="info-box curiosity">
+                                <h3>💡 Curiosità</h3>
+                                <p>JSON inizialmente non aveva uno standard formale (RFC 4627 arrivato solo nel 2006). XML invece nasce già con endorsement enterprise.</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="endpoints.html">← Precedente</a>
+                        <a class="btn btn--primary" href="jwt.html">Successivo →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

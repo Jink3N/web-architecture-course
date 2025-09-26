@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemap (opzionale)
+# Sitemap: https://web-architecture-course.vercel.app/sitemap.xml
+
+# Consenti l'indicizzazione di tutte le pagine educative
+Allow: /pages/
+Allow: /api/
+
+# File statici
+Allow: /*.css
+Allow: /*.js
+Allow: /*.json

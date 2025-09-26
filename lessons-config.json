@@ -1,0 +1,192 @@
+{
+  "lessons": {
+    "lezione-1": {
+      "title": "Lezione 1: Fondamenti di Architettura Web",
+      "description": "Dalle architetture tradizionali alle moderne SPA con Node.js",
+      "icon": "🏗️",
+      "sections": [
+        {
+          "id": "intro",
+          "title": "Introduzione",
+          "icon": "🏗️",
+          "file": "intro.html"
+        },
+        {
+          "id": "client-server",
+          "title": "Client-Server",
+          "icon": "🔄",
+          "file": "client-server.html"
+        },
+        {
+          "id": "monolithic",
+          "title": "Architettura Monolitica",
+          "icon": "🏢",
+          "file": "monolithic.html"
+        },
+        {
+          "id": "microservices",
+          "title": "Microservizi",
+          "icon": "🔧",
+          "file": "microservices.html"
+        },
+        {
+          "id": "spa",
+          "title": "Single Page Application",
+          "icon": "📱",
+          "file": "spa.html"
+        },
+        {
+          "id": "http",
+          "title": "Protocollo HTTP",
+          "icon": "🌐",
+          "file": "http.html"
+        },
+        {
+          "id": "cors",
+          "title": "Cross-Origin Resource Sharing",
+          "icon": "🔐",
+          "file": "cors.html"
+        },
+        {
+          "id": "csrf",
+          "title": "Cross-Site Request Forgery",
+          "icon": "🛡️",
+          "file": "csrf.html"
+        },
+        {
+          "id": "url-uri",
+          "title": "URL e URI",
+          "icon": "🔗",
+          "file": "url-uri.html"
+        },
+        {
+          "id": "api-soap",
+          "title": "API e SOAP",
+          "icon": "📡",
+          "file": "api-soap.html"
+        },
+        {
+          "id": "rest",
+          "title": "RESTful APIs",
+          "icon": "🔄",
+          "file": "rest.html"
+        },
+        {
+          "id": "endpoints",
+          "title": "Endpoints",
+          "icon": "🎯",
+          "file": "endpoints.html"
+        },
+        {
+          "id": "json-xml",
+          "title": "JSON vs XML",
+          "icon": "📋",
+          "file": "json-xml.html"
+        },
+        {
+          "id": "jwt",
+          "title": "JSON Web Tokens",
+          "icon": "🔑",
+          "file": "jwt.html"
+        },
+        {
+          "id": "cookie-session",
+          "title": "Cookie e Sessioni",
+          "icon": "🍪",
+          "file": "cookie-session.html"
+        },
+        {
+          "id": "webstorage",
+          "title": "Web Storage",
+          "icon": "💾",
+          "file": "webstorage.html"
+        },
+        {
+          "id": "api-keys",
+          "title": "API Keys",
+          "icon": "🔐",
+          "file": "api-keys.html"
+        },
+        {
+          "id": "oauth",
+          "title": "OAuth 2.0",
+          "icon": "🔓",
+          "file": "oauth.html"
+        },
+        {
+          "id": "oidc",
+          "title": "OpenID Connect",
+          "icon": "🆔",
+          "file": "oidc.html"
+        },
+        {
+          "id": "nodejs-intro",
+          "title": "Introduzione a Node.js",
+          "icon": "💚",
+          "file": "nodejs-intro.html"
+        },
+        {
+          "id": "installation",
+          "title": "Installazione Node.js",
+          "icon": "⚙️",
+          "file": "installation.html"
+        },
+        {
+          "id": "vscode",
+          "title": "VS Code per Node.js",
+          "icon": "💻",
+          "file": "vscode.html"
+        },
+        {
+          "id": "first-app",
+          "title": "Prima Applicazione",
+          "icon": "🚀",
+          "file": "first-app.html"
+        },
+        {
+          "id": "spa-details",
+          "title": "SPA - Dettagli Tecnici",
+          "icon": "⚡",
+          "file": "spa-details.html"
+        },
+        {
+          "id": "spa-nodejs",
+          "title": "SPA con Node.js",
+          "icon": "🌟",
+          "file": "spa-nodejs.html"
+        }
+      ]
+    },
+    "lezione-2": {
+      "title": "Lezione 2: Architetture Avanzate",
+      "description": "Database, caching, deployment e scaling",
+      "icon": "🚀",
+      "sections": [
+        {
+          "id": "database-intro",
+          "title": "Database Fundamentals",
+          "icon": "🗄️",
+          "file": "database-intro.html"
+        },
+        {
+          "id": "sql-nosql",
+          "title": "SQL vs NoSQL",
+          "icon": "📊",
+          "file": "sql-nosql.html"
+        },
+        {
+          "id": "caching",
+          "title": "Strategie di Caching",
+          "icon": "⚡",
+          "file": "caching.html"
+        },
+        {
+          "id": "deployment",
+          "title": "Deployment e DevOps",
+          "icon": "🚢",
+          "file": "deployment.html"
+        }
+      ]
+    }
+  }
+}

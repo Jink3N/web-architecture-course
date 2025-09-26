@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API REST vs SOAP</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="API REST vs SOAP: differenze, vantaggi, svantaggi, esempi.">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 10 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item active"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="api-soap">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>⚡ API REST vs SOAP</h1>
+                        </header>
+                        <article class="subsection">
+                            <h2>🎯 REST vs SOAP: Due Filosofie Diverse</h2>
+                            <p>REST e SOAP rappresentano due approcci fondamentalmente diversi alla comunicazione tra sistemi.</p>
+
+                            <div class="definition-cards">
+                                <div class="definition-card client">
+                                    <h3>🌐 REST - REpresentational State Transfer</h3>
+                                    <h4>Stile architetturale semplice</h4>
+                                    <ul>
+                                        <li><strong>Filosofia:</strong> Risorsa-centrico, stato stateless</li>
+                                        <li><strong>Protocollo:</strong> HTTP nativo (GET, POST, PUT, DELETE)</li>
+                                        <li><strong>Formato:</strong> JSON/XML flessibile</li>
+                                        <li><strong>URL:</strong> /users/123 (risorse come noun)</li>
+                                        <li><strong>Caching:</strong> Supporto HTTP nativo</li>
+                                    </ul>
+                                    <p><strong>Pro:</strong> Semplice, veloce, cacheable, mobile-friendly</p>
+                                </div>
+
+                                <div class="definition-card server">
+                                    <h3>🧼 SOAP - Simple Object Access Protocol</h3>
+                                    <h4>Protocollo strutturato e rigoroso</h4>
+                                    <ul>
+                                        <li><strong>Filosofia:</strong> Action-centrico, operazioni come RPC</li>
+                                        <li><strong>Protocollo:</strong> XML su HTTP/HTTPS/SMTP/TCP</li>
+                                        <li><strong>Formato:</strong> XML con WSDL per definizioni</li>
+                                        <li><strong>URL:</strong> /UserService (servizi come verb)</li>
+                                        <li><strong>Security:</strong> WS-Security standard integrato</li>
+                                    </ul>
+                                    <p><strong>Pro:</strong> Sicuro, transazioni, schema rigido, enterprise</p>
+                                </div>
+                            </div>
+
+                            <h2>📊 Confronto Tecnico Dettagliato</h2>
+
+                            <div class="principles-grid">
+                                <div class="principle-card advantage">
+                                    <h3>🚀 REST Advantages</h3>
+                                    <ul>
+                                        <li><strong>Performance:</strong> Overhead minimo</li>
+                                        <li><strong>Scalability:</strong> Stateless facilita scaling</li>
+                                        <li><strong>Caching:</strong> HTTP caching built-in</li>
+                                        <li><strong>Mobile:</strong> Ideale per app mobili</li>
+                                        <li><strong>Debugging:</strong> Human-readable</li>
+                                        <li><strong>Flexibility:</strong> Multiple formats</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card advantage">
+                                    <h3>🛡️ SOAP Advantages</h3>
+                                    <ul>
+                                        <li><strong>Security:</strong> WS-Security, encryption</li>
+                                        <li><strong>Transactions:</strong> ACID compliance</li>
+                                        <li><strong>Reliability:</strong> Built-in error handling</li>
+                                        <li><strong>Standards:</strong> Rigid contracts</li>
+                                        <li><strong>Tooling:</strong> Auto-generated clients</li>
+                                        <li><strong>Protocols:</strong> Non-HTTP support</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card disadvantage">
+                                    <h3>⚠️ REST Limitations</h3>
+                                    <ul>
+                                        <li><strong>Security:</strong> Requires custom implementation</li>
+                                        <li><strong>Standards:</strong> Less rigid, more interpretation</li>
+                                        <li><strong>Transactions:</strong> No built-in support</li>
+                                        <li><strong>Versioning:</strong> Can be challenging</li>
+                                        <li><strong>Complex operations:</strong> Multiple requests needed</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card disadvantage">
+                                    <h3>⚠️ SOAP Limitations</h3>
+                                    <ul>
+                                        <li><strong>Complexity:</strong> Steep learning curve</li>
+                                        <li><strong>Performance:</strong> XML overhead significativo</li>
+                                        <li><strong>Size:</strong> Messages molto grandi</li>
+                                        <li><strong>Caching:</strong> Difficile implementare</li>
+                                        <li><strong>Mobile:</strong> Pesante per device mobili</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <h2>💻 Esempi Pratici</h2>
+
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>🌐 REST API Example</h3>
+                                    <pre><code>// Get user
+GET /api/users/123
+
+// Create user
+POST /api/users
+{
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+
+// Update user
+PUT /api/users/123
+{
+  "name": "John Smith"
+}
+
+// Delete user
+DELETE /api/users/123</code></pre>
+                                </div>
+
+                                <div class="example-card">
+                                    <h3>🧼 SOAP Example</h3>
+                                    <pre><code>&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+  &lt;soap:Body&gt;
+    &lt;GetUser xmlns="http://example.com/userservice"&gt;
+      &lt;UserId&gt;123&lt;/UserId&gt;
+    &lt;/GetUser&gt;
+  &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+
+&lt;!-- Response --&gt;
+&lt;soap:Envelope&gt;
+  &lt;soap:Body&gt;
+    &lt;GetUserResponse&gt;
+      &lt;User&gt;
+        &lt;Id&gt;123&lt;/Id&gt;
+        &lt;Name&gt;John Doe&lt;/Name&gt;
+      &lt;/User&gt;
+    &lt;/GetUserResponse&gt;
+  &lt;soap:Body&gt;
+&lt;/soap:Envelope&gt;</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <h3>🎯 Quando Usare REST vs SOAP</h3>
+                                <p><strong>Scegli REST per:</strong> API pubbliche, mobile apps, microservizi, performance critiche, sviluppo rapido.</p>
+                                <p><strong>Scegli SOAP per:</strong> Enterprise systems, transazioni finanziarie, legacy integration, security rigorosa, contratti formali.</p>
+                            </div>
+
+                            <div class="info-box curiosity">
+                                <h3>🤔 Curiosità: SOAP non è Simple</h3>
+                                <p>SOAP originariamente significava <strong>"Simple Object Access Protocol"</strong>, ma fu rinominato perché non era affatto semplice!</p>
+                                <p><strong>La storia:</strong> Microsoft creò SOAP nel 1998 per semplificare le chiamate remote, ma divenne rapidamente complesso con WS-* standards.</p>
+                                <p><strong>Il rename:</strong> Nel 2003 fu ufficialmente rinominato solo "SOAP" senza acronimo per evitare l'ironia del nome.</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="url-uri.html">← Precedente: URL/URI</a>
+                        <a class="btn btn--primary" href="rest.html">Successivo: REST →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

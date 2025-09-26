@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Test Sistema Multi-Lezione</title>
+<body>
+    <h1>Debug Sistema Multi-Lezione</h1>
+    
+    <div id="debug-info">
+        <h2>Test Fetch lessons-config.json</h2>
+        <button onclick="testLessonsConfig()">Test Config</button>
+        <pre id="config-result"></pre>
+        
+        <h2>Test Fetch spa-nodejs.html</h2>
+        <button onclick="testSpaNodejs()">Test SPA-NodeJS</button>
+        <pre id="spa-result"></pre>
+        
+        <h2>Files disponibili</h2>
+        <button onclick="listFiles()">List Files</button>
+        <pre id="files-result"></pre>
+    </div>
+
+    <script>
+        async function testLessonsConfig() {
+            try {
+                const response = await fetch('/lessons-config.json');
+                const text = await response.text();
+                document.getElementById('config-result').textContent = 
+                    `Status: ${response.status}\n${text.substring(0, 500)}...`;
+            } catch (e) {
+                document.getElementById('config-result').textContent = `Error: ${e.message}`;
+            }
+        }
+
+        async function testSpaNodejs() {
+            try {
+                const response = await fetch('/pages/lezione-1/spa-nodejs.html');
+                const text = await response.text();
+                document.getElementById('spa-result').textContent = 
+                    `Status: ${response.status}\n${text.substring(0, 200)}...`;
+            } catch (e) {
+                document.getElementById('spa-result').textContent = `Error: ${e.message}`;
+            }
+        }
+
+        async function listFiles() {
+            try {
+                // Test various endpoints
+                const tests = [
+                    '/pages/lezione-1/',
+                    '/pages/lezione-2/',
+                    '/lessons-config.json',
+                    '/app.js'
+                ];
+                
+                let result = '';
+                for (const test of tests) {
+                    try {
+                        const response = await fetch(test);
+                        result += `${test}: ${response.status}\n`;
+                    } catch (e) {
+                        result += `${test}: ERROR - ${e.message}\n`;
+                    }
+                }
+                document.getElementById('files-result').textContent = result;
+            } catch (e) {
+                document.getElementById('files-result').textContent = `Error: ${e.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

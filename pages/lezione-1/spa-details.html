@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPA Dettagli Avanzati</title>
+<link rel="stylesheet" href="../style.css">
+<meta name="description" content="Tecniche avanzate per Single Page Applications: performance, state management, architettura.">
+</head>
+<body>
+<header class="app-header">
+    <div class="header-content">
+        <h1 class="header-title">🏗️ Architettura Web</h1>
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+            <span class="theme-toggle-icon">🌙</span>
+            <span class="theme-toggle-text">Dark</span>
+        </button>
+    </div>
+</header>
+<div class="app-container">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+            <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+            <div class="progress-indicator"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><span class="progress-text" id="progressText">Sezione 19 di 20</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="nav-list" id="navList">
+                <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                <li class="nav-item active"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer"><button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar"><span>←</span></button></div>
+    </aside>
+    <main class="main-content" id="mainContent">
+        <div class="content-container" id="contentContainer">
+            <section class="content-section active" id="spa-details">
+                <div class="section-content">
+                    <header class="section-header">
+                        <h1>🎨 SPA Avanzate</h1>
+                        <p class="section-description">Tecniche avanzate per sviluppare Single Page Applications performanti e scalabili.</p>
+                    </header>
+                    <article class="subsection">
+                        <h2>🏗️ Architetture SPA Moderne</h2>
+                        <div class="principles-grid">
+                            <div class="principle-card advantage"><h3>🔄 State Management</h3><p><strong>Gestione centralizzata dello stato applicativo</strong></p><ul><li>Redux/Zustand per React</li><li>Vuex/Pinia per Vue.js</li><li>NgRx per Angular</li><li>Pattern flux unidirezionale</li></ul></div>
+                            <div class="principle-card advantage"><h3>📦 Code Splitting</h3><p><strong>Caricamento lazy dei componenti</strong></p><ul><li>Dynamic imports</li><li>Route-based splitting</li><li>Component-based splitting</li><li>Bundle optimization</li></ul></div>
+                            <div class="principle-card advantage"><h3>🎯 Virtual DOM</h3><p><strong>Ottimizzazione rendering performance</strong></p><ul><li>Diff algoritm efficiente</li><li>Batch updates</li><li>Reconciliation strategy</li><li>Memory management</li></ul></div>
+                            <div class="principle-card advantage"><h3>🌐 PWA Features</h3><p><strong>Progressive Web App capabilities</strong></p><ul><li>Service Workers</li><li>Offline functionality</li><li>Push notifications</li><li>App-like experience</li></ul></div>
+                        </div>
+                        <div class="info-box">
+                            <h3>🎯 Performance Optimization</h3>
+                            <p><strong>Critical Rendering Path:</strong> Ottimizza FCP, LCP, FID per Core Web Vitals</p>
+                            <p><strong>Bundle Size:</strong> Tree shaking, minification, compression</p>
+                            <p><strong>Caching Strategy:</strong> Browser cache, CDN, service worker cache</p>
+                            <p><strong>Image Optimization:</strong> WebP, responsive images, lazy loading</p>
+                        </div>
+                    </article>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="first-app.html">← Precedente</a>
+                        <a class="btn btn--primary" href="spa-nodejs.html">Successivo →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

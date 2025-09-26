@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architettura Client-Server</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="Architettura Client-Server: storia, definizione, vantaggi e svantaggi.">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 2 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                    <li class="nav-item active"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="client-server">
+                    <div class="section-content">
+                            <article class="subsection">
+                                <h2>🌐 Modello Client-Server</h2>
+                                <p>Il modello <strong>client-server</strong> è il paradigma fondamentale dell'architettura web moderna. Divide chiaramente i ruoli tra chi richiede servizi (<strong>client</strong>) e chi li fornisce (<strong>server</strong>). Questa separazione permette scalabilità, riusabilità e gestione centralizzata.</p>
+                                <div class="diagram">
+                                    <pre>
+        Client (Browser)          Internet/Network            Server (Backend)
+        ┌──────────────┐   HTTP/HTTPS Request (GET/POST)   ┌──────────────────┐
+        │ HTML/CSS/JS  │  ───────────────────────────────▶ │  Application      │
+        │ Rendering UI │ ◀───────────────────────────────  │  Business Logic   │
+        └──────────────┘    HTTP/HTTPS Response (HTML/JSON)└──────────────────┘
+                                    </pre>
+                                </div>
+                                <h3>🔍 Ruoli Principali</h3>
+                                <div class="principles-grid">
+                                    <div class="principle-card"><h3>Client</h3><p>Interfaccia utente (browser, mobile app, IoT) che invia richieste e visualizza risultati. Esegue codice JavaScript, gestisce interazioni, caching locale e rendering grafico.</p><p><strong>Responsabilità:</strong> UX, validazione base, chiamate API.</p></div>
+                                    <div class="principle-card"><h3>Server</h3><p>Elabora logica applicativa, autentica utenti, accede ai dati, applica regole di business e genera risposte strutturate.</p><p><strong>Responsabilità:</strong> Sicurezza, business rules, data orchestration.</p></div>
+                                    <div class="principle-card"><h3>Database</h3><p>Persistenza dati consistente e affidabile. Può essere relazionale (SQL) o non-relazionale (NoSQL) in base ai casi d'uso.</p><p><strong>Responsabilità:</strong> Integrità, performance query, transaction management.</p></div>
+                                    <div class="principle-card"><h3>API Layer</h3><p>Interfaccia di comunicazione strutturata tra client e server. Espone risorse e operazioni tramite endpoint REST, GraphQL o gRPC.</p><p><strong>Responsabilità:</strong> Contract, versioning, data serialization.</p></div>
+                                </div>
+                                <h3>⚙️ Tipi di Interazioni</h3>
+                                <ul>
+                                    <li><strong>Request/Response:</strong> Il client invia una richiesta HTTP, il server risponde con dati o errori</li>
+                                    <li><strong>Stateless:</strong> Ogni richiesta deve contenere tutte le informazioni necessarie (RESTful principle)</li>
+                                    <li><strong>Session-based:</strong> Persistenza stato utente mediante session ID (cookie) in alcuni scenari tradizionali</li>
+                                    <li><strong>Token-based:</strong> JWT o OAuth2 per autenticazione scalabile</li>
+                                </ul>
+                                <div class="info-box">
+                                    <h3>📡 Esempio di Richiesta HTTP</h3>
+                                    <pre><code>GET /api/users/123 HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Authorization: Bearer &lt;token&gt;</code></pre>
+                                    <p>Il server elabora, accede al database e risponde con:</p>
+                                    <pre><code>{
+          "id": 123,
+          "name": "Mario Rossi",
+          "role": "admin"
+        }</code></pre>
+                                </div>
+                                <h3>🚀 Evoluzione verso Architetture Moderne</h3>
+                                <p>Il modello client-server monolitico si è evoluto in sistemi distribuiti:</p>
+                                <ol>
+                                    <li><strong>Monolite:</strong> Un'unica codebase e deploy</li>
+                                    <li><strong>N-tier:</strong> Separazione presentazione, logica e dati</li>
+                                    <li><strong>SOA:</strong> Servizi integrati via ESB</li>
+                                    <li><strong>Microservizi:</strong> Servizi piccoli autonomi distribuiti</li>
+                                    <li><strong>Serverless:</strong> Funzioni on-demand senza gestione server</li>
+                                </ol>
+                                <h3>✅ Vantaggi del Modello</h3>
+                                <div class="principles-grid">
+                                    <div class="principle-card advantage"><h3>🔐 Controllo Centralizzato</h3><p>Logica e sicurezza gestite in un'unica posizione, facilitando audit e aggiornamenti.</p></div>
+                                    <div class="principle-card advantage"><h3>📦 Riutilizzo</h3><p>Servizi riusabili da diversi client (web, mobile, IoT).</p></div>
+                                    <div class="principle-card advantage"><h3>⚖️ Scalabilità</h3><p>Possibilità di scalare componenti backend indipendentemente dal client.</p></div>
+                                    <div class="principle-card advantage"><h3>📊 Osservabilità</h3><p>Monitoraggio centralizzato di traffico, errori, performance.</p></div>
+                                </div>
+                                <h3>⚠️ Svantaggi e Limiti</h3>
+                                <div class="principles-grid">
+                                    <div class="principle-card disadvantage"><h3>🧱 Single Point of Failure</h3><p>Se il server cade e non c'è ridondanza, l'intero sistema diventa irraggiungibile.</p></div>
+                                    <div class="principle-card disadvantage"><h3>📉 Scalabilità Limitata</h3><p>Un monolite massivo ha limiti di scaling rispetto a microservizi specializzati.</p></div>
+                                    <div class="principle-card disadvantage"><h3>🚧 Dipendenze Forti</h3><p>Client tightly coupled rende più difficile evolvere l'API senza breaking changes.</p></div>
+                                    <div class="principle-card disadvantage"><h3>⏳ Latenza Multipla</h3><p>Richieste multiple da una pagina possono aumentare tempi di caricamento.</p></div>
+                                </div>
+                                <div class="info-box curiosity">
+                                    <h3>💡 Best Practices Moderne</h3>
+                                    <ul>
+                                        <li><strong>API Versioning:</strong> /v1, /v2 per evoluzione sicura</li>
+                                        <li><strong>Caching Layer:</strong> CDN e reverse proxy (es. Nginx, Varnish)</li>
+                                        <li><strong>Security:</strong> Rate limiting, TLS ovunque, header di sicurezza</li>
+                                        <li><strong>Monitoring:</strong> Tracing distribuito (OpenTelemetry), logging strutturato</li>
+                                    </ul>
+                                </div>
+                                <h3>🔄 Esempio di Flusso</h3>
+                                <div class="communication-flow">
+                                    <div class="flow-step"><div class="step-number">1</div><div class="step-content"><h3>User Action</h3><p>L'utente clicca su "Login" nel browser.</p></div></div>
+                                    <div class="flow-step"><div class="step-number">2</div><div class="step-content"><h3>HTTP Request</h3><p>Il client invia POST /api/auth/login con credenziali JSON.</p></div></div>
+                                    <div class="flow-step"><div class="step-number">3</div><div class="step-content"><h3>Server Processing</h3><p>Il server valida, verifica DB, genera token JWT.</p></div></div>
+                                    <div class="flow-step"><div class="step-number">4</div><div class="step-content"><h3>Response</h3><p>Server restituisce 200 OK con token e profilo utente.</p></div></div>
+                                    <div class="flow-step"><div class="step-number">5</div><div class="step-content"><h3>State Update</h3><p>Il client salva token (memory/secure storage) e aggiorna UI.</p></div></div>
+                                </div>
+                            </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="intro.html">← Precedente: Introduzione</a>
+                        <a class="btn btn--primary" href="monolithic.html">Successivo: Architettura Monolitica →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

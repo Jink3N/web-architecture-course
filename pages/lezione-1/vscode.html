@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Studio Code Setup</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="Guida alla configurazione di Visual Studio Code per lo sviluppo web.">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 17 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item active"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="vscode">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>📝 Visual Studio Code Setup</h1>
+                            <p class="section-description">Configurazione VS Code per sviluppo Node.js ottimale con estensioni e settings.</p>
+                        </header>
+                        
+                        <article class="subsection">
+                            <h2>🚀 Installazione VS Code</h2>
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>🌐 Download Ufficiale</h3>
+                                    <p>Visita <strong>code.visualstudio.com</strong> e scarica per il tuo OS</p>
+                                    <ul>
+                                        <li>Windows: .exe installer</li>
+                                        <li>macOS: .dmg package</li>
+                                        <li>Linux: .deb/.rpm packages</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="example-card">
+                                    <h3>📦 Package Managers</h3>
+                                    <p><strong>Windows (Chocolatey):</strong></p>
+                                    <pre><code>choco install vscode</code></pre>
+                                    <p><strong>macOS (Homebrew):</strong></p>
+                                    <pre><code>brew install --cask visual-studio-code</code></pre>
+                                    <p><strong>Ubuntu:</strong></p>
+                                    <pre><code>sudo snap install code --classic</code></pre>
+                                </div>
+                            </div>
+                            
+                            <h2>🔌 Estensioni Essenziali</h2>
+                            <div class="principles-grid">
+                                <div class="principle-card advantage">
+                                    <h3>⚙️ Node.js Extension Pack</h3>
+                                    <p>Bundle completo per sviluppo Node.js con debugging, IntelliSense e tools.</p>
+                                </div>
+                                
+                                <div class="principle-card advantage">
+                                    <h3>🎨 Prettier</h3>
+                                    <p>Code formatter automatico per mantenere stile consistente.</p>
+                                </div>
+                                
+                                <div class="principle-card advantage">
+                                    <h3>🔍 ESLint</h3>
+                                    <p>Linter per JavaScript che identifica e corregge problemi nel codice.</p>
+                                </div>
+                                
+                                <div class="principle-card advantage">
+                                    <h3>🌐 REST Client</h3>
+                                    <p>Testa API REST direttamente da VS Code senza Postman.</p>
+                                </div>
+                            </div>
+                            
+                            <h2>⚙️ Configurazione Ottimale</h2>
+                            <div class="info-box">
+                                <h3>🔧 settings.json</h3>
+                                <pre><code>{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "files.associations": {
+    "*.env.*": "dotenv"
+  },
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  }
+}</code></pre>
+                            </div>
+                            
+                            <div class="info-box curiosity">
+                                <h3>💡 Pro Tips</h3>
+                                <ul>
+                                    <li><strong>Command Palette:</strong> Ctrl+Shift+P per accesso rapido a tutti i comandi</li>
+                                    <li><strong>Integrated Terminal:</strong> Ctrl+` per terminale integrato</li>
+                                    <li><strong>Multi-cursor:</strong> Alt+Click per editing parallelo</li>
+                                    <li><strong>Zen Mode:</strong> Ctrl+K Z per focus completo</li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="installation.html">← Precedente: Installazione</a>
+                        <a class="btn btn--primary" href="first-app.html">Successivo: Prima App →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

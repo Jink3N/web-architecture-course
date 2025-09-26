@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architettura a Microservizi</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="Architettura a Microservizi: storia, definizione, vantaggi e svantaggi.">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 4 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item active"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="microservices">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>🔧 Architettura a Microservizi</h1>
+                            <p class="section-description">I microservizi rappresentano un approccio architetturale che struttura un'applicazione come collezione di servizi loosely coupled, indipendentemente deployabili e altamente autonomi.</p>
+                        </header>
+
+                        <article class="subsection">
+                            <h2>📜 Storia dei Microservizi</h2>
+                            <p>Pioneered da <strong>Amazon nel 2002</strong> con la famosa direttiva di Jeff Bezos, resa famosa da <strong>Netflix (2009-2011)</strong>. <strong>Martin Fowler</strong> conia ufficialmente il termine nel 2014.</p>
+                            
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <h3>2002 - Amazon's API Mandate</h3>
+                                    <p>Jeff Bezos ordina: "All teams expose functionality via APIs. No direct database access between teams."</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h3>2009-2011 - Netflix Migration</h3>
+                                    <p>Netflix migra da monolite a microservizi per gestire crescita esplosiva.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h3>2014 - Martin Fowler</h3>
+                                    <p>Formalizza il termine "microservices" e i principi architetturali.</p>
+                                </div>
+                            </div>
+
+                            <p><strong>A cosa serve:</strong> Decomporre applicazioni complesse in servizi piccoli e indipendenti, ognuno responsible per un singolo business capability.</p>
+
+                            <p><strong>Quando utilizzare:</strong> Applicazioni complesse, team grandi (8+ persone), alta scalabilità richiesta, domini business ben definiti, necessità di tecnologie diverse.</p>
+
+                            <p><strong>Come implementare:</strong> API Gateway, service discovery, container orchestration (Kubernetes), event-driven architecture, distributed data management.</p>
+
+                            <div class="principles-grid">
+                                <div class="principle-card advantage">
+                                    <h3>✅ Vantaggi</h3>
+                                    <ul>
+                                        <li><strong>Scalabilità selettiva:</strong> Scale solo ciò che serve</li>
+                                        <li><strong>Tecnologie diverse:</strong> Best tool for each job</li>
+                                        <li><strong>Team autonomi:</strong> Conway's Law applicata</li>
+                                        <li><strong>Failure isolation:</strong> Un servizio down ≠ tutto down</li>
+                                        <li><strong>Deployment indipendente:</strong> Release velocity</li>
+                                    </ul>
+                                </div>
+
+                                <div class="principle-card disadvantage">
+                                    <h3>❌ Svantaggi</h3>
+                                    <ul>
+                                        <li><strong>Complessità distributiva:</strong> Network calls, latency</li>
+                                        <li><strong>Data consistency:</strong> Eventual consistency challenges</li>
+                                        <li><strong>Testing complexity:</strong> Integration testing nightmare</li>
+                                        <li><strong>Monitoring overhead:</strong> Distributed tracing required</li>
+                                        <li><strong>DevOps burden:</strong> Infrastructure complexity</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="info-box curiosity">
+                                <h3>🍿 Curiosità: Netflix e i 1000+ Microservizi</h3>
+                                <p><strong>Netflix ha oltre 1000 microservizi</strong> che gestiscono <strong>2+ miliardi di richieste al giorno</strong>! Il servizio di raccomandazioni da solo è composto da centinaia di microservizi che processano trilioni di eventi per personalizzare l'esperienza di 200+ milioni di utenti.</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="monolithic.html">← Precedente: Monolitica</a>
+                        <a class="btn btn--primary" href="spa.html">Successivo: SPA →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architettura REST</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="description" content="Architettura REST: principi, storia, vantaggi e limiti.">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 11 di 20</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                    <li class="nav-item active"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="rest">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>🏗️ Architettura REST</h1>
+                            <p class="section-description">REST definisce vincoli architetturali per creare sistemi distribuiti scalabili, cacheable e indipendenti.</p>
+                        </header>
+                        <article class="subsection">
+                            <h2>📜 Origini</h2>
+                            <p>Formalizzata da <strong>Roy Fielding nella sua tesi (2000)</strong> mentre co-progettava HTTP/1.1 e Apache. REST non è un protocollo ma uno <strong>stile architetturale</strong>.</p>
+
+                            <div class="info-box curiosity">
+                                <h3>🎓 Curiosità: Roy Fielding</h3>
+                                <p><strong>Roy Fielding</strong> co-creò HTTP/1.1 e Apache HTTP Server mentre definiva i principi REST, basandosi su osservazioni di sistemi resilienti e scalabili del web.</p>
+                            </div>
+
+                            <h2>🧩 Sei Vincoli Fondamentali</h2>
+                            <div class="principles-grid">
+                                <div class="principle-card advantage">
+                                    <h3>1. Client-Server</h3>
+                                    <p>Separazione responsabilità: UI e dati indipendenti → evoluzione separata.</p>
+                                </div>
+                                <div class="principle-card advantage">
+                                    <h3>2. Stateless</h3>
+                                    <p>Ogni richiesta contiene tutto il contesto necessario. Nessuno stato lato server di sessione.</p>
+                                </div>
+                                <div class="principle-card advantage">
+                                    <h3>3. Cacheable</h3>
+                                    <p>Risposte marcate come cacheable riducono latenza e carico.</p>
+                                </div>
+                                <div class="principle-card advantage">
+                                    <h3>4. Uniform Interface</h3>
+                                    <p>Identificazione risorse (URI), manipolazione tramite rappresentazioni, messaggi self-descriptive, HATEOAS.</p>
+                                </div>
+                                <div class="principle-card advantage">
+                                    <h3>5. Layered System</h3>
+                                    <p>Proxy, gateway, CDN trasparenti ai client → scalabilità e sicurezza.</p>
+                                </div>
+                                <div class="principle-card advantage">
+                                    <h3>6. Code on Demand (Opz.)</h3>
+                                    <p>Download di script eseguibili (es. JavaScript) per estendere funzionalità client.</p>
+                                </div>
+                            </div>
+
+                            <h2>🔗 Uniform Interface Dettagli</h2>
+                            <div class="definition-cards">
+                                <div class="definition-card client">
+                                    <h3>Identificazione Risorse</h3>
+                                    <h4>URI stabili</h4>
+                                    <ul>
+                                        <li>/users/123</li>
+                                        <li>/orders/2024/987</li>
+                                        <li>/products/{sku}</li>
+                                    </ul>
+                                </div>
+                                <div class="definition-card server">
+                                    <h3>Rappresentazioni</h3>
+                                    <h4>JSON / XML / HAL</h4>
+                                    <ul>
+                                        <li>Content negotiation</li>
+                                        <li>Media types specifici</li>
+                                        <li>Versioning via header</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="definition-cards">
+                                <div class="definition-card client">
+                                    <h3>Self-Descriptive Messages</h3>
+                                    <h4>Headers + Body</h4>
+                                    <ul>
+                                        <li>Status codes semantici</li>
+                                        <li>Cache-Control, ETag</li>
+                                        <li>Link relations</li>
+                                    </ul>
+                                </div>
+                                <div class="definition-card server">
+                                    <h3>HATEOAS</h3>
+                                    <h4>Hypermedia as Engine</h4>
+                                    <ul>
+                                        <li>Client scopre azioni</li>
+                                        <li>Riduce coupling</li>
+                                        <li>Link navigabili</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <h2>🧪 Idempotenza & Sicurezza Metodi</h2>
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>GET</h3>
+                                    <p>Safe + Idempotent</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>PUT</h3>
+                                    <p>Idempotent (sostituisce)</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>DELETE</h3>
+                                    <p>Idempotent (elimina risorsa)</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>POST</h3>
+                                    <p>Non idempotent (crea/azione)</p>
+                                </div>
+                            </div>
+
+                            <h2>📦 Versioning Strategie</h2>
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>URL Versioning</h3>
+                                    <pre><code>/v1/users
+/v2/users</code></pre>
+                                    <p>Semplice ma rompe caching.</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>Header Version</h3>
+                                    <pre><code>Accept: application/vnd.app.user+json;version=2</code></pre>
+                                    <p>Più pulito, flessibile.</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>Media Type</h3>
+                                    <pre><code>application/vnd.company.user-v3+json</code></pre>
+                                    <p>Documentato e esplicito.</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>SemVer nei Link</h3>
+                                    <p>Link di transizione a nuove versioni.</p>
+                                </div>
+                            </div>
+
+                            <h2>⚙️ Error Handling Standard</h2>
+                            <div class="examples-grid">
+                                <div class="example-card">
+                                    <h3>Problem+JSON</h3>
+                                    <pre><code>{
+  "type": "https://api.example.com/errors/invalid-input",
+  "title": "Validation Failed",
+  "status": 422,
+  "detail": "Email non valida",
+  "field": "email"
+}</code></pre>
+                                </div>
+                                <div class="example-card">
+                                    <h3>Retry-After</h3>
+                                    <pre><code>HTTP/1.1 429 Too Many Requests
+Retry-After: 120</code></pre>
+                                    <p>Rate limiting esplicito.</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>ETag Workflow</h3>
+                                    <pre><code>GET /resource
+ETag: "abc123"
+
+PUT /resource
+If-Match: "abc123"</code></pre>
+                                    <p>Concorrenza ottimistica.</p>
+                                </div>
+                                <div class="example-card">
+                                    <h3>Paginazione</h3>
+                                    <pre><code>Link: <https://api.com/users?page=3>; rel="next"</code></pre>
+                                    <p>Hypermedia navigabile.</p>
+                                </div>
+                            </div>
+
+                            <h2>✅ Benefici</h2>
+                            <div class="principles-grid">
+                                <div class="principle-card advantage"><h3>Scalabilità</h3><p>Stateless + cache = throughput elevato.</p></div>
+                                <div class="principle-card advantage"><h3>Indipendenza</h3><p>Client e server evolvono separati.</p></div>
+                                <div class="principle-card advantage"><h3>Interoperabilità</h3><p>Standard HTTP e media types.</p></div>
+                                <div class="principle-card advantage"><h3>Visibilità</h3><p>Proxy e gateway ispezionano richieste facilmente.</p></div>
+                            </div>
+
+                            <h2>❌ Limiti</h2>
+                            <div class="principles-grid">
+                                <div class="principle-card disadvantage"><h3>Over/Under Fetching</h3><p>Richieste multiple o dati eccessivi (GraphQL risolve).</p></div>
+                                <div class="principle-card disadvantage"><h3>No Transazioni Distribuite</h3><p>Manca supporto nativo a processi multi-step ACID.</p></div>
+                                <div class="principle-card disadvantage"><h3>Versioning Complesso</h3><p>Gestione evoluzione contratti non standardizzata.</p></div>
+                                <div class="principle-card disadvantage"><h3>HATEOAS Poco Adottato</h3><p>Spesso implementazione parziale riduce discoverability.</p></div>
+                            </div>
+
+                            <div class="info-box">
+                                <h3>🎯 Sintesi</h3>
+                                <p>REST rimane lo stile dominante per API pubbliche e interne grazie a semplicità, scalabilità e aderenza agli standard web.</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="api-soap.html">← Precedente: REST vs SOAP</a>
+                        <a class="btn btn--primary" href="endpoints.html">Successivo: Endpoints →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

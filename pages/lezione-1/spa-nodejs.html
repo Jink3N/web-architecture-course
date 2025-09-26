@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPA con Node.js</title>
+<link rel="stylesheet" href="../style.css">
+<meta name="description" content="Integrazione tra Single Page Applications e backend Node.js: architettura full-stack.">
+</head>
+<body>
+<header class="app-header">
+    <div class="header-content">
+        <h1 class="header-title">🏗️ Architettura Web</h1>
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+            <span class="theme-toggle-icon">🌙</span>
+            <span class="theme-toggle-text">Dark</span>
+        </button>
+    </div>
+</header>
+<div class="app-container">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+            <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
+            <div class="progress-indicator"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><span class="progress-text" id="progressText">Sezione 20 di 20</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="nav-list" id="navList">
+                <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
+                <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
+                <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
+                <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
+                <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
+                <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
+                <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
+                <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
+                <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
+                <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
+                <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
+                <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
+                <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
+                <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
+                <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
+                <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
+                <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
+                <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
+                <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
+                <li class="nav-item active"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer"><button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar"><span>←</span></button></div>
+    </aside>
+    <main class="main-content" id="mainContent">
+        <div class="content-container" id="contentContainer">
+            <section class="content-section active" id="spa-nodejs">
+                <div class="section-content">
+                    <header class="section-header">
+                        <h1>🔄 SPA con Node.js</h1>
+                        <p class="section-description">Integrazione completa tra Single Page Applications e backend Node.js per architetture full-stack moderne.</p>
+                    </header>
+                    <article class="subsection">
+                        <h2>🌉 Architettura Full-Stack</h2>
+                        <p>Combinare SPA frontend con backend Node.js crea un ecosistema JavaScript completo, permettendo condivisione di codice e competenze.</p>
+                        <div class="communication-flow">
+                            <div class="flow-step"><div class="step-number">1</div><div class="step-content"><h3>🎨 Frontend SPA</h3><p>React, Vue, Angular o Svelte per interfaccia utente interattiva</p><ul><li>Component-based architecture</li><li>Client-side routing</li><li>State management</li><li>API consumption</li></ul></div></div>
+                            <div class="flow-step"><div class="step-number">2</div><div class="step-content"><h3>📡 API Layer</h3><p>Express.js backend che espone RESTful APIs o GraphQL</p><ul><li>Route handlers</li><li>Middleware pipeline</li><li>Authentication/Authorization</li><li>Data validation</li></ul></div></div>
+                            <div class="flow-step"><div class="step-number">3</div><div class="step-content"><h3>🗄️ Database Layer</h3><p>MongoDB, PostgreSQL o MySQL per persistenza dati</p><ul><li>ODM/ORM (Mongoose, Prisma)</li><li>Query optimization</li><li>Connection pooling</li><li>Data modeling</li></ul></div></div>
+                            <div class="flow-step"><div class="step-number">4</div><div class="step-content"><h3>🚀 Deployment</h3><p>CI/CD pipeline per deployment automatico</p><ul><li>Build process</li><li>Environment management</li><li>Monitoring & logging</li><li>Scaling strategies</li></ul></div></div>
+                        </div>
+                        <h2>🛠️ Stack Tecnologico MEAN/MERN</h2>
+                        <div class="examples-grid">
+                            <div class="example-card"><h3>⚛️ MERN Stack</h3><p><strong>MongoDB + Express + React + Node.js</strong></p><ul><li>React per UI components</li><li>Redux per state management</li><li>Express.js per API backend</li><li>MongoDB per database NoSQL</li></ul><p><em>Ideale per: Rapid prototyping, startup, social apps</em></p></div>
+                            <div class="example-card"><h3>🅰️ MEAN Stack</h3><p><strong>MongoDB + Express + Angular + Node.js</strong></p><ul><li>Angular per enterprise apps</li><li>TypeScript first-class support</li><li>RxJS per reactive programming</li><li>MongoDB per document storage</li></ul><p><em>Ideale per: Enterprise applications, grandi team</em></p></div>
+                            <div class="example-card"><h3>💚 MEVN Stack</h3><p><strong>MongoDB + Express + Vue.js + Node.js</strong></p><ul><li>Vue.js per progressive adoption</li><li>Vuex per state management</li><li>Express.js lightweight API</li><li>MongoDB flexible schema</li></ul><p><em>Ideale per: Progetti medi, transizione graduale</em></p></div>
+                            <div class="example-card"><h3>⚡ Modern Alternatives</h3><p><strong>Next.js + Prisma + PostgreSQL</strong></p><ul><li>Next.js SSR/SSG capabilities</li><li>Prisma type-safe ORM</li><li>PostgreSQL relational data</li><li>Vercel deployment</li></ul><p><em>Ideale per: SEO-critical apps, performance</em></p></div>
+                        </div>
+                        <div class="info-box">
+                            <h3>🎯 Best Practices Full-Stack</h3>
+                            <p><strong>API Design:</strong> RESTful conventions, versioning, documentation con Swagger/OpenAPI</p>
+                            <p><strong>Security:</strong> JWT authentication, CORS configuration, input validation, rate limiting</p>
+                            <p><strong>Performance:</strong> Caching layers (Redis), database indexing, CDN per assets statici</p>
+                            <p><strong>Development:</strong> Monorepo setup, shared types/interfaces, automated testing, Docker containers</p>
+                        </div>
+                        <div class="info-box curiosity"><h3>🌟 Il Futuro delle SPA</h3><p><strong>Server Components:</strong> React Server Components per rendering ibrido client/server</p><p><strong>Edge Computing:</strong> Distribuire logic più vicino agli utenti</p><p><strong>Web Assembly:</strong> Performance native per calcoli intensivi</p><p><strong>Micro-frontends:</strong> Architetture scalabili per team multipli</p></div>
+                    </article>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="spa-details.html">← Precedente</a>
+                        <button class="btn btn--primary" disabled>🎉 Corso Completato!</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

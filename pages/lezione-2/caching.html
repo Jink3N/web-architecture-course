@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategie di Caching</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <section class="content-section" id="caching">
+        <div class="section-hero">
+            <h1>⚡ Strategie di Caching</h1>
+            <p class="section-description">Ottimizzazione delle performance attraverso il caching</p>
+        </div>
+
+        <div class="section-content">
+            <div class="info-box welcome">
+                <h2>🏎️ Cosa è il Caching?</h2>
+                <p>Il caching è una tecnica per memorizzare temporaneamente dati frequentemente acceduti in una posizione più veloce da raggiungere.</p>
+            </div>
+
+            <div class="cache-levels">
+                <h3>🔄 Livelli di Cache</h3>
+                <div class="info-box info">
+                    <h4>1. Browser Cache</h4>
+                    <p>Files statici, immagini, CSS, JS memorizzati localmente</p>
+                </div>
+                <div class="info-box success">
+                    <h4>2. CDN (Content Delivery Network)</h4>
+                    <p>Cache distribuita geograficamente per contenuti statici</p>
+                </div>
+                <div class="info-box warning">
+                    <h4>3. Application Cache</h4>
+                    <p>Redis, Memcached per dati dinamici</p>
+                </div>
+                <div class="info-box curiosity">
+                    <h4>4. Database Cache</h4>
+                    <p>Query cache, buffer pool per ottimizzare accessi DB</p>
+                </div>
+            </div>
+
+            <div class="info-box error">
+                <h3>⚠️ Cache Invalidation</h3>
+                <p><em>"There are only two hard things in Computer Science: cache invalidation and naming things."</em> - Phil Karlton</p>
+                <ul>
+                    <li><strong>TTL (Time To Live):</strong> Scadenza automatica</li>
+                    <li><strong>Manual Invalidation:</strong> Purge esplicito</li>
+                    <li><strong>Event-based:</strong> Invalidazione su cambi dati</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
