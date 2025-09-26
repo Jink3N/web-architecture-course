@@ -2,10 +2,9 @@
   "name": "web-architecture-course",
   "version": "1.0.0",
   "description": "Corso interattivo completo sull'architettura web - dalla storia ai microservizi",
-  "type": "module",
   "scripts": {
-    "build": "echo 'Build completed - static files ready'",
-    "vercel-build": "echo 'Vercel build process completed'"
+    "build": "echo 'Static site - no build needed'",
+    "vercel-build": "echo 'Vercel static deployment ready'"
   },
   "keywords": [
     "web-architecture",
@@ -16,8 +15,5 @@
     "client-server"
   ],
   "author": "Steve Jobs Academy",
-  "license": "MIT",
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "license": "MIT"
 }
