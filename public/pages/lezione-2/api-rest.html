@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API REST - Lezione 2</title>
+    <meta name="description" content="Costruire API REST passo passo: principi, struttura degli endpoint, metodi HTTP, sicurezza di base e errori da evitare." />
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Lezione 2: Node.js, Async, API</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 3 di 5</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="promises-async.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Promises & Async</span></a></li>
+                    <li class="nav-item"><a href="nodejs-v8-eventloop.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Node.js, V8 & Event Loop</span></a></li>
+                    <li class="nav-item active"><a href="api-rest.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">API REST</span></a></li>
+                    <li class="nav-item"><a href="esercizi-async-promises.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Esercizi Async & Promises</span></a></li>
+                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">📦</span><span class="nav-text">Node.js: Oggetti & CRUD</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="api-rest">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>🌐 API REST</h1>
+                            <p class="section-description">REST (Representational State Transfer) è uno stile architetturale per costruire API semplici, scalabili e facili da capire. Qui impariamo le basi per progettare endpoint chiari e sicuri.</p>
+                        </header>
+
+                        <article class="subsection">
+                            <h2>🔎 Che cos'è un'API?</h2>
+                            <p>API significa <strong>Application Programming Interface</strong>: un contratto che descrive come due applicazioni possono parlarsi. Nel web, un'API espone URL che accettano richieste HTTP e rispondono con dati, spesso in formato JSON.</p>
+                            <div class="info-box info">
+                                <h3>Principi base REST</h3>
+                                <ul>
+                                    <li><strong>Client-Server:</strong> separa chi richiede il dato (client) da chi lo fornisce (server).</li>
+                                    <li><strong>Stateless:</strong> ogni richiesta contiene tutte le informazioni necessarie. Il server non ricorda lo stato tra due richieste.</li>
+                                    <li><strong>Uniform Interface:</strong> regole coerenti per tutti gli endpoint (stessi verbi HTTP, strutture prevedibili).</li>
+                                    <li><strong>Cacheable:</strong> le risposte possono essere memorizzate per migliorare le performance.</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🧭 Progettare gli endpoint</h2>
+                            <div class="info-box welcome">
+                                <h3>Risorse e URL</h3>
+                                <p>Ogni endpoint rappresenta una <strong>risorsa</strong> (es. utenti, ordini). Gli URL dovrebbero usare <strong>sostantivi al plurale</strong> e gerarchie chiare.</p>
+                                <pre><code>GET /api/users          → elenco utenti
+GET /api/users/42      → utente con id 42
+POST /api/users        → crea un nuovo utente
+GET /api/users/42/orders → ordini dell'utente 42</code></pre>
+                            </div>
+                            <div class="comparison-grid">
+                                <div class="comparison-item">
+                                    <h3>✅ Fai così</h3>
+                                    <ul>
+                                        <li>Usa verbi HTTP coerenti</li>
+                                        <li>Struttura prevedibile</li>
+                                        <li>Versiona l'API (<code>/api/v1/</code>)</li>
+                                    </ul>
+                                </div>
+                                <div class="comparison-item">
+                                    <h3>❌ Evita</h3>
+                                    <ul>
+                                        <li>Mescolare verbi negli URL (<code>/getUsers</code>)</li>
+                                        <li>Restituire HTML inatteso</li>
+                                        <li>Endpoint con significati ambigui</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🧾 Metodi HTTP e codici di stato</h2>
+                            <table class="http-table">
+                                <thead>
+                                    <tr>
+                                        <th>Metodo</th>
+                                        <th>Uso tipico</th>
+                                        <th>Codici di risposta comuni</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>GET</strong></td>
+                                        <td>Leggere dati senza modificarli</td>
+                                        <td>200 OK, 404 Not Found</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>POST</strong></td>
+                                        <td>Creare una nuova risorsa</td>
+                                        <td>201 Created, 400 Bad Request</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PUT</strong></td>
+                                        <td>Sostituire completamente una risorsa</td>
+                                        <td>200 OK, 204 No Content</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PATCH</strong></td>
+                                        <td>Aggiornare parzialmente una risorsa</td>
+                                        <td>200 OK, 204 No Content</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DELETE</strong></td>
+                                        <td>Eliminare una risorsa</td>
+                                        <td>204 No Content, 404 Not Found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="info-box curiosity">
+                                <h3>Codici di stato spiegati</h3>
+                                <p>I codici HTTP indicano l'esito della richiesta. <strong>2xx</strong> = successo, <strong>4xx</strong> = errore del client, <strong>5xx</strong> = errore del server.</p>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>📦 Struttura di richiesta e risposta</h2>
+                            <pre><code>// Richiesta (client → server)
+POST /api/v1/users
+Content-Type: application/json
+
+{
+  "name": "Ada Lovelace",
+  "email": "ada@example.com"
+}
+
+// Risposta (server → client)
+HTTP/1.1 201 Created
+Location: /api/v1/users/101
+Content-Type: application/json
+
+{
+  "id": 101,
+  "name": "Ada Lovelace",
+  "email": "ada@example.com"
+}</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🏗️ Best practices</h2>
+                            <div class="info-box success">
+                                <ul>
+                                    <li>Documenta gli endpoint con esempi (OpenAPI/Swagger).</li>
+                                    <li>Valida sempre i dati in ingresso (es. librerie <code>Joi</code>, <code>zod</code>).</li>
+                                    <li>Usa versionamento per gestire evoluzioni senza rompere i client.</li>
+                                    <li>Restituisci errori chiari con messaggi utili e codici coerenti.</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🚧 Errori da evitare</h2>
+                            <div class="info-box warning">
+                                <ul>
+                                    <li>Mescolare logica di business e logica di trasporto (HTTP) nello stesso livello di codice.</li>
+                                    <li>Non controllare gli input: apertura a SQL injection o crash.</li>
+                                    <li>Esportare dati sensibili in risposta (password hash, token).</li>
+                                    <li>Utilizzare codici HTTP generici come 200 anche in caso di errore.</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🛡️ Sicurezza senza autenticazione</h2>
+                            <div class="info-box info">
+                                <ul>
+                                    <li><strong>HTTPS obbligatorio:</strong> protegge i dati in transito.</li>
+                                    <li><strong>Rate limiting:</strong> limita il numero di richieste per IP per prevenire abusi.</li>
+                                    <li><strong>CORS controllato:</strong> permette solo domini conosciuti.</li>
+                                    <li><strong>Logging & Monitoring:</strong> registra richieste sospette e attiva alert.</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>📚 Glossario essenziale</h2>
+                            <dl class="definition-list">
+                                <div>
+                                    <dt>Payload</dt>
+                                    <dd>Il corpo della richiesta o della risposta. Spesso JSON.</dd>
+                                </div>
+                                <div>
+                                    <dt>Idempotente</dt>
+                                    <dd>Operazione che produce lo stesso risultato se ripetuta (es. PUT, DELETE).</dd>
+                                </div>
+                                <div>
+                                    <dt>Resource</dt>
+                                    <dd>Oggetto logico dell'API (utente, ordine, prodotto).</dd>
+                                </div>
+                                <div>
+                                    <dt>Representation</dt>
+                                    <dd>Il formato con cui la risorsa viene restituita (JSON, XML).</dd>
+                                </div>
+                            </dl>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🏥 Caso reale: API per prenotazioni sanitarie</h2>
+                            <p>Un'azienda ospedaliera mette a disposizione un'API per gestire le prenotazioni delle visite. I client (app mobile, sportelli) usano la stessa interfaccia per cercare disponibilità, prenotare o disdire appuntamenti.</p>
+                            <div class="info-box welcome">
+                                <h3>Struttura degli endpoint</h3>
+                                <pre><code>GET    /api/v1/clinics                   → elenco ambulatori
+GET    /api/v1/clinics/:id/slots         → slot liberi per l'ambulatorio
+POST   /api/v1/bookings                  → crea prenotazione
+PATCH  /api/v1/bookings/:id/status       → conferma o annulla
+DELETE /api/v1/bookings/:id              → elimina prenotazione</code></pre>
+                            </div>
+                            <div class="info-box success">
+                                <h3>Esempio di risposta reale</h3>
+                                <pre><code>GET /api/v1/clinics/45/slots?date=2025-10-10
+
+{
+  "clinicId": 45,
+  "speciality": "Cardiologia",
+  "slots": [
+    { "start": "09:00", "end": "09:30", "availability": "free" },
+    { "start": "09:30", "end": "10:00", "availability": "booked" },
+    { "start": "10:00", "end": "10:30", "availability": "free" }
+  ]
+}</code></pre>
+                            </div>
+                            <div class="info-box curiosity">
+                                <h3>Lezioni dal caso reale</h3>
+                                <ul>
+                                    <li>Versionamento: <code>/api/v1</code> permette di pubblicare una seconda versione senza rompere i client esistenti.</li>
+                                    <li>Uso di <strong>PATCH</strong> per aggiornare solo lo stato (es. conferma visita) evita di reinviare tutti i dati.</li>
+                                    <li>La documentazione descrive vincoli: massimo 2 prenotazioni attive per utente, slot prenotabili entro 30 giorni.</li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="nodejs-v8-eventloop.html">← Sezione precedente: Node.js, V8 & Event Loop</a>
+                        <a class="btn btn--primary" href="esercizi-async-promises.html">Prossima sezione: Esercizi Async & Promises →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>

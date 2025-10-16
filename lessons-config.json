@@ -159,32 +159,38 @@
     },
     "lezione-2": {
       "title": "Lezione 2: Architetture Avanzate",
-      "description": "Database, caching, deployment e scaling",
+      "description": "Async, Node.js, API REST, esercizi pratici",
       "icon": "🚀",
       "sections": [
         {
-          "id": "database-intro",
-          "title": "Database Fundamentals",
-          "icon": "🗄️",
-          "file": "database-intro.html"
+          "id": "promises-async",
+          "title": "Promises & Async",
+          "icon": "�",
+          "file": "promises-async.html"
         },
         {
-          "id": "sql-nosql",
-          "title": "SQL vs NoSQL",
-          "icon": "📊",
-          "file": "sql-nosql.html"
+          "id": "nodejs-v8-eventloop",
+          "title": "Node.js, V8 & Event Loop",
+          "icon": "⚙️",
+          "file": "nodejs-v8-eventloop.html"
         },
         {
-          "id": "caching",
-          "title": "Strategie di Caching",
-          "icon": "⚡",
-          "file": "caching.html"
+          "id": "api-rest",
+          "title": "API REST",
+          "icon": "🌐",
+          "file": "api-rest.html"
         },
         {
-          "id": "deployment",
-          "title": "Deployment e DevOps",
-          "icon": "🚢",
-          "file": "deployment.html"
+          "id": "esercizi-async-promises",
+          "title": "Esercizi Async & Promises",
+          "icon": "📝",
+          "file": "esercizi-async-promises.html"
+        },
+        {
+          "id": "nodejs-oggetti-crud",
+          "title": "Node.js: Oggetti & CRUD",
+          "icon": "�",
+          "file": "nodejs-oggetti-crud.html"
         }
       ]
     }

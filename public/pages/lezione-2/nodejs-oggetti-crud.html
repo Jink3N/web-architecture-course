@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js: Oggetti & CRUD - Lezione 2</title>
+    <meta name="description" content="Panoramica degli oggetti globali di Node.js, il modulo fs per file system e guida passo passo a una mini libreria CRUD senza database." />
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Lezione 2: Node.js, Async, API</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 5 di 5</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="promises-async.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Promises & Async</span></a></li>
+                    <li class="nav-item"><a href="nodejs-v8-eventloop.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Node.js, V8 & Event Loop</span></a></li>
+                    <li class="nav-item"><a href="api-rest.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">API REST</span></a></li>
+                    <li class="nav-item"><a href="esercizi-async-promises.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Esercizi Async & Promises</span></a></li>
+                    <li class="nav-item active"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">📦</span><span class="nav-text">Node.js: Oggetti & CRUD</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="nodejs-oggetti-crud">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>📦 Node.js: Oggetti & CRUD</h1>
+                            <p class="section-description">Conosci gli oggetti globali più usati in Node.js, esplora il modulo <code>fs</code> per lavorare con i file e prepara la tua prima libreria CRUD senza database.</p>
+                        </header>
+
+                        <article class="subsection">
+                            <h2>🧭 Orientarsi nel runtime</h2>
+                            <div class="info-box info">
+                                <h3>Oggetti globali principali</h3>
+                                <ul>
+                                    <li><code>process</code>: informazioni sull'applicazione in esecuzione (variabili d'ambiente, PID, eventi).</li>
+                                    <li><code>__dirname</code>: percorso assoluto della cartella corrente.</li>
+                                    <li><code>__filename</code>: percorso completo del file corrente.</li>
+                                    <li><code>module</code> e <code>exports</code>: gestiscono come condividere funzioni e oggetti tra file.</li>
+                                    <li><code>global</code>: oggetto radice (simile a <code>window</code> nel browser), da usare con moderazione.</li>
+                                </ul>
+                            </div>
+                            <div class="info-box curiosity">
+                                <h3>Termine complesso: CommonJS</h3>
+                                <p>È il sistema di moduli storico di Node.js. Permette di importare/esportare codice con <code>require()</code> e <code>module.exports</code>. Oggi Node supporta anche gli <strong>ES Modules</strong> (<code>import</code>/<code>export</code>), ma CommonJS è ancora molto diffuso.</p>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🗂️ Il modulo fs (File System)</h2>
+                            <p>Il modulo <code>fs</code> permette di leggere, creare, aggiornare ed eliminare file. Esistono versioni <strong>sincrone</strong> e <strong>asincrone</strong>. Preferiamo l'uso asincrono per non bloccare l'event loop.</p>
+                            <pre><code>const fs = require("fs/promises");
+
+async function leggiFile(percorso) {
+  try {
+    const contenuto = await fs.readFile(percorso, "utf-8");
+    console.log(contenuto);
+  } catch (errore) {
+    console.error("Impossibile leggere il file", errore.message);
+  }
+}</code></pre>
+                            <div class="info-box success">
+                                <h3>Metodi utili di fs/promises</h3>
+                                <ul>
+                                    <li><code>readFile</code>: legge un file e restituisce il contenuto.</li>
+                                    <li><code>writeFile</code>: crea o sovrascrive un file.</li>
+                                    <li><code>appendFile</code>: aggiunge dati alla fine di un file.</li>
+                                    <li><code>mkdir</code> / <code>rm</code>: crea o rimuove directory e file.</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>📚 Creiamo una mini libreria</h2>
+                            <p>Obiettivo: costruire una libreria che gestisce un archivio di libri salvato in un file JSON. Implementeremo le operazioni CRUD (Create, Read, Update, Delete) senza database.</p>
+                            <div class="steps">
+                                <div class="step">
+                                    <h3>1. Struttura del progetto</h3>
+                                    <p>Crea una cartella <code>library</code> con due file: <code>books.json</code> (inizialmente <code>[]</code>) e <code>library.js</code>.</p>
+                                </div>
+                                <div class="step">
+                                    <h3>2. Funzioni CRUD</h3>
+                                    <ul>
+                                        <li><strong>Create:</strong> aggiungi un libro con ID univoco.</li>
+                                        <li><strong>Read:</strong> restituisci l'elenco completo o un singolo libro.</li>
+                                        <li><strong>Update:</strong> aggiorna titolo/autore di un libro esistente.</li>
+                                        <li><strong>Delete:</strong> rimuovi un libro per ID.</li>
+                                    </ul>
+                                </div>
+                                <div class="step">
+                                    <h3>3. Salvataggio su file</h3>
+                                    <p>Usa <code>fs.readFile</code> e <code>fs.writeFile</code> per sincronizzare l'array in memoria con il file <code>books.json</code>.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🛠️ Esempio di implementazione</h2>
+                                                        <pre><code>const fs = require("fs/promises");
+const path = require("path");
+const { randomUUID } = require("crypto");
+
+const PATH = path.resolve(__dirname, "books.json");
+
+async function leggiCatalogo() {
+    const dati = await fs.readFile(PATH, "utf-8");
+    return JSON.parse(dati);
+}
+
+async function salvaCatalogo(catalogo) {
+    await fs.writeFile(PATH, JSON.stringify(catalogo, null, 2));
+}
+
+async function aggiungiLibro(libro) {
+    const catalogo = await leggiCatalogo();
+    const nuovoLibro = { id: randomUUID(), ...libro };
+    catalogo.push(nuovoLibro);
+    await salvaCatalogo(catalogo);
+    return nuovoLibro;
+}</code></pre>
+                                                        <div class="info-box warning">
+                                                                <h3>Nota sulle versioni Node</h3>
+                                                                <p><code>randomUUID()</code> è disponibile da Node.js 14.17. In versioni precedenti puoi installare il pacchetto <code>uuid</code> con <code>npm install uuid</code> e usare <code>const { v4: uuid } = require("uuid");</code>.</p>
+                                                        </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🧪 Attività per la classe</h2>
+                            <ol class="numbered-list">
+                                <li>Implementa tutte le funzioni CRUD.</li>
+                                <li>Aggiungi un comando CLI (<code>node library.js add "Titolo" "Autore"</code>).</li>
+                                <li>Gestisci gli errori: libro non trovato, file non accessibile.</li>
+                                <li>Bonus: ordina i libri per titolo prima di salvarli.</li>
+                            </ol>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>📚 Glossario</h2>
+                            <dl class="definition-list">
+                                <div>
+                                    <dt>CRUD</dt>
+                                    <dd>Acronimo per Create, Read, Update, Delete: operazioni fondamentali sui dati.</dd>
+                                </div>
+                                <div>
+                                    <dt>JSON</dt>
+                                    <dd>Formato testuale per rappresentare oggetti JavaScript. Facile da leggere e scambiare.</dd>
+                                </div>
+                                <div>
+                                    <dt>I/O</dt>
+                                    <dd>Input/Output: lettura e scrittura su risorse esterne (file, rete).</dd>
+                                </div>
+                                <div>
+                                    <dt>CLI</dt>
+                                    <dd>Command Line Interface: modalità per usare il programma da terminale.</dd>
+                                </div>
+                            </dl>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>📦 Caso reale: inventory per libreria indipendente</h2>
+                            <p>Una piccola libreria di quartiere usa Node.js su un Raspberry Pi per tenere traccia dei libri in magazzino. Il personale può aggiungere rapidamente nuovi arrivi o segnare i titoli venduti senza un database complesso.</p>
+                            <div class="info-box success">
+                                <h3>Workflow operativo</h3>
+                                <ul>
+                                    <li>Alla consegna dei libri il commesso esegue <code>node library.js add "Il nome della rosa" "Eco"</code>.</li>
+                                    <li>Ogni sera il comando <code>node library.js list --format=table</code> stampa l'inventario per controllare gli scaffali.</li>
+                                    <li>Quando un titolo finisce, <code>node library.js remove --id &lt;uuid&gt;</code> aggiorna il catalogo e libera spazio a magazzino.</li>
+                                </ul>
+                            </div>
+                            <div class="info-box curiosity">
+                                <h3>Benefici immediati</h3>
+                                <ul>
+                                    <li>Niente installazioni complesse: basta Node.js e due file.</li>
+                                    <li>I dati sono in formato JSON, facile da condividere con un gestionale più avanzato in futuro.</li>
+                                    <li>Il codice è estendibile: in un secondo momento si può esporre un'API REST usando Express.</li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="esercizi-async-promises.html">← Sezione precedente: Esercizi Async & Promises</a>
+                        <a class="btn btn--primary" href="../../index.html">Concludi lezione →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../app.js"></script>
+</body>
+</html>
