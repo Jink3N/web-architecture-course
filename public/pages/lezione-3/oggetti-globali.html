@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oggetti Globali Node.js - Lezione 3</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="intro-riepilogo.html" class="nav-link"><span class="nav-icon">📖</span><span class="nav-text">Intro e Riepilogo</span></a></li>
+                    <li class="nav-item"><a href="moduli-nodejs.html" class="nav-link"><span class="nav-icon">📦</span><span class="nav-text">Moduli in Node.js</span></a></li>
+                    <li class="nav-item"><a href="package-json.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Package.json & NPM</span></a></li>
+                    <li class="nav-item active"><a href="oggetti-globali.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Oggetti Globali</span></a></li>
+                    <li class="nav-item"><a href="stream-filesystem.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Stream & File System</span></a></li>
+                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">💾</span><span class="nav-text">Oggetti & CRUD</span></a></li>
+                    <li class="nav-item"><a href="esercizi-lezione3.html" class="nav-link"><span class="nav-icon">✏️</span><span class="nav-text">Esercizi Pratici</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="content-container">
+                <section class="content-section active">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>🌐 Oggetti Globali in Node.js</h1>
+                            <p>Strumenti essenziali disponibili ovunque: process, Buffer, __dirname e molto altro</p>
+                        </header>
+
+                        <article class="subsection">
+                            <h2>🔧 L'oggetto process</h2>
+                            <p>Rappresenta il processo Node.js corrente. Docs: <a href="https://nodejs.org/docs/latest/api/process.html" target="_blank">Node.js Process</a></p>
+                            
+                            <pre><code>// Informazioni ambiente
+console.log(process.version);        // v18.16.0
+console.log(process.platform);       // linux, darwin, win32
+console.log(process.arch);           // x64, arm64
+console.log(process.pid);            // ID processo
+
+// Variabili d'ambiente
+console.log(process.env.NODE_ENV);   // development, production
+console.log(process.env.PORT);       // 3000
+
+// Argomenti linea comando
+// node app.js --port 3000 -v
+console.log(process.argv);
+// ['node', '/path/to/app.js', '--port', '3000', '-v']
+
+// Directory e file correnti
+console.log(process.cwd());          // Working directory
+console.log(__dirname);              // Directory del file
+console.log(__filename);             // Path completo file
+
+// Uscita dal processo
+process.exit(0);   // Successo
+process.exit(1);   // Errore
+
+// Eventi processo
+process.on('exit', (code) => {
+    console.log('Uscita con codice:', code);
+});
+
+process.on('uncaughtException', (err) => {
+    console.error('Errore non gestito:', err);
+    process.exit(1);
+});</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>💾 Buffer: gestire dati binari</h2>
+                            <p>Buffer gestisce dati binari (immagini, video, file). Docs: <a href="https://nodejs.org/docs/latest/api/buffer.html" target="_blank">Node.js Buffer</a></p>
+                            
+                            <pre><code>// Creare Buffer
+const buf1 = Buffer.from('Hello World');
+const buf2 = Buffer.from([72, 101, 108, 108, 111]);
+const buf3 = Buffer.alloc(10);  // 10 bytes vuoti
+const buf4 = Buffer.allocUnsafe(10);  // Non inizializzato (veloce)
+
+// Leggere e scrivere
+buf1.toString();                  // 'Hello World'
+buf1.toString('hex');             // '48656c6c6f20576f726c64'
+buf1.toString('base64');          // 'SGVsbG8gV29ybGQ='
+
+// Manipolazione
+console.log(buf1.length);         // 11
+console.log(buf1[0]);             // 72 (codice ASCII 'H')
+buf1[0] = 74;                     // Modifica in 'J'
+
+// Concatenazione
+const buf5 = Buffer.concat([buf1, buf2]);
+
+// Confronto
+buf1.equals(buf2);                // true se identici
+Buffer.compare(buf1, buf2);       // -1, 0, 1</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>⏱️ Timer globali</h2>
+                            <pre><code>// setTimeout: esegue dopo N millisecondi
+const timeout = setTimeout(() => {
+    console.log('Eseguito dopo 2 secondi');
+}, 2000);
+clearTimeout(timeout);  // Annulla
+
+// setInterval: esegue ogni N millisecondi
+const interval = setInterval(() => {
+    console.log('Ogni secondo');
+}, 1000);
+clearInterval(interval);  // Ferma
+
+// setImmediate: esegue nel prossimo ciclo event loop
+setImmediate(() => {
+    console.log('Immediato');
+});
+
+// process.nextTick: priorità massima (prima di I/O)
+process.nextTick(() => {
+    console.log('Next tick');
+});</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🌐 URL e URLSearchParams</h2>
+                            <p>API standard per manipolare URL. Docs: <a href="https://nodejs.org/docs/latest/api/url.html" target="_blank">Node.js URL</a></p>
+                            
+                            <pre><code>const url = new URL('https://api.example.com/users?page=2&limit=10');
+
+console.log(url.protocol);   // 'https:'
+console.log(url.hostname);   // 'api.example.com'
+console.log(url.pathname);   // '/users'
+console.log(url.search);     // '?page=2&limit=10'
+
+// Query parameters
+const params = url.searchParams;
+console.log(params.get('page'));    // '2'
+console.log(params.get('limit'));   // '10'
+params.append('sort', 'name');
+params.delete('page');
+console.log(url.toString());        // URL modificato</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>📊 Console avanzata</h2>
+                            <pre><code>// Logging standard
+console.log('Info');
+console.error('Errore');
+console.warn('Avviso');
+
+// Tabelle
+console.table([
+    { nome: 'Mario', eta: 30 },
+    { nome: 'Luigi', eta: 28 }
+]);
+
+// Timing
+console.time('operazione');
+// ... codice ...
+console.timeEnd('operazione');  // operazione: 1.234ms
+
+// Grouping
+console.group('Gruppo 1');
+console.log('Item 1');
+console.log('Item 2');
+console.groupEnd();
+
+// Assert
+console.assert(1 === 2, 'Questo non dovrebbe accadere!');
+
+// Trace
+console.trace('Stack trace completo');</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🔒 TextEncoder / TextDecoder</h2>
+                            <pre><code>// Converti stringa in bytes (UTF-8)
+const encoder = new TextEncoder();
+const bytes = encoder.encode('Hello 世界');
+console.log(bytes);  // Uint8Array
+
+// Converti bytes in stringa
+const decoder = new TextDecoder();
+const text = decoder.decode(bytes);
+console.log(text);   // 'Hello 世界'</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>💡 Best practices</h2>
+                            <div class="info-box success">
+                                <ul>
+                                    <li>✅ Usa <code>process.env</code> per configurazioni, mai hardcoded</li>
+                                    <li>✅ Gestisci <code>uncaughtException</code> per evitare crash improvvisi</li>
+                                    <li>✅ Usa <code>Buffer.alloc()</code> invece di <code>allocUnsafe()</code> per sicurezza</li>
+                                    <li>✅ Pulisci sempre timer con clearTimeout/clearInterval</li>
+                                    <li>✅ Usa <code>console.time()</code> per misurare performance</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>📖 Risorse</h2>
+                            <ul>
+                                <li><a href="https://nodejs.org/docs/latest/api/process.html" target="_blank">Process API</a></li>
+                                <li><a href="https://nodejs.org/docs/latest/api/buffer.html" target="_blank">Buffer API</a></li>
+                                <li><a href="https://nodejs.org/docs/latest/api/globals.html" target="_blank">Global Objects</a></li>
+                            </ul>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="package-json.html">← Package.json & NPM</a>
+                        <a class="btn btn--primary" href="stream-filesystem.html">Stream & File System →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../../app.js"></script>
+</body>
+</html>

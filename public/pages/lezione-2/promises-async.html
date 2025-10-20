@@ -6,6 +6,12 @@
     <title>Promises e Async - Lezione 2</title>
     <meta name="description" content="Introduzione chiara all'asincronia in JavaScript: differenze tra codice sincrono e asincrono, Promise, async/await e gestione degli errori." />
     <link rel="stylesheet" href="../../style.css">
+    <!-- Prism.js Core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" media="(prefers-color-scheme: light)">
+    <!-- Prism.js Plugins CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/toolbar/prism-toolbar.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
 </head>
 <body>
     <header class="app-header">
@@ -150,7 +156,7 @@ fs.readFile("config.json", "utf-8", (err, data) => {
                             </div>
                             <div class="info-box info">
                                 <h3>Costruttore ufficiale</h3>
-                                <p><code>new Promise(executor)</code> è definito nella <a href="https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise-objects" target="_blank" rel="noopener noreferrer">sezione 27.2 dell'ECMAScript® 2024 Language Specification</a>.</p>
+                                <p><code>new Promise(executor)</code> è definito nella <a href="https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise-objects" target="_blank" rel="noopener noreferrer">sezione 27.2 dell'ECMAScript® 2026 Language Specification</a>.</p>
                                 <ul>
                                     <li><strong>executor(resolve, reject)</strong> viene invocato subito e riceve due funzioni:</li>
                                     <li><code>resolve(value)</code> sposta la Promise in stato <em>fulfilled</em> con <code>value</code>.</li>
@@ -417,6 +423,26 @@ setInterval(() => controllaOrdine("ORD-2025-101"), 15000);</code></pre>
             </div>
         </main>
     </div>
-    <script src="../app.js"></script>
+    <script src="../../app.js"></script>
+    <!-- Prism.js Core -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <!-- Prism.js Autoloader per riconoscimento automatico linguaggi -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <!-- Prism.js Plugins -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"></script>
+    <!-- Linguaggi comuni -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-jsx.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-tsx.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moduli in Node.js - Lezione 3</title>
+    <meta name="description" content="Guida completa ai sistemi di moduli in Node.js: CommonJS (require/module.exports) vs ES Modules (import/export)" />
+    <link rel="stylesheet" href="../../style.css">
+    <!-- Prism.js Core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" media="(prefers-color-scheme: light)">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Sezione 2 di 7</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="intro-riepilogo.html" class="nav-link"><span class="nav-icon">📖</span><span class="nav-text">Intro e Riepilogo</span></a></li>
+                    <li class="nav-item active"><a href="moduli-nodejs.html" class="nav-link"><span class="nav-icon">📦</span><span class="nav-text">Moduli in Node.js</span></a></li>
+                    <li class="nav-item"><a href="package-json.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Package.json & NPM</span></a></li>
+                    <li class="nav-item"><a href="oggetti-globali.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Oggetti Globali</span></a></li>
+                    <li class="nav-item"><a href="stream-filesystem.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Stream & File System</span></a></li>
+                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">💾</span><span class="nav-text">Oggetti & CRUD</span></a></li>
+                    <li class="nav-item"><a href="esercizi-lezione3.html" class="nav-link"><span class="nav-icon">✏️</span><span class="nav-text">Esercizi Pratici</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
+                    <span>←</span>
+                </button>
+            </div>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <div class="content-container" id="contentContainer">
+                <section class="content-section active" id="moduli-nodejs">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>📦 Moduli in Node.js</h1>
+                            <p class="section-description">Scopri come organizzare il codice in file separati e riutilizzabili. Impara la differenza tra CommonJS e ES Modules e quando usare ciascun sistema.</p>
+                        </header>
+
+                        <article class="subsection">
+                            <h2>🤔 Perché abbiamo bisogno dei moduli?</h2>
+                            <div class="info-box welcome">
+                                <h3>🏗️ Analogia del Lego</h3>
+                                <p>Immagina di costruire un castello con i Lego. Potresti fare tutto con un unico pezzo gigante, ma sarebbe:</p>
+                                <ul>
+                                    <li>❌ Impossibile da riparare se si rompe</li>
+                                    <li>❌ Difficile da modificare</li>
+                                    <li>❌ Non riutilizzabile per altri progetti</li>
+                                </ul>
+                                <p>I <strong>moduli</strong> sono come mattoncini Lego separati: piccoli, riutilizzabili e facili da combinare!</p>
+                            </div>
+
+                            <div class="principles-grid">
+                                <div class="principle-card advantage">
+                                    <h3>🧩 Riutilizzabilità</h3>
+                                    <p>Scrivi una funzione una volta, usala in 10 progetti diversi senza riscrivere nulla.</p>
+                                </div>
+                                
+                                <div class="principle-card advantage">
+                                    <h3>🔒 Incapsulamento</h3>
+                                    <p>Ogni modulo ha il suo "spazio privato". Le variabili interne non si mescolano con gli altri file.</p>
+                                </div>
+                                
+                                <div class="principle-card advantage">
+                                    <h3>📚 Organizzazione</h3>
+                                    <p>Codice strutturato in file logici: <code>auth.js</code>, <code>database.js</code>, <code>utils.js</code>.</p>
+                                </div>
+                                
+                                <div class="principle-card curiosity">
+                                    <h3>🤝 Collaborazione</h3>
+                                    <p>Team diversi lavorano su moduli diversi senza conflitti nel codice.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>📚 CommonJS: il sistema tradizionale</h2>
+                            <p><strong>CommonJS</strong> è il sistema di moduli originale di Node.js. Usa <code>require()</code> per importare e <code>module.exports</code> o <code>exports</code> per esportare.</p>
+                            
+                            <div class="info-box info">
+                                <h3>📖 Documentazione ufficiale</h3>
+                                <p>CommonJS è documentato in <a href="https://nodejs.org/docs/latest/api/modules.html" target="_blank" rel="noopener noreferrer">Node.js Modules API</a>. È il sistema predefinito quando il file ha estensione <code>.js</code> e il <code>package.json</code> non specifica <code>"type": "module"</code>.</p>
+                            </div>
+
+                            <h3>🔧 Esportare con CommonJS</h3>
+                            <pre><code>// math.js - Modulo che esporta funzioni matematiche
+
+// Metodo 1: Esporta un oggetto con più funzioni
+module.exports = {
+    somma: (a, b) => a + b,
+    sottrai: (a, b) => a - b,
+    moltiplica: (a, b) => a * b
+};
+
+// Metodo 2: Esporta singole funzioni progressive
+exports.dividi = (a, b) => {
+    if (b === 0) throw new Error("Divisione per zero!");
+    return a / b;
+};
+
+// Metodo 3: Esporta una singola funzione default
+module.exports = function calcolatrice(operazione, a, b) {
+    switch(operazione) {
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return a * b;
+        case '/': return a / b;
+        default: throw new Error("Operazione non supportata");
+    }
+};</code></pre>
+
+                            <h3>📥 Importare con CommonJS</h3>
+                            <pre><code>// app.js - File principale che usa il modulo
+
+// Importa tutto l'oggetto esportato
+const math = require('./math');
+console.log(math.somma(5, 3));        // 8
+console.log(math.moltiplica(4, 2));   // 8
+
+// Importa con destructuring (solo le funzioni che servono)
+const { somma, dividi } = require('./math');
+console.log(somma(10, 5));    // 15
+console.log(dividi(10, 2));   // 5
+
+// Importa moduli core di Node.js (senza './')
+const fs = require('fs');
+const path = require('path');
+const http = require('http');</code></pre>
+
+                            <div class="info-box warning">
+                                <h3>⚠️ Differenza tra module.exports e exports</h3>
+                                <ul>
+                                    <li><code>module.exports</code>: l'oggetto VERO che viene esportato. Puoi sovrascriverlo completamente.</li>
+                                    <li><code>exports</code>: un riferimento a <code>module.exports</code>. Puoi solo aggiungere proprietà, NON sostituirlo.</li>
+                                </ul>
+                                <pre><code>// ✅ Funziona
+exports.funzione = () => {};
+
+// ❌ NON funziona - sovrascrive il riferimento locale
+exports = { funzione: () => {} };
+
+// ✅ Funziona - sovrascrive l'esportazione reale
+module.exports = { funzione: () => {} };</code></pre>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🚀 ES Modules (ESM): lo standard moderno</h2>
+                            <p><strong>ES Modules</strong> è il sistema standardizzato da ECMAScript (ES6+), supportato sia da Node.js che dai browser moderni. Usa <code>import</code> e <code>export</code>.</p>
+
+                            <div class="info-box info">
+                                <h3>📖 Documentazione ufficiale</h3>
+                                <ul>
+                                    <li><a href="https://nodejs.org/docs/latest/api/esm.html" target="_blank" rel="noopener noreferrer">Node.js ECMAScript Modules</a> - Guida completa ESM in Node.js</li>
+                                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" target="_blank" rel="noopener noreferrer">MDN JavaScript Modules</a> - Specifica standard ES6</li>
+                                </ul>
+                            </div>
+
+                            <h3>✅ Come attivare ES Modules</h3>
+                            <div class="info-box success">
+                                <p>Per usare ES Modules in Node.js hai 3 opzioni:</p>
+                                <ol>
+                                    <li><strong>Opzione 1:</strong> Aggiungi <code>"type": "module"</code> nel <code>package.json</code></li>
+                                    <li><strong>Opzione 2:</strong> Usa estensione <code>.mjs</code> invece di <code>.js</code></li>
+                                    <li><strong>Opzione 3:</strong> (Per CommonJS in progetto ESM) usa <code>.cjs</code></li>
+                                </ol>
+                            </div>
+
+                            <pre><code>// package.json
+{
+  "name": "mio-progetto",
+  "version": "1.0.0",
+  "type": "module"  // ← Abilita ESM per tutti i file .js
+}</code></pre>
+
+                            <h3>🔧 Esportare con ES Modules</h3>
+                            <pre><code>// math.mjs (o .js con "type": "module")
+
+// Export nominato (named export) - può avere più esportazioni
+export function somma(a, b) {
+    return a + b;
+}
+
+export function sottrai(a, b) {
+    return a - b;
+}
+
+export const PI = 3.14159;
+
+// Esporta tutto insieme
+export { moltiplica, dividi };
+
+function moltiplica(a, b) {
+    return a * b;
+}
+
+function dividi(a, b) {
+    if (b === 0) throw new Error("Divisione per zero!");
+    return a / b;
+}
+
+// Export default - uno solo per modulo
+export default class Calcolatrice {
+    constructor() {
+        this.risultato = 0;
+    }
+    
+    somma(n) {
+        this.risultato += n;
+        return this;
+    }
+    
+    get valore() {
+        return this.risultato;
+    }
+}</code></pre>
+
+                            <h3>📥 Importare con ES Modules</h3>
+                            <pre><code>// app.mjs
+
+// Import nominati specifici
+import { somma, sottrai, PI } from './math.mjs';
+console.log(somma(5, 3));      // 8
+console.log(PI);               // 3.14159
+
+// Import tutto con alias
+import * as math from './math.mjs';
+console.log(math.somma(10, 2));     // 12
+console.log(math.moltiplica(3, 4)); // 12
+
+// Import default
+import Calcolatrice from './math.mjs';
+const calc = new Calcolatrice();
+console.log(calc.somma(5).somma(3).valore); // 8
+
+// Import misto (default + nominati)
+import Calcolatrice, { PI, somma } from './math.mjs';
+
+// Import dinamico (asincrono)
+async function caricaModulo() {
+    const math = await import('./math.mjs');
+    console.log(math.somma(2, 2));
+}</code></pre>
+
+                            <div class="info-box curiosity">
+                                <h3>💡 Import dinamici</h3>
+                                <p>ES Modules supporta import dinamici con <code>import()</code> che restituisce una Promise. Utile per lazy loading o importazioni condizionali:</p>
+                                <pre><code>// Carica modulo solo se necessario
+if (devMode) {
+    const debug = await import('./debug-tools.mjs');
+    debug.enableLogging();
+}</code></pre>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>⚖️ CommonJS vs ES Modules: confronto completo</h2>
+                            
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Caratteristica</th>
+                                        <th>CommonJS</th>
+                                        <th>ES Modules (ESM)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Sintassi Import</strong></td>
+                                        <td><code>const x = require('modulo')</code></td>
+                                        <td><code>import x from 'modulo'</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sintassi Export</strong></td>
+                                        <td><code>module.exports = x</code></td>
+                                        <td><code>export default x</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Caricamento</strong></td>
+                                        <td>Sincrono (bloccante)</td>
+                                        <td>Asincrono (non bloccante)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Dinamicità</strong></td>
+                                        <td>Può usare <code>require()</code> ovunque nel codice</td>
+                                        <td><code>import</code> statico all'inizio, <code>import()</code> dinamico</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Supporto Browser</strong></td>
+                                        <td>❌ No (serve bundler tipo Webpack)</td>
+                                        <td>✅ Sì (nativamente nei browser moderni)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Tree-shaking</strong></td>
+                                        <td>❌ Difficile</td>
+                                        <td>✅ Facile (rimozione codice non usato)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Estensione File</strong></td>
+                                        <td><code>.js</code> (default in Node.js)</td>
+                                        <td><code>.mjs</code> o <code>.js</code> + config</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Compatibilità Legacy</strong></td>
+                                        <td>✅ Eccellente (tutto il vecchio codice)</td>
+                                        <td>⚠️ Solo Node.js 12+ e browser moderni</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Binding</strong></td>
+                                        <td>Copia del valore esportato</td>
+                                        <td>Riferimento live al valore esportato</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="info-box success">
+                                <h3>🎯 Quando usare cosa?</h3>
+                                <p><strong>Usa CommonJS quando:</strong></p>
+                                <ul>
+                                    <li>✅ Lavori su progetti Node.js esistenti che lo usano</li>
+                                    <li>✅ Hai bisogno di import condizionali o dinamici complessi</li>
+                                    <li>✅ Devi supportare versioni vecchie di Node.js (&lt; 12)</li>
+                                </ul>
+                                
+                                <p><strong>Usa ES Modules quando:</strong></p>
+                                <ul>
+                                    <li>✅ Inizi un nuovo progetto</li>
+                                    <li>✅ Vuoi condividere codice tra Node.js e browser</li>
+                                    <li>✅ Vuoi beneficiare di tree-shaking e ottimizzazioni</li>
+                                    <li>✅ Preferisci la sintassi moderna e standardizzata</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🔄 Interoperabilità: mescolare CommonJS e ESM</h2>
+                            <p>È possibile usare moduli CommonJS in progetti ESM e viceversa, ma ci sono alcune regole.</p>
+
+                            <div class="info-box info">
+                                <h3>📖 Da ESM → CommonJS</h3>
+                                <pre><code>// In un file ESM (.mjs o con "type": "module")
+
+// ✅ Funziona - import default
+import fs from 'fs';  // Modulo core CommonJS
+
+// ✅ Funziona - import da package CommonJS
+import express from 'express';
+
+// ❌ NON funziona - import nominati da CommonJS
+import { readFile } from 'fs';  // Errore!
+
+// ✅ Soluzione - usa import default poi destructuring
+import fs from 'fs';
+const { readFile } = fs;</code></pre>
+                            </div>
+
+                            <div class="info-box info">
+                                <h3>📖 Da CommonJS → ESM</h3>
+                                <pre><code>// In un file CommonJS (.cjs o .js senza "type": "module")
+
+// ❌ NON funziona - require() per ESM
+const math = require('./math.mjs');  // Errore!
+
+// ✅ Funziona - import() dinamico (ritorna Promise)
+async function usaModuloESM() {
+    const math = await import('./math.mjs');
+    console.log(math.somma(2, 3));
+}
+
+usaModuloESM();</code></pre>
+                            </div>
+
+                            <div class="info-box warning">
+                                <h3>⚠️ Regole importanti</h3>
+                                <ul>
+                                    <li>ESM può importare CommonJS con <code>import</code> (solo default)</li>
+                                    <li>CommonJS può importare ESM solo con <code>import()</code> dinamico</li>
+                                    <li>Non puoi usare <code>require()</code> in file ESM</li>
+                                    <li>Non puoi usare <code>import</code> top-level in file CommonJS</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🛠️ Esempio pratico: struttura progetto con moduli</h2>
+                            <p>Vediamo come organizzare un progetto reale usando ES Modules.</p>
+
+                            <pre><code>// Struttura del progetto
+my-app/
+├── package.json        ("type": "module")
+├── src/
+│   ├── index.js       (entry point)
+│   ├── config/
+│   │   └── database.js
+│   ├── models/
+│   │   └── User.js
+│   ├── controllers/
+│   │   └── userController.js
+│   ├── routes/
+│   │   └── userRoutes.js
+│   └── utils/
+│       ├── validation.js
+│       └── logger.js
+└── tests/</code></pre>
+
+                            <h3>📁 src/utils/validation.js</h3>
+                            <pre><code>// Funzioni di validazione riutilizzabili
+
+export function isEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+
+export function isStrongPassword(password) {
+    // Almeno 8 caratteri, una maiuscola, un numero
+    return password.length >= 8 && 
+           /[A-Z]/.test(password) && 
+           /[0-9]/.test(password);
+}
+
+export function sanitizeInput(input) {
+    return input.trim().replace(/&lt;script&gt;/gi, '');
+}</code></pre>
+
+                            <h3>📁 src/models/User.js</h3>
+                            <pre><code>// Modello User che usa le validazioni
+
+import { isEmail, isStrongPassword } from '../utils/validation.js';
+
+export default class User {
+    constructor(email, password) {
+        if (!isEmail(email)) {
+            throw new Error('Email non valida');
+        }
+        if (!isStrongPassword(password)) {
+            throw new Error('Password troppo debole');
+        }
+        
+        this.email = email;
+        this.password = password;
+        this.createdAt = new Date();
+    }
+    
+    toJSON() {
+        return {
+            email: this.email,
+            createdAt: this.createdAt
+        };
+        // ⚠️ Non esporre mai la password!
+    }
+}</code></pre>
+
+                            <h3>📁 src/controllers/userController.js</h3>
+                            <pre><code>// Controller che gestisce la logica degli utenti
+
+import User from '../models/User.js';
+import { sanitizeInput } from '../utils/validation.js';
+
+export async function createUser(req, res) {
+    try {
+        const email = sanitizeInput(req.body.email);
+        const password = req.body.password;
+        
+        const user = new User(email, password);
+        
+        // Salva nel database (esempio semplificato)
+        // await db.save(user);
+        
+        res.status(201).json({
+            success: true,
+            user: user.toJSON()
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            error: error.message
+        });
+    }
+}
+
+export async function getUser(req, res) {
+    // Logica per recuperare utente
+}</code></pre>
+
+                            <h3>📁 src/routes/userRoutes.js</h3>
+                            <pre><code>// Route che collegano URL ai controller
+
+import express from 'express';
+import { createUser, getUser } from '../controllers/userController.js';
+
+const router = express.Router();
+
+router.post('/users', createUser);
+router.get('/users/:id', getUser);
+
+export default router;</code></pre>
+
+                            <h3>📁 src/index.js</h3>
+                            <pre><code>// Entry point dell'applicazione
+
+import express from 'express';
+import userRoutes from './routes/userRoutes.js';
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use('/api', userRoutes);
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server attivo su http://localhost:${PORT}`);
+});</code></pre>
+
+                            <div class="info-box success">
+                                <h3>✨ Vantaggi di questa struttura</h3>
+                                <ul>
+                                    <li>✅ <strong>Separazione delle responsabilità:</strong> ogni modulo ha un compito specifico</li>
+                                    <li>✅ <strong>Riutilizzabilità:</strong> <code>validation.js</code> usato da più moduli</li>
+                                    <li>✅ <strong>Testabilità:</strong> ogni funzione esportata è testabile indipendentemente</li>
+                                    <li>✅ <strong>Scalabilità:</strong> facile aggiungere nuove route/controller</li>
+                                    <li>✅ <strong>Manutenibilità:</strong> chiaro dove modificare il codice</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🔍 Risoluzione dei moduli: come Node trova i file</h2>
+                            <p>Quando fai <code>import</code> o <code>require()</code>, Node.js segue regole precise per trovare il modulo.</p>
+
+                            <div class="info-box info">
+                                <h3>📖 Algoritmo di risoluzione</h3>
+                                <p>Documentato in <a href="https://nodejs.org/docs/latest/api/modules.html#modules_all_together" target="_blank" rel="noopener noreferrer">Node.js Module Resolution Algorithm</a></p>
+                            </div>
+
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo import</th>
+                                        <th>Esempio</th>
+                                        <th>Dove cerca Node.js</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Core module</strong></td>
+                                        <td><code>import fs from 'fs'</code></td>
+                                        <td>Moduli built-in di Node.js (priorità massima)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Percorso relativo</strong></td>
+                                        <td><code>import x from './file.js'</code></td>
+                                        <td>Relativo alla posizione del file corrente</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Percorso assoluto</strong></td>
+                                        <td><code>import x from '/home/user/file.js'</code></td>
+                                        <td>Percorso completo del filesystem</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Package node_modules</strong></td>
+                                        <td><code>import express from 'express'</code></td>
+                                        <td>Cerca in <code>node_modules/</code> risalendo nelle cartelle</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="info-box warning">
+                                <h3>⚠️ Differenze ESM vs CommonJS</h3>
+                                <ul>
+                                    <li><strong>ESM:</strong> devi specificare l'estensione <code>.js</code> per file locali</li>
+                                    <li><strong>CommonJS:</strong> l'estensione è opzionale, Node prova <code>.js</code>, <code>.json</code>, <code>.node</code></li>
+                                </ul>
+                                <pre><code>// ESM - estensione obbligatoria
+import utils from './utils.js';  // ✅
+
+// CommonJS - estensione opzionale
+const utils = require('./utils'); // ✅ trova utils.js</code></pre>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>💡 Best practices per i moduli</h2>
+                            <div class="tips-grid">
+                                <div class="tip-card">
+                                    <h3>✅ Un file, una responsabilità</h3>
+                                    <p>Ogni modulo dovrebbe fare una cosa sola e farla bene. Se un file supera le 200-300 righe, considera di spezzarlo.</p>
+                                </div>
+                                
+                                <div class="tip-card">
+                                    <h3>📛 Nomi chiari e descrittivi</h3>
+                                    <p>Il nome del file deve far capire cosa contiene: <code>userValidation.js</code> è meglio di <code>utils.js</code>.</p>
+                                </div>
+                                
+                                <div class="tip-card">
+                                    <h3>🔒 Esporta solo il necessario</h3>
+                                    <p>Mantieni funzioni helper interne private. Esporta solo l'API pubblica del modulo.</p>
+                                </div>
+                                
+                                <div class="tip-card">
+                                    <h3>📁 Struttura logica</h3>
+                                    <p>Organizza i file in cartelle tematiche: <code>models/</code>, <code>controllers/</code>, <code>utils/</code>, <code>routes/</code>.</p>
+                                </div>
+                                
+                                <div class="tip-card">
+                                    <h3>🔄 Evita dipendenze circolari</h3>
+                                    <p>Se A importa B e B importa A, hai un problema. Ristruttura il codice o crea un terzo modulo.</p>
+                                </div>
+                                
+                                <div class="tip-card">
+                                    <h3>📖 Documenta le esportazioni</h3>
+                                    <p>Aggiungi commenti JSDoc per spiegare cosa fa ogni funzione esportata.</p>
+                                </div>
+                            </div>
+
+                            <pre><code>/**
+ * Valida un indirizzo email
+ * @param {string} email - L'email da validare
+ * @returns {boolean} true se valida, false altrimenti
+ * @example
+ *   isEmail('user@example.com')  // true
+ *   isEmail('invalid')            // false
+ */
+export function isEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🐛 Problemi comuni e soluzioni</h2>
+                            
+                            <div class="info-box warning">
+                                <h3>❌ Errore: "Cannot find module"</h3>
+                                <pre><code>Error: Cannot find module './utils'</code></pre>
+                                <p><strong>Cause:</strong></p>
+                                <ul>
+                                    <li>Percorso sbagliato (controlla <code>./</code> o <code>../</code>)</li>
+                                    <li>Estensione mancante in ESM (aggiungi <code>.js</code>)</li>
+                                    <li>File non esiste o nome sbagliato</li>
+                                </ul>
+                            </div>
+
+                            <div class="info-box warning">
+                                <h3>❌ Errore: "Cannot use import statement outside a module"</h3>
+                                <pre><code>SyntaxError: Cannot use import statement outside a module</code></pre>
+                                <p><strong>Soluzione:</strong></p>
+                                <ul>
+                                    <li>Aggiungi <code>"type": "module"</code> nel <code>package.json</code></li>
+                                    <li>Oppure usa estensione <code>.mjs</code></li>
+                                    <li>Oppure usa CommonJS (<code>require</code>)</li>
+                                </ul>
+                            </div>
+
+                            <div class="info-box warning">
+                                <h3>❌ Errore: "require is not defined"</h3>
+                                <pre><code>ReferenceError: require is not defined in ES module scope</code></pre>
+                                <p><strong>Soluzione:</strong></p>
+                                <ul>
+                                    <li>Stai usando <code>require()</code> in un file ESM</li>
+                                    <li>Usa <code>import</code> invece di <code>require</code></li>
+                                    <li>Oppure usa <code>createRequire</code>:</li>
+                                </ul>
+                                <pre><code>import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const config = require('./config.json');</code></pre>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🔗 Risorse ufficiali</h2>
+                            <ul>
+                                <li><a href="https://nodejs.org/docs/latest/api/modules.html" target="_blank" rel="noopener noreferrer">Node.js CommonJS Modules</a> - Documentazione completa CommonJS</li>
+                                <li><a href="https://nodejs.org/docs/latest/api/esm.html" target="_blank" rel="noopener noreferrer">Node.js ECMAScript Modules</a> - Documentazione ESM</li>
+                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" target="_blank" rel="noopener noreferrer">MDN JavaScript Modules</a> - Standard ES6 Modules</li>
+                                <li><a href="https://nodejs.org/docs/latest/api/packages.html" target="_blank" rel="noopener noreferrer">Node.js Packages</a> - Package.json e configurazione moduli</li>
+                            </ul>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="intro-riepilogo.html">← Sezione precedente: Intro e Riepilogo</a>
+                        <a class="btn btn--primary" href="package-json.html">Prossima sezione: Package.json & NPM →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../../app.js"></script>
+    <!-- Prism.js -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+</body>
+</html>

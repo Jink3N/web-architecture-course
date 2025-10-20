@@ -1584,6 +1584,166 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// ==================== PRISM.JS INTEGRATION ====================
+
+/**
+ * Inizializza Prism.js per tutti i blocchi di codice
+ */
+function initializePrismHighlighting() {
+    if (typeof Prism === 'undefined') {
+        console.warn('⚠️ Prism.js non ancora caricato');
+        return;
+    }
+
+    console.log('🎨 Inizializzazione Prism.js...');
+
+    // Configura Prism per normalizzare gli spazi bianchi
+    if (Prism.plugins && Prism.plugins.NormalizeWhitespace) {
+        Prism.plugins.NormalizeWhitespace.setDefaults({
+            'remove-trailing': true,
+            'remove-indent': true,
+            'left-trim': true,
+            'right-trim': true,
+        });
+    }
+
+    // Trova tutti i blocchi <pre><code> senza linguaggio specificato
+    document.querySelectorAll('pre code:not([class*="language-"])').forEach((block) => {
+        // Rileva automaticamente il linguaggio dal contenuto
+        const text = block.textContent || '';
+        let detectedLang = detectLanguage(text);
+        
+        // Aggiungi la classe del linguaggio
+        block.classList.add(`language-${detectedLang}`);
+        
+        // Aggiungi attributo data-language per label
+        const pre = block.closest('pre');
+        if (pre) {
+            pre.classList.add(`language-${detectedLang}`);
+            pre.setAttribute('data-language', detectedLang);
+            pre.classList.add('line-numbers'); // Abilita numerazione righe
+        }
+    });
+
+    // Trova blocchi che hanno già una classe di linguaggio
+    document.querySelectorAll('pre[class*="language-"]').forEach((pre) => {
+        const match = pre.className.match(/language-(\w+)/);
+        if (match && match[1]) {
+            pre.setAttribute('data-language', match[1]);
+            if (!pre.classList.contains('line-numbers')) {
+                pre.classList.add('line-numbers');
+            }
+        }
+    });
+
+    // Evidenzia tutti i blocchi di codice
+    Prism.highlightAll();
+
+    console.log('✅ Prism.js inizializzato con successo');
+}
+
+/**
+ * Rileva automaticamente il linguaggio dal contenuto del codice
+ * @param {string} code - Il codice da analizzare
+ * @returns {string} - Il linguaggio rilevato
+ */
+function detectLanguage(code) {
+    if (!code) return 'text';
+
+    // JavaScript patterns
+    if (/\b(const|let|var|function|=>|async|await|import|export|class)\b/.test(code) ||
+        /console\.(log|error|warn)/.test(code) ||
+        /(querySelector|addEventListener|fetch|Promise)/.test(code)) {
+        return 'javascript';
+    }
+
+    // TypeScript patterns
+    if (/\b(interface|type|enum|namespace|declare)\b/.test(code) ||
+        /:\s*(string|number|boolean|any|void)/.test(code)) {
+        return 'typescript';
+    }
+
+    // HTML patterns
+    if (/<(!DOCTYPE|html|head|body|div|span|p|a|img|script|link)[\s>]/.test(code) ||
+        /<\/[a-z]+>/.test(code)) {
+        return 'markup';
+    }
+
+    // CSS patterns
+    if (/\{[^}]*[a-z-]+\s*:\s*[^}]+\}/.test(code) ||
+        /@(media|keyframes|import)/.test(code) ||
+        /\.([\w-]+)\s*\{/.test(code)) {
+        return 'css';
+    }
+
+    // JSON patterns
+    if (/^\s*[\{\[]/.test(code) && /[\}\]]\s*$/.test(code)) {
+        try {
+            JSON.parse(code);
+            return 'json';
+        } catch (e) {
+            // Non è JSON valido
+        }
+    }
+
+    // Python patterns
+    if (/\b(def|class|import|from|if|elif|else|for|while|in|range|print)\b/.test(code) ||
+        /#.*\n/.test(code)) {
+        return 'python';
+    }
+
+    // SQL patterns
+    if (/\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|WHERE|JOIN|TABLE)\b/i.test(code)) {
+        return 'sql';
+    }
+
+    // Bash/Shell patterns
+    if (/^\s*#!/.test(code) ||
+        /\b(echo|cd|ls|mkdir|rm|grep|cat|chmod|sudo)\b/.test(code) ||
+        /\$\(|\$\{/.test(code)) {
+        return 'bash';
+    }
+
+    // JSX/TSX patterns
+    if (/<[A-Z][\w]*/.test(code) && /\breturn\s*\(/.test(code)) {
+        return code.includes('interface') || code.includes('type') ? 'tsx' : 'jsx';
+    }
+
+    // Default to plain text
+    return 'text';
+}
+
+/**
+ * Re-inizializza Prism quando viene caricato nuovo contenuto dinamicamente
+ */
+function reinitializePrismForNewContent() {
+    // Usa MutationObserver per rilevare nuovo contenuto
+    if (typeof MutationObserver !== 'undefined') {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === 1) { // Element node
+                        const codeBlocks = node.querySelectorAll ? 
+                            node.querySelectorAll('pre code') : [];
+                        
+                        if (codeBlocks.length > 0) {
+                            console.log('🔄 Nuovo contenuto rilevato, re-inizializzo Prism...');
+                            setTimeout(() => initializePrismHighlighting(), 100);
+                        }
+                    }
+                });
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+
+        console.log('👁️ MutationObserver attivo per Prism.js');
+    }
+}
+
 // ==================== AUTO-INITIALIZATION ====================
 
 // Inizializza l'app quando il DOM è pronto
@@ -1615,4 +1775,24 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         document.body.appendChild(errorDiv);
     }
+});
+
+// Inizializza Prism.js dopo che tutto è caricato
+window.addEventListener('load', () => {
+    // Attendi che Prism.js sia completamente caricato
+    const checkPrism = setInterval(() => {
+        if (typeof Prism !== 'undefined') {
+            clearInterval(checkPrism);
+            initializePrismHighlighting();
+            reinitializePrismForNewContent();
+        }
+    }, 100);
+
+    // Timeout di sicurezza
+    setTimeout(() => {
+        clearInterval(checkPrism);
+        if (typeof Prism === 'undefined') {
+            console.warn('⚠️ Prism.js non caricato dopo 5 secondi');
+        }
+    }, 5000);
 });

@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comandi CLI in Node.js - Lezione 3</title>
+    <meta name="description" content="Guida completa per creare applicazioni CLI professionali con Node.js: process.argv, librerie CLI e best practices" />
+    <link rel="stylesheet" href="../../style.css">
+    <!-- Prism.js Core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" media="(prefers-color-scheme: light)">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="intro-riepilogo.html" class="nav-link"><span class="nav-icon">📖</span><span class="nav-text">Intro e Riepilogo</span></a></li>
+                    <li class="nav-item"><a href="moduli-nodejs.html" class="nav-link"><span class="nav-icon">📦</span><span class="nav-text">Moduli in Node.js</span></a></li>
+                    <li class="nav-item"><a href="package-json.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Package.json & NPM</span></a></li>
+                    <li class="nav-item"><a href="oggetti-globali.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Oggetti Globali</span></a></li>
+                    <li class="nav-item"><a href="stream-filesystem.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Stream & File System</span></a></li>
+                    <li class="nav-item active"><a href="comandi-cli.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Comandi CLI</span></a></li>
+                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">💾</span><span class="nav-text">Oggetti & CRUD</span></a></li>
+                    <li class="nav-item"><a href="esercizi-lezione3.html" class="nav-link"><span class="nav-icon">✏️</span><span class="nav-text">Esercizi Pratici</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="content-container">
+                <section class="content-section active">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>💻 Comandi CLI Personalizzati in Node.js</h1>
+                            <p class="section-description">Impara a creare applicazioni a riga di comando professionali: da script semplici a tool avanzati con argomenti, opzioni e colori</p>
+                        </header>
+
+                        <article class="subsection">
+                            <h2>🎯 Cos'è una CLI?</h2>
+                            <div class="info-box welcome">
+                                <h3>Command Line Interface</h3>
+                                <p>Una <strong>CLI</strong> (Command Line Interface) è un'applicazione che si esegue dal terminale invece che con interfaccia grafica. Esempi famosi: <code>git</code>, <code>npm</code>, <code>docker</code></p>
+                                <p><strong>Perché creare CLI?</strong></p>
+                                <ul>
+                                    <li>✅ Automazione di task ripetitivi</li>
+                                    <li>✅ Tool di sviluppo per il team</li>
+                                    <li>✅ Script di deployment e configurazione</li>
+                                    <li>✅ Utility per gestire dati (import/export, backup)</li>
+                                    <li>✅ Perfetti per server senza GUI</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🔧 Il metodo base: process.argv</h2>
+                            <p><code>process.argv</code> è un array che contiene tutti gli argomenti passati al comando. Documentazione: <a href="https://nodejs.org/docs/latest/api/process.html#processargv" target="_blank">Node.js process.argv</a></p>
+
+                            <h3>Struttura di process.argv</h3>
+                            <pre><code>// Comando: node app.js create user --name Mario --age 30
+
+console.log(process.argv);
+// Output:
+[
+  '/usr/bin/node',           // [0] Path di Node.js
+  '/path/to/app.js',         // [1] Path dello script
+  'create',                  // [2] Primo argomento
+  'user',                    // [3] Secondo argomento
+  '--name',                  // [4] Flag
+  'Mario',                   // [5] Valore del flag
+  '--age',                   // [6] Flag
+  '30'                       // [7] Valore del flag
+]</code></pre>
+
+                            <h3>Esempio base: calcolatrice CLI</h3>
+                            <pre><code>// calc.js - Uso: node calc.js add 5 3
+
+const [,, operation, num1, num2] = process.argv;
+
+const a = parseFloat(num1);
+const b = parseFloat(num2);
+
+if (isNaN(a) || isNaN(b)) {
+    console.error('❌ Errore: Inserisci numeri validi');
+    process.exit(1);
+}
+
+let result;
+
+switch(operation) {
+    case 'add':
+        result = a + b;
+        break;
+    case 'subtract':
+        result = a - b;
+        break;
+    case 'multiply':
+        result = a * b;
+        break;
+    case 'divide':
+        if (b === 0) {
+            console.error('❌ Errore: Divisione per zero');
+            process.exit(1);
+        }
+        result = a / b;
+        break;
+    default:
+        console.error('❌ Operazione non supportata');
+        console.log('Usa: add, subtract, multiply, divide');
+        process.exit(1);
+}
+
+console.log(`✅ Risultato: ${result}`);</code></pre>
+
+                            <h3>Test della calcolatrice</h3>
+                            <pre><code>$ node calc.js add 10 5
+✅ Risultato: 15
+
+$ node calc.js multiply 4 3
+✅ Risultato: 12
+
+$ node calc.js divide 10 0
+❌ Errore: Divisione per zero</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>⚙️ Parsing argomenti avanzato</h2>
+                            <p>Per CLI complesse, conviene parsare flag e opzioni in modo strutturato</p>
+
+                            <h3>Parser manuale semplice</h3>
+                            <pre><code>// parseArgs.js - Utility per parsare argomenti
+
+export function parseArgs(argv) {
+    const args = {
+        _: [],        // Argomenti posizionali
+        flags: {}     // Flag nominati
+    };
+    
+    for (let i = 2; i < argv.length; i++) {
+        const arg = argv[i];
+        
+        if (arg.startsWith('--')) {
+            // Flag lungo: --name=Mario o --name Mario
+            const flagName = arg.slice(2);
+            
+            if (flagName.includes('=')) {
+                const [key, value] = flagName.split('=');
+                args.flags[key] = value;
+            } else {
+                // Valore nel prossimo argomento
+                const nextArg = argv[i + 1];
+                if (nextArg && !nextArg.startsWith('-')) {
+                    args.flags[flagName] = nextArg;
+                    i++; // Salta il prossimo
+                } else {
+                    args.flags[flagName] = true; // Flag booleano
+                }
+            }
+        } else if (arg.startsWith('-')) {
+            // Flag corto: -v
+            const flagName = arg.slice(1);
+            args.flags[flagName] = true;
+        } else {
+            // Argomento posizionale
+            args._.push(arg);
+        }
+    }
+    
+    return args;
+}
+
+// Utilizzo
+const args = parseArgs(process.argv);
+console.log(args);
+
+// Comando: node app.js create user --name Mario --age 30 -v
+// Output: {
+//   _: ['create', 'user'],
+//   flags: { name: 'Mario', age: '30', v: true }
+// }</code></pre>
+
+                            <h3>Esempio: User Manager CLI</h3>
+                            <pre><code>// user-cli.js
+import { parseArgs } from './parseArgs.js';
+
+const args = parseArgs(process.argv);
+const [command, entity] = args._;
+
+if (command === 'create' && entity === 'user') {
+    const { name, email, age } = args.flags;
+    
+    if (!name || !email) {
+        console.error('❌ --name e --email sono obbligatori');
+        process.exit(1);
+    }
+    
+    const user = {
+        id: Date.now(),
+        name,
+        email,
+        age: age ? parseInt(age) : null,
+        createdAt: new Date()
+    };
+    
+    console.log('✅ Utente creato:', user);
+    
+    // Qui salveresti su file/database
+} else {
+    console.log('Uso: node user-cli.js create user --name <nome> --email <email> [--age <eta>]');
+}
+
+// Test:
+// node user-cli.js create user --name Mario --email mario@example.com --age 30</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>📦 Librerie CLI professionali</h2>
+                            <p>Per CLI complesse, usa librerie specializzate che gestiscono parsing, validazione e help automatico</p>
+
+                            <h3>Commander.js - La più popolare</h3>
+                            <pre><code>// Installazione
+npm install commander
+
+// app.js con Commander
+import { program } from 'commander';
+
+program
+    .name('mytool')
+    .description('Tool CLI per gestire utenti')
+    .version('1.0.0');
+
+program
+    .command('create')
+    .description('Crea un nuovo utente')
+    .requiredOption('-n, --name <name>', 'Nome utente')
+    .requiredOption('-e, --email <email>', 'Email utente')
+    .option('-a, --age <age>', 'Età utente', parseInt)
+    .option('-v, --verbose', 'Output dettagliato')
+    .action((options) => {
+        if (options.verbose) {
+            console.log('Creazione utente con opzioni:', options);
+        }
+        
+        const user = {
+            name: options.name,
+            email: options.email,
+            age: options.age || null
+        };
+        
+        console.log('✅ Utente creato:', user);
+    });
+
+program
+    .command('list')
+    .description('Lista tutti gli utenti')
+    .option('-l, --limit <number>', 'Numero massimo risultati', 10)
+    .action((options) => {
+        console.log(`Mostro ${options.limit} utenti...`);
+    });
+
+program.parse();
+
+// Help automatico:
+// node app.js --help
+// node app.js create --help</code></pre>
+
+                            <h3>Yargs - Alternativa potente</h3>
+                            <pre><code>// Installazione
+npm install yargs
+
+// app.js con Yargs
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+
+yargs(hideBin(process.argv))
+    .command('create <name>', 'Crea utente', (yargs) => {
+        return yargs
+            .positional('name', {
+                describe: 'Nome utente',
+                type: 'string'
+            })
+            .option('email', {
+                alias: 'e',
+                type: 'string',
+                demandOption: true,
+                describe: 'Email utente'
+            })
+            .option('age', {
+                alias: 'a',
+                type: 'number',
+                describe: 'Età utente'
+            });
+    }, (argv) => {
+        console.log('Creo utente:', argv.name, argv.email);
+    })
+    .command('delete <id>', 'Elimina utente', (yargs) => {
+        return yargs.positional('id', {
+            describe: 'ID utente',
+            type: 'number'
+        });
+    }, (argv) => {
+        console.log('Elimino utente:', argv.id);
+    })
+    .demandCommand(1, 'Devi specificare un comando')
+    .help()
+    .argv;</code></pre>
+
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Libreria</th>
+                                        <th>Pro</th>
+                                        <th>Contro</th>
+                                        <th>Usa quando</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Commander</strong></td>
+                                        <td>Semplice, leggero, popolare</td>
+                                        <td>Meno feature avanzate</td>
+                                        <td>CLI medio-semplici</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Yargs</strong></td>
+                                        <td>Molto potente, validazione built-in</td>
+                                        <td>Più complesso, più pesante</td>
+                                        <td>CLI complesse con tante opzioni</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Manuale</strong></td>
+                                        <td>Zero dipendenze, massimo controllo</td>
+                                        <td>Più codice da scrivere</td>
+                                        <td>CLI semplicissime o learning</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🎨 Rendere la CLI bella: colori e output</h2>
+                            
+                            <h3>Chalk - Colori nel terminale</h3>
+                            <pre><code>// Installazione
+npm install chalk
+
+// Utilizzo
+import chalk from 'chalk';
+
+console.log(chalk.green('✅ Successo!'));
+console.log(chalk.red('❌ Errore!'));
+console.log(chalk.yellow('⚠️  Attenzione'));
+console.log(chalk.blue('ℹ️  Info'));
+
+console.log(chalk.bold.bgBlue.white(' IMPORTANTE '));
+
+// Combinazioni
+console.log(chalk.bold.underline.green('Testo evidenziato'));
+console.log(chalk.rgb(255, 136, 0)('Arancione custom'));</code></pre>
+
+                            <h3>Ora - Spinner animati</h3>
+                            <pre><code>// Installazione
+npm install ora
+
+import ora from 'ora';
+
+const spinner = ora('Caricamento dati...').start();
+
+setTimeout(() => {
+    spinner.color = 'yellow';
+    spinner.text = 'Elaborazione...';
+}, 1000);
+
+setTimeout(() => {
+    spinner.succeed('Completato!');
+    // o spinner.fail('Errore!');
+    // o spinner.warn('Attenzione!');
+    // o spinner.info('Info');
+}, 2000);</code></pre>
+
+                            <h3>Inquirer - Input interattivi</h3>
+                            <pre><code>// Installazione
+npm install inquirer
+
+import inquirer from 'inquirer';
+
+const answers = await inquirer.prompt([
+    {
+        type: 'input',
+        name: 'name',
+        message: 'Nome utente:',
+        validate: (input) => input.length > 0 || 'Nome obbligatorio'
+    },
+    {
+        type: 'password',
+        name: 'password',
+        message: 'Password:',
+        mask: '*'
+    },
+    {
+        type: 'list',
+        name: 'role',
+        message: 'Ruolo:',
+        choices: ['Admin', 'User', 'Guest']
+    },
+    {
+        type: 'confirm',
+        name: 'newsletter',
+        message: 'Iscriviti alla newsletter?',
+        default: true
+    }
+]);
+
+console.log('Risposte:', answers);</code></pre>
+
+                            <h3>CLI completa con tutti gli extra</h3>
+                            <pre><code>// user-tool.js - CLI professionale
+import { program } from 'commander';
+import chalk from 'chalk';
+import ora from 'ora';
+import inquirer from 'inquirer';
+import fs from 'fs/promises';
+
+program
+    .name('user-tool')
+    .description('Gestione utenti')
+    .version('1.0.0');
+
+program
+    .command('create')
+    .description('Crea nuovo utente')
+    .option('-i, --interactive', 'Modalità interattiva')
+    .action(async (options) => {
+        let userData;
+        
+        if (options.interactive) {
+            // Modalità interattiva
+            userData = await inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'name',
+                    message: 'Nome:',
+                    validate: (input) => input.length > 0
+                },
+                {
+                    type: 'input',
+                    name: 'email',
+                    message: 'Email:',
+                    validate: (input) => input.includes('@')
+                },
+                {
+                    type: 'number',
+                    name: 'age',
+                    message: 'Età:'
+                }
+            ]);
+        } else {
+            console.error(chalk.red('Usa --interactive per modalità guidata'));
+            return;
+        }
+        
+        const spinner = ora('Creazione utente...').start();
+        
+        // Simula operazione async
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        const user = {
+            id: Date.now(),
+            ...userData,
+            createdAt: new Date()
+        };
+        
+        // Salva su file
+        try {
+            const users = JSON.parse(await fs.readFile('users.json', 'utf-8'));
+            users.push(user);
+            await fs.writeFile('users.json', JSON.stringify(users, null, 2));
+            
+            spinner.succeed(chalk.green('Utente creato con successo!'));
+            console.log(chalk.gray(JSON.stringify(user, null, 2)));
+        } catch (error) {
+            spinner.fail(chalk.red('Errore durante il salvataggio'));
+            console.error(error.message);
+        }
+    });
+
+program.parse();</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🔐 Rendere il comando globale</h2>
+                            <p>Puoi installare la tua CLI globalmente come <code>npm</code> o <code>git</code></p>
+
+                            <h3>1. Aggiungi shebang</h3>
+                            <pre><code>#!/usr/bin/env node
+
+// Il resto del codice...
+import { program } from 'commander';</code></pre>
+
+                            <h3>2. Configura package.json</h3>
+                            <pre><code>{
+  "name": "my-cli-tool",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+    "mytool": "./bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "lib"
+  ]
+}</code></pre>
+
+                            <h3>3. Rendi eseguibile</h3>
+                            <pre><code># Linux/Mac
+chmod +x bin/cli.js</code></pre>
+
+                            <h3>4. Installa globalmente</h3>
+                            <pre><code># Dalla cartella del progetto
+npm link
+
+# Ora puoi usare il comando ovunque
+mytool create --name Mario
+
+# Per disinstallare
+npm unlink -g my-cli-tool</code></pre>
+
+                            <h3>5. Pubblica su NPM (opzionale)</h3>
+                            <pre><code># Crea account su npmjs.com
+npm login
+
+# Pubblica il package
+npm publish
+
+# Altri possono installare con
+npm install -g my-cli-tool</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>💡 Best Practices per CLI</h2>
+                            <div class="tips-grid">
+                                <div class="tip-card">
+                                    <h3>✅ Help sempre disponibile</h3>
+                                    <p>Implementa <code>--help</code> e <code>-h</code> per ogni comando. L'utente deve capire come usare il tool senza documentazione esterna.</p>
+                                </div>
+                                
+                                <div class="tip-card">
+                                    <h3>📝 Output chiaro</h3>
+                                    <p>Usa emoji e colori per distinguere successo (✅ verde), errori (❌ rosso), warning (⚠️ giallo), info (ℹ️ blu).</p>
+                                </div>
+                                
+                                <div class="tip-card">
+                                    <h3>🔄 Feedback progressivo</h3>
+                                    <p>Per operazioni lunghe usa spinner o progress bar. L'utente deve sapere che qualcosa sta accadendo.</p>
+                                </div>
+                                
+                                <div class="tip-card">
+                                    <h3>⚠️ Gestione errori</h3>
+                                    <p>Mostra messaggi di errore utili, non stack trace criptici. Suggerisci cosa fare per risolvere.</p>
+                                </div>
+                                
+                                <div class="tip-card">
+                                    <h3>🔐 Validazione input</h3>
+                                    <p>Valida SEMPRE l'input utente. Non dare per scontato che sia corretto.</p>
+                                </div>
+                                
+                                <div class="tip-card">
+                                    <h3>📤 Exit code corretti</h3>
+                                    <p><code>process.exit(0)</code> per successo, <code>process.exit(1)</code> per errori. Permette l'uso in script automatici.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🔍 Esempi di CLI famose</h2>
+                            <p>Studia come le CLI popolari gestiscono comandi per trarre ispirazione</p>
+                            
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tool</th>
+                                        <th>Esempio comando</th>
+                                        <th>Cosa imparare</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>git</strong></td>
+                                        <td><code>git commit -m "message"</code></td>
+                                        <td>Sotto-comandi chiari, flag abbreviati</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>npm</strong></td>
+                                        <td><code>npm install express --save</code></td>
+                                        <td>Comandi verbosi ma intuitivi</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>docker</strong></td>
+                                        <td><code>docker run -d -p 80:80 nginx</code></td>
+                                        <td>Flag composte, naming consistente</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>create-react-app</strong></td>
+                                        <td><code>npx create-react-app my-app</code></td>
+                                        <td>Setup interattivo, output colorato</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🎓 Progetto completo: Todo CLI</h2>
+                            <p>Mettiamo tutto insieme in una CLI funzionale completa</p>
+                            
+                            <pre><code>// todo-cli.js
+#!/usr/bin/env node
+
+import { program } from 'commander';
+import chalk from 'chalk';
+import fs from 'fs/promises';
+import path from 'path';
+
+const DATA_FILE = path.join(process.cwd(), 'todos.json');
+
+async function loadTodos() {
+    try {
+        const data = await fs.readFile(DATA_FILE, 'utf-8');
+        return JSON.parse(data);
+    } catch {
+        return [];
+    }
+}
+
+async function saveTodos(todos) {
+    await fs.writeFile(DATA_FILE, JSON.stringify(todos, null, 2));
+}
+
+program
+    .name('todo')
+    .description('Gestione TODO da terminale')
+    .version('1.0.0');
+
+program
+    .command('add <task>')
+    .description('Aggiungi un nuovo task')
+    .option('-p, --priority <level>', 'Priorità (low|medium|high)', 'medium')
+    .action(async (task, options) => {
+        const todos = await loadTodos();
+        const newTodo = {
+            id: Date.now(),
+            task,
+            priority: options.priority,
+            completed: false,
+            createdAt: new Date()
+        };
+        
+        todos.push(newTodo);
+        await saveTodos(todos);
+        
+        console.log(chalk.green('✅ Task aggiunto:'), task);
+    });
+
+program
+    .command('list')
+    .description('Lista tutti i task')
+    .option('-a, --all', 'Mostra anche completati')
+    .action(async (options) => {
+        const todos = await loadTodos();
+        let filtered = todos;
+        
+        if (!options.all) {
+            filtered = todos.filter(t => !t.completed);
+        }
+        
+        if (filtered.length === 0) {
+            console.log(chalk.gray('Nessun task da mostrare'));
+            return;
+        }
+        
+        console.log(chalk.bold('\n📋 TODO LIST\n'));
+        filtered.forEach(todo => {
+            const status = todo.completed ? chalk.green('✓') : chalk.gray('○');
+            const priority = todo.priority === 'high' ? chalk.red('[!]') : 
+                           todo.priority === 'medium' ? chalk.yellow('[·]') : 
+                           chalk.gray('[·]');
+            const text = todo.completed ? chalk.gray.strikethrough(todo.task) : todo.task;
+            
+            console.log(`${status} ${priority} ${text} ${chalk.gray('#' + todo.id)}`);
+        });
+        console.log();
+    });
+
+program
+    .command('done <id>')
+    .description('Segna task come completato')
+    .action(async (id) => {
+        const todos = await loadTodos();
+        const todo = todos.find(t => t.id === parseInt(id));
+        
+        if (!todo) {
+            console.log(chalk.red('❌ Task non trovato'));
+            return;
+        }
+        
+        todo.completed = true;
+        await saveTodos(todos);
+        
+        console.log(chalk.green('✅ Task completato:'), todo.task);
+    });
+
+program
+    .command('remove <id>')
+    .description('Rimuovi un task')
+    .action(async (id) => {
+        let todos = await loadTodos();
+        const index = todos.findIndex(t => t.id === parseInt(id));
+        
+        if (index === -1) {
+            console.log(chalk.red('❌ Task non trovato'));
+            return;
+        }
+        
+        const removed = todos.splice(index, 1)[0];
+        await saveTodos(todos);
+        
+        console.log(chalk.yellow('🗑️  Task rimosso:'), removed.task);
+    });
+
+program.parse();</code></pre>
+
+                            <h3>Utilizzo</h3>
+                            <pre><code># Aggiungi task
+todo add "Studiare Node.js" -p high
+todo add "Fare la spesa"
+
+# Lista task
+todo list
+todo list --all
+
+# Completa task
+todo done 1234567890
+
+# Rimuovi task
+todo remove 1234567890
+
+# Help
+todo --help
+todo add --help</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>📖 Risorse ufficiali</h2>
+                            <ul>
+                                <li><a href="https://nodejs.org/docs/latest/api/process.html#processargv" target="_blank">Node.js process.argv</a></li>
+                                <li><a href="https://github.com/tj/commander.js" target="_blank">Commander.js GitHub</a></li>
+                                <li><a href="https://yargs.js.org/" target="_blank">Yargs Documentation</a></li>
+                                <li><a href="https://github.com/chalk/chalk" target="_blank">Chalk GitHub</a></li>
+                                <li><a href="https://github.com/SBoudrias/Inquirer.js" target="_blank">Inquirer.js</a></li>
+                                <li><a href="https://github.com/sindresorhus/ora" target="_blank">Ora Spinner</a></li>
+                            </ul>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="stream-filesystem.html">← Stream & File System</a>
+                        <a class="btn btn--primary" href="nodejs-oggetti-crud.html">Oggetti & CRUD →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../../app.js"></script>
+    <!-- Prism.js -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+</body>
+</html>

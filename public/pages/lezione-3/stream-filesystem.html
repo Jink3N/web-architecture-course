@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream & File System - Lezione 3</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="header-title">🏗️ Architettura Web</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                <span class="theme-toggle-icon">🌙</span>
+                <span class="theme-toggle-text">Dark</span>
+            </button>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="intro-riepilogo.html" class="nav-link"><span class="nav-icon">📖</span>Intro e Riepilogo</a></li>
+                    <li class="nav-item"><a href="moduli-nodejs.html" class="nav-link"><span class="nav-icon">📦</span>Moduli</a></li>
+                    <li class="nav-item"><a href="package-json.html" class="nav-link"><span class="nav-icon">⚙️</span>Package.json</a></li>
+                    <li class="nav-item"><a href="oggetti-globali.html" class="nav-link"><span class="nav-icon">🌐</span>Oggetti Globali</a></li>
+                    <li class="nav-item active"><a href="stream-filesystem.html" class="nav-link"><span class="nav-icon">🔄</span>Stream & FS</a></li>
+                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">💾</span>CRUD</a></li>
+                    <li class="nav-item"><a href="esercizi-lezione3.html" class="nav-link"><span class="nav-icon">✏️</span>Esercizi</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="content-container">
+                <section class="content-section active">
+                    <div class="section-content">
+                        <header class="section-header">
+                            <h1>🔄 Stream & File System</h1>
+                            <p>Gestire file grandi e flussi di dati in modo efficiente</p>
+                        </header>
+
+                        <article class="subsection">
+                            <h2>📂 File System (fs) Avanzato</h2>
+                            <p>Docs: <a href="https://nodejs.org/docs/latest/api/fs.html" target="_blank">Node.js fs</a></p>
+                            
+                            <pre><code>import fs from 'fs/promises';
+import path from 'path';
+
+// Leggere file
+const content = await fs.readFile('data.txt', 'utf-8');
+const json = await fs.readFile('config.json', 'utf-8');
+const data = JSON.parse(json);
+
+// Scrivere file
+await fs.writeFile('output.txt', 'Hello World');
+await fs.writeFile('data.json', JSON.stringify(data, null, 2));
+
+// Append (aggiungere alla fine)
+await fs.appendFile('log.txt', 'New line\n');
+
+// Copiare file
+await fs.copyFile('source.txt', 'destination.txt');
+
+// Rinominare/spostare
+await fs.rename('old.txt', 'new.txt');
+
+// Cancellare
+await fs.unlink('file.txt');
+await fs.rm('file.txt');  // Alias moderno
+
+// Directory
+await fs.mkdir('new-folder');
+await fs.mkdir('nested/folders', { recursive: true });
+const files = await fs.readdir('./');
+await fs.rmdir('folder');
+await fs.rm('folder', { recursive: true });
+
+// Info file
+const stats = await fs.stat('file.txt');
+console.log(stats.size);          // Dimensione bytes
+console.log(stats.isFile());      // true
+console.log(stats.isDirectory()); // false
+console.log(stats.mtime);         // Data modifica
+
+// Controllare esistenza
+try {
+    await fs.access('file.txt');
+    console.log('File esiste');
+} catch {
+    console.log('File non esiste');
+}</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🌊 Streams: la chiave per file grandi</h2>
+                            <p>Gli stream processano dati "a pezzi" invece di caricare tutto in memoria. Docs: <a href="https://nodejs.org/docs/latest/api/stream.html" target="_blank">Node.js Streams</a></p>
+                            
+                            <h3>Tipi di Stream</h3>
+                            <table class="data-table">
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Descrizione</th>
+                                    <th>Esempi</th>
+                                </tr>
+                                <tr>
+                                    <td>Readable</td>
+                                    <td>Sorgente da leggere</td>
+                                    <td>fs.createReadStream, http.IncomingMessage</td>
+                                </tr>
+                                <tr>
+                                    <td>Writable</td>
+                                    <td>Destinazione dove scrivere</td>
+                                    <td>fs.createWriteStream, http.ServerResponse</td>
+                                </tr>
+                                <tr>
+                                    <td>Duplex</td>
+                                    <td>Entrambi (read + write)</td>
+                                    <td>net.Socket, TCP sockets</td>
+                                </tr>
+                                <tr>
+                                    <td>Transform</td>
+                                    <td>Modifica dati in transito</td>
+                                    <td>zlib.createGzip, crypto streams</td>
+                                </tr>
+                            </table>
+
+                            <h3>Leggere file con stream</h3>
+                            <pre><code>import fs from 'fs';
+
+// File grande (10GB) - solo pochi MB in memoria
+const readStream = fs.createReadStream('huge-file.txt', {
+    encoding: 'utf-8',
+    highWaterMark: 64 * 1024  // 64KB chunks
+});
+
+readStream.on('data', (chunk) => {
+    console.log('Ricevuto chunk:', chunk.length);
+});
+
+readStream.on('end', () => {
+    console.log('Finito!');
+});
+
+readStream.on('error', (err) => {
+    console.error('Errore:', err);
+});</code></pre>
+
+                            <h3>Scrivere file con stream</h3>
+                            <pre><code>const writeStream = fs.createWriteStream('output.txt');
+
+writeStream.write('Prima riga\n');
+writeStream.write('Seconda riga\n');
+writeStream.end('Ultima riga\n');
+
+writeStream.on('finish', () => {
+    console.log('Scrittura completata');
+});</code></pre>
+
+                            <h3>Pipe: collegare stream</h3>
+                            <pre><code>// Copia file efficiente (nessun buffer in memoria)
+const read = fs.createReadStream('input.txt');
+const write = fs.createWriteStream('output.txt');
+read.pipe(write);
+
+// Compressione con pipeline
+import { pipeline } from 'stream/promises';
+import { createGzip } from 'zlib';
+
+await pipeline(
+    fs.createReadStream('large.txt'),
+    createGzip(),
+    fs.createWriteStream('large.txt.gz')
+);
+
+// Trasformazione custom
+import { Transform } from 'stream';
+
+const upperCaseTransform = new Transform({
+    transform(chunk, encoding, callback) {
+        this.push(chunk.toString().toUpperCase());
+        callback();
+    }
+});
+
+fs.createReadStream('input.txt')
+    .pipe(upperCaseTransform)
+    .pipe(fs.createWriteStream('output.txt'));</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>🚀 Casi d'uso reali</h2>
+                            
+                            <h3>1. Upload file grandi</h3>
+                            <pre><code>import express from 'express';
+
+app.post('/upload', (req, res) => {
+    const writeStream = fs.createWriteStream('uploaded-file.pdf');
+    
+    req.pipe(writeStream);
+    
+    writeStream.on('finish', () => {
+        res.json({ success: true });
+    });
+    
+    writeStream.on('error', (err) => {
+        res.status(500).json({ error: err.message });
+    });
+});</code></pre>
+
+                            <h3>2. Log file rotation</h3>
+                            <pre><code>import fs from 'fs';
+
+let logStream = fs.createWriteStream('app.log', { flags: 'a' });
+let lineCount = 0;
+
+function log(message) {
+    logStream.write(`${new Date().toISOString()} ${message}\n`);
+    lineCount++;
+    
+    // Rotazione ogni 1000 righe
+    if (lineCount >= 1000) {
+        logStream.end();
+        fs.rename('app.log', `app-${Date.now()}.log`, () => {
+            logStream = fs.createWriteStream('app.log', { flags: 'a' });
+            lineCount = 0;
+        });
+    }
+}</code></pre>
+
+                            <h3>3. CSV Processing</h3>
+                            <pre><code>import { createReadStream } from 'fs';
+import { createInterface } from 'readline';
+
+const rl = createInterface({
+    input: createReadStream('data.csv'),
+    crlfDelay: Infinity
+});
+
+let rowCount = 0;
+for await (const line of rl) {
+    const [name, age, city] = line.split(',');
+    console.log({ name, age, city });
+    rowCount++;
+}
+console.log(`Processate ${rowCount} righe`);</code></pre>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>💡 Best Practices</h2>
+                            <div class="info-box success">
+                                <ul>
+                                    <li>✅ Usa stream per file maggiori di 10MB</li>
+                                    <li>✅ Sempre gestire eventi 'error'</li>
+                                    <li>✅ Usa <code>pipeline()</code> invece di <code>.pipe()</code> per gestione errori</li>
+                                    <li>✅ Chiudi sempre gli stream con <code>.end()</code></li>
+                                    <li>✅ Backpressure: rispetta <code>write()</code> che ritorna false</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="subsection">
+                            <h2>📖 Risorse</h2>
+                            <ul>
+                                <li><a href="https://nodejs.org/docs/latest/api/fs.html" target="_blank">File System API</a></li>
+                                <li><a href="https://nodejs.org/docs/latest/api/stream.html" target="_blank">Stream API</a></li>
+                                <li><a href="https://nodejs.org/en/learn/manipulating-files/nodejs-file-stats" target="_blank">Node.js File Stats Guide</a></li>
+                            </ul>
+                        </article>
+                    </div>
+                    <div class="section-navigation">
+                        <a class="btn btn--outline" href="oggetti-globali.html">← Oggetti Globali</a>
+                        <a class="btn btn--primary" href="nodejs-oggetti-crud.html">Oggetti & CRUD →</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../../app.js"></script>
+</body>
+</html>
