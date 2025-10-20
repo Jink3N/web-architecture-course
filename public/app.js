@@ -511,13 +511,13 @@ class WebArchitectureApp {
         // Window resize
         window.addEventListener('resize', () => {
             this.handleResize();
-        });
+        }, { passive: true });
 
         // Scroll event per sezioni lunghe
         if (this.mainContent) {
             this.mainContent.addEventListener('scroll', () => {
                 this.handleScroll();
-            });
+            }, { passive: true });
         }
 
         // Setup history navigation
@@ -546,20 +546,29 @@ class WebArchitectureApp {
     setupNavigationListeners() {
         // Usa event delegation invece di listener multipli per evitare duplicati
         if (!this._navigationDelegateSetup) {
+            // Throttle click handling per evitare race su click rapidi
+            this._navClickCooldown = false;
+
             // Listener per la navigazione nella sidebar
             this.navList.addEventListener('click', (e) => {
                 const link = e.target.closest('.nav-link');
                 if (!link) return;
+                if (this._navClickCooldown) {
+                    e.preventDefault();
+                    return;
+                }
                 
                 const href = link.getAttribute('href');
                 if (!href) return;
                 if (href.startsWith('#')) {
                     e.preventDefault();
+                    this._navClickCooldown = true;
                     const sectionId = href.substring(1);
                     const file = link.getAttribute('data-file');
                     // Per intro non eseguire fetch (shell già presente)
                     const dynamic = sectionId !== 'intro';
                     this.navigateToSection(sectionId, true, dynamic);
+                    setTimeout(() => { this._navClickCooldown = false; }, 300);
                 }
             });
 
@@ -570,11 +579,17 @@ class WebArchitectureApp {
                 
                 const href = link.getAttribute('href');
                 if (!href || href.startsWith('http') || href === '#') return;
+                if (this._navClickCooldown) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                }
                 
                 // Se l'href contiene .html, è un link di navigazione delle sezioni
                 if (href.endsWith('.html')) {
                     console.log(`🔗 Intercettato click su pulsante navigazione: ${href}`);
                     e.preventDefault();
+                    this._navClickCooldown = true;
                     const sectionId = this.getSectionIdFromHref(href);
                     console.log(`🎯 Sezione target identificata: ${sectionId}`);
                     if (sectionId && this.sections.includes(sectionId)) {
@@ -585,6 +600,7 @@ class WebArchitectureApp {
                     } else {
                         console.warn(`⚠️ Sezione non trovata o non disponibile: ${sectionId}`);
                     }
+                    setTimeout(() => { this._navClickCooldown = false; }, 300);
                 }
             });
 
@@ -856,6 +872,10 @@ class WebArchitectureApp {
 
         // Previeni race condition: se già in caricamento
         if (this._loadingSection === sectionId) return;
+        // Se c'è un fetch in corso per un'altra sezione, abortiscilo
+        if (this._currentFetch && typeof this._currentFetch.abort === 'function') {
+            try { this._currentFetch.abort(); } catch {}
+        }
         this._loadingSection = sectionId;
 
         const pagePath = `./pages/${this.currentLesson}/${this.pageMap[sectionId]}`;
@@ -893,8 +913,34 @@ class WebArchitectureApp {
             }
             if (!extracted) throw new Error('Section tag non trovato');
 
-            // Sanitizzazione minima: rimuovi eventuali script
+            // Sanitizzazione: rimuovi script e attributi/eventi potenzialmente pericolosi
             extracted.querySelectorAll('script').forEach(s => s.remove());
+            const dangerousAttrs = [
+                'onerror','onload','onclick','onmouseover','onmouseenter','onmouseleave','onfocus','onblur','onchange','onsubmit','onreset','onkeydown','onkeypress','onkeyup','oncontextmenu'
+            ];
+            extracted.querySelectorAll('*').forEach(el => {
+                dangerousAttrs.forEach(attr => {
+                    if (el.hasAttribute && el.hasAttribute(attr)) {
+                        el.removeAttribute(attr);
+                    }
+                });
+                if (el.tagName === 'A' && el.hasAttribute('href')) {
+                    const href = el.getAttribute('href') || '';
+                    if (/^\s*javascript:/i.test(href)) {
+                        el.setAttribute('href', '#');
+                    }
+                    if (/^https?:\/\//i.test(href)) {
+                        if (!el.hasAttribute('rel')) el.setAttribute('rel', 'noopener noreferrer');
+                        if (!el.hasAttribute('target')) el.setAttribute('target', '_blank');
+                    }
+                }
+            });
+
+            // Se nel frattempo l'utente è passato ad un'altra sezione, ignora il risultato
+            if (this._loadingSection !== sectionId) {
+                console.warn('⚠️ Risposta obsoleta ignorata per', sectionId);
+                return;
+            }
 
             // Sostituisci placeholder
             const existing = document.getElementById(sectionId);
@@ -1053,9 +1099,10 @@ class WebArchitectureApp {
 
     scrollToTop() {
         if (this.mainContent) {
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             this.mainContent.scrollTo({
                 top: 0,
-                behavior: 'smooth'
+                behavior: prefersReduced ? 'auto' : 'smooth'
             });
         }
     }
@@ -1432,6 +1479,11 @@ window.searchCourse = function(query) {
 // ==================== INITIALIZATION ====================
 
 document.addEventListener('DOMContentLoaded', () => {
+    if (window.__webArchBootstrapped) {
+        console.log('⚠️ WebArchitectureApp già inizializzata (guard 1)');
+        return;
+    }
+    window.__webArchBootstrapped = true;
     console.log('🚀 Inizializzazione applicazione Web Architecture...');
 
     // Controlla supporto per funzionalità moderne
@@ -1455,8 +1507,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.insertBefore(fallbackMessage, document.body.firstChild);
     }
 
-    // Inizializza l'applicazione principale
-    window.webArchApp = new WebArchitectureApp();
+    // Inizializza l'applicazione principale una sola volta
+    if (!window.webArchApp) {
+        window.webArchApp = new WebArchitectureApp();
+    }
 
     // Carica progresso salvato
     const savedProgress = window.webArchApp.loadProgress();
@@ -1748,9 +1802,16 @@ function reinitializePrismForNewContent() {
 
 // Inizializza l'app quando il DOM è pronto
 document.addEventListener('DOMContentLoaded', () => {
+    if (window.__webArchBootstrapped) {
+        console.log('⚠️ WebArchitectureApp già inizializzata (guard 2)');
+        return;
+    }
+    window.__webArchBootstrapped = true;
     console.log('🚀 DOM caricato, inizializzo WebArchitectureApp...');
     try {
-        window.webArchApp = new WebArchitectureApp();
+        if (!window.webArchApp) {
+            window.webArchApp = new WebArchitectureApp();
+        }
         console.log('✅ WebArchitectureApp inizializzata con successo!');
     } catch (error) {
         console.error('❌ Errore nell\'inizializzazione dell\'app:', error);
