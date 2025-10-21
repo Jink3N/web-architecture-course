@@ -519,6 +519,21 @@ class WebArchitectureApp {
                 section.remove();
             });
 
+            // Pulisci anche l'array contentSections
+            this.contentSections = [];
+            console.log(`🗑️ Array contentSections pulito`);
+
+            // Assicurati che il contenitore sia completamente vuoto
+            if (this.contentContainer) {
+                this.contentContainer.innerHTML = '';
+                console.log(`🗑️ ContentContainer svuotato completamente`);
+            }
+
+            // Reset delle variabili di stato del caricamento
+            this._loadingSection = null;
+            this._currentFetch = null;
+            console.log(`🔄 Variabili di stato del caricamento resettate`);
+
             // Imposta la nuova lezione
             const success = this.setCurrentLesson(lessonId);
             if (!success) {
