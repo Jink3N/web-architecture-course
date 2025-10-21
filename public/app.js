@@ -174,7 +174,9 @@ class WebArchitectureApp {
     }
 
     updateThemeToggle() {
-        if (!this.themeToggle || !this.themeToggleIcon || !this.themeToggleText) return;
+        if (!this.themeToggle || !this.themeToggleIcon || !this.themeToggleText) {
+            return;
+        }
         
         const isDark = this.currentTheme === 'dark';
         
@@ -343,7 +345,7 @@ class WebArchitectureApp {
 
     updateStartCourseButton(lesson) {
         const startBtn = document.getElementById('startCourseBtn');
-        if (!startBtn || !lesson.sections || lesson.sections.length === 0) return;
+        if (!startBtn || !lesson.sections || lesson.sections.length === 0) {return;}
 
         // Per il pulsante "Inizia il Corso", naviga alla seconda sezione se esiste (dopo intro)
         // altrimenti vai alla prima sezione
@@ -410,7 +412,7 @@ class WebArchitectureApp {
     }
 
     async switchLesson(lessonId) {
-        if (lessonId === this.currentLesson) return;
+        if (lessonId === this.currentLesson) {return;}
 
         try {
             console.log(`🔄 Iniziando cambio lezione da ${this.currentLesson} a ${lessonId}`);
@@ -478,7 +480,7 @@ class WebArchitectureApp {
     }
 
     getAvailableLessons() {
-        if (!this.lessonsConfig) return [];
+        if (!this.lessonsConfig) {return [];}
         return Object.entries(this.lessonsConfig.lessons).map(([id, lesson]) => ({
             id,
             title: lesson.title,
@@ -552,19 +554,18 @@ class WebArchitectureApp {
             // Listener per la navigazione nella sidebar
             this.navList.addEventListener('click', (e) => {
                 const link = e.target.closest('.nav-link');
-                if (!link) return;
+                if (!link) {return;}
                 if (this._navClickCooldown) {
                     e.preventDefault();
                     return;
                 }
                 
                 const href = link.getAttribute('href');
-                if (!href) return;
+                if (!href) {return;}
                 if (href.startsWith('#')) {
                     e.preventDefault();
                     this._navClickCooldown = true;
                     const sectionId = href.substring(1);
-                    const file = link.getAttribute('data-file');
                     // Per intro non eseguire fetch (shell già presente)
                     const dynamic = sectionId !== 'intro';
                     this.navigateToSection(sectionId, true, dynamic);
@@ -575,10 +576,10 @@ class WebArchitectureApp {
             // Listener per i pulsanti di navigazione all'interno delle sezioni
             document.addEventListener('click', (e) => {
                 const link = e.target.closest('.section-navigation a, .btn');
-                if (!link) return;
+                if (!link) {return;}
                 
                 const href = link.getAttribute('href');
-                if (!href || href.startsWith('http') || href === '#') return;
+                if (!href || href.startsWith('http') || href === '#') {return;}
                 if (this._navClickCooldown) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -747,7 +748,7 @@ class WebArchitectureApp {
     }
 
     createSidebarOverlay() {
-        if (this.sidebarOverlay) return;
+        if (this.sidebarOverlay) {return;}
         
         const overlay = document.createElement('div');
         overlay.className = 'sidebar-overlay';
@@ -847,13 +848,13 @@ class WebArchitectureApp {
 
     getSectionIdFromHref(href) {
         // Supporta href con path (es: 'pages/client-server.html') o query/hash
-        if (!href) return null;
+        if (!href) {return null;}
         const clean = href.split('?')[0].split('#')[0];
         const fileName = clean.split('/').pop(); // estrae 'client-server.html'
         
         // Cerca nella mappa delle pagine della lezione corrente
         const id = Object.keys(this.pageMap).find(key => this.pageMap[key] === fileName);
-        if (id) return id;
+        if (id) {return id;}
         
         // Fallback: prova a ricavare l'id dal nome del file
         if (fileName.endsWith('.html')) {
@@ -867,14 +868,14 @@ class WebArchitectureApp {
     }
 
     async loadSectionDynamically(sectionId) {
-        if (!this.pageMap[sectionId]) throw new Error('Pagina non mappata');
-        if (this.sectionCache.has(sectionId)) return;
+        if (!this.pageMap[sectionId]) {throw new Error('Pagina non mappata');}
+        if (this.sectionCache.has(sectionId)) {return;}
 
         // Previeni race condition: se già in caricamento
-        if (this._loadingSection === sectionId) return;
+        if (this._loadingSection === sectionId) {return;}
         // Se c'è un fetch in corso per un'altra sezione, abortiscilo
         if (this._currentFetch && typeof this._currentFetch.abort === 'function') {
-            try { this._currentFetch.abort(); } catch {}
+            try { this._currentFetch.abort(); } catch (e) { /* ignore */ }
         }
         this._loadingSection = sectionId;
 
@@ -882,7 +883,6 @@ class WebArchitectureApp {
         console.log(`📥 Tentativo di caricamento da: ${pagePath}`);
 
         // Placeholder spinner
-        const placeholderId = `placeholder-${sectionId}`;
         if (!document.getElementById(sectionId)) {
             const placeholder = document.createElement('section');
             placeholder.className = 'content-section loading';
@@ -896,11 +896,11 @@ class WebArchitectureApp {
         }
 
         this.announceMessage(`Caricamento sezione ${sectionId}...`);
-        let abortController = new AbortController();
+        const abortController = new AbortController();
         this._currentFetch = abortController;
         try {
             const response = await fetch(pagePath, { cache: 'no-cache', signal: abortController.signal });
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            if (!response.ok) {throw new Error(`HTTP ${response.status}`);}
             const html = await response.text();
 
             // Parse sicuro
@@ -911,7 +911,7 @@ class WebArchitectureApp {
                 // fallback: prende la prima section se id mancato
                 extracted = doc.querySelector('section.content-section');
             }
-            if (!extracted) throw new Error('Section tag non trovato');
+            if (!extracted) {throw new Error('Section tag non trovato');}
 
             // Sanitizzazione: rimuovi script e attributi/eventi potenzialmente pericolosi
             extracted.querySelectorAll('script').forEach(s => s.remove());
@@ -930,8 +930,8 @@ class WebArchitectureApp {
                         el.setAttribute('href', '#');
                     }
                     if (/^https?:\/\//i.test(href)) {
-                        if (!el.hasAttribute('rel')) el.setAttribute('rel', 'noopener noreferrer');
-                        if (!el.hasAttribute('target')) el.setAttribute('target', '_blank');
+                        if (!el.hasAttribute('rel')) {el.setAttribute('rel', 'noopener noreferrer');}
+                        if (!el.hasAttribute('target')) {el.setAttribute('target', '_blank');}
                     }
                 }
             });
@@ -978,7 +978,7 @@ class WebArchitectureApp {
             }
             throw e;
         } finally {
-            if (this._currentFetch === abortController) this._currentFetch = null;
+            if (this._currentFetch === abortController) {this._currentFetch = null;}
             this._loadingSection = null;
         }
     }
@@ -1068,18 +1068,6 @@ class WebArchitectureApp {
         }
     }
 
-    navigateToPreviousSection() {
-        const currentIndex = this.sections.indexOf(this.currentSection);
-        if (currentIndex > 0) {
-            const prevSection = this.sections[currentIndex - 1];
-            // Per intro non eseguire caricamento dinamico
-            const dynamicLoad = prevSection !== 'intro';
-            this.navigateToSection(prevSection, true, dynamicLoad);
-        } else {
-            this.announceMessage('Sei già nella prima sezione della lezione.');
-        }
-    }
-
     updateProgress() {
         const currentIndex = this.sections.indexOf(this.currentSection);
         const progress = ((currentIndex + 1) / this.sections.length) * 100;
@@ -1122,8 +1110,8 @@ class WebArchitectureApp {
         
         if (this.isMobile) {
             this.createSidebarOverlay();
-            if (this.sidebar) this.sidebar.classList.add('visible');
-            if (this.sidebarOverlay) this.sidebarOverlay.classList.add('visible');
+            if (this.sidebar) {this.sidebar.classList.add('visible');}
+            if (this.sidebarOverlay) {this.sidebarOverlay.classList.add('visible');}
             document.body.style.overflow = 'hidden';
             if (this.mobileToggle) {
                 this.mobileToggle.innerHTML = '✕';
@@ -1131,8 +1119,8 @@ class WebArchitectureApp {
                 this.mobileToggle.setAttribute('aria-label', 'Chiudi menu di navigazione');
             }
         } else {
-            if (this.sidebar) this.sidebar.classList.remove('hidden');
-            if (this.mainContent) this.mainContent.classList.remove('expanded');
+            if (this.sidebar) {this.sidebar.classList.remove('hidden');}
+            if (this.mainContent) {this.mainContent.classList.remove('expanded');}
         }
 
         if (this.sidebar) {
@@ -1146,8 +1134,8 @@ class WebArchitectureApp {
         this.sidebarVisible = false;
         
         if (this.isMobile) {
-            if (this.sidebar) this.sidebar.classList.remove('visible');
-            if (this.sidebarOverlay) this.sidebarOverlay.classList.remove('visible');
+            if (this.sidebar) {this.sidebar.classList.remove('visible');}
+            if (this.sidebarOverlay) {this.sidebarOverlay.classList.remove('visible');}
             document.body.style.overflow = '';
             if (this.mobileToggle) {
                 this.mobileToggle.innerHTML = '☰';
@@ -1155,8 +1143,8 @@ class WebArchitectureApp {
                 this.mobileToggle.setAttribute('aria-label', 'Apri menu di navigazione');
             }
         } else {
-            if (this.sidebar) this.sidebar.classList.add('hidden');
-            if (this.mainContent) this.mainContent.classList.add('expanded');
+            if (this.sidebar) {this.sidebar.classList.add('hidden');}
+            if (this.mainContent) {this.mainContent.classList.add('expanded');}
         }
 
         if (this.sidebar) {
@@ -1320,7 +1308,7 @@ class WebArchitectureApp {
     // ==================== SEARCH & UTILITY FUNCTIONS ====================
 
     searchContent(query) {
-        if (!query || query.length < 3) return [];
+        if (!query || query.length < 3) {return [];}
         
         const results = [];
         const sections = document.querySelectorAll('.content-section');
@@ -1353,7 +1341,7 @@ class WebArchitectureApp {
 
     exportSection(sectionId) {
         const section = document.getElementById(sectionId);
-        if (!section) return null;
+        if (!section) {return null;}
         
         const title = section.querySelector('h1')?.textContent || sectionId;
         const content = section.querySelector('.section-content')?.innerHTML || '';
@@ -1665,7 +1653,7 @@ function initializePrismHighlighting() {
     document.querySelectorAll('pre code:not([class*="language-"])').forEach((block) => {
         // Rileva automaticamente il linguaggio dal contenuto
         const text = block.textContent || '';
-        let detectedLang = detectLanguage(text);
+        const detectedLang = detectLanguage(text);
         
         // Aggiungi la classe del linguaggio
         block.classList.add(`language-${detectedLang}`);
@@ -1702,7 +1690,7 @@ function initializePrismHighlighting() {
  * @returns {string} - Il linguaggio rilevato
  */
 function detectLanguage(code) {
-    if (!code) return 'text';
+    if (!code) {return 'text';}
 
     // JavaScript patterns
     if (/\b(const|let|var|function|=>|async|await|import|export|class)\b/.test(code) ||
@@ -1731,7 +1719,7 @@ function detectLanguage(code) {
     }
 
     // JSON patterns
-    if (/^\s*[\{\[]/.test(code) && /[\}\]]\s*$/.test(code)) {
+    if (/^\s*[{[]/.test(code) && /[}\]]\s*$/.test(code)) {
         try {
             JSON.parse(code);
             return 'json';
@@ -1754,7 +1742,7 @@ function detectLanguage(code) {
     // Bash/Shell patterns
     if (/^\s*#!/.test(code) ||
         /\b(echo|cd|ls|mkdir|rm|grep|cat|chmod|sudo)\b/.test(code) ||
-        /\$\(|\$\{/.test(code)) {
+        /\$\(|\${/.test(code)) {
         return 'bash';
     }
 

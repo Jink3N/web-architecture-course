@@ -86,7 +86,7 @@ app.get('/health', (req, res) => {
 });
 
 // API routes (importa le funzioni dall'api directory) con rate limit
-app.use('/api', apiLimiter, (req, res, next) => {
+app.use('/api', apiLimiter, (req, res) => {
     // Importa dinamicamente l'handler API
     try {
         const apiHandler = require('./api/index.js');
@@ -113,7 +113,7 @@ app.get('*', (req, res) => {
 });
 
 // Error handler migliorato
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
     // Log dell'errore con dettagli
     console.error('Server Error:', {
         message: err.message,
