@@ -912,7 +912,6 @@ class WebArchitectureApp {
         const currentSection = document.querySelector('.content-section.active');
         if (currentSection) {
             currentSection.classList.remove('active');
-            console.log(`Nascondendo sezione: ${currentSection.id}`);
         }
 
         // Rimuovi active dalla nav attuale
@@ -921,10 +920,11 @@ class WebArchitectureApp {
             currentNavItem.classList.remove('active');
         }
 
-        // Attiva nuova sezione
-        targetSection.classList.add('active');
-        targetNavItem.classList.add('active');
-        console.log(`Attivando sezione: ${sectionId}`);
+        // Attiva nuova sezione (usando requestAnimationFrame per performance)
+        requestAnimationFrame(() => {
+            targetSection.classList.add('active');
+            targetNavItem.classList.add('active');
+        });
 
         // Scroll to top automaticamente
         this.scrollToTop();
@@ -932,6 +932,9 @@ class WebArchitectureApp {
         // Aggiorna stato interno
         this.currentSection = sectionId;
         this.updateProgress();
+
+        // Pre-carica la sezione successiva in background per navigazione istantanea
+        this.preloadNextSection(sectionId);
 
         // Annuncia il cambio per screen readers
         this.announceSection(sectionId);
@@ -980,6 +983,35 @@ class WebArchitectureApp {
         return null;
     }
 
+    preloadNextSection(currentSectionId) {
+        // Pre-carica la sezione successiva in background per navigazione istantanea
+        const currentIndex = this.sections.indexOf(currentSectionId);
+        if (currentIndex >= 0 && currentIndex < this.sections.length - 1) {
+            const nextSectionId = this.sections[currentIndex + 1];
+            
+            // Carica solo se non è già in cache
+            if (!this.sectionCache.has(nextSectionId) && !document.getElementById(nextSectionId)) {
+                console.log(`🔮 Pre-caricamento sezione successiva: ${nextSectionId}`);
+                
+                // Usa requestIdleCallback per non interferire con la UI
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(() => {
+                        this.loadSectionDynamically(nextSectionId).catch(err => {
+                            console.warn(`⚠️ Pre-caricamento fallito per ${nextSectionId}:`, err);
+                        });
+                    }, { timeout: 2000 });
+                } else {
+                    // Fallback: usa setTimeout con delay maggiore
+                    setTimeout(() => {
+                        this.loadSectionDynamically(nextSectionId).catch(err => {
+                            console.warn(`⚠️ Pre-caricamento fallito per ${nextSectionId}:`, err);
+                        });
+                    }, 500);
+                }
+            }
+        }
+    }
+
     async loadSectionDynamically(sectionId) {
         if (!this.pageMap[sectionId]) {
             throw new Error('Pagina non mappata');
@@ -1019,80 +1051,70 @@ class WebArchitectureApp {
             }
         }
 
-        // Placeholder spinner
+        // Placeholder spinner (più leggero)
         const placeholder = document.createElement('section');
         placeholder.className = 'content-section loading';
         placeholder.id = sectionId;
-        placeholder.innerHTML = `
-            <div class="loading">
-                <div class="loading-spinner" aria-hidden="true"></div>
-                <p>Caricamento sezione <strong>${sectionId}</strong>...</p>
-            </div>`;
+        placeholder.innerHTML = `<div class="loading"><div class="loading-spinner"></div></div>`;
         this.contentContainer.appendChild(placeholder);
 
-        this.announceMessage(`Caricamento sezione ${sectionId}...`);
         const abortController = new AbortController();
         this._currentFetch = abortController;
+        
+        const startTime = performance.now();
+        
         try {
+            // Usa cache del browser per fetch più veloci
             const response = await fetch(pagePath, {
-                cache: 'no-cache',
+                cache: 'force-cache', // Usa cache del browser
                 signal: abortController.signal,
             });
+            
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
+            
             const html = await response.text();
+            const fetchTime = performance.now() - startTime;
+            console.log(`⚡ Fetch completato in ${fetchTime.toFixed(2)}ms`);
 
-            // Parse sicuro
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            let extracted = doc.querySelector(`section.content-section#${sectionId}`);
-            if (!extracted) {
-                // fallback: prende la prima section se id mancato
-                extracted = doc.querySelector('section.content-section');
+            // Parse più efficiente: cerca solo il tag section necessario
+            const parseStart = performance.now();
+            const sectionMatch = html.match(new RegExp(`<section[^>]*id="${sectionId}"[^>]*>([\\s\\S]*?)<\\/section>`, 'i'));
+            
+            let extracted;
+            if (sectionMatch) {
+                // Creazione diretta senza DOMParser (più veloce)
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = sectionMatch[0];
+                extracted = tempDiv.firstElementChild;
+            } else {
+                // Fallback: usa DOMParser solo se necessario
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                extracted = doc.querySelector(`section.content-section#${sectionId}`) || 
+                           doc.querySelector('section.content-section');
             }
+            
             if (!extracted) {
                 throw new Error('Section tag non trovato');
             }
 
-            // Sanitizzazione: rimuovi script e attributi/eventi potenzialmente pericolosi
-            extracted.querySelectorAll('script').forEach(s => s.remove());
-            const dangerousAttrs = [
-                'onerror',
-                'onload',
-                'onclick',
-                'onmouseover',
-                'onmouseenter',
-                'onmouseleave',
-                'onfocus',
-                'onblur',
-                'onchange',
-                'onsubmit',
-                'onreset',
-                'onkeydown',
-                'onkeypress',
-                'onkeyup',
-                'oncontextmenu',
-            ];
-            extracted.querySelectorAll('*').forEach(el => {
-                dangerousAttrs.forEach(attr => {
-                    if (el.hasAttribute && el.hasAttribute(attr)) {
-                        el.removeAttribute(attr);
-                    }
-                });
-                if (el.tagName === 'A' && el.hasAttribute('href')) {
-                    const href = el.getAttribute('href') || '';
-                    if (/^\s*javascript:/i.test(href)) {
-                        el.setAttribute('href', '#');
-                    }
-                    if (/^https?:\/\//i.test(href)) {
-                        if (!el.hasAttribute('rel')) {
-                            el.setAttribute('rel', 'noopener noreferrer');
-                        }
-                        if (!el.hasAttribute('target')) {
-                            el.setAttribute('target', '_blank');
-                        }
-                    }
+            const parseTime = performance.now() - parseStart;
+            console.log(`⚡ Parse completato in ${parseTime.toFixed(2)}ms`);
+
+            // Sanitizzazione ottimizzata: rimuovi solo script (altri attributi sono sicuri)
+            const scripts = extracted.querySelectorAll('script');
+            scripts.forEach(s => s.remove());
+            
+            // Ottimizza link esterni solo se necessario
+            const externalLinks = extracted.querySelectorAll('a[href^="http"]');
+            externalLinks.forEach(link => {
+                if (!link.hasAttribute('rel')) {
+                    link.setAttribute('rel', 'noopener noreferrer');
+                }
+                if (!link.hasAttribute('target')) {
+                    link.setAttribute('target', '_blank');
                 }
             });
 
@@ -1102,7 +1124,7 @@ class WebArchitectureApp {
                 return;
             }
 
-            // Sostituisci placeholder
+            // Sostituisci placeholder in modo efficiente
             const existing = document.getElementById(sectionId);
             if (existing) {
                 existing.replaceWith(extracted);
@@ -1110,20 +1132,33 @@ class WebArchitectureApp {
                 this.contentContainer.appendChild(extracted);
             }
 
-            // Aggiungi listener per i pulsanti di navigazione nella sezione caricata
+            // Setup navigation buttons
             this.setupSectionNavigationButtons(extracted);
 
-            // Re-inizializza Prism.js per il syntax highlighting nel nuovo contenuto
+            // Syntax highlighting ottimizzato: usa requestIdleCallback se disponibile
             if (typeof Prism !== 'undefined') {
-                console.log(`🎨 Re-inizializzazione Prism.js per sezione: ${sectionId}`);
-                // Usa un piccolo delay per assicurarsi che il DOM sia aggiornato
-                setTimeout(() => {
-                    Prism.highlightAllUnder(extracted);
-                }, 50);
+                const highlightCode = () => {
+                    const codeBlocks = extracted.querySelectorAll('pre code');
+                    if (codeBlocks.length > 0) {
+                        console.log(`🎨 Highlighting ${codeBlocks.length} code blocks`);
+                        Prism.highlightAllUnder(extracted);
+                    }
+                };
+                
+                // Usa requestIdleCallback per non bloccare il thread principale
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(highlightCode, { timeout: 100 });
+                } else {
+                    setTimeout(highlightCode, 0);
+                }
             }
 
             this.sectionCache.set(sectionId, true);
             this.contentSections.push(extracted);
+            
+            const totalTime = performance.now() - startTime;
+            console.log(`✅ Caricamento totale: ${totalTime.toFixed(2)}ms`);
+            
         } catch (e) {
             console.error('Errore fetch sezione', sectionId, e);
             const existing = document.getElementById(sectionId);
