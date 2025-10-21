@@ -70,8 +70,8 @@ class WebArchitectureApp {
             // Inizializza la prima sezione della lezione corrente
             const initialSection = this.sections[0];
             if (initialSection) {
-                // Carica sempre dinamicamente (anche intro, dato che abbiamo un sistema dinamico)
-                this.navigateToSection(initialSection, false, true);
+                // Naviga alla prima sezione (sarà caricata dinamicamente se necessario)
+                this.navigateToSection(initialSection, false);
             }
 
             console.log('✅ Applicazione caricata correttamente');
@@ -449,8 +449,7 @@ class WebArchitectureApp {
 
         // Aggiungi nuovo event listener per la sezione target
         newBtn.addEventListener('click', () => {
-            const dynamicLoad = targetSection.id !== 'intro';
-            this.navigateToSection(targetSection.id, true, dynamicLoad);
+            this.navigateToSection(targetSection.id, true);
         });
     }
 
@@ -507,15 +506,16 @@ class WebArchitectureApp {
         }
 
         try {
-            console.log(`🔄 Iniziando cambio lezione da ${this.currentLesson} a ${lessonId}`);
+            console.log(`🔄 Cambio lezione: ${this.currentLesson} → ${lessonId}`);
 
-            // Pulisci la cache delle sezioni
+            // Pulisci la cache delle sezioni della lezione precedente
             this.sectionCache.clear();
+            console.log(`🗑️ Cache sezioni pulita`);
 
-            // Rimuovi TUTTE le sezioni dal DOM (compresa intro per lezione-1)
+            // Rimuovi TUTTE le sezioni dal DOM
             const sectionsToRemove = document.querySelectorAll('.content-section');
+            console.log(`🗑️ Rimozione di ${sectionsToRemove.length} sezioni dal DOM`);
             sectionsToRemove.forEach(section => {
-                console.log(`🗑️ Rimozione sezione: ${section.id}`);
                 section.remove();
             });
 
@@ -533,9 +533,8 @@ class WebArchitectureApp {
 
             console.log(`🎯 Navigando alla prima sezione della lezione: ${firstSectionId}`);
 
-            // Per tutte le lezioni, naviga alla prima sezione con caricamento dinamico
-            // (anche per lezione-1/intro, dato che abbiamo rimosso tutte le sezioni)
-            this.navigateToSection(firstSectionId, true, true);
+            // Naviga alla prima sezione (sarà caricata dinamicamente se necessario)
+            this.navigateToSection(firstSectionId, true);
 
             // Salva la lezione corrente
             localStorage.setItem('web-arch-current-lesson', lessonId);
@@ -649,9 +648,7 @@ class WebArchitectureApp {
                     e.preventDefault();
                     this._navClickCooldown = true;
                     const sectionId = href.substring(1);
-                    // Per intro non eseguire fetch (shell già presente)
-                    const dynamic = sectionId !== 'intro';
-                    this.navigateToSection(sectionId, true, dynamic);
+                    this.navigateToSection(sectionId, true);
                     setTimeout(() => {
                         this._navClickCooldown = false;
                     }, 300);
@@ -683,10 +680,8 @@ class WebArchitectureApp {
                     const sectionId = this.getSectionIdFromHref(href);
                     console.log(`🎯 Sezione target identificata: ${sectionId}`);
                     if (sectionId && this.sections.includes(sectionId)) {
-                        // Per intro non eseguire fetch (shell già presente)
-                        const dynamic = sectionId !== 'intro';
-                        console.log(`✅ Navigando a sezione: ${sectionId} (dynamic: ${dynamic})`);
-                        this.navigateToSection(sectionId, true, dynamic);
+                        console.log(`✅ Navigando a sezione: ${sectionId}`);
+                        this.navigateToSection(sectionId, true);
                     } else {
                         console.warn(`⚠️ Sezione non trovata o non disponibile: ${sectionId}`);
                     }
@@ -856,7 +851,7 @@ class WebArchitectureApp {
     // ==================== NAVIGATION ====================
 
     navigateToSection(sectionId, updateHistory = true, dynamicLoad = false) {
-        console.log(`🔍 Tentativo di navigazione a: ${sectionId} (dynamic: ${dynamicLoad})`);
+        console.log(`🔍 Navigazione a: ${sectionId}`);
 
         const targetNavItem = document.querySelector(`[data-section="${sectionId}"]`);
         if (!targetNavItem) {
@@ -867,22 +862,27 @@ class WebArchitectureApp {
         // Controlla se la sezione esiste già nel DOM
         let targetSection = document.getElementById(sectionId);
         
-        // Se la sezione non esiste nel DOM, caricala (sempre dinamicamente)
+        // Se la sezione non esiste nel DOM, caricala
         if (!targetSection) {
-            console.log(`📥 Sezione ${sectionId} non in DOM, caricamento richiesto`);
+            console.log(`📥 Sezione ${sectionId} non presente, avvio caricamento`);
             this.loadSectionDynamically(sectionId)
                 .then(() => {
-                    console.log(
-                        `✅ Caricamento completato per: ${sectionId}, richiamando navigazione`
-                    );
+                    console.log(`✅ Caricamento completato per: ${sectionId}`);
+                    // Riprova la navigazione dopo il caricamento
                     this.navigateToSection(sectionId, updateHistory, false);
                 })
                 .catch(err => {
-                    console.error('❌ Errore caricamento dinamico:', err);
+                    console.error('❌ Errore caricamento:', err);
                     this.announceMessage(
                         `Impossibile caricare la sezione ${sectionId}. Verifica la connessione.`
                     );
                 });
+            return;
+        }
+        
+        // Se la sezione è il placeholder di loading, attendi
+        if (targetSection.classList.contains('loading')) {
+            console.log(`⏳ Sezione ${sectionId} in caricamento, attendo...`);
             return;
         }
 
@@ -969,14 +969,19 @@ class WebArchitectureApp {
         if (!this.pageMap[sectionId]) {
             throw new Error('Pagina non mappata');
         }
-        if (this.sectionCache.has(sectionId)) {
+        
+        // Se la sezione è già in cache E presente nel DOM, non ricaricare
+        if (this.sectionCache.has(sectionId) && document.getElementById(sectionId)) {
+            console.log(`✅ Sezione ${sectionId} già caricata (in cache)`);
             return;
         }
 
-        // Previeni race condition: se già in caricamento
+        // Previeni race condition: se già in caricamento, aspetta
         if (this._loadingSection === sectionId) {
+            console.log(`⏳ Sezione ${sectionId} già in caricamento, attendo...`);
             return;
         }
+        
         // Se c'è un fetch in corso per un'altra sezione, abortiscilo
         if (this._currentFetch && typeof this._currentFetch.abort === 'function') {
             try {
@@ -988,13 +993,15 @@ class WebArchitectureApp {
         this._loadingSection = sectionId;
 
         const pagePath = `./pages/${this.currentLesson}/${this.pageMap[sectionId]}`;
-        console.log(`📥 Tentativo di caricamento da: ${pagePath}`);
+        console.log(`📥 Caricamento da: ${pagePath}`);
 
-        // Rimuovi sezione esistente se presente (per ricaricare)
-        const existingSection = document.getElementById(sectionId);
-        if (existingSection) {
-            existingSection.remove();
-            console.log(`🗑️ Rimossa sezione esistente: ${sectionId}`);
+        // Solo rimuovi sezione esistente se NON è in cache (significa che è corrotta o obsoleta)
+        if (!this.sectionCache.has(sectionId)) {
+            const existingSection = document.getElementById(sectionId);
+            if (existingSection) {
+                existingSection.remove();
+                console.log(`🗑️ Rimossa sezione obsoleta: ${sectionId}`);
+            }
         }
 
         // Placeholder spinner
@@ -1192,9 +1199,7 @@ class WebArchitectureApp {
         const currentIndex = this.sections.indexOf(this.currentSection);
         if (currentIndex > 0) {
             const prevSection = this.sections[currentIndex - 1];
-            // Per intro non eseguire caricamento dinamico
-            const dynamicLoad = prevSection !== 'intro';
-            this.navigateToSection(prevSection, true, dynamicLoad);
+            this.navigateToSection(prevSection, true);
         } else {
             this.announceMessage('Sei già alla prima sezione del corso');
         }
@@ -1204,9 +1209,7 @@ class WebArchitectureApp {
         const currentIndex = this.sections.indexOf(this.currentSection);
         if (currentIndex < this.sections.length - 1) {
             const nextSection = this.sections[currentIndex + 1];
-            // Per intro non eseguire caricamento dinamico
-            const dynamicLoad = nextSection !== 'intro';
-            this.navigateToSection(nextSection, true, dynamicLoad);
+            this.navigateToSection(nextSection, true);
         } else {
             // Se siamo all'ultima sezione della lezione corrente, passa alla lezione successiva
             this.goToNextLesson();
@@ -1591,8 +1594,7 @@ class WebArchitectureApp {
 window.navigateToSection = function (sectionId) {
     console.log(`navigateToSection chiamata con: ${sectionId}`);
     if (window.webArchApp) {
-        const dynamicLoad = sectionId !== 'intro';
-        window.webArchApp.navigateToSection(sectionId, true, dynamicLoad);
+        window.webArchApp.navigateToSection(sectionId, true);
     } else {
         console.error('webArchApp non disponibile');
     }
