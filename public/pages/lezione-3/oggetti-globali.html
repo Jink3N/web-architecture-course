@@ -92,7 +92,7 @@
                                     >
                                 </p>
 
-                                <pre><code>// Informazioni ambiente
+                                <pre class="line-numbers"><code class="language-javascript">// Informazioni ambiente
 console.log(process.version);        // v18.16.0
 console.log(process.platform);       // linux, darwin, win32
 console.log(process.arch);           // x64, arm64
@@ -138,7 +138,7 @@ process.on('uncaughtException', (err) => {
                                     >
                                 </p>
 
-                                <pre><code>// Creare Buffer
+                                <pre class="line-numbers"><code class="language-javascript">// Creare Buffer
 const buf1 = Buffer.from('Hello World');
 const buf2 = Buffer.from([72, 101, 108, 108, 111]);
 const buf3 = Buffer.alloc(10);  // 10 bytes vuoti
@@ -164,7 +164,7 @@ Buffer.compare(buf1, buf2);       // -1, 0, 1</code></pre>
 
                             <article class="subsection">
                                 <h2>⏱️ Timer globali</h2>
-                                <pre><code>// setTimeout: esegue dopo N millisecondi
+                                <pre class="line-numbers"><code class="language-javascript">// setTimeout: esegue dopo N millisecondi
 const timeout = setTimeout(() => {
     console.log('Eseguito dopo 2 secondi');
 }, 2000);
@@ -198,7 +198,7 @@ process.nextTick(() => {
                                     >
                                 </p>
 
-                                <pre><code>const url = new URL('https://api.example.com/users?page=2&limit=10');
+                                <pre class="line-numbers"><code class="language-javascript">const url = new URL('https://api.example.com/users?page=2&limit=10');
 
 console.log(url.protocol);   // 'https:'
 console.log(url.hostname);   // 'api.example.com'
@@ -216,7 +216,7 @@ console.log(url.toString());        // URL modificato</code></pre>
 
                             <article class="subsection">
                                 <h2>📊 Console avanzata</h2>
-                                <pre><code>// Logging standard
+                                <pre class="line-numbers"><code class="language-javascript">// Logging standard
 console.log('Info');
 console.error('Errore');
 console.warn('Avviso');
@@ -247,7 +247,7 @@ console.trace('Stack trace completo');</code></pre>
 
                             <article class="subsection">
                                 <h2>🔒 TextEncoder / TextDecoder</h2>
-                                <pre><code>// Converti stringa in bytes (UTF-8)
+                                <pre class="line-numbers"><code class="language-javascript">// Converti stringa in bytes (UTF-8)
 const encoder = new TextEncoder();
 const bytes = encoder.encode('Hello 世界');
 console.log(bytes);  // Uint8Array

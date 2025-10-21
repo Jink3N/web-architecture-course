@@ -225,20 +225,20 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>HTTP Header</h3>
-                                        <pre><code>GET /v1/data\nX-API-Key: sk_live_123</code></pre>
+                                        <pre class="line-numbers"><code class="language-http">GET /v1/data\nX-API-Key: sk_live_123</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Authorization</h3>
-                                        <pre><code>Authorization: ApiKey sk_live_123</code></pre>
+                                        <pre class="line-numbers"><code class="language-http">Authorization: ApiKey sk_live_123</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Query (sconsigliato)</h3>
-                                        <pre><code>?api_key=sk_live_123</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">?api_key=sk_live_123</code></pre>
                                         <p>Esposto in log / cache.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>cURL</h3>
-                                        <pre><code>curl -H "X-API-Key: sk_live_123" https://api.example.com/v1/users</code></pre>
+                                        <pre class="line-numbers"><code class="language-bash">curl -H "X-API-Key: sk_live_123" https://api.example.com/v1/users</code></pre>
                                     </div>
                                 </div>
                                 <h2>🛡️ Sicurezza</h2>
@@ -284,19 +284,19 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>Dual Key</h3>
-                                        <pre><code>1. Crea nuova key\n2. Distribuisci\n3. Verifica traffico\n4. Revoca vecchia</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">1. Crea nuova key\n2. Distribuisci\n3. Verifica traffico\n4. Revoca vecchia</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Formato</h3>
-                                        <pre><code>pk_live_xxx (public)\nsk_live_xxx (secret)</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">pk_live_xxx (public)\nsk_live_xxx (secret)</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Storage</h3>
-                                        <pre><code>ENV VAR + secret manager</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">ENV VAR + secret manager</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Revoca</h3>
-                                        <pre><code>PATCH /keys/{id} {"active": false}</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">PATCH /keys/{id} {"active": false}</code></pre>
                                     </div>
                                 </div>
                                 <div class="info-box">

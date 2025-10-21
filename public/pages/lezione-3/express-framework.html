@@ -265,7 +265,7 @@
                                 </div>
 
                                 <h3>📦 Step 1: Crea il progetto</h3>
-                                <pre><code># Crea una nuova cartella per il progetto
+                                <pre class="line-numbers"><code class="language-markdown"># Crea una nuova cartella per il progetto
 mkdir my-express-app
 cd my-express-app
 
@@ -284,7 +284,7 @@ npm init -y
                                 </div>
 
                                 <h3>📥 Step 2: Installa Express</h3>
-                                <pre><code># Installa Express come dipendenza
+                                <pre class="line-numbers"><code class="language-markdown"># Installa Express come dipendenza
 npm install express
 
 # Installa nodemon per development (riavvia automaticamente il server)
@@ -312,7 +312,7 @@ npm install --save-dev nodemon</code></pre>
                                 <p>
                                     Apri <code>package.json</code> e aggiungi/modifica queste righe:
                                 </p>
-                                <pre><code>{
+                                <pre class="line-numbers"><code class="language-javascript">{
   "name": "my-express-app",
   "version": "1.0.0",
   "description": "La mia prima app Express",
@@ -344,7 +344,7 @@ npm install --save-dev nodemon</code></pre>
 
                                 <h3>📝 Step 4: Crea il server (Hello World)</h3>
                                 <p>Crea un file <code>server.js</code> nella root del progetto:</p>
-                                <pre><code>// server.js - Il nostro primo server Express!
+                                <pre class="line-numbers"><code class="language-javascript">// server.js - Il nostro primo server Express!
 import express from 'express';
 
 // Crea un'applicazione Express
@@ -399,14 +399,14 @@ app.listen(PORT, () => {
                                 </div>
 
                                 <h3>▶️ Step 5: Avvia il server</h3>
-                                <pre><code># Development (con auto-reload quando modifichi il codice)
+                                <pre class="line-numbers"><code class="language-markdown"># Development (con auto-reload quando modifichi il codice)
 npm run dev
 
 # Oppure production (senza auto-reload)
 npm start</code></pre>
 
                                 <p>Vedrai nel terminal:</p>
-                                <pre><code>🚀 Server in ascolto su http://localhost:3000
+                                <pre class="line-numbers"><code class="language-javascript">🚀 Server in ascolto su http://localhost:3000
 📡 Premi CTRL+C per fermarlo</code></pre>
 
                                 <h3>🌐 Step 6: Testa nel browser</h3>
@@ -506,7 +506,7 @@ npm start</code></pre>
                                 </div>
 
                                 <h3>🎯 Routing base - Esempio passo passo</h3>
-                                <pre><code>// server.js
+                                <pre class="line-numbers"><code class="language-javascript">// server.js
 import express from 'express';
 const app = express();
 
@@ -621,7 +621,7 @@ app.listen(3000, () => {
                                     dinamiche. Si definiscono con <code>:</code> (due punti).
                                 </p>
 
-                                <pre><code>// ═══════════════════════════════════════════════
+                                <pre class="line-numbers"><code class="language-javascript">// ═══════════════════════════════════════════════
 // Parametri singoli
 // ═══════════════════════════════════════════════
 
@@ -699,7 +699,7 @@ app.get('/cerca/:termine?', (req, res) => {
                                     paginazione.
                                 </p>
 
-                                <pre><code>// Route che accetta query parameters
+                                <pre class="line-numbers"><code class="language-javascript">// Route che accetta query parameters
 app.get('/prodotti', (req, res) => {
     // Cattura tutti i parametri dalla query string
     const categoria = req.query.categoria;
@@ -756,7 +756,7 @@ app.get('/prodotti', (req, res) => {
 
                                 <div class="info-box welcome">
                                     <h3>🏗️ Struttura progetto con Router</h3>
-                                    <pre><code>my-express-app/
+                                    <pre class="line-numbers"><code class="language-javascript">my-express-app/
 ├── server.js           ← File principale
 ├── routes/             ← Cartella per le route
 │   ├── utentiRoutes.js
@@ -766,7 +766,7 @@ app.get('/prodotti', (req, res) => {
                                 </div>
 
                                 <h4>Step 1: Crea file route separato</h4>
-                                <pre><code>// routes/utentiRoutes.js
+                                <pre class="line-numbers"><code class="language-javascript">// routes/utentiRoutes.js
 import express from 'express';
 const router = express.Router(); // Crea un router
 
@@ -790,7 +790,7 @@ router.delete('/:id', (req, res) => {
 export default router; // Esporta il router</code></pre>
 
                                 <h4>Step 2: Importa e usa nel server principale</h4>
-                                <pre><code>// server.js
+                                <pre class="line-numbers"><code class="language-javascript">// server.js
 import express from 'express';
 import utentiRoutes from './routes/utentiRoutes.js'; // Importa router
 
@@ -892,7 +892,7 @@ app.listen(3000, () => {
                                 </div>
 
                                 <h3>🎯 Middleware base: esempio visuale</h3>
-                                <pre><code>// Struttura di un middleware
+                                <pre class="line-numbers"><code class="language-javascript">// Struttura di un middleware
 function mioMiddleware(req, res, next) {
     // 1️⃣ Fai qualcosa PRIMA della route
     console.log('⏰ Richiesta ricevuta alle:', new Date().toLocaleTimeString());
@@ -919,7 +919,7 @@ app.get('/', (req, res) => {
                                         una risposta con <code>res.send()</code>, la richiesta
                                         rimarrà "appesa" e il client riceverà timeout!
                                     </p>
-                                    <pre><code>// ❌ SBAGLIATO - La richiesta si blocca
+                                    <pre class="line-numbers"><code class="language-javascript">// ❌ SBAGLIATO - La richiesta si blocca
 app.use((req, res, next) => {
     console.log('Logged');
     // Manca next()!
@@ -936,7 +936,7 @@ app.use((req, res, next) => {
 
                                 <h4>1️⃣ Application-level Middleware</h4>
                                 <p>Applicato a tutta l'applicazione o a gruppi di route.</p>
-                                <pre><code>import express from 'express';
+                                <pre class="line-numbers"><code class="language-javascript">import express from 'express';
 const app = express();
 
 // Middleware globale - applicato a TUTTE le route
@@ -957,7 +957,7 @@ app.get('/admin/dashboard', (req, res) => res.send('Dashboard'));</code></pre>
 
                                 <h4>2️⃣ Router-level Middleware</h4>
                                 <p>Applicato solo a un router specifico.</p>
-                                <pre><code>// routes/utentiRoutes.js
+                                <pre class="line-numbers"><code class="language-javascript">// routes/utentiRoutes.js
 import express from 'express';
 const router = express.Router();
 
@@ -972,7 +972,7 @@ router.get('/', (req, res) => res.json({ users: [] }));
 export default router;</code></pre>
 
                                 <h4>3️⃣ Built-in Middleware (integrati in Express)</h4>
-                                <pre><code>import express from 'express';
+                                <pre class="line-numbers"><code class="language-javascript">import express from 'express';
 const app = express();
 
 // 🔹 express.json() - Parsing JSON dal body
@@ -1012,10 +1012,10 @@ app.use('/assets', express.static('assets'));
                                 <h4>4️⃣ Third-party Middleware (librerie esterne)</h4>
                                 <p>Middleware creati dalla community, installabili con NPM.</p>
 
-                                <pre><code># Installa middleware popolari
+                                <pre class="line-numbers"><code class="language-markdown"># Installa middleware popolari
 npm install cors helmet morgan compression cookie-parser</code></pre>
 
-                                <pre><code>import express from 'express';
+                                <pre class="line-numbers"><code class="language-javascript">import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -1065,7 +1065,7 @@ app.use(cookieParser());
                                 <h4>5️⃣ Custom Middleware (creati da te)</h4>
 
                                 <h5>Esempio 1: Logger personalizzato</h5>
-                                <pre><code>// middleware/logger.js
+                                <pre class="line-numbers"><code class="language-javascript">// middleware/logger.js
 const logger = (req, res, next) => {
     const ora = new Date().toLocaleTimeString('it-IT');
     const metodo = req.method;
@@ -1088,7 +1088,7 @@ import logger from './middleware/logger.js';
 app.use(logger);</code></pre>
 
                                 <h5>Esempio 2: Middleware di autenticazione</h5>
-                                <pre><code>// middleware/auth.js
+                                <pre class="line-numbers"><code class="language-javascript">// middleware/auth.js
 const autenticaUtente = (req, res, next) => {
     // Leggi il token dall'header Authorization
     const token = req.headers.authorization;
@@ -1136,7 +1136,7 @@ app.get('/profilo', autenticaUtente, (req, res) => {
 });</code></pre>
 
                                 <h5>Esempio 3: Middleware di validazione</h5>
-                                <pre><code>// middleware/validation.js
+                                <pre class="line-numbers"><code class="language-javascript">// middleware/validation.js
 export const validaUtente = (req, res, next) => {
     const { username, email, password } = req.body;
     
@@ -1188,7 +1188,7 @@ app.post('/registrazione', validaUtente, (req, res) => {
                                     </p>
                                 </div>
 
-                                <pre><code>import express from 'express';
+                                <pre class="line-numbers"><code class="language-javascript">import express from 'express';
 const app = express();
 
 // 1️⃣ Primo middleware - esegue per PRIMO
@@ -1220,7 +1220,7 @@ app.get('/', (req, res) => {
                                     <strong>4 parametri</strong> invece di 3.
                                 </p>
 
-                                <pre><code>// Error handler - DEVE avere 4 parametri (err, req, res, next)
+                                <pre class="line-numbers"><code class="language-javascript">// Error handler - DEVE avere 4 parametri (err, req, res, next)
 const errorHandler = (err, req, res, next) => {
     console.error('❌ Errore catturato:', err.message);
     console.error('Stack trace:', err.stack);
@@ -1281,7 +1281,7 @@ app.get('/dati', async (req, res, next) => {
                                         <li>🚫 404 handler dopo tutte le route</li>
                                         <li>🚨 Error handler come ULTIMO middleware</li>
                                     </ol>
-                                    <pre><code>// ✅ Ordine corretto
+                                    <pre class="line-numbers"><code class="language-markup">// ✅ Ordine corretto
 app.use(logger);           // 1. Logger
 app.use(cors());           // 2. CORS
 app.use(express.json());   // 3. Body parser
@@ -1308,7 +1308,7 @@ app.use(errorHandler);     // 6. Errori</code></pre>
                                 </div>
 
                                 <h3>📨 Oggetto Request (req) - Cosa contiene</h3>
-                                <pre><code>app.get('/info', (req, res) => {
+                                <pre class="line-numbers"><code class="language-javascript">app.get('/info', (req, res) => {
     // 🔍 Ispeziona tutto quello che ricevi
     console.log({
         // 1️⃣ Parametri URL dinamici
@@ -1361,7 +1361,7 @@ app.use(errorHandler);     // 6. Errori</code></pre>
 
                                 <div class="info-box info">
                                     <h3>💡 Esempio pratico - Leggi dati dalla richiesta</h3>
-                                    <pre><code>// Ricevi dati da un form di registrazione
+                                    <pre class="line-numbers"><code class="language-javascript">// Ricevi dati da un form di registrazione
 app.post('/registrazione', (req, res) => {
     // Dati dal body (form o JSON)
     const { username, email, password } = req.body;
@@ -1389,7 +1389,7 @@ app.post('/registrazione', (req, res) => {
                                 <h3>📤 Oggetto Response (res) - Come rispondere</h3>
 
                                 <h4>🎯 Metodi principali di Response</h4>
-                                <pre><code>// ═══════════════════════════════════════════════
+                                <pre class="line-numbers"><code class="language-javascript">// ═══════════════════════════════════════════════
 // 1️⃣ res.send() - Invia testo o HTML
 // ═══════════════════════════════════════════════
 app.get('/testo', (req, res) => {
@@ -1583,7 +1583,7 @@ app.post('/utente', (req, res) => {
                                 </div>
 
                                 <h3>📁 Struttura cartelle MVC consigliata</h3>
-                                <pre><code>mio-progetto/
+                                <pre class="line-numbers"><code class="language-markup">mio-progetto/
 ├── server.js              ← Entry point principale
 ├── package.json
 ├── .env                   ← Variabili d'ambiente
@@ -1659,7 +1659,7 @@ app.post('/utente', (req, res) => {
                                 <h3>💻 Esempio completo MVC - Sistema Utenti</h3>
 
                                 <h4>1️⃣ Model - <code>models/User.js</code></h4>
-                                <pre><code>// 📦 MODEL: Definisce la struttura dati e la logica
+                                <pre class="line-numbers"><code class="language-javascript">// 📦 MODEL: Definisce la struttura dati e la logica
 let users = []; // Simulazione database (in produzione usa MongoDB, PostgreSQL, etc.)
 let nextId = 1;
 
@@ -1705,7 +1705,7 @@ export const User = {
 };</code></pre>
 
                                 <h4>2️⃣ Controller - <code>controllers/userController.js</code></h4>
-                                <pre><code>// 🎮 CONTROLLER: Gestisce la logica delle richieste
+                                <pre class="line-numbers"><code class="language-javascript">// 🎮 CONTROLLER: Gestisce la logica delle richieste
 import { User } from '../models/User.js';
 
 export const userController = {
@@ -1820,7 +1820,7 @@ export const userController = {
 };</code></pre>
 
                                 <h4>3️⃣ Routes - <code>routes/userRoutes.js</code></h4>
-                                <pre><code>// 🛣️ ROUTES: Definisce gli endpoint
+                                <pre class="line-numbers"><code class="language-sql">// 🛣️ ROUTES: Definisce gli endpoint
 import express from 'express';
 import { userController } from '../controllers/userController.js';
 
@@ -1837,7 +1837,7 @@ router.delete('/:id', userController.deleteUser);      // DELETE /api/users/123
 export default router;</code></pre>
 
                                 <h4>4️⃣ Server principale - <code>server.js</code></h4>
-                                <pre><code>// 🚀 SERVER: Assembla tutto insieme
+                                <pre class="line-numbers"><code class="language-javascript">// 🚀 SERVER: Assembla tutto insieme
 import express from 'express';
 import userRoutes from './routes/userRoutes.js';
 
@@ -1912,7 +1912,7 @@ app.listen(PORT, () => {
                                 </div>
 
                                 <h3>🧪 Testa la tua API MVC</h3>
-                                <pre><code># 1️⃣ Crea un utente
+                                <pre class="line-numbers"><code class="language-javascript"># 1️⃣ Crea un utente
 curl -X POST http://localhost:3000/api/users \
   -H "Content-Type: application/json" \
   -d '{"username": "mario", "email": "mario@example.com"}'
@@ -1944,7 +1944,7 @@ curl -X DELETE http://localhost:3000/api/users/1</code></pre>
                                 </div>
 
                                 <h3>🔒 1. Usa Helmet per la sicurezza HTTP</h3>
-                                <pre><code>// Installa: npm install helmet
+                                <pre class="line-numbers"><code class="language-sql">// Installa: npm install helmet
 import helmet from 'helmet';
 
 app.use(helmet());
@@ -1956,7 +1956,7 @@ app.use(helmet());
 // - X-XSS-Protection</code></pre>
 
                                 <h3>🚦 2. Rate Limiting - Previeni attacchi bruteforce</h3>
-                                <pre><code>// Installa: npm install express-rate-limit
+                                <pre class="line-numbers"><code class="language-javascript">// Installa: npm install express-rate-limit
 import rateLimit from 'express-rate-limit';
 
 const limiter = rateLimit({
@@ -1974,7 +1974,7 @@ app.post('/login', limiter, (req, res) => {
 });</code></pre>
 
                                 <h3>✅ 3. Validazione Input - Mai fidarsi del client</h3>
-                                <pre><code>// Installa: npm install express-validator
+                                <pre class="line-numbers"><code class="language-javascript">// Installa: npm install express-validator
 import { body, validationResult } from 'express-validator';
 
 app.post('/registrazione',
@@ -2004,7 +2004,7 @@ app.post('/registrazione',
 );</code></pre>
 
                                 <h3>🔐 4. Variabili d'Ambiente - Non hardcodare credenziali</h3>
-                                <pre><code>// ❌ MALE - Credenziali nel codice
+                                <pre class="line-numbers"><code class="language-javascript">// ❌ MALE - Credenziali nel codice
 const DB_PASSWORD = 'password123';
 const API_KEY = 'sk_live_abc123xyz';
 
@@ -2031,7 +2031,7 @@ app.listen(PORT, () => {
 });</code></pre>
 
                                 <h3>📝 5. Logging - Monitora cosa succede</h3>
-                                <pre><code>// Installa: npm install morgan
+                                <pre class="line-numbers"><code class="language-sql">// Installa: npm install morgan
 import morgan from 'morgan';
 
 // Development: log dettagliati
@@ -2045,14 +2045,14 @@ if (process.env.NODE_ENV === 'production') {
 }</code></pre>
 
                                 <h3>⚡ 6. Performance - Comprimi le risposte</h3>
-                                <pre><code>// Installa: npm install compression
+                                <pre class="line-numbers"><code class="language-sql">// Installa: npm install compression
 import compression from 'compression';
 
 app.use(compression());
 // Riduce drasticamente la dimensione delle risposte HTTP</code></pre>
 
                                 <h3>🌐 7. CORS - Gestisci richieste cross-origin</h3>
-                                <pre><code>// Installa: npm install cors
+                                <pre class="line-numbers"><code class="language-javascript">// Installa: npm install cors
 import cors from 'cors';
 
 // Permetti tutto (solo development!)
@@ -2283,7 +2283,7 @@ app.use(cors({
                             </ul>
 
                             <h3>Esempio configurazione sicurezza</h3>
-                            <pre><code>import express from 'express';
+                            <pre class="line-numbers"><code class="language-javascript">import express from 'express';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { body, validationResult } from 'express-validator';

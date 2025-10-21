@@ -181,13 +181,13 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>🔗 Formato</h3>
-                                        <pre><code>xxxxx.yyyyy.zzzzz
+                                        <pre class="line-numbers"><code class="language-javascript">xxxxx.yyyyy.zzzzz
 header.payload.signature</code></pre>
                                         <p>Tre blocchi Base64URL separati da punti.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>🧾 Header</h3>
-                                        <pre><code>{
+                                        <pre class="line-numbers"><code class="language-javascript">{
   "alg": "RS256",
   "typ": "JWT",
   "kid": "key-2025-01"
@@ -196,7 +196,7 @@ header.payload.signature</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>📜 Payload (Claims)</h3>
-                                        <pre><code>{
+                                        <pre class="line-numbers"><code class="language-javascript">{
   "sub": "user-123",
   "role": "admin",
   "scope": ["users:read"],
@@ -207,7 +207,7 @@ header.payload.signature</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>✍️ Signature</h3>
-                                        <pre><code>sign( base64url(header)+"."+base64url(payload), key )</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">sign( base64url(header)+"."+base64url(payload), key )</code></pre>
                                         <p>Garantisce integrità & autenticità.</p>
                                     </div>
                                 </div>
@@ -256,25 +256,25 @@ header.payload.signature</code></pre>
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>HS256</h3>
-                                        <pre><code>jwt.sign(payload, secret, { expiresIn: '15m' });
+                                        <pre class="line-numbers"><code class="language-javascript">jwt.sign(payload, secret, { expiresIn: '15m' });
 jwt.verify(token, secret);</code></pre>
                                         <p>Chiave simmetrica condivisa.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>RS256</h3>
-                                        <pre><code>jwt.sign(payload, privateKey, { algorithm: 'RS256' });
+                                        <pre class="line-numbers"><code class="language-javascript">jwt.sign(payload, privateKey, { algorithm: 'RS256' });
 jwt.verify(token, publicKey);</code></pre>
                                         <p>Chiave privata/pubblica – ideale microservizi.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>JWKS</h3>
-                                        <pre><code>GET /.well-known/jwks.json
+                                        <pre class="line-numbers"><code class="language-javascript">GET /.well-known/jwks.json
 { "keys": [ {"kid":"2025-01","kty":"RSA", ...} ] }</code></pre>
                                         <p>Rotazione & discovery chiavi.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>Alg None (storico)</h3>
-                                        <pre><code>{ "alg": "none" } // Vulnerabilità</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">{ "alg": "none" } // Vulnerabilità</code></pre>
                                         <p>Whitelist algoritmi sempre.</p>
                                     </div>
                                 </div>
@@ -305,7 +305,7 @@ jwt.verify(token, publicKey);</code></pre>
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>Express</h3>
-                                        <pre><code>function auth(req,res,next){
+                                        <pre class="line-numbers"><code class="language-javascript">function auth(req,res,next){
   const t=req.headers.authorization?.split(' ')[1];
   try {
     req.user = jwt.verify(t, publicKey, {
@@ -319,7 +319,7 @@ jwt.verify(token, publicKey);</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Rotazione Refresh</h3>
-                                        <pre><code>POST /auth/refresh
+                                        <pre class="line-numbers"><code class="language-http">POST /auth/refresh
 1. Verifica refresh
 2. Invalida jti precedente
 3. Emissione nuova coppia
@@ -327,13 +327,13 @@ jwt.verify(token, publicKey);</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Logout Sicuro</h3>
-                                        <pre><code>POST /auth/logout
+                                        <pre class="line-numbers"><code class="language-http">POST /auth/logout
 blacklist.add(refresh.jti)
 clear refresh cookie</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Blacklist</h3>
-                                        <pre><code>// Redis TTL = exp - now
+                                        <pre class="line-numbers"><code class="language-javascript">// Redis TTL = exp - now
 SET blacklist:&lt;jti&gt; 1 EX 900</code></pre>
                                     </div>
                                 </div>

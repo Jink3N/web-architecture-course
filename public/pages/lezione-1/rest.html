@@ -310,18 +310,18 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>URL Versioning</h3>
-                                        <pre><code>/v1/users
+                                        <pre class="line-numbers"><code class="language-javascript">/v1/users
 /v2/users</code></pre>
                                         <p>Semplice ma rompe caching.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>Header Version</h3>
-                                        <pre><code>Accept: application/vnd.app.user+json;version=2</code></pre>
+                                        <pre class="line-numbers"><code class="language-http">Accept: application/vnd.app.user+json;version=2</code></pre>
                                         <p>Più pulito, flessibile.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>Media Type</h3>
-                                        <pre><code>application/vnd.company.user-v3+json</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">application/vnd.company.user-v3+json</code></pre>
                                         <p>Documentato e esplicito.</p>
                                     </div>
                                     <div class="example-card">
@@ -334,7 +334,7 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>Problem+JSON</h3>
-                                        <pre><code>{
+                                        <pre class="line-numbers"><code class="language-javascript">{
   "type": "https://api.example.com/errors/invalid-input",
   "title": "Validation Failed",
   "status": 422,
@@ -344,13 +344,13 @@
                                     </div>
                                     <div class="example-card">
                                         <h3>Retry-After</h3>
-                                        <pre><code>HTTP/1.1 429 Too Many Requests
+                                        <pre class="line-numbers"><code class="language-http">HTTP/1.1 429 Too Many Requests
 Retry-After: 120</code></pre>
                                         <p>Rate limiting esplicito.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>ETag Workflow</h3>
-                                        <pre><code>GET /resource
+                                        <pre class="line-numbers"><code class="language-http">GET /resource
 ETag: "abc123"
 
 PUT /resource
@@ -359,7 +359,7 @@ If-Match: "abc123"</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Paginazione</h3>
-                                        <pre><code>Link: <https://api.com/users?page=3>; rel="next"</code></pre>
+                                        <pre class="line-numbers"><code class="language-markup">Link: <https://api.com/users?page=3>; rel="next"</code></pre>
                                         <p>Hypermedia navigabile.</p>
                                     </div>
                                 </div>

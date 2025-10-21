@@ -275,7 +275,7 @@
                                             <strong>Scenario:</strong> Trasferimento fondi non
                                             autorizzato
                                         </p>
-                                        <pre><code>&lt;!-- Sito malevolo --&gt;
+                                        <pre class="line-numbers"><code class="language-markup">&lt;!-- Sito malevolo --&gt;
 &lt;img src="https://bank.com/transfer?to=attacker&amp;amount=1000" 
      style="display:none"&gt;
 
@@ -293,7 +293,7 @@
                                             <strong>Scenario:</strong> Cambio email per account
                                             takeover
                                         </p>
-                                        <pre><code>&lt;!-- Richiesta AJAX nascosta --&gt;
+                                        <pre class="line-numbers"><code class="language-javascript">&lt;!-- Richiesta AJAX nascosta --&gt;
 &lt;script&gt;
 fetch('https://social.com/api/profile', {
   method: 'PUT',
@@ -314,7 +314,7 @@ fetch('https://social.com/api/profile', {
                                             <strong>Scenario:</strong> Aggiunta prodotti e checkout
                                             forzato
                                         </p>
-                                        <pre><code>&lt;!-- Multiple richieste in sequenza --&gt;
+                                        <pre class="line-numbers"><code class="language-markup">&lt;!-- Multiple richieste in sequenza --&gt;
 &lt;iframe src="https://shop.com/cart/add?item=expensive-item" 
         style="display:none"&gt;&lt;/iframe&gt;
 &lt;iframe src="https://shop.com/cart/add?item=another-item" 
@@ -329,7 +329,7 @@ fetch('https://social.com/api/profile', {
                                             <strong>Scenario:</strong> Post automatici per
                                             spam/propaganda
                                         </p>
-                                        <pre><code>&lt;!-- Form per post automatico --&gt;
+                                        <pre class="line-numbers"><code class="language-markup">&lt;!-- Form per post automatico --&gt;
 &lt;form action="https://social.com/api/posts" method="POST"&gt;
   &lt;input type="hidden" name="content" 
          value="Check out this amazing product! [spam link]"&gt;
@@ -458,7 +458,7 @@ fetch('https://social.com/api/profile', {
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>🟢 Node.js + Express</h3>
-                                        <pre><code>const csrf = require('csurf');
+                                        <pre class="line-numbers"><code class="language-javascript">const csrf = require('csurf');
 
 // CSRF middleware
 const csrfProtection = csrf({ cookie: true });
@@ -477,7 +477,7 @@ app.use((err, req, res, next) =&gt; {
 
                                     <div class="example-card">
                                         <h3>🐍 Django</h3>
-                                        <pre><code># settings.py
+                                        <pre class="line-numbers"><code class="language-sql"># settings.py
 MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
 ]
@@ -496,7 +496,7 @@ def my_view(request):
 
                                     <div class="example-card">
                                         <h3>🔴 Ruby on Rails</h3>
-                                        <pre><code># Application controller
+                                        <pre class="line-numbers"><code class="language-markdown"># Application controller
 class ApplicationController &lt; ActionController::Base
   protect_from_forgery with: :exception
 end
@@ -512,7 +512,7 @@ skip_before_action :verify_authenticity_token, only: [:api_endpoint]</code></pre
 
                                     <div class="example-card">
                                         <h3>☁️ SameSite Cookie</h3>
-                                        <pre><code>// Modern approach
+                                        <pre class="line-numbers"><code class="language-javascript">// Modern approach
 Set-Cookie: sessionid=abc123; SameSite=Strict; Secure; HttpOnly
 
 // JavaScript setting

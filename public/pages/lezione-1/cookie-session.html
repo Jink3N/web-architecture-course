@@ -233,11 +233,11 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>Set-Cookie</h3>
-                                        <pre><code>Set-Cookie: sid=abc123; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=1800</code></pre>
+                                        <pre class="line-numbers"><code class="language-http">Set-Cookie: sid=abc123; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=1800</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Attributi</h3>
-                                        <pre><code>Domain  Path  Expires/Max-Age\nSecure  HttpOnly  SameSite</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">Domain  Path  Expires/Max-Age\nSecure  HttpOnly  SameSite</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>SameSite</h3>
@@ -334,19 +334,19 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>Express</h3>
-                                        <pre><code>app.use(session({\n  secret: process.env.SECRET,\n  resave:false, saveUninitialized:false,\n  cookie:{ httpOnly:true, sameSite:'lax', secure:true, maxAge:1800000 }\n}));</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">app.use(session({\n  secret: process.env.SECRET,\n  resave:false, saveUninitialized:false,\n  cookie:{ httpOnly:true, sameSite:'lax', secure:true, maxAge:1800000 }\n}));</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Redis Store</h3>
-                                        <pre><code>SET sess:abc123 {"uid":42,"role":"admin"} EX 1800</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">SET sess:abc123 {"uid":42,"role":"admin"} EX 1800</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>PHP ini</h3>
-                                        <pre><code>session.cookie_httponly=1\nsession.cookie_secure=1\nsession.use_strict_mode=1</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">session.cookie_httponly=1\nsession.cookie_secure=1\nsession.use_strict_mode=1</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Logout</h3>
-                                        <pre><code>req.session.destroy(()=>{\n  res.clearCookie('sid');\n});</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">req.session.destroy(()=>{\n  res.clearCookie('sid');\n});</code></pre>
                                     </div>
                                 </div>
                                 <div class="info-box">

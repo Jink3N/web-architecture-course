@@ -228,25 +228,25 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>CRUD</h3>
-                                        <pre><code>localStorage.setItem('k','v');
+                                        <pre class="line-numbers"><code class="language-javascript">localStorage.setItem('k','v');
 localStorage.getItem('k');
 localStorage.removeItem('k');
 localStorage.clear();</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>JSON</h3>
-                                        <pre><code>localStorage.setItem('user', JSON.stringify(obj));
+                                        <pre class="line-numbers"><code class="language-javascript">localStorage.setItem('user', JSON.stringify(obj));
 JSON.parse(localStorage.getItem('user'));</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Iterazione</h3>
-                                        <pre><code>for(let i=0;i&lt;localStorage.length;i++){
+                                        <pre class="line-numbers"><code class="language-javascript">for(let i=0;i&lt;localStorage.length;i++){
  console.log(localStorage.key(i));
 }</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Sync Event</h3>
-                                        <pre><code>window.addEventListener('storage', e=&gt;{
+                                        <pre class="line-numbers"><code class="language-javascript">window.addEventListener('storage', e=&gt;{
   console.log(e.key,e.newValue);
 });</code></pre>
                                         <p>Solo su altre tab.</p>
@@ -295,7 +295,7 @@ JSON.parse(localStorage.getItem('user'));</code></pre>
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>Cache TTL</h3>
-                                        <pre><code>function setCache(k,v,ttl){
+                                        <pre class="line-numbers"><code class="language-javascript">function setCache(k,v,ttl){
  const r={v,exp:Date.now()+ttl};
  localStorage.setItem(k,JSON.stringify(r));
 }
@@ -306,15 +306,15 @@ function getCache(k){
                                     </div>
                                     <div class="example-card">
                                         <h3>Feature Flag</h3>
-                                        <pre><code>const ff=k=&gt;localStorage.getItem('ff:'+k)==='1';</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">const ff=k=&gt;localStorage.getItem('ff:'+k)==='1';</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Draft Form</h3>
-                                        <pre><code>saveDraft = d =&gt; localStorage.setItem('draft',JSON.stringify(d));</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">saveDraft = d =&gt; localStorage.setItem('draft',JSON.stringify(d));</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Theme</h3>
-                                        <pre><code>setTheme(t){localStorage.setItem('theme',t);}</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">setTheme(t){localStorage.setItem('theme',t);}</code></pre>
                                     </div>
                                 </div>
                                 <div class="info-box">

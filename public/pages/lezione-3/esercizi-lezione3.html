@@ -99,7 +99,7 @@
                                 </div>
 
                                 <h3>Struttura progetto</h3>
-                                <pre><code>task-manager/
+                                <pre class="line-numbers"><code class="language-javascript">task-manager/
 ├── package.json
 ├── index.js
 ├── lib/
@@ -109,7 +109,7 @@
     └── tasks.json</code></pre>
 
                                 <h3>Esempio utilizzo</h3>
-                                <pre><code># Aggiungi task
+                                <pre class="line-numbers"><code class="language-markdown"># Aggiungi task
 node index.js add "Studiare Node.js"
 
 # Lista tutti i tasks
@@ -122,7 +122,7 @@ node index.js complete 1
 node index.js remove 1</code></pre>
 
                                 <h3>Starter Code</h3>
-                                <pre><code>// lib/storage.js
+                                <pre class="line-numbers"><code class="language-javascript">// lib/storage.js
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -188,7 +188,7 @@ main().catch(console.error);</code></pre>
                                 </div>
 
                                 <h3>Esempio utilizzo</h3>
-                                <pre><code>import Logger from './logger.js';
+                                <pre class="line-numbers"><code class="language-javascript">import Logger from './logger.js';
 
 const logger = new Logger('./logs', {
     maxLines: 100,
@@ -200,7 +200,7 @@ logger.warn('Memory usage high');
 logger.error('Database connection failed');</code></pre>
 
                                 <h3>Starter Code</h3>
-                                <pre><code>// logger.js
+                                <pre class="line-numbers"><code class="language-sql">// logger.js
 import fs from 'fs';
 import path from 'path';
 
@@ -252,7 +252,7 @@ export default class Logger {
                                 </div>
 
                                 <h3>Struttura</h3>
-                                <pre><code>library-api/
+                                <pre class="line-numbers"><code class="language-markup">library-api/
 ├── package.json
 ├── .env
 ├── src/
@@ -274,7 +274,7 @@ export default class Logger {
     └── books.json</code></pre>
 
                                 <h3>Endpoints richiesti</h3>
-                                <pre><code>GET    /api/books           # Lista tutti i libri
+                                <pre class="line-numbers"><code class="language-http">GET    /api/books           # Lista tutti i libri
 GET    /api/books/:id       # Singolo libro
 POST   /api/books           # Crea libro
 PUT    /api/books/:id       # Aggiorna libro
@@ -282,7 +282,7 @@ DELETE /api/books/:id       # Elimina libro
 GET    /api/books/search?q= # Cerca per titolo/autore</code></pre>
 
                                 <h3>Starter Code</h3>
-                                <pre><code>// src/models/Book.js
+                                <pre class="line-numbers"><code class="language-javascript">// src/models/Book.js
 export default class Book {
     constructor({ title, author, isbn, year }) {
         this.id = Date.now().toString();
@@ -381,14 +381,14 @@ app.listen(PORT, () => {
                                     </ul>
                                 </div>
 
-                                <pre><code># Utilizzo
+                                <pre class="line-numbers"><code class="language-markdown"># Utilizzo
 node csv-to-json.js input.csv output.json
 
 # Output
 Processing: 45% | 45000/100000 rows</code></pre>
 
                                 <h3>Starter Code</h3>
-                                <pre><code>import fs from 'fs';
+                                <pre class="line-numbers"><code class="language-javascript">import fs from 'fs';
 import { Transform } from 'stream';
 import { createInterface } from 'readline';
 
@@ -438,7 +438,7 @@ convertCSVtoJSON(inputFile, outputFile).catch(console.error);</code></pre>
                                 </div>
 
                                 <h3>Struttura progetto</h3>
-                                <pre><code>task-api/
+                                <pre class="line-numbers"><code class="language-markup">task-api/
 ├── package.json
 ├── .env
 ├── server.js
@@ -514,7 +514,7 @@ convertCSVtoJSON(inputFile, outputFile).catch(console.error);</code></pre>
                                 </table>
 
                                 <h3>Starter Code - Backend</h3>
-                                <pre><code>// server.js
+                                <pre class="line-numbers"><code class="language-javascript">// server.js
 import express from 'express';
 import 'dotenv/config';
 import taskRoutes from './routes/taskRoutes.js';
@@ -665,7 +665,7 @@ export function errorHandler(err, req, res, next) {
                                     </ul>
                                 </div>
 
-                                <pre><code>&lt;!-- public/index.html --&gt;
+                                <pre class="line-numbers"><code class="language-javascript">&lt;!-- public/index.html --&gt;
 &lt;!DOCTYPE html&gt;
 &lt;html lang="it"&gt;
 &lt;head&gt;
@@ -817,7 +817,7 @@ button:hover {
     display: none;
 }</code></pre>
 
-                                <pre><code>// public/app.js
+                                <pre class="line-numbers"><code class="language-javascript">// public/app.js
 const API_URL = 'http://localhost:3000/api/tasks';
 
 // Carica tasks all'avvio
@@ -973,7 +973,7 @@ document.getElementById('taskInput').addEventListener('keypress', (e) => {
                                 </div>
 
                                 <h4>📍 GET - Lista tutti i tasks</h4>
-                                <pre><code>Metodo: GET
+                                <pre class="line-numbers"><code class="language-javascript">Metodo: GET
 URL: {{baseUrl}}/api/tasks
 Headers: (nessuno)
 Body: (nessuno)
@@ -992,7 +992,7 @@ Risposta attesa (200 OK):
 }</code></pre>
 
                                 <h4>📍 POST - Crea nuovo task</h4>
-                                <pre><code>Metodo: POST
+                                <pre class="line-numbers"><code class="language-javascript">Metodo: POST
 URL: {{baseUrl}}/api/tasks
 Headers: Content-Type: application/json
 Body (raw JSON):
@@ -1012,7 +1012,7 @@ Risposta attesa (201 Created):
 }</code></pre>
 
                                 <h4>📍 GET - Singolo task</h4>
-                                <pre><code>Metodo: GET
+                                <pre class="line-numbers"><code class="language-javascript">Metodo: GET
 URL: {{baseUrl}}/api/tasks/1234567890
 Headers: (nessuno)
 Body: (nessuno)
@@ -1035,7 +1035,7 @@ Risposta errore (404 Not Found):
 }</code></pre>
 
                                 <h4>📍 PATCH - Completa task</h4>
-                                <pre><code>Metodo: PATCH
+                                <pre class="line-numbers"><code class="language-javascript">Metodo: PATCH
 URL: {{baseUrl}}/api/tasks/1234567890/complete
 Headers: (nessuno)
 Body: (nessuno)
@@ -1052,7 +1052,7 @@ Risposta attesa (200 OK):
 }</code></pre>
 
                                 <h4>📍 PUT - Aggiorna task</h4>
-                                <pre><code>Metodo: PUT
+                                <pre class="line-numbers"><code class="language-javascript">Metodo: PUT
 URL: {{baseUrl}}/api/tasks/1234567890
 Headers: Content-Type: application/json
 Body (raw JSON):
@@ -1073,7 +1073,7 @@ Risposta attesa (200 OK):
 }</code></pre>
 
                                 <h4>📍 DELETE - Elimina task</h4>
-                                <pre><code>Metodo: DELETE
+                                <pre class="line-numbers"><code class="language-javascript">Metodo: DELETE
 URL: {{baseUrl}}/api/tasks/1234567890
 Headers: (nessuno)
 Body: (nessuno)
@@ -1085,7 +1085,7 @@ Risposta attesa (200 OK):
 }</code></pre>
 
                                 <h3>🧪 Test automatici in Postman</h3>
-                                <pre><code>// Aggiungi nella tab "Tests" di ogni richiesta
+                                <pre class="line-numbers"><code class="language-javascript">// Aggiungi nella tab "Tests" di ogni richiesta
 
 // Test per GET /api/tasks
 pm.test("Status code is 200", () => {
@@ -1161,7 +1161,7 @@ pm.collectionVariables.set("taskId", pm.response.json().data.id);</code></pre>
                                 </div>
 
                                 <h3>💾 Esporta Collection Postman</h3>
-                                <pre><code>// task-manager.postman_collection.json
+                                <pre class="line-numbers"><code class="language-javascript">// task-manager.postman_collection.json
 {
   "info": {
     "name": "Task Manager API",

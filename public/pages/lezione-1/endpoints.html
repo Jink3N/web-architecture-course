@@ -188,26 +188,26 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>Sostantivi plurali</h3>
-                                        <pre><code>/users
+                                        <pre class="line-numbers"><code class="language-javascript">/users
 /users/{id}
 /orders/{orderId}</code></pre>
                                         <p>Niente verbi nell'URI.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>Relazioni nidificate</h3>
-                                        <pre><code>/users/{id}/orders
+                                        <pre class="line-numbers"><code class="language-javascript">/users/{id}/orders
 /users/{id}/orders/{orderId}</code></pre>
                                         <p>Solo se relazione forte.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>Filtri via query</h3>
-                                        <pre><code>/users?role=admin&active=true
+                                        <pre class="line-numbers"><code class="language-sql">/users?role=admin&active=true
 /orders?from=2024-01-01&to=2024-01-31</code></pre>
                                         <p>No endpoint separati per filtri.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>Azioni rare</h3>
-                                        <pre><code>POST /invoices/{id}/pay
+                                        <pre class="line-numbers"><code class="language-http">POST /invoices/{id}/pay
 POST /users/{id}/reset-password</code></pre>
                                         <p>Solo quando non CRUD.</p>
                                     </div>
@@ -249,23 +249,23 @@ POST /users/{id}/reset-password</code></pre>
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>Paginazione</h3>
-                                        <pre><code>/users?page=2&limit=25
+                                        <pre class="line-numbers"><code class="language-javascript">/users?page=2&limit=25
 Link: <...page=3>; rel="next"</code></pre>
                                         <p>Preferire link HATEOAS.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>Field Selection</h3>
-                                        <pre><code>/users?fields=id,name,email</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">/users?fields=id,name,email</code></pre>
                                         <p>Riduce payload.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>Sorting</h3>
-                                        <pre><code>/orders?sort=-createdAt,status</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">/orders?sort=-createdAt,status</code></pre>
                                         <p>- = desc, default asc.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>Filtering</h3>
-                                        <pre><code>/products?price[lt]=100&stock[gt]=0</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">/products?price[lt]=100&stock[gt]=0</code></pre>
                                         <p>Operatore nei parametri.</p>
                                     </div>
                                 </div>
@@ -294,7 +294,7 @@ Link: <...page=3>; rel="next"</code></pre>
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>Richiesta</h3>
-                                        <pre><code>POST /payments
+                                        <pre class="line-numbers"><code class="language-javascript">POST /payments
 Idempotency-Key: 550e8400-e29b
 {
   "amount": 1000,
@@ -303,17 +303,17 @@ Idempotency-Key: 550e8400-e29b
                                     </div>
                                     <div class="example-card">
                                         <h3>Risposta 1</h3>
-                                        <pre><code>201 Created
+                                        <pre class="line-numbers"><code class="language-javascript">201 Created
 { "paymentId": "p_123" }</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Risposta 2 (retry)</h3>
-                                        <pre><code>200 OK
+                                        <pre class="line-numbers"><code class="language-javascript">200 OK
 { "paymentId": "p_123" }</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Error</h3>
-                                        <pre><code>409 Conflict
+                                        <pre class="line-numbers"><code class="language-javascript">409 Conflict
 Reason: Duplicate operation</code></pre>
                                     </div>
                                 </div>
@@ -322,7 +322,7 @@ Reason: Duplicate operation</code></pre>
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>Resource Model</h3>
-                                        <pre><code>GET /users/123
+                                        <pre class="line-numbers"><code class="language-javascript">GET /users/123
 {
   "id": "123",
   "name": "Ada Lovelace",
@@ -334,19 +334,19 @@ Reason: Duplicate operation</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Error Model</h3>
-                                        <pre><code>{
+                                        <pre class="line-numbers"><code class="language-javascript">{
   "error": "validation_error",
   "details": [{"field": "email", "message": "invalid"}]
 }</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Partial Update</h3>
-                                        <pre><code>PATCH /users/123
+                                        <pre class="line-numbers"><code class="language-javascript">PATCH /users/123
 { "name": "Ada L." }</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Bulk Ops</h3>
-                                        <pre><code>POST /users/bulk
+                                        <pre class="line-numbers"><code class="language-javascript">POST /users/bulk
 [{"name": "A"}, {"name": "B"}]</code></pre>
                                     </div>
                                 </div>

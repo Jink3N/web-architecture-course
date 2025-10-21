@@ -189,7 +189,7 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>JSON</h3>
-                                        <pre><code>{
+                                        <pre class="line-numbers"><code class="language-javascript">{
   "user": {
     "id": 123,
     "name": "Ada",
@@ -201,7 +201,7 @@
                                     </div>
                                     <div class="example-card">
                                         <h3>XML</h3>
-                                        <pre><code>&lt;user id="123" active="true"&gt;
+                                        <pre class="line-numbers"><code class="language-javascript">&lt;user id="123" active="true"&gt;
   &lt;name&gt;Ada&lt;/name&gt;
   &lt;roles&gt;
     &lt;role&gt;admin&lt;/role&gt;
@@ -275,7 +275,7 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>XML → JSON</h3>
-                                        <pre><code>&lt;item price="10"&gt;Book&lt;/item&gt;
+                                        <pre class="line-numbers"><code class="language-javascript">&lt;item price="10"&gt;Book&lt;/item&gt;
 {
   "item": {
     "_text": "Book",
@@ -286,7 +286,7 @@
                                     </div>
                                     <div class="example-card">
                                         <h3>Array Heuristic</h3>
-                                        <pre><code>&lt;tags&gt;
+                                        <pre class="line-numbers"><code class="language-javascript">&lt;tags&gt;
   &lt;tag&gt;a&lt;/tag&gt;
   &lt;tag&gt;b&lt;/tag&gt;
 &lt;/tags&gt;
@@ -295,12 +295,12 @@
                                     </div>
                                     <div class="example-card">
                                         <h3>Date Handling</h3>
-                                        <pre><code>{"createdAt": "2024-09-10T12:30:00Z"}</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">{"createdAt": "2024-09-10T12:30:00Z"}</code></pre>
                                         <p>Stringhe ISO 8601 standard.</p>
                                     </div>
                                     <div class="example-card">
                                         <h3>Schema XML</h3>
-                                        <pre><code>&lt;xs:element name="price" type="xs:decimal"/&gt;</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">&lt;xs:element name="price" type="xs:decimal"/&gt;</code></pre>
                                         <p>Tipizzazione forte.</p>
                                     </div>
                                 </div>
@@ -329,7 +329,7 @@
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>JSON Schema</h3>
-                                        <pre><code>{
+                                        <pre class="line-numbers"><code class="language-javascript">{
   "type": "object",
   "properties": {"id": {"type": "integer"}},
   "required": ["id"]
@@ -337,17 +337,17 @@
                                     </div>
                                     <div class="example-card">
                                         <h3>XSD</h3>
-                                        <pre><code>&lt;xs:element name="id" type="xs:int"/&gt;</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">&lt;xs:element name="id" type="xs:int"/&gt;</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Relax NG</h3>
-                                        <pre><code>&lt;element name="user"&gt;
+                                        <pre class="line-numbers"><code class="language-javascript">&lt;element name="user"&gt;
   &lt;element name="id" type="int"/&gt;
 &lt;/element&gt;</code></pre>
                                     </div>
                                     <div class="example-card">
                                         <h3>Valori Null</h3>
-                                        <pre><code>{"middleName": null}</code></pre>
+                                        <pre class="line-numbers"><code class="language-javascript">{"middleName": null}</code></pre>
                                         <p>XML: elemento mancante vs vuoto.</p>
                                     </div>
                                 </div>

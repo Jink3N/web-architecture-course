@@ -381,7 +381,7 @@
                                             <strong>Il più importante:</strong> Specifica quali
                                             domini possono accedere.
                                         </p>
-                                        <pre><code># Permetti tutti (ATTENZIONE: security risk)
+                                        <pre class="line-numbers"><code class="language-markdown"># Permetti tutti (ATTENZIONE: security risk)
 Access-Control-Allow-Origin: *
 
 # Permetti dominio specifico
@@ -396,7 +396,7 @@ Access-Control-Allow-Origin: https://myapp.com
                                             <strong>Metodi HTTP permessi</strong> per richieste
                                             cross-origin.
                                         </p>
-                                        <pre><code># Metodi base
+                                        <pre class="line-numbers"><code class="language-markdown"># Metodi base
 Access-Control-Allow-Methods: GET, POST
 
 # Metodi completi API REST
@@ -409,7 +409,7 @@ Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS</code></pre>
                                             <strong>Header custom permessi</strong> nelle richieste
                                             client.
                                         </p>
-                                        <pre><code># Headers comuni
+                                        <pre class="line-numbers"><code class="language-markdown"># Headers comuni
 Access-Control-Allow-Headers: Content-Type, Authorization
 
 # Headers extended
@@ -422,7 +422,7 @@ Access-Control-Allow-Headers: Content-Type, Authorization, X-API-Key, X-Requeste
                                             <strong>Abilita invio cookies</strong> e header di
                                             autenticazione.
                                         </p>
-                                        <pre><code># Permetti cookies cross-origin
+                                        <pre class="line-numbers"><code class="language-markdown"># Permetti cookies cross-origin
 Access-Control-Allow-Credentials: true
 
 # ATTENZIONE: Non compatibile con Origin: *</code></pre>
@@ -520,7 +520,7 @@ Access-Control-Allow-Credentials: true
                                 <div class="examples-grid">
                                     <div class="example-card">
                                         <h3>🟢 Node.js + Express</h3>
-                                        <pre><code>const cors = require('cors');
+                                        <pre class="line-numbers"><code class="language-javascript">const cors = require('cors');
 
 // Basic CORS
 app.use(cors());
@@ -537,7 +537,7 @@ app.use(cors(corsOptions));</code></pre>
 
                                     <div class="example-card">
                                         <h3>🐍 Python + Flask</h3>
-                                        <pre><code>from flask_cors import CORS
+                                        <pre class="line-numbers"><code class="language-javascript">from flask_cors import CORS
 
 # Basic CORS
 CORS(app)
@@ -554,7 +554,7 @@ CORS(app, resources={
 
                                     <div class="example-card">
                                         <h3>🌐 Nginx Configuration</h3>
-                                        <pre><code>location /api/ {
+                                        <pre class="line-numbers"><code class="language-nginx">location /api/ {
     if ($request_method = 'OPTIONS') {
         add_header Access-Control-Allow-Origin 'https://myapp.com';
         add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
@@ -570,7 +570,7 @@ CORS(app, resources={
 
                                     <div class="example-card">
                                         <h3>☁️ AWS CloudFront</h3>
-                                        <pre><code># CloudFormation template
+                                        <pre class="line-numbers"><code class="language-markdown"># CloudFormation template
 Resources:
   Distribution:
     Type: AWS::CloudFront::Distribution

@@ -524,7 +524,7 @@
                                         <p>
                                             <strong>Punycode encoding</strong> per domini non-ASCII
                                         </p>
-                                        <pre><code>// Domain con caratteri speciali
+                                        <pre class="line-numbers"><code class="language-javascript">// Domain con caratteri speciali
 例え.テスト → xn--r8jz45g.xn--zckzah
 
 // URL completo
@@ -535,7 +535,7 @@ https://xn--r8jz45g.xn--zckzah/%E3%83%9A%E3%83%BC%E3%82%B8</code></pre>
                                     <div class="example-card">
                                         <h3>🔤 UTF-8 URL Encoding</h3>
                                         <p><strong>Caratteri Unicode</strong> in path e query</p>
-                                        <pre><code>// Caratteri accentati
+                                        <pre class="line-numbers"><code class="language-javascript">// Caratteri accentati
 café → caf%C3%A9
 
 // Emoji in URL (tecnicamente possibile)
@@ -546,7 +546,7 @@ https://example.com/%F0%9F%8F%A0</code></pre>
                                     <div class="example-card">
                                         <h3>📱 Modern URL Handling</h3>
                                         <p><strong>Browser moderni</strong> gestiscono Unicode</p>
-                                        <pre><code>// JavaScript URL API
+                                        <pre class="line-numbers"><code class="language-javascript">// JavaScript URL API
 const url = new URL('https://example.com/café');
 console.log(url.pathname); // '/café'
 console.log(url.href); // 'https://example.com/caf%C3%A9'
@@ -559,7 +559,7 @@ decodeURIComponent('caf%C3%A9'); // 'café'</code></pre>
                                     <div class="example-card">
                                         <h3>🎨 URL Beautification</h3>
                                         <p><strong>User-friendly URLs</strong> per miglior UX</p>
-                                        <pre><code>// Before: ugly URLs
+                                        <pre class="line-numbers"><code class="language-javascript">// Before: ugly URLs
 /article.php?id=123&cat=tech
 
 // After: clean URLs

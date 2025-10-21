@@ -99,7 +99,7 @@
                                 </p>
 
                                 <h3>🚀 Creare un package.json</h3>
-                                <pre><code># Metodo interattivo (fa domande)
+                                <pre class="line-numbers"><code class="language-markdown"># Metodo interattivo (fa domande)
 npm init
 
 # Metodo rapido (usa defaults)
@@ -111,7 +111,7 @@ npm init --scope=@myorg</code></pre>
 
                             <article class="subsection">
                                 <h2>🔑 Campi essenziali</h2>
-                                <pre><code>{
+                                <pre class="line-numbers"><code class="language-javascript">{
   "name": "my-app",
   "version": "1.0.0",
   "description": "La mia applicazione Node.js",
@@ -184,7 +184,7 @@ npm init --scope=@myorg</code></pre>
                                     <code>npm run nome-script</code>
                                 </p>
 
-                                <pre><code>"scripts": {
+                                <pre class="line-numbers"><code class="language-javascript">"scripts": {
   "start": "node index.js",
   "dev": "nodemon --watch src index.js",
   "build": "tsc && node dist/index.js",
@@ -215,7 +215,7 @@ npm init --scope=@myorg</code></pre>
                                 </div>
 
                                 <h3>🔗 Script concatenati</h3>
-                                <pre><code>"scripts": {
+                                <pre class="line-numbers"><code class="language-javascript">"scripts": {
   "prebuild": "npm run clean",
   "build": "tsc",
   "postbuild": "npm run test",
@@ -260,7 +260,7 @@ npm init --scope=@myorg</code></pre>
                                 </table>
 
                                 <h3>🔢 Versioni semantiche (Semver)</h3>
-                                <pre><code>"dependencies": {
+                                <pre class="line-numbers"><code class="language-javascript">"dependencies": {
   "express": "4.18.2",      // Esatta
   "lodash": "^4.17.21",     // Compatibile (^4.x.x)
   "axios": "~1.4.0",        // Patch (1.4.x)
@@ -288,7 +288,7 @@ npm init --scope=@myorg</code></pre>
                             <article class="subsection">
                                 <h2>🛠️ Comandi NPM essenziali</h2>
 
-                                <pre><code># Installazione
+                                <pre class="line-numbers"><code class="language-markdown"># Installazione
 npm install                    # Installa tutte le dipendenze
 npm install express            # Installa e salva in dependencies
 npm install -D jest            # Installa in devDependencies
@@ -346,20 +346,20 @@ npm cache clean --force        # Pulisce cache NPM</code></pre>
                                     sensibili
                                 </p>
 
-                                <pre><code># .env (NON committare questo file!)
+                                <pre class="line-numbers"><code class="language-markdown"># .env (NON committare questo file!)
 DATABASE_URL=postgresql://localhost/mydb
 API_KEY=supersecretkey123
 PORT=3000
 NODE_ENV=development</code></pre>
 
-                                <pre><code>// index.js
+                                <pre class="line-numbers"><code class="language-javascript">// index.js
 import 'dotenv/config';  // o require('dotenv').config()
 
 console.log(process.env.DATABASE_URL);
 console.log(process.env.PORT);          // "3000"
 console.log(process.env.NODE_ENV);      // "development"</code></pre>
 
-                                <pre><code># .gitignore - SEMPRE ignorare .env
+                                <pre class="line-numbers"><code class="language-markdown"># .gitignore - SEMPRE ignorare .env
 node_modules/
 .env
 .env.local

@@ -136,7 +136,7 @@
                                 </p>
 
                                 <h3>Struttura di process.argv</h3>
-                                <pre><code>// Comando: node app.js create user --name Mario --age 30
+                                <pre class="line-numbers"><code class="language-javascript">// Comando: node app.js create user --name Mario --age 30
 
 console.log(process.argv);
 // Output:
@@ -152,7 +152,7 @@ console.log(process.argv);
 ]</code></pre>
 
                                 <h3>Esempio base: calcolatrice CLI</h3>
-                                <pre><code>// calc.js - Uso: node calc.js add 5 3
+                                <pre class="line-numbers"><code class="language-javascript">// calc.js - Uso: node calc.js add 5 3
 
 const [,, operation, num1, num2] = process.argv;
 
@@ -192,7 +192,7 @@ switch(operation) {
 console.log(`✅ Risultato: ${result}`);</code></pre>
 
                                 <h3>Test della calcolatrice</h3>
-                                <pre><code>$ node calc.js add 10 5
+                                <pre class="line-numbers"><code class="language-bash">$ node calc.js add 10 5
 ✅ Risultato: 15
 
 $ node calc.js multiply 4 3
@@ -210,7 +210,7 @@ $ node calc.js divide 10 0
                                 </p>
 
                                 <h3>Parser manuale semplice</h3>
-                                <pre><code>// parseArgs.js - Utility per parsare argomenti
+                                <pre class="line-numbers"><code class="language-javascript">// parseArgs.js - Utility per parsare argomenti
 
 export function parseArgs(argv) {
     const args = {
@@ -262,7 +262,7 @@ console.log(args);
 // }</code></pre>
 
                                 <h3>Esempio: User Manager CLI</h3>
-                                <pre><code>// user-cli.js
+                                <pre class="line-numbers"><code class="language-javascript">// user-cli.js
 import { parseArgs } from './parseArgs.js';
 
 const args = parseArgs(process.argv);
@@ -303,7 +303,7 @@ if (command === 'create' && entity === 'user') {
                                 </p>
 
                                 <h3>Commander.js - La più popolare</h3>
-                                <pre><code>// Installazione
+                                <pre class="line-numbers"><code class="language-javascript">// Installazione
 npm install commander
 
 // app.js con Commander
@@ -350,7 +350,7 @@ program.parse();
 // node app.js create --help</code></pre>
 
                                 <h3>Yargs - Alternativa potente</h3>
-                                <pre><code>// Installazione
+                                <pre class="line-numbers"><code class="language-javascript">// Installazione
 npm install yargs
 
 // app.js con Yargs
@@ -426,7 +426,7 @@ yargs(hideBin(process.argv))
                                 <h2>🎨 Rendere la CLI bella: colori e output</h2>
 
                                 <h3>Chalk - Colori nel terminale</h3>
-                                <pre><code>// Installazione
+                                <pre class="line-numbers"><code class="language-javascript">// Installazione
 npm install chalk
 
 // Utilizzo
@@ -444,7 +444,7 @@ console.log(chalk.bold.underline.green('Testo evidenziato'));
 console.log(chalk.rgb(255, 136, 0)('Arancione custom'));</code></pre>
 
                                 <h3>Ora - Spinner animati</h3>
-                                <pre><code>// Installazione
+                                <pre class="line-numbers"><code class="language-javascript">// Installazione
 npm install ora
 
 import ora from 'ora';
@@ -464,7 +464,7 @@ setTimeout(() => {
 }, 2000);</code></pre>
 
                                 <h3>Inquirer - Input interattivi</h3>
-                                <pre><code>// Installazione
+                                <pre class="line-numbers"><code class="language-javascript">// Installazione
 npm install inquirer
 
 import inquirer from 'inquirer';
@@ -499,7 +499,7 @@ const answers = await inquirer.prompt([
 console.log('Risposte:', answers);</code></pre>
 
                                 <h3>CLI completa con tutti gli extra</h3>
-                                <pre><code>// user-tool.js - CLI professionale
+                                <pre class="line-numbers"><code class="language-javascript">// user-tool.js - CLI professionale
 import { program } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
@@ -580,13 +580,13 @@ program.parse();</code></pre>
                                 </p>
 
                                 <h3>1. Aggiungi shebang</h3>
-                                <pre><code>#!/usr/bin/env node
+                                <pre class="line-numbers"><code class="language-sql">#!/usr/bin/env node
 
 // Il resto del codice...
 import { program } from 'commander';</code></pre>
 
                                 <h3>2. Configura package.json</h3>
-                                <pre><code>{
+                                <pre class="line-numbers"><code class="language-javascript">{
   "name": "my-cli-tool",
   "version": "1.0.0",
   "type": "module",
@@ -600,11 +600,11 @@ import { program } from 'commander';</code></pre>
 }</code></pre>
 
                                 <h3>3. Rendi eseguibile</h3>
-                                <pre><code># Linux/Mac
+                                <pre class="line-numbers"><code class="language-markdown"># Linux/Mac
 chmod +x bin/cli.js</code></pre>
 
                                 <h3>4. Installa globalmente</h3>
-                                <pre><code># Dalla cartella del progetto
+                                <pre class="line-numbers"><code class="language-markdown"># Dalla cartella del progetto
 npm link
 
 # Ora puoi usare il comando ovunque
@@ -614,7 +614,7 @@ mytool create --name Mario
 npm unlink -g my-cli-tool</code></pre>
 
                                 <h3>5. Pubblica su NPM (opzionale)</h3>
-                                <pre><code># Crea account su npmjs.com
+                                <pre class="line-numbers"><code class="language-markdown"># Crea account su npmjs.com
 npm login
 
 # Pubblica il package
@@ -723,7 +723,7 @@ npm install -g my-cli-tool</code></pre>
                                 <h2>🎓 Progetto completo: Todo CLI</h2>
                                 <p>Mettiamo tutto insieme in una CLI funzionale completa</p>
 
-                                <pre><code>// todo-cli.js
+                                <pre class="line-numbers"><code class="language-javascript">// todo-cli.js
 #!/usr/bin/env node
 
 import { program } from 'commander';
@@ -840,7 +840,7 @@ program
 program.parse();</code></pre>
 
                                 <h3>Utilizzo</h3>
-                                <pre><code># Aggiungi task
+                                <pre class="line-numbers"><code class="language-markdown"># Aggiungi task
 todo add "Studiare Node.js" -p high
 todo add "Fare la spesa"
 

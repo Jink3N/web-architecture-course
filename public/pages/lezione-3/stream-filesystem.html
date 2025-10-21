@@ -82,7 +82,7 @@
                                     >
                                 </p>
 
-                                <pre><code>import fs from 'fs/promises';
+                                <pre class="line-numbers"><code class="language-javascript">import fs from 'fs/promises';
 import path from 'path';
 
 // Leggere file
@@ -172,7 +172,7 @@ try {
                                 </table>
 
                                 <h3>Leggere file con stream</h3>
-                                <pre><code>import fs from 'fs';
+                                <pre class="line-numbers"><code class="language-javascript">import fs from 'fs';
 
 // File grande (10GB) - solo pochi MB in memoria
 const readStream = fs.createReadStream('huge-file.txt', {
@@ -193,7 +193,7 @@ readStream.on('error', (err) => {
 });</code></pre>
 
                                 <h3>Scrivere file con stream</h3>
-                                <pre><code>const writeStream = fs.createWriteStream('output.txt');
+                                <pre class="line-numbers"><code class="language-javascript">const writeStream = fs.createWriteStream('output.txt');
 
 writeStream.write('Prima riga\n');
 writeStream.write('Seconda riga\n');
@@ -204,7 +204,7 @@ writeStream.on('finish', () => {
 });</code></pre>
 
                                 <h3>Pipe: collegare stream</h3>
-                                <pre><code>// Copia file efficiente (nessun buffer in memoria)
+                                <pre class="line-numbers"><code class="language-sql">// Copia file efficiente (nessun buffer in memoria)
 const read = fs.createReadStream('input.txt');
 const write = fs.createWriteStream('output.txt');
 read.pipe(write);
@@ -238,7 +238,7 @@ fs.createReadStream('input.txt')
                                 <h2>🚀 Casi d'uso reali</h2>
 
                                 <h3>1. Upload file grandi</h3>
-                                <pre><code>import express from 'express';
+                                <pre class="line-numbers"><code class="language-javascript">import express from 'express';
 
 app.post('/upload', (req, res) => {
     const writeStream = fs.createWriteStream('uploaded-file.pdf');
@@ -255,7 +255,7 @@ app.post('/upload', (req, res) => {
 });</code></pre>
 
                                 <h3>2. Log file rotation</h3>
-                                <pre><code>import fs from 'fs';
+                                <pre class="line-numbers"><code class="language-javascript">import fs from 'fs';
 
 let logStream = fs.createWriteStream('app.log', { flags: 'a' });
 let lineCount = 0;
@@ -275,7 +275,7 @@ function log(message) {
 }</code></pre>
 
                                 <h3>3. CSV Processing</h3>
-                                <pre><code>import { createReadStream } from 'fs';
+                                <pre class="line-numbers"><code class="language-javascript">import { createReadStream } from 'fs';
 import { createInterface } from 'readline';
 
 const rl = createInterface({

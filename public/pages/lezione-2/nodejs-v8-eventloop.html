@@ -243,7 +243,7 @@
                                         >.
                                     </p>
                                 </div>
-                                <pre><code>// Controlla quanti thread usa il tuo ambiente
+                                <pre class="line-numbers"><code class="language-javascript">// Controlla quanti thread usa il tuo ambiente
 console.log('Thread pool:', process.env.UV_THREADPOOL_SIZE ?? 'default=4');</code></pre>
                             </article>
 
@@ -299,7 +299,7 @@ console.log('Thread pool:', process.env.UV_THREADPOOL_SIZE ?? 'default=4');</cod
                                         usi di più e le "potenzia" rendendole più veloci. Non devi
                                         fare nulla tu, succede automaticamente!
                                     </p>
-                                    <pre><code>// V8 nota che questa funzione viene chiamata spesso
+                                    <pre class="line-numbers"><code class="language-javascript">// V8 nota che questa funzione viene chiamata spesso
 function calcolaSconto(prezzo) {
     return prezzo * 0.9; // 10% di sconto
 }
@@ -476,7 +476,7 @@ function calcolaSconto(prezzo) {
                                 </table>
 
                                 <h3>🎬 Esempio pratico passo-passo</h3>
-                                <pre><code>console.log("🏁 Iniziamo!"); // ⏱️ Tempo: 0ms
+                                <pre class="line-numbers"><code class="language-javascript">console.log("🏁 Iniziamo!"); // ⏱️ Tempo: 0ms
 
 setTimeout(() => {
     console.log("⏰ Timer finito!"); // ⏱️ Tempo: ~100ms
@@ -493,7 +493,7 @@ console.log("🏃 Finisco il sincrono"); // ⏱️ Tempo: 3ms</code></pre>
 
                                 <div class="info-box curiosity">
                                     <h3>📊 Output finale (ordine di esecuzione)</h3>
-                                    <pre><code>🏁 Iniziamo!
+                                    <pre class="line-numbers"><code class="language-javascript">🏁 Iniziamo!
 🔄 Sto continuando...  
 🏃 Finisco il sincrono
 ✅ Promise risolta!     ← Le Promise hanno priorità alta!
@@ -728,7 +728,7 @@ console.log("🏃 Finisco il sincrono"); // ⏱️ Tempo: 3ms</code></pre>
                                 </table>
 
                                 <h3>🔍 Esempio pratico: Sistema di autenticazione</h3>
-                                <pre><code>// Middleware semplice per controllare autenticazione
+                                <pre class="line-numbers"><code class="language-javascript">// Middleware semplice per controllare autenticazione
 function checkAuth(req, res, next) {
     const token = req.headers.authorization;
     
@@ -789,7 +789,7 @@ app.get('/api/profile', (req, res) => {
                                         <strong>4 parametri</strong>. In caso contrario non verrà
                                         riconosciuto.
                                     </p>
-                                    <pre><code>app.use((err, req, res, next) => {
+                                    <pre class="line-numbers"><code class="language-javascript">app.use((err, req, res, next) => {
     console.error('Errore intercettato:', err);
     res.status(500).json({ messaggio: 'Ops! Qualcosa è andato storto.' });
 });</code></pre>
@@ -797,7 +797,7 @@ app.get('/api/profile', (req, res) => {
 
                                 <div class="info-box success">
                                     <h3>🏗️ Costruisci la tua prima catena middleware</h3>
-                                    <pre><code>const express = require('express');
+                                    <pre class="line-numbers"><code class="language-javascript">const express = require('express');
 const app = express();
 
 // 1. Per prima cosa: parsing del JSON
@@ -864,7 +864,7 @@ app.listen(3000);</code></pre>
                                     l'evento viene gestito senza bloccare gli altri aggiornamenti
                                     grazie all'event loop.
                                 </p>
-                                <pre><code>const http = require("http");
+                                <pre class="line-numbers"><code class="language-javascript">const http = require("http");
                             const { EventEmitter } = require("events");
 
                             const trackingBus = new EventEmitter();
@@ -976,7 +976,7 @@ server.listen(8080);</code></pre>
                                 <div class="info-box curiosity">
                                     <h3>🚀 Il tuo primo server Node.js (anteprima)</h3>
                                     <p>Ecco cosa costruirai nei prossimi esercizi:</p>
-                                    <pre><code>const express = require('express');
+                                    <pre class="line-numbers"><code class="language-javascript">const express = require('express');
 const app = express();
 
 // Middleware di logging

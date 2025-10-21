@@ -133,7 +133,7 @@
                                         utenti, ordini). Gli URL dovrebbero usare
                                         <strong>sostantivi al plurale</strong> e gerarchie chiare.
                                     </p>
-                                    <pre><code>GET /api/users          → elenco utenti
+                                    <pre class="line-numbers"><code class="language-http">GET /api/users          → elenco utenti
 GET /api/users/42      → utente con id 42
 POST /api/users        → crea un nuovo utente
 GET /api/users/42/orders → ordini dell'utente 42</code></pre>
@@ -210,7 +210,7 @@ GET /api/users/42/orders → ordini dell'utente 42</code></pre>
 
                             <article class="subsection">
                                 <h2>📦 Struttura di richiesta e risposta</h2>
-                                <pre><code>// Richiesta (client → server)
+                                <pre class="line-numbers"><code class="language-javascript">// Richiesta (client → server)
 POST /api/v1/users
 Content-Type: application/json
 
@@ -342,7 +342,7 @@ Content-Type: application/json
                                 </p>
                                 <div class="info-box welcome">
                                     <h3>Struttura degli endpoint</h3>
-                                    <pre><code>GET    /api/v1/clinics                   → elenco ambulatori
+                                    <pre class="line-numbers"><code class="language-http">GET    /api/v1/clinics                   → elenco ambulatori
 GET    /api/v1/clinics/:id/slots         → slot liberi per l'ambulatorio
 POST   /api/v1/bookings                  → crea prenotazione
 PATCH  /api/v1/bookings/:id/status       → conferma o annulla
@@ -350,7 +350,7 @@ DELETE /api/v1/bookings/:id              → elimina prenotazione</code></pre>
                                 </div>
                                 <div class="info-box success">
                                     <h3>Esempio di risposta reale</h3>
-                                    <pre><code>GET /api/v1/clinics/45/slots?date=2025-10-10
+                                    <pre class="line-numbers"><code class="language-javascript">GET /api/v1/clinics/45/slots?date=2025-10-10
 
 {
   "clinicId": 45,

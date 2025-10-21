@@ -191,7 +191,7 @@
                                 </div>
 
                                 <h3>🔧 Esportare con CommonJS</h3>
-                                <pre><code>// math.js - Modulo che esporta funzioni matematiche
+                                <pre class="line-numbers"><code class="language-javascript">// math.js - Modulo che esporta funzioni matematiche
 
 // Metodo 1: Esporta un oggetto con più funzioni
 module.exports = {
@@ -218,7 +218,7 @@ module.exports = function calcolatrice(operazione, a, b) {
 };</code></pre>
 
                                 <h3>📥 Importare con CommonJS</h3>
-                                <pre><code>// app.js - File principale che usa il modulo
+                                <pre class="line-numbers"><code class="language-javascript">// app.js - File principale che usa il modulo
 
 // Importa tutto l'oggetto esportato
 const math = require('./math');
@@ -248,7 +248,7 @@ const http = require('http');</code></pre>
                                             proprietà, NON sostituirlo.
                                         </li>
                                     </ul>
-                                    <pre><code>// ✅ Funziona
+                                    <pre class="line-numbers"><code class="language-javascript">// ✅ Funziona
 exports.funzione = () => {};
 
 // ❌ NON funziona - sovrascrive il riferimento locale
@@ -311,7 +311,7 @@ module.exports = { funzione: () => {} };</code></pre>
                                     </ol>
                                 </div>
 
-                                <pre><code>// package.json
+                                <pre class="line-numbers"><code class="language-javascript">// package.json
 {
   "name": "mio-progetto",
   "version": "1.0.0",
@@ -319,7 +319,7 @@ module.exports = { funzione: () => {} };</code></pre>
 }</code></pre>
 
                                 <h3>🔧 Esportare con ES Modules</h3>
-                                <pre><code>// math.mjs (o .js con "type": "module")
+                                <pre class="line-numbers"><code class="language-markup">// math.mjs (o .js con "type": "module")
 
 // Export nominato (named export) - può avere più esportazioni
 export function somma(a, b) {
@@ -361,7 +361,7 @@ export default class Calcolatrice {
 }</code></pre>
 
                                 <h3>📥 Importare con ES Modules</h3>
-                                <pre><code>// app.mjs
+                                <pre class="line-numbers"><code class="language-javascript">// app.mjs
 
 // Import nominati specifici
 import { somma, sottrai, PI } from './math.mjs';
@@ -394,7 +394,7 @@ async function caricaModulo() {
                                         <code>import()</code> che restituisce una Promise. Utile per
                                         lazy loading o importazioni condizionali:
                                     </p>
-                                    <pre><code>// Carica modulo solo se necessario
+                                    <pre class="line-numbers"><code class="language-javascript">// Carica modulo solo se necessario
 if (devMode) {
     const debug = await import('./debug-tools.mjs');
     debug.enableLogging();
@@ -504,7 +504,7 @@ if (devMode) {
 
                                 <div class="info-box info">
                                     <h3>📖 Da ESM → CommonJS</h3>
-                                    <pre><code>// In un file ESM (.mjs o con "type": "module")
+                                    <pre class="line-numbers"><code class="language-sql">// In un file ESM (.mjs o con "type": "module")
 
 // ✅ Funziona - import default
 import fs from 'fs';  // Modulo core CommonJS
@@ -522,7 +522,7 @@ const { readFile } = fs;</code></pre>
 
                                 <div class="info-box info">
                                     <h3>📖 Da CommonJS → ESM</h3>
-                                    <pre><code>// In un file CommonJS (.cjs o .js senza "type": "module")
+                                    <pre class="line-numbers"><code class="language-javascript">// In un file CommonJS (.cjs o .js senza "type": "module")
 
 // ❌ NON funziona - require() per ESM
 const math = require('./math.mjs');  // Errore!
@@ -560,7 +560,7 @@ usaModuloESM();</code></pre>
                                 <h2>🛠️ Esempio pratico: struttura progetto con moduli</h2>
                                 <p>Vediamo come organizzare un progetto reale usando ES Modules.</p>
 
-                                <pre><code>// Struttura del progetto
+                                <pre class="line-numbers"><code class="language-markup">// Struttura del progetto
 my-app/
 ├── package.json        ("type": "module")
 ├── src/
@@ -579,7 +579,7 @@ my-app/
 └── tests/</code></pre>
 
                                 <h3>📁 src/utils/validation.js</h3>
-                                <pre><code>// Funzioni di validazione riutilizzabili
+                                <pre class="line-numbers"><code class="language-markup">// Funzioni di validazione riutilizzabili
 
 export function isEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -598,7 +598,7 @@ export function sanitizeInput(input) {
 }</code></pre>
 
                                 <h3>📁 src/models/User.js</h3>
-                                <pre><code>// Modello User che usa le validazioni
+                                <pre class="line-numbers"><code class="language-javascript">// Modello User che usa le validazioni
 
 import { isEmail, isStrongPassword } from '../utils/validation.js';
 
@@ -626,7 +626,7 @@ export default class User {
 }</code></pre>
 
                                 <h3>📁 src/controllers/userController.js</h3>
-                                <pre><code>// Controller che gestisce la logica degli utenti
+                                <pre class="line-numbers"><code class="language-javascript">// Controller che gestisce la logica degli utenti
 
 import User from '../models/User.js';
 import { sanitizeInput } from '../utils/validation.js';
@@ -658,7 +658,7 @@ export async function getUser(req, res) {
 }</code></pre>
 
                                 <h3>📁 src/routes/userRoutes.js</h3>
-                                <pre><code>// Route che collegano URL ai controller
+                                <pre class="line-numbers"><code class="language-sql">// Route che collegano URL ai controller
 
 import express from 'express';
 import { createUser, getUser } from '../controllers/userController.js';
@@ -671,7 +671,7 @@ router.get('/users/:id', getUser);
 export default router;</code></pre>
 
                                 <h3>📁 src/index.js</h3>
-                                <pre><code>// Entry point dell'applicazione
+                                <pre class="line-numbers"><code class="language-javascript">// Entry point dell'applicazione
 
 import express from 'express';
 import userRoutes from './routes/userRoutes.js';
@@ -782,7 +782,7 @@ app.listen(PORT, () => {
                                             <code>.node</code>
                                         </li>
                                     </ul>
-                                    <pre><code>// ESM - estensione obbligatoria
+                                    <pre class="line-numbers"><code class="language-sql">// ESM - estensione obbligatoria
 import utils from './utils.js';  // ✅
 
 // CommonJS - estensione opzionale
@@ -844,7 +844,7 @@ const utils = require('./utils'); // ✅ trova utils.js</code></pre>
                                     </div>
                                 </div>
 
-                                <pre><code>/**
+                                <pre class="line-numbers"><code class="language-markup">/**
  * Valida un indirizzo email
  * @param {string} email - L'email da validare
  * @returns {boolean} true se valida, false altrimenti
@@ -863,7 +863,7 @@ export function isEmail(email) {
 
                                 <div class="info-box warning">
                                     <h3>❌ Errore: "Cannot find module"</h3>
-                                    <pre><code>Error: Cannot find module './utils'</code></pre>
+                                    <pre class="line-numbers"><code class="language-javascript">Error: Cannot find module './utils'</code></pre>
                                     <p><strong>Cause:</strong></p>
                                     <ul>
                                         <li>
@@ -881,7 +881,7 @@ export function isEmail(email) {
                                     <h3>
                                         ❌ Errore: "Cannot use import statement outside a module"
                                     </h3>
-                                    <pre><code>SyntaxError: Cannot use import statement outside a module</code></pre>
+                                    <pre class="line-numbers"><code class="language-javascript">SyntaxError: Cannot use import statement outside a module</code></pre>
                                     <p><strong>Soluzione:</strong></p>
                                     <ul>
                                         <li>
@@ -895,7 +895,7 @@ export function isEmail(email) {
 
                                 <div class="info-box warning">
                                     <h3>❌ Errore: "require is not defined"</h3>
-                                    <pre><code>ReferenceError: require is not defined in ES module scope</code></pre>
+                                    <pre class="line-numbers"><code class="language-javascript">ReferenceError: require is not defined in ES module scope</code></pre>
                                     <p><strong>Soluzione:</strong></p>
                                     <ul>
                                         <li>Stai usando <code>require()</code> in un file ESM</li>
@@ -904,7 +904,7 @@ export function isEmail(email) {
                                         </li>
                                         <li>Oppure usa <code>createRequire</code>:</li>
                                     </ul>
-                                    <pre><code>import { createRequire } from 'module';
+                                    <pre class="line-numbers"><code class="language-javascript">import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const config = require('./config.json');</code></pre>
                                 </div>

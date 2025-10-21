@@ -156,7 +156,7 @@
                                     cosiddetto <em>callback hell</em>, difficile da leggere e da
                                     gestire.
                                 </p>
-                                <pre><code>// Callback hell (da evitare)
+                                <pre class="line-numbers"><code class="language-javascript">// Callback hell (da evitare)
 leggiUtente(id, function(utente) {
   leggiOrdini(utente, function(ordini) {
     leggiDettagli(ordini[0], function(dettagli) {
@@ -264,7 +264,7 @@ leggiUtente(id, function(utente) {
                                         </li>
                                     </ul>
                                 </div>
-                                <pre><code>// Callback stile Node.js documentata in fs.readFile
+                                <pre class="line-numbers"><code class="language-javascript">// Callback stile Node.js documentata in fs.readFile
 const fs = require("node:fs");
 
 fs.readFile("config.json", "utf-8", (err, data) => {
@@ -342,7 +342,7 @@ fs.readFile("config.json", "utf-8", (err, data) => {
                                         >).
                                     </p>
                                 </div>
-                                <pre><code>// Creare e consumare una Promise documentata in MDN Promise()
+                                <pre class="line-numbers"><code class="language-javascript">// Creare e consumare una Promise documentata in MDN Promise()
 function leggiDato() {
   return new Promise((resolve, reject) => {
     const datoDisponibile = Math.random() > 0.2;
@@ -547,7 +547,7 @@ leggiDato()
                                         </tr>
                                     </tbody>
                                 </table>
-                                <pre><code>// Eseguire richieste in parallelo con la firma Promise.all(iterable)
+                                <pre class="line-numbers"><code class="language-javascript">// Eseguire richieste in parallelo con la firma Promise.all(iterable)
 async function caricaDashboard() {
   const [utente, notifiche, preferenze] = await Promise.all([
     fetchJson("/api/user"),
@@ -612,7 +612,7 @@ async function caricaDashboard() {
                                         </li>
                                     </ul>
                                 </div>
-                                <pre><code>async function mostraPrimoOrdine() {
+                                <pre class="line-numbers"><code class="language-javascript">async function mostraPrimoOrdine() {
   try {
     const utente = await leggiUtente(1);
     const ordini = await leggiOrdini(utente.id);
@@ -835,7 +835,7 @@ async function mostraDashboard() {
                                     interrogare l'API senza bloccare l'interfaccia usando
                                     async/await e gestendo time-out.
                                 </p>
-                                <pre><code>async function controllaOrdine(orderId) {
+                                <pre class="line-numbers"><code class="language-javascript">async function controllaOrdine(orderId) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 5000);
 
