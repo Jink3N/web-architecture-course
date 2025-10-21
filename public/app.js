@@ -652,6 +652,7 @@ class WebArchitectureApp {
                 }
                 if (this._navClickCooldown) {
                     e.preventDefault();
+                    console.log('⏸️ Click ignorato (cooldown attivo)');
                     return;
                 }
 
@@ -664,9 +665,10 @@ class WebArchitectureApp {
                     this._navClickCooldown = true;
                     const sectionId = href.substring(1);
                     this.navigateToSection(sectionId, true);
+                    // Cooldown ridotto a 150ms (più responsivo)
                     setTimeout(() => {
                         this._navClickCooldown = false;
-                    }, 300);
+                    }, 150);
                 }
             });
 
@@ -700,9 +702,10 @@ class WebArchitectureApp {
                     } else {
                         console.warn(`⚠️ Sezione non trovata o non disponibile: ${sectionId}`);
                     }
+                    // Cooldown ridotto a 150ms
                     setTimeout(() => {
                         this._navClickCooldown = false;
-                    }, 300);
+                    }, 150);
                 }
             });
 
@@ -866,11 +869,27 @@ class WebArchitectureApp {
     // ==================== NAVIGATION ====================
 
     navigateToSection(sectionId, updateHistory = true, dynamicLoad = false) {
+        // Previeni navigazione multipla simultanea
+        if (this._isNavigating && this._targetSection !== sectionId) {
+            console.log(`⏸️ Navigazione già in corso, richiesta ignorata per ${sectionId}`);
+            return;
+        }
+        
+        // Se stiamo già navigando verso questa sezione, ignora
+        if (this._isNavigating && this._targetSection === sectionId) {
+            console.log(`⏸️ Navigazione già in corso verso ${sectionId}`);
+            return;
+        }
+        
         console.log(`🔍 Navigazione a: ${sectionId}`);
+        this._isNavigating = true;
+        this._targetSection = sectionId;
 
         const targetNavItem = document.querySelector(`[data-section="${sectionId}"]`);
         if (!targetNavItem) {
             console.error(`❌ Elemento navigazione per ${sectionId} non trovato`);
+            this._isNavigating = false;
+            this._targetSection = null;
             return;
         }
 
@@ -880,14 +899,25 @@ class WebArchitectureApp {
         // Se la sezione non esiste nel DOM, caricala
         if (!targetSection) {
             console.log(`📥 Sezione ${sectionId} non presente, avvio caricamento`);
+            
+            // Feedback visivo immediato - disabilita link sidebar
+            targetNavItem.classList.add('loading');
+            
             this.loadSectionDynamically(sectionId)
                 .then(() => {
                     console.log(`✅ Caricamento completato per: ${sectionId}`);
+                    targetNavItem.classList.remove('loading');
+                    // Reset flag prima di riprovare
+                    this._isNavigating = false;
+                    this._targetSection = null;
                     // Riprova la navigazione dopo il caricamento
                     this.navigateToSection(sectionId, updateHistory, false);
                 })
                 .catch(err => {
                     console.error('❌ Errore caricamento:', err);
+                    targetNavItem.classList.remove('loading');
+                    this._isNavigating = false;
+                    this._targetSection = null;
                     this.announceMessage(
                         `Impossibile caricare la sezione ${sectionId}. Verifica la connessione.`
                     );
@@ -898,6 +928,8 @@ class WebArchitectureApp {
         // Se la sezione è il placeholder di loading, attendi
         if (targetSection.classList.contains('loading')) {
             console.log(`⏳ Sezione ${sectionId} in caricamento, attendo...`);
+            this._isNavigating = false;
+            this._targetSection = null;
             return;
         }
 
@@ -954,6 +986,10 @@ class WebArchitectureApp {
 
         // Salva progresso
         this.saveProgress();
+
+        // Reset flag navigazione
+        this._isNavigating = false;
+        this._targetSection = null;
 
         console.log(`✅ Navigazione completata verso: ${sectionId}`);
     }
