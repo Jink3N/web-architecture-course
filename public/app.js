@@ -15,6 +15,9 @@ class WebArchitectureApp {
         // Cache per contenuti caricati dinamicamente
         this.sectionCache = new Map();
         this.lessonsCache = new Map();
+        
+        // Limite massimo per cache (evita memory leak)
+        this.MAX_CACHE_SIZE = 15; // Max 15 sezioni in cache
 
         // UI State
         this.isMobile = window.innerWidth <= 768;
@@ -508,9 +511,10 @@ class WebArchitectureApp {
         try {
             console.log(`🔄 Cambio lezione: ${this.currentLesson} → ${lessonId}`);
 
-            // Pulisci la cache delle sezioni della lezione precedente
+            // Pulisci la cache delle sezioni della lezione precedente per evitare memory leak
+            const cacheSize = this.sectionCache.size;
             this.sectionCache.clear();
-            console.log(`🗑️ Cache sezioni pulita`);
+            console.log(`🗑️ Cache pulita (${cacheSize} entry rimosse)`);
 
             // Rimuovi TUTTE le sezioni dal DOM
             const sectionsToRemove = document.querySelectorAll('.content-section');
@@ -1054,9 +1058,18 @@ class WebArchitectureApp {
         }
         
         // Se la sezione è già in cache E presente nel DOM, non ricaricare
-        if (this.sectionCache.has(sectionId) && document.getElementById(sectionId)) {
-            console.log(`✅ Sezione ${sectionId} già caricata (in cache)`);
+        const existingInCache = this.sectionCache.has(sectionId);
+        const existingInDOM = document.getElementById(sectionId);
+        
+        if (existingInCache && existingInDOM) {
+            console.log(`✅ Sezione ${sectionId} già caricata (cache hit)`);
             return;
+        }
+        
+        // Se è in cache ma NON nel DOM, rimuovila dalla cache (stato inconsistente)
+        if (existingInCache && !existingInDOM) {
+            console.warn(`⚠️ Cache inconsistente per ${sectionId}, ricarico...`);
+            this.sectionCache.delete(sectionId);
         }
 
         // Previeni race condition: se già in caricamento, aspetta
@@ -1100,10 +1113,13 @@ class WebArchitectureApp {
         const startTime = performance.now();
         
         try {
-            // Usa cache del browser per fetch più veloci
+            // Usa cache del browser rispettando headers HTTP (Cache-Control)
             const response = await fetch(pagePath, {
-                cache: 'force-cache', // Usa cache del browser
+                cache: 'default', // Rispetta headers HTTP, evita contenuti obsoleti
                 signal: abortController.signal,
+                headers: {
+                    'Accept': 'text/html'
+                }
             });
             
             if (!response.ok) {
@@ -1189,11 +1205,20 @@ class WebArchitectureApp {
                 }
             }
 
+            // Gestione cache con limite per evitare memory leak
             this.sectionCache.set(sectionId, true);
+            
+            // Se la cache supera il limite, rimuovi la entry più vecchia
+            if (this.sectionCache.size > this.MAX_CACHE_SIZE) {
+                const firstKey = this.sectionCache.keys().next().value;
+                this.sectionCache.delete(firstKey);
+                console.log(`🧹 Cache limit raggiunto, rimossa: ${firstKey}`);
+            }
+            
             this.contentSections.push(extracted);
             
             const totalTime = performance.now() - startTime;
-            console.log(`✅ Caricamento totale: ${totalTime.toFixed(2)}ms`);
+            console.log(`✅ Caricamento totale: ${totalTime.toFixed(2)}ms | Cache: ${this.sectionCache.size}/${this.MAX_CACHE_SIZE}`);
             
         } catch (e) {
             console.error('Errore fetch sezione', sectionId, e);
@@ -2036,6 +2061,18 @@ function detectLanguage(code) {
 
     // Default to plain text
     return 'text';
+}
+
+/**
+ * Monitora uso memoria (solo per debug in dev)
+ */
+function logMemoryUsage() {
+    if (performance.memory) {
+        const used = (performance.memory.usedJSHeapSize / 1048576).toFixed(2);
+        const total = (performance.memory.totalJSHeapSize / 1048576).toFixed(2);
+        const limit = (performance.memory.jsHeapSizeLimit / 1048576).toFixed(2);
+        console.log(`💾 Memoria: ${used}MB / ${total}MB (Limite: ${limit}MB)`);
+    }
 }
 
 /**
