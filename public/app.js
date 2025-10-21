@@ -67,11 +67,11 @@ class WebArchitectureApp {
             this.setupKeyboardNavigation();
             this.setupAccessibility();
 
-            // Inizializza la prima sezione o intro se nella lezione 1
-            const initialSection = this.currentLesson === 'lezione-1' ? 'intro' : this.sections[0];
+            // Inizializza la prima sezione della lezione corrente
+            const initialSection = this.sections[0];
             if (initialSection) {
-                const isDynamicLoad = initialSection !== 'intro'; // intro è già nel DOM
-                this.navigateToSection(initialSection, false, isDynamicLoad);
+                // Carica sempre dinamicamente (anche intro, dato che abbiamo un sistema dinamico)
+                this.navigateToSection(initialSection, false, true);
             }
 
             console.log('✅ Applicazione caricata correttamente');
@@ -512,9 +512,12 @@ class WebArchitectureApp {
             // Pulisci la cache delle sezioni
             this.sectionCache.clear();
 
-            // Rimuovi tutte le sezioni dal DOM tranne intro
-            const sectionsToRemove = document.querySelectorAll('.content-section:not(#intro)');
-            sectionsToRemove.forEach(section => section.remove());
+            // Rimuovi TUTTE le sezioni dal DOM (compresa intro per lezione-1)
+            const sectionsToRemove = document.querySelectorAll('.content-section');
+            sectionsToRemove.forEach(section => {
+                console.log(`🗑️ Rimozione sezione: ${section.id}`);
+                section.remove();
+            });
 
             // Imposta la nuova lezione
             const success = this.setCurrentLesson(lessonId);
@@ -530,38 +533,9 @@ class WebArchitectureApp {
 
             console.log(`🎯 Navigando alla prima sezione della lezione: ${firstSectionId}`);
 
-            // Per la lezione-1 la prima sezione è 'intro' che è già nel DOM
-            // Per altre lezioni potrebbe essere diversa e necessitare di caricamento dinamico
-            if (lessonId === 'lezione-1' && firstSectionId === 'intro') {
-                // Caso speciale per lezione-1: intro è già presente nel DOM
-                const introSection = document.getElementById('intro');
-                if (introSection) {
-                    // Rimuovi active da tutte le sezioni
-                    document
-                        .querySelectorAll('.content-section.active')
-                        .forEach(s => s.classList.remove('active'));
-                    // Attiva intro
-                    introSection.classList.add('active');
-
-                    // Aggiorna la navigazione per puntare a intro
-                    document
-                        .querySelectorAll('.nav-item.active')
-                        .forEach(n => n.classList.remove('active'));
-                    const introNavItem = document.querySelector('[data-section="intro"]');
-                    if (introNavItem) {
-                        introNavItem.classList.add('active');
-                    }
-
-                    this.currentSection = 'intro';
-                    this.updateProgress();
-                    this.scrollToTop();
-                } else {
-                    throw new Error('Sezione intro non trovata nel DOM');
-                }
-            } else {
-                // Per altre lezioni, naviga alla prima sezione con caricamento dinamico
-                this.navigateToSection(firstSectionId, true, true);
-            }
+            // Per tutte le lezioni, naviga alla prima sezione con caricamento dinamico
+            // (anche per lezione-1/intro, dato che abbiamo rimosso tutte le sezioni)
+            this.navigateToSection(firstSectionId, true, true);
 
             // Salva la lezione corrente
             localStorage.setItem('web-arch-current-lesson', lessonId);
@@ -890,10 +864,12 @@ class WebArchitectureApp {
             return;
         }
 
-        // Se richiesta navigazione dinamica e non abbiamo la sezione, carichiamo
+        // Controlla se la sezione esiste già nel DOM
         let targetSection = document.getElementById(sectionId);
-        if (dynamicLoad && !targetSection) {
-            console.log(`📥 Caricamento dinamico richiesto per: ${sectionId}`);
+        
+        // Se la sezione non esiste nel DOM, caricala (sempre dinamicamente)
+        if (!targetSection) {
+            console.log(`📥 Sezione ${sectionId} non in DOM, caricamento richiesto`);
             this.loadSectionDynamically(sectionId)
                 .then(() => {
                     console.log(
@@ -906,11 +882,6 @@ class WebArchitectureApp {
                     this.announceMessage(
                         `Impossibile caricare la sezione ${sectionId}. Verifica la connessione.`
                     );
-                    // Fallback alla sezione intro se il caricamento fallisce
-                    if (sectionId !== 'intro') {
-                        console.log('🔄 Fallback alla sezione intro');
-                        this.navigateToSection('intro', updateHistory, false);
-                    }
                 });
             return;
         }
@@ -1019,18 +990,23 @@ class WebArchitectureApp {
         const pagePath = `./pages/${this.currentLesson}/${this.pageMap[sectionId]}`;
         console.log(`📥 Tentativo di caricamento da: ${pagePath}`);
 
-        // Placeholder spinner
-        if (!document.getElementById(sectionId)) {
-            const placeholder = document.createElement('section');
-            placeholder.className = 'content-section loading';
-            placeholder.id = sectionId; // così la navigateToSection troverà qualcosa
-            placeholder.innerHTML = `
-                <div class="loading">
-                    <div class="loading-spinner" aria-hidden="true"></div>
-                    <p>Caricamento sezione <strong>${sectionId}</strong>...</p>
-                </div>`;
-            this.contentContainer.appendChild(placeholder);
+        // Rimuovi sezione esistente se presente (per ricaricare)
+        const existingSection = document.getElementById(sectionId);
+        if (existingSection) {
+            existingSection.remove();
+            console.log(`🗑️ Rimossa sezione esistente: ${sectionId}`);
         }
+
+        // Placeholder spinner
+        const placeholder = document.createElement('section');
+        placeholder.className = 'content-section loading';
+        placeholder.id = sectionId;
+        placeholder.innerHTML = `
+            <div class="loading">
+                <div class="loading-spinner" aria-hidden="true"></div>
+                <p>Caricamento sezione <strong>${sectionId}</strong>...</p>
+            </div>`;
+        this.contentContainer.appendChild(placeholder);
 
         this.announceMessage(`Caricamento sezione ${sectionId}...`);
         const abortController = new AbortController();
