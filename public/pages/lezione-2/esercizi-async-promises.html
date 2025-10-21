@@ -1,88 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esercizi Async & Promises - Lezione 2</title>
-    <meta name="description" content="Esercitazioni guidate per imparare a lavorare con Promise e async/await: consegne passo passo, suggerimenti e soluzioni ragionate." />
-    <link rel="stylesheet" href="../../style.css">
-</head>
-<body>
-    <header class="app-header">
-        <div class="header-content">
-            <h1 class="header-title">🏗️ Architettura Web</h1>
-            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
-                <span class="theme-toggle-icon">🌙</span>
-                <span class="theme-toggle-text">Dark</span>
-            </button>
-        </div>
-    </header>
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
-                <p class="sidebar-subtitle">Lezione 2: Node.js, Async, API</p>
-                <div class="progress-indicator">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <span class="progress-text" id="progressText">Sezione 4 di 5</span>
-                </div>
-            </div>
-            <nav class="sidebar-nav">
-                <ul class="nav-list" id="navList">
-                    <li class="nav-item"><a href="promises-async.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Promises & Async</span></a></li>
-                    <li class="nav-item"><a href="nodejs-v8-eventloop.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Node.js, V8 & Event Loop</span></a></li>
-                    <li class="nav-item"><a href="api-rest.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">API REST</span></a></li>
-                    <li class="nav-item active"><a href="esercizi-async-promises.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Esercizi Async & Promises</span></a></li>
-                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">📦</span><span class="nav-text">Node.js: Oggetti & CRUD</span></a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
-                    <span>←</span>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Esercizi Async & Promises - Lezione 2</title>
+        <meta
+            name="description"
+            content="Esercitazioni guidate per imparare a lavorare con Promise e async/await: consegne passo passo, suggerimenti e soluzioni ragionate."
+        />
+        <link rel="stylesheet" href="../../style.css" />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="header-title">🏗️ Architettura Web</h1>
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <span class="theme-toggle-text">Dark</span>
                 </button>
             </div>
-        </aside>
-        <main class="main-content" id="mainContent">
-            <div class="content-container" id="contentContainer">
-                <section class="content-section active" id="esercizi-async-promises">
-                    <div class="section-content">
-                        <header class="section-header">
-                            <h1>📝 Esercizi Async & Promises</h1>
-                            <p class="section-description">Metti in pratica quello che hai imparato: esercizi guidati con livelli di difficoltà crescenti, pensati per studenti alle prime armi.</p>
-                        </header>
+        </header>
+        <div class="app-container">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                    <p class="sidebar-subtitle">Lezione 2: Node.js, Async, API</p>
+                    <div class="progress-indicator">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">Sezione 4 di 5</span>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul class="nav-list" id="navList">
+                        <li class="nav-item">
+                            <a href="promises-async.html" class="nav-link"
+                                ><span class="nav-icon">🔄</span
+                                ><span class="nav-text">Promises & Async</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="nodejs-v8-eventloop.html" class="nav-link"
+                                ><span class="nav-icon">⚙️</span
+                                ><span class="nav-text">Node.js, V8 & Event Loop</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="api-rest.html" class="nav-link"
+                                ><span class="nav-icon">🌐</span
+                                ><span class="nav-text">API REST</span></a
+                            >
+                        </li>
+                        <li class="nav-item active">
+                            <a href="esercizi-async-promises.html" class="nav-link"
+                                ><span class="nav-icon">📝</span
+                                ><span class="nav-text">Esercizi Async & Promises</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="nodejs-oggetti-crud.html" class="nav-link"
+                                ><span class="nav-icon">📦</span
+                                ><span class="nav-text">Node.js: Oggetti & CRUD</span></a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                    <button
+                        class="toggle-sidebar"
+                        id="toggleSidebar"
+                        aria-label="Nascondi/Mostra sidebar"
+                    >
+                        <span>←</span>
+                    </button>
+                </div>
+            </aside>
+            <main class="main-content" id="mainContent">
+                <div class="content-container" id="contentContainer">
+                    <section class="content-section active" id="esercizi-async-promises">
+                        <div class="section-content">
+                            <header class="section-header">
+                                <h1>📝 Esercizi Async & Promises</h1>
+                                <p class="section-description">
+                                    Metti in pratica quello che hai imparato: esercizi guidati con
+                                    livelli di difficoltà crescenti, pensati per studenti alle prime
+                                    armi.
+                                </p>
+                            </header>
 
-                        <article class="subsection">
-                            <h2>🎯 Obiettivi della sessione</h2>
-                            <div class="info-box info">
-                                <ul>
-                                    <li>Capire come creare e risolvere Promise.</li>
-                                    <li>Scrivere funzioni asincrone con <code>async/await</code>.</li>
-                                    <li>Gestire errori e tempi di attesa.</li>
-                                    <li>Simulare chiamate API in un ambiente sicuro (playground online).</li>
-                                    <li><strong>Nuovo:</strong> Integrare API reali per casi d'uso pratici (convertitore valute).</li>
-                                </ul>
-                            </div>
-                        </article>
+                            <article class="subsection">
+                                <h2>🎯 Obiettivi della sessione</h2>
+                                <div class="info-box info">
+                                    <ul>
+                                        <li>Capire come creare e risolvere Promise.</li>
+                                        <li>
+                                            Scrivere funzioni asincrone con
+                                            <code>async/await</code>.
+                                        </li>
+                                        <li>Gestire errori e tempi di attesa.</li>
+                                        <li>
+                                            Simulare chiamate API in un ambiente sicuro (playground
+                                            online).
+                                        </li>
+                                        <li>
+                                            <strong>Nuovo:</strong> Integrare API reali per casi
+                                            d'uso pratici (convertitore valute).
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🧪 Setup consigliato</h2>
-                            <div class="info-box welcome">
-                                <p>Apri un playground JavaScript come <a href="https://playcode.io/" target="_blank" rel="noopener">PlayCode</a>, <a href="https://codesandbox.io/s/node" target="_blank" rel="noopener">CodeSandbox</a> o crea un file <code>.js</code> locale ed eseguilo con <code>node file.js</code>.</p>
-                                <p>Ogni esercizio riporta una <strong>soluzione guidata</strong> e una <strong>variante extra</strong> per chi vuole sperimentare di più.</p>
-                            </div>
-                        </article>
+                            <article class="subsection">
+                                <h2>🧪 Setup consigliato</h2>
+                                <div class="info-box welcome">
+                                    <p>
+                                        Apri un playground JavaScript come
+                                        <a
+                                            href="https://playcode.io/"
+                                            target="_blank"
+                                            rel="noopener"
+                                            >PlayCode</a
+                                        >,
+                                        <a
+                                            href="https://codesandbox.io/s/node"
+                                            target="_blank"
+                                            rel="noopener"
+                                            >CodeSandbox</a
+                                        >
+                                        o crea un file <code>.js</code> locale ed eseguilo con
+                                        <code>node file.js</code>.
+                                    </p>
+                                    <p>
+                                        Ogni esercizio riporta una
+                                        <strong>soluzione guidata</strong> e una
+                                        <strong>variante extra</strong> per chi vuole sperimentare
+                                        di più.
+                                    </p>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🟢 Esercizio 1 — Delay Promessa</h2>
-                            <div class="info-box info">
-                                <h3>Consegna</h3>
-                                <p>Scrivi una funzione <code>ritarda(ms)</code> che restituisce una Promise risolta dopo <code>ms</code> millisecondi. Usa <code>setTimeout</code>.</p>
-                            </div>
-                            <div class="info-box success">
-                                <h3>Soluzione guida</h3>
-                                <pre><code>function ritarda(ms) {
+                            <article class="subsection">
+                                <h2>🟢 Esercizio 1 — Delay Promessa</h2>
+                                <div class="info-box info">
+                                    <h3>Consegna</h3>
+                                    <p>
+                                        Scrivi una funzione <code>ritarda(ms)</code> che restituisce
+                                        una Promise risolta dopo <code>ms</code> millisecondi. Usa
+                                        <code>setTimeout</code>.
+                                    </p>
+                                </div>
+                                <div class="info-box success">
+                                    <h3>Soluzione guida</h3>
+                                    <pre><code>function ritarda(ms) {
   return new Promise(resolve => {
     setTimeout(() => resolve(`Passati ${ms} ms`), ms);
   });
@@ -90,26 +160,40 @@
 
 ritarda(2000).then(console.log);
 // Output dopo 2s: "Passati 2000 ms"</code></pre>
-                            </div>
-                            <div class="info-box curiosity">
-                                <h3>Variante</h3>
-                                <p>Gestisci il caso in cui <code>ms</code> non sia un numero: rigetta la Promise con un errore descrittivo.</p>
-                            </div>
-                            <div class="info-box welcome">
-                                <h3>Scenario reale</h3>
-                                <p>Le notifiche push di un'app mobile spesso hanno bisogno di un leggero ritardo per evitare spam. La funzione <code>ritarda</code> può essere usata per schedulare l'invio di messaggi "Promemoria pagamento" cinque minuti dopo un acquisto.</p>
-                            </div>
-                        </article>
+                                </div>
+                                <div class="info-box curiosity">
+                                    <h3>Variante</h3>
+                                    <p>
+                                        Gestisci il caso in cui <code>ms</code> non sia un numero:
+                                        rigetta la Promise con un errore descrittivo.
+                                    </p>
+                                </div>
+                                <div class="info-box welcome">
+                                    <h3>Scenario reale</h3>
+                                    <p>
+                                        Le notifiche push di un'app mobile spesso hanno bisogno di
+                                        un leggero ritardo per evitare spam. La funzione
+                                        <code>ritarda</code> può essere usata per schedulare l'invio
+                                        di messaggi "Promemoria pagamento" cinque minuti dopo un
+                                        acquisto.
+                                    </p>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🟡 Esercizio 2 — Async/Await e gestione errori</h2>
-                            <div class="info-box info">
-                                <h3>Consegna</h3>
-                                <p>Simula il download di dati da un'API. La funzione <code>scaricaDati()</code> deve restituire un oggetto dopo 1 secondo. Usa <code>async/await</code> e gestisci gli errori con <code>try/catch</code>.</p>
-                            </div>
-                            <div class="info-box success">
-                                <h3>Soluzione guida</h3>
-                                <pre><code>function fintaApi() {
+                            <article class="subsection">
+                                <h2>🟡 Esercizio 2 — Async/Await e gestione errori</h2>
+                                <div class="info-box info">
+                                    <h3>Consegna</h3>
+                                    <p>
+                                        Simula il download di dati da un'API. La funzione
+                                        <code>scaricaDati()</code> deve restituire un oggetto dopo 1
+                                        secondo. Usa <code>async/await</code> e gestisci gli errori
+                                        con <code>try/catch</code>.
+                                    </p>
+                                </div>
+                                <div class="info-box success">
+                                    <h3>Soluzione guida</h3>
+                                    <pre><code>function fintaApi() {
   return new Promise((resolve, reject) => {
     const ok = Math.random() > 0.3; // 70% successo
     setTimeout(() => {
@@ -129,70 +213,116 @@ async function scaricaDati() {
 }
 
 scaricaDati();</code></pre>
-                            </div>
-                            <div class="info-box curiosity">
-                                <h3>Variante</h3>
-                                <p>Aggiungi un <strong>tentativo di retry</strong>: se fallisce, attendi 500ms e riprova una seconda volta.</p>
-                            </div>
-                            <div class="info-box welcome">
-                                <h3>Scenario reale</h3>
-                                <p>Un CRM che sincronizza i contatti con un servizio esterno (es. piattaforma newsletter) deve gestire momentanei picchi di traffico. Con <code>try/catch</code> e un retry programmato evitiamo di segnare l'operazione come fallita al primo errore di rete.</p>
-                            </div>
-                        </article>
+                                </div>
+                                <div class="info-box curiosity">
+                                    <h3>Variante</h3>
+                                    <p>
+                                        Aggiungi un <strong>tentativo di retry</strong>: se
+                                        fallisce, attendi 500ms e riprova una seconda volta.
+                                    </p>
+                                </div>
+                                <div class="info-box welcome">
+                                    <h3>Scenario reale</h3>
+                                    <p>
+                                        Un CRM che sincronizza i contatti con un servizio esterno
+                                        (es. piattaforma newsletter) deve gestire momentanei picchi
+                                        di traffico. Con <code>try/catch</code> e un retry
+                                        programmato evitiamo di segnare l'operazione come fallita al
+                                        primo errore di rete.
+                                    </p>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🔵 Esercizio 3 — Promise.all</h2>
-                            <div class="info-box info">
-                                <h3>Consegna</h3>
-                                <p>Avvia tre chiamate asincrone in parallelo (es. tre ritardi diversi) e stampa i risultati quando tutte sono completate.</p>
-                            </div>
-                            <div class="info-box success">
-                                <h3>Soluzione guida</h3>
-                                <pre><code>const download1 = ritarda(500).then(() => "📄 Documento");
+                            <article class="subsection">
+                                <h2>🔵 Esercizio 3 — Promise.all</h2>
+                                <div class="info-box info">
+                                    <h3>Consegna</h3>
+                                    <p>
+                                        Avvia tre chiamate asincrone in parallelo (es. tre ritardi
+                                        diversi) e stampa i risultati quando tutte sono completate.
+                                    </p>
+                                </div>
+                                <div class="info-box success">
+                                    <h3>Soluzione guida</h3>
+                                    <pre><code>const download1 = ritarda(500).then(() => "📄 Documento");
 const download2 = ritarda(800).then(() => "🎧 Audio");
 const download3 = ritarda(300).then(() => "🖼️ Immagine");
 
 Promise.all([download1, download2, download3])
   .then(risultati => console.log("Completati:", risultati))
   .catch(console.error);</code></pre>
-                            </div>
-                            <div class="info-box curiosity">
-                                <h3>Variante</h3>
-                                <p>Prova <code>Promise.allSettled()</code> per ottenere il risultato anche se alcune Promise falliscono.</p>
-                            </div>
-                            <div class="info-box welcome">
-                                <h3>Scenario reale</h3>
-                                <p>Una dashboard marketing carica in parallelo i report di Google Ads, Meta Ads e TikTok. Solo quando tutte le campagne sono state scaricate mostriamo il grafico comparativo. Con <code>Promise.all</code> riduciamo i tempi di attesa.</p>
-                            </div>
-                        </article>
+                                </div>
+                                <div class="info-box curiosity">
+                                    <h3>Variante</h3>
+                                    <p>
+                                        Prova <code>Promise.allSettled()</code> per ottenere il
+                                        risultato anche se alcune Promise falliscono.
+                                    </p>
+                                </div>
+                                <div class="info-box welcome">
+                                    <h3>Scenario reale</h3>
+                                    <p>
+                                        Una dashboard marketing carica in parallelo i report di
+                                        Google Ads, Meta Ads e TikTok. Solo quando tutte le campagne
+                                        sono state scaricate mostriamo il grafico comparativo. Con
+                                        <code>Promise.all</code> riduciamo i tempi di attesa.
+                                    </p>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🟠 Esercizio 4 — API Reale: Convertitore Valute</h2>
-                            <div class="info-box info">
-                                <h3>Consegna</h3>
-                                <p>Crea un convertitore di valute che utilizza l'API <strong>ExchangeRate-API</strong> (gratuita, senza registrazione). La funzione deve:</p>
-                                <ul>
-                                    <li>Prendere due parametri: <code>importo</code> e <code>valutaDestinazione</code> (es. "USD", "JPY", "GBP")</li>
-                                    <li>Convertire da EUR alla valuta scelta</li>
-                                    <li>Gestire errori di rete e valute non supportate</li>
-                                    <li>Mostrare la data dell'ultimo aggiornamento dei tassi</li>
-                                </ul>
-                            </div>
+                            <article class="subsection">
+                                <h2>🟠 Esercizio 4 — API Reale: Convertitore Valute</h2>
+                                <div class="info-box info">
+                                    <h3>Consegna</h3>
+                                    <p>
+                                        Crea un convertitore di valute che utilizza l'API
+                                        <strong>ExchangeRate-API</strong> (gratuita, senza
+                                        registrazione). La funzione deve:
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            Prendere due parametri: <code>importo</code> e
+                                            <code>valutaDestinazione</code> (es. "USD", "JPY",
+                                            "GBP")
+                                        </li>
+                                        <li>Convertire da EUR alla valuta scelta</li>
+                                        <li>Gestire errori di rete e valute non supportate</li>
+                                        <li>
+                                            Mostrare la data dell'ultimo aggiornamento dei tassi
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <div class="info-box welcome">
-                                <h3>📚 Cos'è fetch() e come funziona</h3>
-                                <p><code>fetch()</code> è la funzione moderna di JavaScript per fare richieste HTTP. Sostituisce il vecchio <code>XMLHttpRequest</code> ed è più semplice da usare.</p>
-                                
-                                <h4>Caratteristiche principali:</h4>
-                                <ul>
-                                    <li><strong>Promise-based:</strong> Restituisce una Promise, perfetta con async/await</li>
-                                    <li><strong>Nativo del browser:</strong> Non serve installare librerie esterne</li>
-                                    <li><strong>Flessibile:</strong> Supporta GET, POST, PUT, DELETE e altri metodi HTTP</li>
-                                    <li><strong>Moderno:</strong> Gestione automatica di JSON, blob, text, etc.</li>
-                                </ul>
+                                <div class="info-box welcome">
+                                    <h3>📚 Cos'è fetch() e come funziona</h3>
+                                    <p>
+                                        <code>fetch()</code> è la funzione moderna di JavaScript per
+                                        fare richieste HTTP. Sostituisce il vecchio
+                                        <code>XMLHttpRequest</code> ed è più semplice da usare.
+                                    </p>
 
-                                <h4>Sintassi base:</h4>
-                                <pre><code>// Richiesta GET semplice
+                                    <h4>Caratteristiche principali:</h4>
+                                    <ul>
+                                        <li>
+                                            <strong>Promise-based:</strong> Restituisce una Promise,
+                                            perfetta con async/await
+                                        </li>
+                                        <li>
+                                            <strong>Nativo del browser:</strong> Non serve
+                                            installare librerie esterne
+                                        </li>
+                                        <li>
+                                            <strong>Flessibile:</strong> Supporta GET, POST, PUT,
+                                            DELETE e altri metodi HTTP
+                                        </li>
+                                        <li>
+                                            <strong>Moderno:</strong> Gestione automatica di JSON,
+                                            blob, text, etc.
+                                        </li>
+                                    </ul>
+
+                                    <h4>Sintassi base:</h4>
+                                    <pre><code>// Richiesta GET semplice
 const response = await fetch('https://api.example.com/data');
 const data = await response.json();
 
@@ -201,39 +331,59 @@ if (!response.ok) {
   throw new Error(`HTTP ${response.status}: ${response.statusText}`);
 }</code></pre>
 
-                                <h4>Cosa fa fetch() internamente:</h4>
-                                <ol>
-                                    <li><strong>Crea la richiesta HTTP</strong> verso l'URL specificato</li>
-                                    <li><strong>Aspetta la risposta</strong> del server (può richiedere tempo)</li>
-                                    <li><strong>Restituisce un oggetto Response</strong> con headers, status, etc.</li>
-                                    <li><strong>Il contenuto va estratto</strong> con .json(), .text(), .blob(), etc.</li>
-                                </ol>
-                            </div>
+                                    <h4>Cosa fa fetch() internamente:</h4>
+                                    <ol>
+                                        <li>
+                                            <strong>Crea la richiesta HTTP</strong> verso l'URL
+                                            specificato
+                                        </li>
+                                        <li>
+                                            <strong>Aspetta la risposta</strong> del server (può
+                                            richiedere tempo)
+                                        </li>
+                                        <li>
+                                            <strong>Restituisce un oggetto Response</strong> con
+                                            headers, status, etc.
+                                        </li>
+                                        <li>
+                                            <strong>Il contenuto va estratto</strong> con .json(),
+                                            .text(), .blob(), etc.
+                                        </li>
+                                    </ol>
+                                </div>
 
-                            <div class="info-box curiosity">
-                                <h3>🗺️ Guida passo-passo: La tua prima chiamata API</h3>
-                                <p>Se non hai mai lavorato con API reali, segui questi passaggi nell'ordine esatto:</p>
-                                
-                                <h4>Passo 1: Testa l'URL nel browser</h4>
-                                <p>Apri <code>https://api.exchangerate-api.com/v4/latest/EUR</code> in una nuova scheda. Vedrai i dati JSON grezzi - questo conferma che l'API funziona.</p>
-                                
-                                <h4>Passo 2: Chiamata base senza gestione errori</h4>
-                                <pre><code>async function primaChiamata() {
+                                <div class="info-box curiosity">
+                                    <h3>🗺️ Guida passo-passo: La tua prima chiamata API</h3>
+                                    <p>
+                                        Se non hai mai lavorato con API reali, segui questi passaggi
+                                        nell'ordine esatto:
+                                    </p>
+
+                                    <h4>Passo 1: Testa l'URL nel browser</h4>
+                                    <p>
+                                        Apri
+                                        <code>https://api.exchangerate-api.com/v4/latest/EUR</code>
+                                        in una nuova scheda. Vedrai i dati JSON grezzi - questo
+                                        conferma che l'API funziona.
+                                    </p>
+
+                                    <h4>Passo 2: Chiamata base senza gestione errori</h4>
+                                    <pre><code>async function primaChiamata() {
   const response = await fetch('https://api.exchangerate-api.com/v4/latest/EUR');
   const dati = await response.json();
   console.log(dati); // Esplora la struttura dei dati
 }</code></pre>
-                                
-                                <h4>Passo 3: Estrai un valore specifico</h4>
-                                <pre><code>async function estraiTasso() {
+
+                                    <h4>Passo 3: Estrai un valore specifico</h4>
+                                    <pre><code>async function estraiTasso() {
   const response = await fetch('https://api.exchangerate-api.com/v4/latest/EUR');
   const dati = await response.json();
   console.log('Tasso EUR -> USD:', dati.rates.USD);
   console.log('Data aggiornamento:', dati.date);
 }</code></pre>
-                                
-                                <h4>Passo 4: Aggiungi gestione errori</h4>
-                                <pre><code>async function chiamataSicura() {
+
+                                    <h4>Passo 4: Aggiungi gestione errori</h4>
+                                    <pre><code>async function chiamataSicura() {
   try {
     const response = await fetch('https://api.exchangerate-api.com/v4/latest/EUR');
     
@@ -247,13 +397,16 @@ if (!response.ok) {
     console.error('Qualcosa è andato storto:', errore.message);
   }
 }</code></pre>
-                                
-                                <h4>Passo 5: Crea la funzione finale</h4>
-                                <p>Solo ora sei pronto per implementare la soluzione completa qui sotto! 👇</p>
-                            </div>
-                            <div class="info-box success">
-                                <h3>Soluzione guida</h3>
-                                <pre><code>async function convertitoreValute(importo, valutaDestinazione) {
+
+                                    <h4>Passo 5: Crea la funzione finale</h4>
+                                    <p>
+                                        Solo ora sei pronto per implementare la soluzione completa
+                                        qui sotto! 👇
+                                    </p>
+                                </div>
+                                <div class="info-box success">
+                                    <h3>Soluzione guida</h3>
+                                    <pre><code>async function convertitoreValute(importo, valutaDestinazione) {
   const apiUrl = `https://api.exchangerate-api.com/v4/latest/EUR`;
   
   try {
@@ -303,42 +456,66 @@ async function testConversioni() {
 }
 
 testConversioni();</code></pre>
-                            </div>
-                            <div class="info-box curiosity">
-                                <h3>Variante avanzata</h3>
-                                <p>Aggiungi un <strong>sistema di cache</strong>: se hai già fatto una richiesta negli ultimi 10 minuti, usa i dati salvati in memoria invece di rifare la chiamata API. Implementa anche la conversione <strong>bidirezionale</strong> (da qualsiasi valuta a qualsiasi altra).</p>
-                            </div>
-                            <div class="info-box warning">
-                                <h3>Note tecniche</h3>
-                                <ul>
-                                    <li><strong>CORS:</strong> Questa API supporta le richieste dal browser, quindi puoi testarla anche su CodePen/JSFiddle</li>
-                                    <li><strong>Rate limits:</strong> 1500 richieste gratuite al mese senza registrazione</li>
-                                    <li><strong>Valute supportate:</strong> Oltre 160 valute mondiali (USD, JPY, GBP, CHF, CAD, AUD, etc.)</li>
-                                    <li><strong>Formato date:</strong> L'API restituisce date nel formato YYYY-MM-DD</li>
-                                </ul>
-                            </div>
+                                </div>
+                                <div class="info-box curiosity">
+                                    <h3>Variante avanzata</h3>
+                                    <p>
+                                        Aggiungi un <strong>sistema di cache</strong>: se hai già
+                                        fatto una richiesta negli ultimi 10 minuti, usa i dati
+                                        salvati in memoria invece di rifare la chiamata API.
+                                        Implementa anche la conversione
+                                        <strong>bidirezionale</strong> (da qualsiasi valuta a
+                                        qualsiasi altra).
+                                    </p>
+                                </div>
+                                <div class="info-box warning">
+                                    <h3>Note tecniche</h3>
+                                    <ul>
+                                        <li>
+                                            <strong>CORS:</strong> Questa API supporta le richieste
+                                            dal browser, quindi puoi testarla anche su
+                                            CodePen/JSFiddle
+                                        </li>
+                                        <li>
+                                            <strong>Rate limits:</strong> 1500 richieste gratuite al
+                                            mese senza registrazione
+                                        </li>
+                                        <li>
+                                            <strong>Valute supportate:</strong> Oltre 160 valute
+                                            mondiali (USD, JPY, GBP, CHF, CAD, AUD, etc.)
+                                        </li>
+                                        <li>
+                                            <strong>Formato date:</strong> L'API restituisce date
+                                            nel formato YYYY-MM-DD
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <div class="info-box success">
-                                <h3>🔍 Debugging APIs: Cosa fare quando qualcosa non va</h3>
-                                
-                                <h4>Errori comuni e soluzioni:</h4>
-                                <div style="margin-bottom: 15px;">
-                                    <strong>❌ "TypeError: Failed to fetch"</strong><br>
-                                    <em>Soluzione:</em> Controlla la connessione internet e l'URL dell'API
-                                </div>
-                                
-                                <div style="margin-bottom: 15px;">
-                                    <strong>❌ "Unexpected token in JSON"</strong><br>
-                                    <em>Soluzione:</em> L'API ha restituito HTML invece di JSON (probabilmente errore 404/500)
-                                </div>
-                                
-                                <div style="margin-bottom: 15px;">
-                                    <strong>❌ "Cannot read property 'USD' of undefined"</strong><br>
-                                    <em>Soluzione:</em> Controlla la struttura del JSON prima di accedere alle proprietà
-                                </div>
+                                <div class="info-box success">
+                                    <h3>🔍 Debugging APIs: Cosa fare quando qualcosa non va</h3>
 
-                                <h4>Tecniche di debugging:</h4>
-                                <pre><code>// 1. Logga sempre la response prima di processarla
+                                    <h4>Errori comuni e soluzioni:</h4>
+                                    <div style="margin-bottom: 15px">
+                                        <strong>❌ "TypeError: Failed to fetch"</strong><br />
+                                        <em>Soluzione:</em> Controlla la connessione internet e
+                                        l'URL dell'API
+                                    </div>
+
+                                    <div style="margin-bottom: 15px">
+                                        <strong>❌ "Unexpected token in JSON"</strong><br />
+                                        <em>Soluzione:</em> L'API ha restituito HTML invece di JSON
+                                        (probabilmente errore 404/500)
+                                    </div>
+
+                                    <div style="margin-bottom: 15px">
+                                        <strong>❌ "Cannot read property 'USD' of undefined"</strong
+                                        ><br />
+                                        <em>Soluzione:</em> Controlla la struttura del JSON prima di
+                                        accedere alle proprietà
+                                    </div>
+
+                                    <h4>Tecniche di debugging:</h4>
+                                    <pre><code>// 1. Logga sempre la response prima di processarla
 console.log('Response status:', response.status);
 console.log('Response headers:', response.headers);
 
@@ -351,54 +528,98 @@ if (dati.rates && dati.rates.USD) {
 } else {
   console.error('USD rate non trovato!');
 }</code></pre>
-                            </div>
-                            <div class="info-box welcome">
-                                <h3>Scenario reale</h3>
-                                <p>Un e-commerce internazionale mostra i prezzi in valuta locale. Ogni volta che un cliente cambia paese, il sistema deve convertire tutti i prezzi. Con questa API puoi costruire il modulo che aggiorna automaticamente carrello e checkout, migliorando l'esperienza utente per clienti da USA, Giappone, Regno Unito, etc.</p>
-                            </div>
-                        </article>
+                                </div>
+                                <div class="info-box welcome">
+                                    <h3>Scenario reale</h3>
+                                    <p>
+                                        Un e-commerce internazionale mostra i prezzi in valuta
+                                        locale. Ogni volta che un cliente cambia paese, il sistema
+                                        deve convertire tutti i prezzi. Con questa API puoi
+                                        costruire il modulo che aggiorna automaticamente carrello e
+                                        checkout, migliorando l'esperienza utente per clienti da
+                                        USA, Giappone, Regno Unito, etc.
+                                    </p>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🧭 Strategie di debug</h2>
-                            <div class="tips-grid">
-                                <div class="tip-card">
-                                    <h3>🪝 Usa console.time</h3>
-                                    <p>Misura quanto durano le operazioni asincrone per capire dove ottimizzare.</p>
+                            <article class="subsection">
+                                <h2>🧭 Strategie di debug</h2>
+                                <div class="tips-grid">
+                                    <div class="tip-card">
+                                        <h3>🪝 Usa console.time</h3>
+                                        <p>
+                                            Misura quanto durano le operazioni asincrone per capire
+                                            dove ottimizzare.
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>📜 Log descrittivi</h3>
+                                        <p>
+                                            Aggiungi messaggi come "In attesa di risposta..." per
+                                            seguire il flusso.
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>🐛 Breakpoint</h3>
+                                        <p>
+                                            Nei playground puoi usare gli strumenti di debug del
+                                            browser per fermare l'esecuzione.
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>🧪 Test a casi limite</h3>
+                                        <p>
+                                            Prova cosa succede se una Promise impiega più tempo o se
+                                            rigetta subito.
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="tip-card">
-                                    <h3>📜 Log descrittivi</h3>
-                                    <p>Aggiungi messaggi come "In attesa di risposta..." per seguire il flusso.</p>
-                                </div>
-                                <div class="tip-card">
-                                    <h3>🐛 Breakpoint</h3>
-                                    <p>Nei playground puoi usare gli strumenti di debug del browser per fermare l'esecuzione.</p>
-                                </div>
-                                <div class="tip-card">
-                                    <h3>🧪 Test a casi limite</h3>
-                                    <p>Prova cosa succede se una Promise impiega più tempo o se rigetta subito.</p>
-                                </div>
-                            </div>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>📚 Risorse di approfondimento</h2>
-                            <div class="info-box info">
-                                <ul>
-                                    <li><a href="https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener">MDN Promise</a></li>
-                                    <li><a href="https://exploringjs.com/impatient-js/ch_promises.html" target="_blank" rel="noopener">Exploring JS – Capitolo sulle Promise</a></li>
-                                    <li><a href="https://nodejs.org/en/learn/asynchronous-work/understanding-javascript-promises" target="_blank" rel="noopener">Guida ufficiale Node.js</a></li>
-                                </ul>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="section-navigation">
-                        <a class="btn btn--outline" href="api-rest.html">← Sezione precedente: API REST</a>
-                        <a class="btn btn--primary" href="nodejs-oggetti-crud.html">Prossima sezione: Node.js: Oggetti & CRUD →</a>
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-    <script src="../app.js"></script>
-</body>
+                            <article class="subsection">
+                                <h2>📚 Risorse di approfondimento</h2>
+                                <div class="info-box info">
+                                    <ul>
+                                        <li>
+                                            <a
+                                                href="https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >MDN Promise</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://exploringjs.com/impatient-js/ch_promises.html"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >Exploring JS – Capitolo sulle Promise</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/en/learn/asynchronous-work/understanding-javascript-promises"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >Guida ufficiale Node.js</a
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="section-navigation">
+                            <a class="btn btn--outline" href="api-rest.html"
+                                >← Sezione precedente: API REST</a
+                            >
+                            <a class="btn btn--primary" href="nodejs-oggetti-crud.html"
+                                >Prossima sezione: Node.js: Oggetti & CRUD →</a
+                            >
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script src="../app.js"></script>
+    </body>
 </html>

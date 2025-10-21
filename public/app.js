@@ -11,16 +11,16 @@ class WebArchitectureApp {
         this.currentSection = 'intro';
         this.sections = [];
         this.pageMap = {};
-        
+
         // Cache per contenuti caricati dinamicamente
         this.sectionCache = new Map();
         this.lessonsCache = new Map();
-        
+
         // UI State
         this.isMobile = window.innerWidth <= 768;
         this.sidebarVisible = !this.isMobile;
         this.currentTheme = this.getInitialTheme();
-        
+
         this.init();
     }
 
@@ -28,10 +28,10 @@ class WebArchitectureApp {
         try {
             this._isInitializing = true;
             console.log('🚀 Inizializzazione WebArchitectureApp...');
-            
+
             // Carica configurazione delle lezioni
             await this.loadLessonsConfig();
-            
+
             // Carica la lezione salvata o usa default
             const savedLesson = localStorage.getItem('web-arch-current-lesson');
             if (savedLesson && this.lessonsConfig.lessons[savedLesson]) {
@@ -40,13 +40,13 @@ class WebArchitectureApp {
                 // Nessuna lezione salvata o lezione non valida, usa default e salva
                 localStorage.setItem('web-arch-current-lesson', this.currentLesson);
             }
-            
+
             // Prima caching degli elementi DOM (necessario per updateSidebarForLesson)
             this.cacheDOMElements();
-            
+
             // Inizializza la lezione corrente
             this.setCurrentLesson(this.currentLesson);
-            
+
             // Forza aggiornamento sidebar se non è stata popolata
             if (this.navList && this.navList.children.length <= 1) {
                 const currentLessonConfig = this.lessonsConfig.lessons[this.currentLesson];
@@ -54,10 +54,10 @@ class WebArchitectureApp {
                     this.updateSidebarForLesson(currentLessonConfig);
                 }
             }
-            
+
             // Setup navigation listeners dopo l'impostazione della lezione
             this.setupNavigationListeners();
-            
+
             // Continua con l'inizializzazione normale
             this.initializeTheme();
             this.setupEventListeners();
@@ -66,16 +66,16 @@ class WebArchitectureApp {
             this.createMobileMenuToggle();
             this.setupKeyboardNavigation();
             this.setupAccessibility();
-            
+
             // Inizializza la prima sezione o intro se nella lezione 1
             const initialSection = this.currentLesson === 'lezione-1' ? 'intro' : this.sections[0];
             if (initialSection) {
                 const isDynamicLoad = initialSection !== 'intro'; // intro è già nel DOM
                 this.navigateToSection(initialSection, false, isDynamicLoad);
             }
-            
+
             console.log('✅ Applicazione caricata correttamente');
-            
+
             this._isInitializing = false;
         } catch (error) {
             console.error('❌ Errore inizializzazione:', error);
@@ -90,41 +90,41 @@ class WebArchitectureApp {
         this.themeToggle = document.getElementById('themeToggle');
         this.themeToggleIcon = this.themeToggle?.querySelector('.theme-toggle-icon');
         this.themeToggleText = this.themeToggle?.querySelector('.theme-toggle-text');
-        
+
         // Sidebar elements
         this.sidebar = document.getElementById('sidebar');
         this.navList = document.getElementById('navList');
         this.navItems = Array.from(document.querySelectorAll('.nav-item'));
         this.navLinks = Array.from(document.querySelectorAll('.nav-link'));
         this.toggleSidebarBtn = document.getElementById('toggleSidebar');
-        
+
         // Verifica elementi critici
         if (!this.navList) {
             console.error('❌ Elemento navList non trovato nel DOM!');
         }
-        
+
         // Progress elements
         this.progressFill = document.getElementById('progressFill');
         this.progressText = document.getElementById('progressText');
-        
+
         // Main content
         this.mainContent = document.getElementById('mainContent');
         this.contentContainer = document.getElementById('contentContainer');
         this.contentSections = Array.from(document.querySelectorAll('.content-section'));
-        
+
         // Mobile overlay
         this.sidebarOverlay = null; // Sarà creato dinamicamente
     }
 
     // ==================== THEME MANAGEMENT ====================
-    
+
     getInitialTheme() {
         // Priorità: localStorage -> system preference -> default light
         const savedTheme = localStorage.getItem('web-arch-theme');
         if (savedTheme && ['light', 'dark'].includes(savedTheme)) {
             return savedTheme;
         }
-        
+
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         return prefersDark ? 'dark' : 'light';
     }
@@ -132,10 +132,10 @@ class WebArchitectureApp {
     initializeTheme() {
         this.applyTheme(this.currentTheme);
         this.updateThemeToggle();
-        
+
         // Listen for system theme changes
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        mediaQuery.addEventListener('change', (e) => {
+        mediaQuery.addEventListener('change', e => {
             // Solo se non c'è una preferenza salvata
             if (!localStorage.getItem('web-arch-theme')) {
                 const newTheme = e.matches ? 'dark' : 'light';
@@ -148,25 +148,25 @@ class WebArchitectureApp {
         document.documentElement.setAttribute('data-color-scheme', theme);
         document.body.className = `theme-${theme}`;
         this.currentTheme = theme;
-        
+
         // Salva preferenza utente
         localStorage.setItem('web-arch-theme', theme);
-        
+
         console.log(`🎨 Tema applicato: ${theme}`);
     }
 
     switchTheme(newTheme = null) {
         const targetTheme = newTheme || (this.currentTheme === 'light' ? 'dark' : 'light');
-        
+
         // Animazione smooth per il cambio tema
         document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-        
+
         this.applyTheme(targetTheme);
         this.updateThemeToggle();
-        
+
         // Annuncia il cambio per screen readers
         this.announceThemeChange(targetTheme);
-        
+
         // Rimuovi la transizione dopo l'animazione
         setTimeout(() => {
             document.body.style.transition = '';
@@ -177,19 +177,18 @@ class WebArchitectureApp {
         if (!this.themeToggle || !this.themeToggleIcon || !this.themeToggleText) {
             return;
         }
-        
+
         const isDark = this.currentTheme === 'dark';
-        
+
         // Aggiorna icona
         this.themeToggleIcon.textContent = isDark ? '☀️' : '🌙';
-        
+
         // Aggiorna testo
         this.themeToggleText.textContent = isDark ? 'Light' : 'Dark';
-        
+
         // Aggiorna attributi accessibilità
-        this.themeToggle.setAttribute('aria-label', 
-            `Cambia a tema ${isDark ? 'chiaro' : 'scuro'}`);
-        
+        this.themeToggle.setAttribute('aria-label', `Cambia a tema ${isDark ? 'chiaro' : 'scuro'}`);
+
         // Aggiorna classe per stili CSS
         this.themeToggle.classList.toggle('dark-mode', isDark);
     }
@@ -216,9 +215,11 @@ class WebArchitectureApp {
                 return;
             }
         } catch (error) {
-            console.warn('⚠️ File lessons-config.json non disponibile, uso configurazione integrata');
+            console.warn(
+                '⚠️ File lessons-config.json non disponibile, uso configurazione integrata'
+            );
         }
-        
+
         // Fallback alla configurazione integrata
         this.lessonsConfig = this.getEmbeddedLessonsConfig();
         console.log('✅ Configurazione caricata da fallback integrato');
@@ -226,51 +227,141 @@ class WebArchitectureApp {
 
     getEmbeddedLessonsConfig() {
         return {
-            "lessons": {
-                "lezione-1": {
-                    "title": "Lezione 1: Fondamenti di Architettura Web",
-                    "description": "Dalle architetture tradizionali alle moderne SPA con Node.js",
-                    "icon": "🏗️",
-                    "sections": [
-                        { "id": "intro", "title": "Introduzione", "icon": "🏗️", "file": "intro.html" },
-                        { "id": "client-server", "title": "Client-Server", "icon": "🔄", "file": "client-server.html" },
-                        { "id": "monolithic", "title": "Architettura Monolitica", "icon": "🏢", "file": "monolithic.html" },
-                        { "id": "microservices", "title": "Microservizi", "icon": "🔧", "file": "microservices.html" },
-                        { "id": "spa", "title": "Single Page Application", "icon": "📱", "file": "spa.html" },
-                        { "id": "http", "title": "Protocollo HTTP", "icon": "🌐", "file": "http.html" },
-                        { "id": "cors", "title": "Cross-Origin Resource Sharing", "icon": "🔐", "file": "cors.html" },
-                        { "id": "csrf", "title": "Cross-Site Request Forgery", "icon": "🛡️", "file": "csrf.html" },
-                        { "id": "url-uri", "title": "URL e URI", "icon": "🔗", "file": "url-uri.html" },
-                        { "id": "api-soap", "title": "API e SOAP", "icon": "📡", "file": "api-soap.html" },
-                        { "id": "rest", "title": "RESTful APIs", "icon": "🔄", "file": "rest.html" },
-                        { "id": "endpoints", "title": "Endpoints", "icon": "🎯", "file": "endpoints.html" },
-                        { "id": "json-xml", "title": "JSON vs XML", "icon": "📋", "file": "json-xml.html" },
-                        { "id": "jwt", "title": "JSON Web Tokens", "icon": "🔑", "file": "jwt.html" },
-                        { "id": "cookie-session", "title": "Cookie e Sessioni", "icon": "🍪", "file": "cookie-session.html" },
-                        { "id": "webstorage", "title": "Web Storage", "icon": "💾", "file": "webstorage.html" },
-                        { "id": "api-keys", "title": "API Keys", "icon": "🔐", "file": "api-keys.html" },
-                        { "id": "oauth", "title": "OAuth 2.0", "icon": "🔓", "file": "oauth.html" },
-                        { "id": "oidc", "title": "OpenID Connect", "icon": "🆔", "file": "oidc.html" },
-                        { "id": "nodejs-intro", "title": "Introduzione a Node.js", "icon": "💚", "file": "nodejs-intro.html" },
-                        { "id": "installation", "title": "Installazione Node.js", "icon": "⚙️", "file": "installation.html" },
-                        { "id": "vscode", "title": "VS Code per Node.js", "icon": "💻", "file": "vscode.html" },
-                        { "id": "first-app", "title": "Prima Applicazione", "icon": "🚀", "file": "first-app.html" },
-                        { "id": "spa-details", "title": "SPA - Dettagli Tecnici", "icon": "⚡", "file": "spa-details.html" },
-                        { "id": "spa-nodejs", "title": "SPA con Node.js", "icon": "🌟", "file": "spa-nodejs.html" }
-                    ]
+            lessons: {
+                'lezione-1': {
+                    title: 'Lezione 1: Fondamenti di Architettura Web',
+                    description: 'Dalle architetture tradizionali alle moderne SPA con Node.js',
+                    icon: '🏗️',
+                    sections: [
+                        { id: 'intro', title: 'Introduzione', icon: '🏗️', file: 'intro.html' },
+                        {
+                            id: 'client-server',
+                            title: 'Client-Server',
+                            icon: '🔄',
+                            file: 'client-server.html',
+                        },
+                        {
+                            id: 'monolithic',
+                            title: 'Architettura Monolitica',
+                            icon: '🏢',
+                            file: 'monolithic.html',
+                        },
+                        {
+                            id: 'microservices',
+                            title: 'Microservizi',
+                            icon: '🔧',
+                            file: 'microservices.html',
+                        },
+                        {
+                            id: 'spa',
+                            title: 'Single Page Application',
+                            icon: '📱',
+                            file: 'spa.html',
+                        },
+                        { id: 'http', title: 'Protocollo HTTP', icon: '🌐', file: 'http.html' },
+                        {
+                            id: 'cors',
+                            title: 'Cross-Origin Resource Sharing',
+                            icon: '🔐',
+                            file: 'cors.html',
+                        },
+                        {
+                            id: 'csrf',
+                            title: 'Cross-Site Request Forgery',
+                            icon: '🛡️',
+                            file: 'csrf.html',
+                        },
+                        { id: 'url-uri', title: 'URL e URI', icon: '🔗', file: 'url-uri.html' },
+                        { id: 'api-soap', title: 'API e SOAP', icon: '📡', file: 'api-soap.html' },
+                        { id: 'rest', title: 'RESTful APIs', icon: '🔄', file: 'rest.html' },
+                        { id: 'endpoints', title: 'Endpoints', icon: '🎯', file: 'endpoints.html' },
+                        { id: 'json-xml', title: 'JSON vs XML', icon: '📋', file: 'json-xml.html' },
+                        { id: 'jwt', title: 'JSON Web Tokens', icon: '🔑', file: 'jwt.html' },
+                        {
+                            id: 'cookie-session',
+                            title: 'Cookie e Sessioni',
+                            icon: '🍪',
+                            file: 'cookie-session.html',
+                        },
+                        {
+                            id: 'webstorage',
+                            title: 'Web Storage',
+                            icon: '💾',
+                            file: 'webstorage.html',
+                        },
+                        { id: 'api-keys', title: 'API Keys', icon: '🔐', file: 'api-keys.html' },
+                        { id: 'oauth', title: 'OAuth 2.0', icon: '🔓', file: 'oauth.html' },
+                        { id: 'oidc', title: 'OpenID Connect', icon: '🆔', file: 'oidc.html' },
+                        {
+                            id: 'nodejs-intro',
+                            title: 'Introduzione a Node.js',
+                            icon: '💚',
+                            file: 'nodejs-intro.html',
+                        },
+                        {
+                            id: 'installation',
+                            title: 'Installazione Node.js',
+                            icon: '⚙️',
+                            file: 'installation.html',
+                        },
+                        {
+                            id: 'vscode',
+                            title: 'VS Code per Node.js',
+                            icon: '💻',
+                            file: 'vscode.html',
+                        },
+                        {
+                            id: 'first-app',
+                            title: 'Prima Applicazione',
+                            icon: '🚀',
+                            file: 'first-app.html',
+                        },
+                        {
+                            id: 'spa-details',
+                            title: 'SPA - Dettagli Tecnici',
+                            icon: '⚡',
+                            file: 'spa-details.html',
+                        },
+                        {
+                            id: 'spa-nodejs',
+                            title: 'SPA con Node.js',
+                            icon: '🌟',
+                            file: 'spa-nodejs.html',
+                        },
+                    ],
                 },
-                "lezione-2": {
-                    "title": "Lezione 2: Architetture Avanzate",
-                    "description": "Database, caching, deployment e scaling",
-                    "icon": "🚀",
-                    "sections": [
-                        { "id": "database-intro", "title": "Database Fundamentals", "icon": "🗄️", "file": "database-intro.html" },
-                        { "id": "sql-nosql", "title": "SQL vs NoSQL", "icon": "📊", "file": "sql-nosql.html" },
-                        { "id": "caching", "title": "Strategie di Caching", "icon": "⚡", "file": "caching.html" },
-                        { "id": "deployment", "title": "Deployment e DevOps", "icon": "🚢", "file": "deployment.html" }
-                    ]
-                }
-            }
+                'lezione-2': {
+                    title: 'Lezione 2: Architetture Avanzate',
+                    description: 'Database, caching, deployment e scaling',
+                    icon: '🚀',
+                    sections: [
+                        {
+                            id: 'database-intro',
+                            title: 'Database Fundamentals',
+                            icon: '🗄️',
+                            file: 'database-intro.html',
+                        },
+                        {
+                            id: 'sql-nosql',
+                            title: 'SQL vs NoSQL',
+                            icon: '📊',
+                            file: 'sql-nosql.html',
+                        },
+                        {
+                            id: 'caching',
+                            title: 'Strategie di Caching',
+                            icon: '⚡',
+                            file: 'caching.html',
+                        },
+                        {
+                            id: 'deployment',
+                            title: 'Deployment e DevOps',
+                            icon: '🚢',
+                            file: 'deployment.html',
+                        },
+                    ],
+                },
+            },
         };
     }
 
@@ -282,14 +373,13 @@ class WebArchitectureApp {
 
         this.currentLesson = lessonId;
         const lesson = this.lessonsConfig.lessons[lessonId];
-        
+
         // Aggiorna sections e pageMap per la lezione corrente
         this.sections = lesson.sections.map(s => s.id);
         this.pageMap = {};
         lesson.sections.forEach(section => {
             this.pageMap[section.id] = section.file;
         });
-
 
         this.updateSidebarForLesson(lesson);
         return true;
@@ -300,7 +390,7 @@ class WebArchitectureApp {
             console.warn('⚠️ navList non disponibile in updateSidebarForLesson');
             return;
         }
-        
+
         console.log('🔄 Aggiornamento sidebar per lezione:', lesson.title);
 
         // Pulisci la navigazione attuale (inclusi elementi hardcoded)
@@ -339,22 +429,24 @@ class WebArchitectureApp {
         // Re-cache DOM elements per la navigazione
         this.navItems = Array.from(document.querySelectorAll('.nav-item'));
         this.navLinks = Array.from(document.querySelectorAll('.nav-link'));
-        
+
         // Event delegation gestisce automaticamente i nuovi elementi
     }
 
     updateStartCourseButton(lesson) {
         const startBtn = document.getElementById('startCourseBtn');
-        if (!startBtn || !lesson.sections || lesson.sections.length === 0) {return;}
+        if (!startBtn || !lesson.sections || lesson.sections.length === 0) {
+            return;
+        }
 
         // Per il pulsante "Inizia il Corso", naviga alla seconda sezione se esiste (dopo intro)
         // altrimenti vai alla prima sezione
         const targetSection = lesson.sections.length > 1 ? lesson.sections[1] : lesson.sections[0];
-        
+
         // Rimuovi event listener precedenti
         const newBtn = startBtn.cloneNode(true);
         startBtn.parentNode.replaceChild(newBtn, startBtn);
-        
+
         // Aggiungi nuovo event listener per la sezione target
         newBtn.addEventListener('click', () => {
             const dynamicLoad = targetSection.id !== 'intro';
@@ -381,7 +473,7 @@ class WebArchitectureApp {
             selector.id = 'lessonSelector';
             selector.className = 'lesson-selector';
             selector.setAttribute('aria-label', 'Seleziona lezione');
-            
+
             // Inserisci dopo il titolo
             const title = header.querySelector('.header-title');
             if (title) {
@@ -401,25 +493,25 @@ class WebArchitectureApp {
 
         // Forza la sincronizzazione del valore selezionato
         selector.value = this.currentLesson;
-        
+
         // Event listener per cambio lezione
-        selector.addEventListener('change', (e) => {
+        selector.addEventListener('change', e => {
             console.log('🔄 Cambio lezione richiesto:', e.target.value);
             this.switchLesson(e.target.value);
         });
-        
-
     }
 
     async switchLesson(lessonId) {
-        if (lessonId === this.currentLesson) {return;}
+        if (lessonId === this.currentLesson) {
+            return;
+        }
 
         try {
             console.log(`🔄 Iniziando cambio lezione da ${this.currentLesson} a ${lessonId}`);
-            
+
             // Pulisci la cache delle sezioni
             this.sectionCache.clear();
-            
+
             // Rimuovi tutte le sezioni dal DOM tranne intro
             const sectionsToRemove = document.querySelectorAll('.content-section:not(#intro)');
             sectionsToRemove.forEach(section => section.remove());
@@ -429,15 +521,15 @@ class WebArchitectureApp {
             if (!success) {
                 throw new Error(`Impossibile impostare la lezione ${lessonId}`);
             }
-            
+
             // Reset alla prima sezione disponibile per la lezione
             const firstSectionId = this.sections[0];
             if (!firstSectionId) {
                 throw new Error('Nessuna sezione disponibile per questa lezione');
             }
-            
+
             console.log(`🎯 Navigando alla prima sezione della lezione: ${firstSectionId}`);
-            
+
             // Per la lezione-1 la prima sezione è 'intro' che è già nel DOM
             // Per altre lezioni potrebbe essere diversa e necessitare di caricamento dinamico
             if (lessonId === 'lezione-1' && firstSectionId === 'intro') {
@@ -445,17 +537,21 @@ class WebArchitectureApp {
                 const introSection = document.getElementById('intro');
                 if (introSection) {
                     // Rimuovi active da tutte le sezioni
-                    document.querySelectorAll('.content-section.active').forEach(s => s.classList.remove('active'));
+                    document
+                        .querySelectorAll('.content-section.active')
+                        .forEach(s => s.classList.remove('active'));
                     // Attiva intro
                     introSection.classList.add('active');
-                    
+
                     // Aggiorna la navigazione per puntare a intro
-                    document.querySelectorAll('.nav-item.active').forEach(n => n.classList.remove('active'));
+                    document
+                        .querySelectorAll('.nav-item.active')
+                        .forEach(n => n.classList.remove('active'));
                     const introNavItem = document.querySelector('[data-section="intro"]');
                     if (introNavItem) {
                         introNavItem.classList.add('active');
                     }
-                    
+
                     this.currentSection = 'intro';
                     this.updateProgress();
                     this.scrollToTop();
@@ -472,7 +568,6 @@ class WebArchitectureApp {
 
             this.announceMessage(`Caricata ${this.lessonsConfig.lessons[lessonId].title}`);
             console.log(`✅ Cambio lezione completato: ${lessonId}`);
-
         } catch (error) {
             console.error('❌ Errore cambio lezione:', error);
             this.showErrorMessage('Errore nel cambio di lezione. Ricarica la pagina.');
@@ -480,13 +575,15 @@ class WebArchitectureApp {
     }
 
     getAvailableLessons() {
-        if (!this.lessonsConfig) {return [];}
+        if (!this.lessonsConfig) {
+            return [];
+        }
         return Object.entries(this.lessonsConfig.lessons).map(([id, lesson]) => ({
             id,
             title: lesson.title,
             description: lesson.description,
             icon: lesson.icon,
-            sectionsCount: lesson.sections.length
+            sectionsCount: lesson.sections.length,
         }));
     }
 
@@ -495,7 +592,7 @@ class WebArchitectureApp {
     setupEventListeners() {
         // Theme toggle
         if (this.themeToggle) {
-            this.themeToggle.addEventListener('click', (e) => {
+            this.themeToggle.addEventListener('click', e => {
                 e.preventDefault();
                 this.switchTheme();
             });
@@ -511,26 +608,34 @@ class WebArchitectureApp {
         }
 
         // Window resize
-        window.addEventListener('resize', () => {
-            this.handleResize();
-        }, { passive: true });
+        window.addEventListener(
+            'resize',
+            () => {
+                this.handleResize();
+            },
+            { passive: true }
+        );
 
         // Scroll event per sezioni lunghe
         if (this.mainContent) {
-            this.mainContent.addEventListener('scroll', () => {
-                this.handleScroll();
-            }, { passive: true });
+            this.mainContent.addEventListener(
+                'scroll',
+                () => {
+                    this.handleScroll();
+                },
+                { passive: true }
+            );
         }
 
         // Setup history navigation
         this.setupHistoryNavigation();
 
         // Gestione click fuori sidebar su mobile
-        document.addEventListener('click', (e) => {
+        document.addEventListener('click', e => {
             if (this.isMobile && this.sidebarVisible) {
                 const isClickInsideSidebar = this.sidebar?.contains(e.target);
                 const isClickOnToggle = e.target.closest('.mobile-menu-toggle');
-                
+
                 if (!isClickInsideSidebar && !isClickOnToggle) {
                     this.hideSidebar();
                 }
@@ -539,7 +644,7 @@ class WebArchitectureApp {
 
         // Prevenire chiusura sidebar quando si clicca dentro
         if (this.sidebar) {
-            this.sidebar.addEventListener('click', (e) => {
+            this.sidebar.addEventListener('click', e => {
                 e.stopPropagation();
             });
         }
@@ -552,16 +657,20 @@ class WebArchitectureApp {
             this._navClickCooldown = false;
 
             // Listener per la navigazione nella sidebar
-            this.navList.addEventListener('click', (e) => {
+            this.navList.addEventListener('click', e => {
                 const link = e.target.closest('.nav-link');
-                if (!link) {return;}
+                if (!link) {
+                    return;
+                }
                 if (this._navClickCooldown) {
                     e.preventDefault();
                     return;
                 }
-                
+
                 const href = link.getAttribute('href');
-                if (!href) {return;}
+                if (!href) {
+                    return;
+                }
                 if (href.startsWith('#')) {
                     e.preventDefault();
                     this._navClickCooldown = true;
@@ -569,23 +678,29 @@ class WebArchitectureApp {
                     // Per intro non eseguire fetch (shell già presente)
                     const dynamic = sectionId !== 'intro';
                     this.navigateToSection(sectionId, true, dynamic);
-                    setTimeout(() => { this._navClickCooldown = false; }, 300);
+                    setTimeout(() => {
+                        this._navClickCooldown = false;
+                    }, 300);
                 }
             });
 
             // Listener per i pulsanti di navigazione all'interno delle sezioni
-            document.addEventListener('click', (e) => {
+            document.addEventListener('click', e => {
                 const link = e.target.closest('.section-navigation a, .btn');
-                if (!link) {return;}
-                
+                if (!link) {
+                    return;
+                }
+
                 const href = link.getAttribute('href');
-                if (!href || href.startsWith('http') || href === '#') {return;}
+                if (!href || href.startsWith('http') || href === '#') {
+                    return;
+                }
                 if (this._navClickCooldown) {
                     e.preventDefault();
                     e.stopPropagation();
                     return;
                 }
-                
+
                 // Se l'href contiene .html, è un link di navigazione delle sezioni
                 if (href.endsWith('.html')) {
                     console.log(`🔗 Intercettato click su pulsante navigazione: ${href}`);
@@ -601,7 +716,9 @@ class WebArchitectureApp {
                     } else {
                         console.warn(`⚠️ Sezione non trovata o non disponibile: ${sectionId}`);
                     }
-                    setTimeout(() => { this._navClickCooldown = false; }, 300);
+                    setTimeout(() => {
+                        this._navClickCooldown = false;
+                    }, 300);
                 }
             });
 
@@ -610,7 +727,7 @@ class WebArchitectureApp {
     }
 
     setupKeyboardNavigation() {
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', e => {
             // Solo se non stiamo scrivendo in un input
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
                 return;
@@ -660,7 +777,7 @@ class WebArchitectureApp {
             this.sidebar.setAttribute('role', 'navigation');
             this.sidebar.setAttribute('aria-label', 'Navigazione principale del corso');
         }
-        
+
         if (this.mainContent) {
             this.mainContent.setAttribute('role', 'main');
             this.mainContent.setAttribute('aria-label', 'Contenuto della lezione');
@@ -668,7 +785,7 @@ class WebArchitectureApp {
 
         // Skip link
         this.createSkipLink();
-        
+
         // Live region per annunci
         this.createLiveRegion();
 
@@ -678,7 +795,7 @@ class WebArchitectureApp {
 
     setupFocusManagement() {
         // Quando si naviga con tastiera, assicurati che il focus sia visibile
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', e => {
             if (e.key === 'Tab') {
                 document.body.classList.add('user-is-tabbing');
             }
@@ -707,17 +824,17 @@ class WebArchitectureApp {
             transition: top 0.2s;
             font-weight: 500;
         `;
-        
+
         skipLink.addEventListener('focus', () => {
             skipLink.style.top = '70px'; // Sotto l'header
             skipLink.classList.remove('sr-only');
         });
-        
+
         skipLink.addEventListener('blur', () => {
             skipLink.style.top = '-40px';
             skipLink.classList.add('sr-only');
         });
-        
+
         document.body.insertBefore(skipLink, document.body.firstChild);
     }
 
@@ -737,25 +854,27 @@ class WebArchitectureApp {
         toggleBtn.innerHTML = '☰';
         toggleBtn.setAttribute('aria-label', 'Apri menu di navigazione');
         toggleBtn.setAttribute('aria-expanded', 'false');
-        
-        toggleBtn.addEventListener('click', (e) => {
+
+        toggleBtn.addEventListener('click', e => {
             e.stopPropagation();
             this.toggleSidebar();
         });
-        
+
         document.body.appendChild(toggleBtn);
         this.mobileToggle = toggleBtn;
     }
 
     createSidebarOverlay() {
-        if (this.sidebarOverlay) {return;}
-        
+        if (this.sidebarOverlay) {
+            return;
+        }
+
         const overlay = document.createElement('div');
         overlay.className = 'sidebar-overlay';
         overlay.addEventListener('click', () => {
             this.hideSidebar();
         });
-        
+
         document.body.appendChild(overlay);
         this.sidebarOverlay = overlay;
     }
@@ -764,7 +883,7 @@ class WebArchitectureApp {
 
     navigateToSection(sectionId, updateHistory = true, dynamicLoad = false) {
         console.log(`🔍 Tentativo di navigazione a: ${sectionId} (dynamic: ${dynamicLoad})`);
-        
+
         const targetNavItem = document.querySelector(`[data-section="${sectionId}"]`);
         if (!targetNavItem) {
             console.error(`❌ Elemento navigazione per ${sectionId} non trovato`);
@@ -777,12 +896,16 @@ class WebArchitectureApp {
             console.log(`📥 Caricamento dinamico richiesto per: ${sectionId}`);
             this.loadSectionDynamically(sectionId)
                 .then(() => {
-                    console.log(`✅ Caricamento completato per: ${sectionId}, richiamando navigazione`);
+                    console.log(
+                        `✅ Caricamento completato per: ${sectionId}, richiamando navigazione`
+                    );
                     this.navigateToSection(sectionId, updateHistory, false);
                 })
                 .catch(err => {
                     console.error('❌ Errore caricamento dinamico:', err);
-                    this.announceMessage(`Impossibile caricare la sezione ${sectionId}. Verifica la connessione.`);
+                    this.announceMessage(
+                        `Impossibile caricare la sezione ${sectionId}. Verifica la connessione.`
+                    );
                     // Fallback alla sezione intro se il caricamento fallisce
                     if (sectionId !== 'intro') {
                         console.log('🔄 Fallback alla sezione intro');
@@ -848,14 +971,18 @@ class WebArchitectureApp {
 
     getSectionIdFromHref(href) {
         // Supporta href con path (es: 'pages/client-server.html') o query/hash
-        if (!href) {return null;}
+        if (!href) {
+            return null;
+        }
         const clean = href.split('?')[0].split('#')[0];
         const fileName = clean.split('/').pop(); // estrae 'client-server.html'
-        
+
         // Cerca nella mappa delle pagine della lezione corrente
         const id = Object.keys(this.pageMap).find(key => this.pageMap[key] === fileName);
-        if (id) {return id;}
-        
+        if (id) {
+            return id;
+        }
+
         // Fallback: prova a ricavare l'id dal nome del file
         if (fileName.endsWith('.html')) {
             const baseId = fileName.replace('.html', '');
@@ -863,19 +990,29 @@ class WebArchitectureApp {
                 return baseId;
             }
         }
-        
+
         return null;
     }
 
     async loadSectionDynamically(sectionId) {
-        if (!this.pageMap[sectionId]) {throw new Error('Pagina non mappata');}
-        if (this.sectionCache.has(sectionId)) {return;}
+        if (!this.pageMap[sectionId]) {
+            throw new Error('Pagina non mappata');
+        }
+        if (this.sectionCache.has(sectionId)) {
+            return;
+        }
 
         // Previeni race condition: se già in caricamento
-        if (this._loadingSection === sectionId) {return;}
+        if (this._loadingSection === sectionId) {
+            return;
+        }
         // Se c'è un fetch in corso per un'altra sezione, abortiscilo
         if (this._currentFetch && typeof this._currentFetch.abort === 'function') {
-            try { this._currentFetch.abort(); } catch (e) { /* ignore */ }
+            try {
+                this._currentFetch.abort();
+            } catch (e) {
+                /* ignore */
+            }
         }
         this._loadingSection = sectionId;
 
@@ -899,8 +1036,13 @@ class WebArchitectureApp {
         const abortController = new AbortController();
         this._currentFetch = abortController;
         try {
-            const response = await fetch(pagePath, { cache: 'no-cache', signal: abortController.signal });
-            if (!response.ok) {throw new Error(`HTTP ${response.status}`);}
+            const response = await fetch(pagePath, {
+                cache: 'no-cache',
+                signal: abortController.signal,
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
             const html = await response.text();
 
             // Parse sicuro
@@ -911,12 +1053,28 @@ class WebArchitectureApp {
                 // fallback: prende la prima section se id mancato
                 extracted = doc.querySelector('section.content-section');
             }
-            if (!extracted) {throw new Error('Section tag non trovato');}
+            if (!extracted) {
+                throw new Error('Section tag non trovato');
+            }
 
             // Sanitizzazione: rimuovi script e attributi/eventi potenzialmente pericolosi
             extracted.querySelectorAll('script').forEach(s => s.remove());
             const dangerousAttrs = [
-                'onerror','onload','onclick','onmouseover','onmouseenter','onmouseleave','onfocus','onblur','onchange','onsubmit','onreset','onkeydown','onkeypress','onkeyup','oncontextmenu'
+                'onerror',
+                'onload',
+                'onclick',
+                'onmouseover',
+                'onmouseenter',
+                'onmouseleave',
+                'onfocus',
+                'onblur',
+                'onchange',
+                'onsubmit',
+                'onreset',
+                'onkeydown',
+                'onkeypress',
+                'onkeyup',
+                'oncontextmenu',
             ];
             extracted.querySelectorAll('*').forEach(el => {
                 dangerousAttrs.forEach(attr => {
@@ -930,8 +1088,12 @@ class WebArchitectureApp {
                         el.setAttribute('href', '#');
                     }
                     if (/^https?:\/\//i.test(href)) {
-                        if (!el.hasAttribute('rel')) {el.setAttribute('rel', 'noopener noreferrer');}
-                        if (!el.hasAttribute('target')) {el.setAttribute('target', '_blank');}
+                        if (!el.hasAttribute('rel')) {
+                            el.setAttribute('rel', 'noopener noreferrer');
+                        }
+                        if (!el.hasAttribute('target')) {
+                            el.setAttribute('target', '_blank');
+                        }
                     }
                 }
             });
@@ -978,7 +1140,9 @@ class WebArchitectureApp {
             }
             throw e;
         } finally {
-            if (this._currentFetch === abortController) {this._currentFetch = null;}
+            if (this._currentFetch === abortController) {
+                this._currentFetch = null;
+            }
             this._loadingSection = null;
         }
     }
@@ -986,29 +1150,32 @@ class WebArchitectureApp {
     setupSectionNavigationButtons(sectionElement) {
         // Gestisce i pulsanti di navigazione nelle sezioni caricate dinamicamente
         const navigationButtons = sectionElement.querySelectorAll('.section-navigation .btn');
-        
+
         navigationButtons.forEach(btn => {
             // Rimuovi listener esistenti per evitare duplicati
             const newBtn = btn.cloneNode(true);
             btn.parentNode.replaceChild(newBtn, btn);
-            
+
             if (newBtn.textContent.includes('Successivo')) {
-                newBtn.addEventListener('click', (e) => {
+                newBtn.addEventListener('click', e => {
                     e.preventDefault();
                     e.stopPropagation();
                     this.navigateToNextSection();
                 });
             } else if (newBtn.textContent.includes('Precedente')) {
-                newBtn.addEventListener('click', (e) => {
+                newBtn.addEventListener('click', e => {
                     e.preventDefault();
                     e.stopPropagation();
                     this.navigateToPreviousSection();
                 });
-            } else if (newBtn.textContent.includes('Completato') || newBtn.textContent.includes('Completa')) {
+            } else if (
+                newBtn.textContent.includes('Completato') ||
+                newBtn.textContent.includes('Completa')
+            ) {
                 // Se siamo nell'ultima sezione, passa alla lezione successiva
                 newBtn.disabled = false;
                 newBtn.textContent = '🚀 Lezione Successiva';
-                newBtn.addEventListener('click', (e) => {
+                newBtn.addEventListener('click', e => {
                     e.preventDefault();
                     e.stopPropagation();
                     this.goToNextLesson();
@@ -1025,7 +1192,9 @@ class WebArchitectureApp {
             this.switchLesson('lezione-2');
             this.announceMessage('🎉 Benvenuto nella Lezione 2! Architetture Avanzate');
         } else {
-            this.announceMessage('🎊 Complimenti! Hai completato tutto il corso di Architettura Web!');
+            this.announceMessage(
+                '🎊 Complimenti! Hai completato tutto il corso di Architettura Web!'
+            );
         }
     }
 
@@ -1035,7 +1204,7 @@ class WebArchitectureApp {
         if (sectionTitle) {
             sectionTitle.setAttribute('tabindex', '-1');
             sectionTitle.focus();
-            
+
             // Rimuovi tabindex dopo un po'
             setTimeout(() => {
                 sectionTitle.removeAttribute('tabindex');
@@ -1071,17 +1240,18 @@ class WebArchitectureApp {
     updateProgress() {
         const currentIndex = this.sections.indexOf(this.currentSection);
         const progress = ((currentIndex + 1) / this.sections.length) * 100;
-        
+
         if (this.progressFill) {
             this.progressFill.style.width = `${progress}%`;
         }
-        
+
         if (this.progressText) {
             this.progressText.textContent = `Sezione ${currentIndex + 1} di ${this.sections.length}`;
         }
 
         // Aggiorna anche il titolo della pagina
-        const sectionTitle = document.querySelector(`#${this.currentSection} h1`)?.textContent || 'Architettura Web';
+        const sectionTitle =
+            document.querySelector(`#${this.currentSection} h1`)?.textContent || 'Architettura Web';
         document.title = `${sectionTitle} - Guida Completa Architettura Web`;
     }
 
@@ -1090,7 +1260,7 @@ class WebArchitectureApp {
             const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             this.mainContent.scrollTo({
                 top: 0,
-                behavior: prefersReduced ? 'auto' : 'smooth'
+                behavior: prefersReduced ? 'auto' : 'smooth',
             });
         }
     }
@@ -1107,11 +1277,15 @@ class WebArchitectureApp {
 
     showSidebar() {
         this.sidebarVisible = true;
-        
+
         if (this.isMobile) {
             this.createSidebarOverlay();
-            if (this.sidebar) {this.sidebar.classList.add('visible');}
-            if (this.sidebarOverlay) {this.sidebarOverlay.classList.add('visible');}
+            if (this.sidebar) {
+                this.sidebar.classList.add('visible');
+            }
+            if (this.sidebarOverlay) {
+                this.sidebarOverlay.classList.add('visible');
+            }
             document.body.style.overflow = 'hidden';
             if (this.mobileToggle) {
                 this.mobileToggle.innerHTML = '✕';
@@ -1119,8 +1293,12 @@ class WebArchitectureApp {
                 this.mobileToggle.setAttribute('aria-label', 'Chiudi menu di navigazione');
             }
         } else {
-            if (this.sidebar) {this.sidebar.classList.remove('hidden');}
-            if (this.mainContent) {this.mainContent.classList.remove('expanded');}
+            if (this.sidebar) {
+                this.sidebar.classList.remove('hidden');
+            }
+            if (this.mainContent) {
+                this.mainContent.classList.remove('expanded');
+            }
         }
 
         if (this.sidebar) {
@@ -1132,10 +1310,14 @@ class WebArchitectureApp {
 
     hideSidebar() {
         this.sidebarVisible = false;
-        
+
         if (this.isMobile) {
-            if (this.sidebar) {this.sidebar.classList.remove('visible');}
-            if (this.sidebarOverlay) {this.sidebarOverlay.classList.remove('visible');}
+            if (this.sidebar) {
+                this.sidebar.classList.remove('visible');
+            }
+            if (this.sidebarOverlay) {
+                this.sidebarOverlay.classList.remove('visible');
+            }
             document.body.style.overflow = '';
             if (this.mobileToggle) {
                 this.mobileToggle.innerHTML = '☰';
@@ -1143,8 +1325,12 @@ class WebArchitectureApp {
                 this.mobileToggle.setAttribute('aria-label', 'Apri menu di navigazione');
             }
         } else {
-            if (this.sidebar) {this.sidebar.classList.add('hidden');}
-            if (this.mainContent) {this.mainContent.classList.add('expanded');}
+            if (this.sidebar) {
+                this.sidebar.classList.add('hidden');
+            }
+            if (this.mainContent) {
+                this.mainContent.classList.add('expanded');
+            }
         }
 
         if (this.sidebar) {
@@ -1157,7 +1343,7 @@ class WebArchitectureApp {
     handleResize() {
         const wasMobile = this.isMobile;
         this.isMobile = window.innerWidth <= 768;
-        
+
         if (wasMobile !== this.isMobile) {
             // Cambio da/verso mobile
             if (this.isMobile) {
@@ -1192,7 +1378,6 @@ class WebArchitectureApp {
     handleScroll() {
         // Opzionale: logica per evidenziare sezioni durante scroll
         // Al momento non implementata perché ogni sezione occupa tutto lo schermo
-        
         // Potresti aggiungere qui logiche come:
         // - Progress bar basato su scroll della sezione
         // - Reading time estimation
@@ -1205,14 +1390,14 @@ class WebArchitectureApp {
         const sectionTitle = document.querySelector(`#${sectionId} h1`)?.textContent || sectionId;
         const currentIndex = this.sections.indexOf(sectionId);
         const announcement = `Navigato alla sezione ${currentIndex + 1} di ${this.sections.length}: ${sectionTitle}`;
-        
+
         this.announceMessage(announcement);
     }
 
     announceMessage(message) {
         if (this.liveRegion) {
             this.liveRegion.textContent = message;
-            
+
             // Pulisci dopo un po'
             setTimeout(() => {
                 this.liveRegion.textContent = '';
@@ -1223,7 +1408,7 @@ class WebArchitectureApp {
     showErrorMessage(message) {
         console.error('Error:', message);
         this.announceMessage(`Errore: ${message}`);
-        
+
         // Mostra anche un toast visuale se disponibile
         if (this.showToast) {
             this.showToast(message, 'error');
@@ -1238,7 +1423,7 @@ class WebArchitectureApp {
     }
 
     setupHistoryNavigation() {
-        window.addEventListener('popstate', (e) => {
+        window.addEventListener('popstate', e => {
             if (e.state && e.state.section) {
                 this.navigateToSection(e.state.section, false);
             } else {
@@ -1265,7 +1450,7 @@ class WebArchitectureApp {
                 currentSection: this.currentSection,
                 theme: this.currentTheme,
                 timestamp: new Date().toISOString(),
-                completedSections: this.getCompletedSections()
+                completedSections: this.getCompletedSections(),
             };
             localStorage.setItem('web-arch-progress', JSON.stringify(progress));
         } catch (e) {
@@ -1278,18 +1463,18 @@ class WebArchitectureApp {
             const saved = localStorage.getItem('web-arch-progress');
             if (saved) {
                 const progress = JSON.parse(saved);
-                
+
                 // Ripristina sezione corrente
                 if (progress.currentSection && this.sections.includes(progress.currentSection)) {
                     this.navigateToSection(progress.currentSection, false);
                     console.log(`Progresso ripristinato: ${progress.currentSection}`);
                 }
-                
+
                 // Ripristina tema
                 if (progress.theme && ['light', 'dark'].includes(progress.theme)) {
                     this.switchTheme(progress.theme);
                 }
-                
+
                 return progress;
             }
         } catch (e) {
@@ -1308,26 +1493,28 @@ class WebArchitectureApp {
     // ==================== SEARCH & UTILITY FUNCTIONS ====================
 
     searchContent(query) {
-        if (!query || query.length < 3) {return [];}
-        
+        if (!query || query.length < 3) {
+            return [];
+        }
+
         const results = [];
         const sections = document.querySelectorAll('.content-section');
-        
+
         sections.forEach(section => {
             const content = section.textContent.toLowerCase();
             const title = section.querySelector('h1')?.textContent || '';
             const description = section.querySelector('.section-description')?.textContent || '';
-            
+
             if (content.includes(query.toLowerCase())) {
                 results.push({
                     id: section.id,
                     title: title,
                     description: description.substring(0, 200) + '...',
-                    relevance: this.calculateRelevance(content, title, query.toLowerCase())
+                    relevance: this.calculateRelevance(content, title, query.toLowerCase()),
                 });
             }
         });
-        
+
         return results.sort((a, b) => b.relevance - a.relevance);
     }
 
@@ -1335,22 +1522,24 @@ class WebArchitectureApp {
         const contentOccurrences = (content.match(new RegExp(query, 'g')) || []).length;
         const titleMatch = title.toLowerCase().includes(query) ? 20 : 0;
         const positionBonus = content.indexOf(query) < 200 ? 10 : 0;
-        
+
         return contentOccurrences + titleMatch + positionBonus;
     }
 
     exportSection(sectionId) {
         const section = document.getElementById(sectionId);
-        if (!section) {return null;}
-        
+        if (!section) {
+            return null;
+        }
+
         const title = section.querySelector('h1')?.textContent || sectionId;
         const content = section.querySelector('.section-content')?.innerHTML || '';
-        
+
         return {
             title,
             content,
             url: `${window.location.origin}${window.location.pathname}#${sectionId}`,
-            exportedAt: new Date().toISOString()
+            exportedAt: new Date().toISOString(),
         };
     }
 
@@ -1375,7 +1564,7 @@ class WebArchitectureApp {
             currentIndex,
             totalSections: this.sections.length,
             percentComplete: Math.round(((currentIndex + 1) / this.sections.length) * 100),
-            completedSections: this.getCompletedSections()
+            completedSections: this.getCompletedSections(),
         };
     }
 
@@ -1384,11 +1573,11 @@ class WebArchitectureApp {
     enableDebugMode() {
         window.webArchDebug = {
             app: this,
-            navigateToSection: (id) => this.navigateToSection(id),
+            navigateToSection: id => this.navigateToSection(id),
             getCurrentSection: () => this.getCurrentSection(),
-            switchTheme: (theme) => this.switchTheme(theme),
-            searchContent: (query) => this.searchContent(query),
-            exportSection: (id) => this.exportSection(id),
+            switchTheme: theme => this.switchTheme(theme),
+            searchContent: query => this.searchContent(query),
+            exportSection: id => this.exportSection(id),
             getProgress: () => this.getProgress(),
             showAllSections: () => {
                 this.contentSections.forEach(section => {
@@ -1396,7 +1585,7 @@ class WebArchitectureApp {
                     section.style.position = 'relative';
                     section.style.marginBottom = '50px';
                 });
-            }
+            },
         };
         console.log('🐛 Debug mode abilitato - vedi window.webArchDebug');
     }
@@ -1407,23 +1596,23 @@ class WebArchitectureApp {
         // Rimuovi event listeners se necessario
         window.removeEventListener('resize', this.handleResize);
         window.removeEventListener('popstate', this.setupHistoryNavigation);
-        
+
         // Pulisci timer e interval
         if (this.progressSaveInterval) {
             clearInterval(this.progressSaveInterval);
         }
-        
+
         // Ripristina body styles
         document.body.style.overflow = '';
         document.body.classList.remove('user-is-tabbing');
-        
+
         console.log('🧹 Applicazione pulita correttamente');
     }
 }
 
 // ==================== UTILITY FUNCTIONS GLOBALI ====================
 
-window.navigateToSection = function(sectionId) {
+window.navigateToSection = function (sectionId) {
     console.log(`navigateToSection chiamata con: ${sectionId}`);
     if (window.webArchApp) {
         const dynamicLoad = sectionId !== 'intro';
@@ -1433,31 +1622,31 @@ window.navigateToSection = function(sectionId) {
     }
 };
 
-window.navigateNext = function() {
+window.navigateNext = function () {
     if (window.webArchApp) {
         window.webArchApp.navigateToNextSection();
     }
 };
 
-window.navigatePrevious = function() {
+window.navigatePrevious = function () {
     if (window.webArchApp) {
         window.webArchApp.navigateToPreviousSection();
     }
 };
 
-window.scrollToTop = function() {
+window.scrollToTop = function () {
     if (window.webArchApp) {
         window.webArchApp.scrollToTop();
     }
 };
 
-window.switchTheme = function(theme = null) {
+window.switchTheme = function (theme = null) {
     if (window.webArchApp) {
         window.webArchApp.switchTheme(theme);
     }
 };
 
-window.searchCourse = function(query) {
+window.searchCourse = function (query) {
     if (window.webArchApp) {
         return window.webArchApp.searchContent(query);
     }
@@ -1477,7 +1666,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Controlla supporto per funzionalità moderne
     if (!window.CSS || !window.CSS.supports || !('classList' in document.createElement('div'))) {
         console.warn('Il browser potrebbe non supportare tutte le funzionalità');
-        
+
         // Fallback per browser molto vecchi
         const fallbackMessage = document.createElement('div');
         fallbackMessage.style.cssText = `
@@ -1491,7 +1680,8 @@ document.addEventListener('DOMContentLoaded', () => {
             text-align: center;
             z-index: 9999;
         `;
-        fallbackMessage.textContent = 'Il tuo browser potrebbe non supportare tutte le funzionalità. Ti consigliamo di aggiornare.';
+        fallbackMessage.textContent =
+            'Il tuo browser potrebbe non supportare tutte le funzionalità. Ti consigliamo di aggiornare.';
         document.body.insertBefore(fallbackMessage, document.body.firstChild);
     }
 
@@ -1532,24 +1722,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Debug mode per sviluppo
-    if (window.location.search.includes('debug=true') || 
-        localStorage.getItem('web-arch-debug') === 'true') {
+    if (
+        window.location.search.includes('debug=true') ||
+        localStorage.getItem('web-arch-debug') === 'true'
+    ) {
         console.log('🐛 Debug mode richiesto');
         window.webArchApp.enableDebugMode();
     }
 
     // Gestione errori globale
-    window.addEventListener('error', (e) => {
-        console.error('Errore nell\'applicazione:', e.error);
-        
+    window.addEventListener('error', e => {
+        console.error("Errore nell'applicazione:", e.error);
+
         // Mostra messaggio di errore user-friendly
         if (window.webArchApp && window.webArchApp.announceMessage) {
-            window.webArchApp.announceMessage('Si è verificato un errore. Prova a ricaricare la pagina.');
+            window.webArchApp.announceMessage(
+                'Si è verificato un errore. Prova a ricaricare la pagina.'
+            );
         }
     });
 
     // Gestione errori Promise non gestite
-    window.addEventListener('unhandledrejection', (e) => {
+    window.addEventListener('unhandledrejection', e => {
         console.error('Promise rejection non gestita:', e.reason);
     });
 
@@ -1569,11 +1763,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==================== PWA & INSTALLATION ====================
 
 // PWA manifest e installazione
-window.addEventListener('beforeinstallprompt', (e) => {
+window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault();
     window.deferredPrompt = e;
     console.log('💾 App può essere installata come PWA');
-    
+
     // Potresti mostrare un banner di installazione qui
     if (window.webArchApp) {
         window.webArchApp.announceMessage('Questa app può essere installata sul tuo dispositivo');
@@ -1613,12 +1807,14 @@ window.addEventListener('online', () => {
 window.addEventListener('offline', () => {
     console.log('📱 Modalità offline');
     if (window.webArchApp) {
-        window.webArchApp.announceMessage('Modalità offline attiva - alcune funzionalità potrebbero essere limitate');
+        window.webArchApp.announceMessage(
+            'Modalità offline attiva - alcune funzionalità potrebbero essere limitate'
+        );
     }
 });
 
 // Migliore handling dei link esterni
-document.addEventListener('click', (e) => {
+document.addEventListener('click', e => {
     const link = e.target.closest('a[href^="http"]');
     if (link && !link.hasAttribute('target')) {
         link.setAttribute('target', '_blank');
@@ -1650,14 +1846,14 @@ function initializePrismHighlighting() {
     }
 
     // Trova tutti i blocchi <pre><code> senza linguaggio specificato
-    document.querySelectorAll('pre code:not([class*="language-"])').forEach((block) => {
+    document.querySelectorAll('pre code:not([class*="language-"])').forEach(block => {
         // Rileva automaticamente il linguaggio dal contenuto
         const text = block.textContent || '';
         const detectedLang = detectLanguage(text);
-        
+
         // Aggiungi la classe del linguaggio
         block.classList.add(`language-${detectedLang}`);
-        
+
         // Aggiungi attributo data-language per label
         const pre = block.closest('pre');
         if (pre) {
@@ -1668,7 +1864,7 @@ function initializePrismHighlighting() {
     });
 
     // Trova blocchi che hanno già una classe di linguaggio
-    document.querySelectorAll('pre[class*="language-"]').forEach((pre) => {
+    document.querySelectorAll('pre[class*="language-"]').forEach(pre => {
         const match = pre.className.match(/language-(\w+)/);
         if (match && match[1]) {
             pre.setAttribute('data-language', match[1]);
@@ -1690,31 +1886,41 @@ function initializePrismHighlighting() {
  * @returns {string} - Il linguaggio rilevato
  */
 function detectLanguage(code) {
-    if (!code) {return 'text';}
+    if (!code) {
+        return 'text';
+    }
 
     // JavaScript patterns
-    if (/\b(const|let|var|function|=>|async|await|import|export|class)\b/.test(code) ||
+    if (
+        /\b(const|let|var|function|=>|async|await|import|export|class)\b/.test(code) ||
         /console\.(log|error|warn)/.test(code) ||
-        /(querySelector|addEventListener|fetch|Promise)/.test(code)) {
+        /(querySelector|addEventListener|fetch|Promise)/.test(code)
+    ) {
         return 'javascript';
     }
 
     // TypeScript patterns
-    if (/\b(interface|type|enum|namespace|declare)\b/.test(code) ||
-        /:\s*(string|number|boolean|any|void)/.test(code)) {
+    if (
+        /\b(interface|type|enum|namespace|declare)\b/.test(code) ||
+        /:\s*(string|number|boolean|any|void)/.test(code)
+    ) {
         return 'typescript';
     }
 
     // HTML patterns
-    if (/<(!DOCTYPE|html|head|body|div|span|p|a|img|script|link)[\s>]/.test(code) ||
-        /<\/[a-z]+>/.test(code)) {
+    if (
+        /<(!DOCTYPE|html|head|body|div|span|p|a|img|script|link)[\s>]/.test(code) ||
+        /<\/[a-z]+>/.test(code)
+    ) {
         return 'markup';
     }
 
     // CSS patterns
-    if (/\{[^}]*[a-z-]+\s*:\s*[^}]+\}/.test(code) ||
+    if (
+        /\{[^}]*[a-z-]+\s*:\s*[^}]+\}/.test(code) ||
         /@(media|keyframes|import)/.test(code) ||
-        /\.([\w-]+)\s*\{/.test(code)) {
+        /\.([\w-]+)\s*\{/.test(code)
+    ) {
         return 'css';
     }
 
@@ -1729,8 +1935,10 @@ function detectLanguage(code) {
     }
 
     // Python patterns
-    if (/\b(def|class|import|from|if|elif|else|for|while|in|range|print)\b/.test(code) ||
-        /#.*\n/.test(code)) {
+    if (
+        /\b(def|class|import|from|if|elif|else|for|while|in|range|print)\b/.test(code) ||
+        /#.*\n/.test(code)
+    ) {
         return 'python';
     }
 
@@ -1740,9 +1948,11 @@ function detectLanguage(code) {
     }
 
     // Bash/Shell patterns
-    if (/^\s*#!/.test(code) ||
+    if (
+        /^\s*#!/.test(code) ||
         /\b(echo|cd|ls|mkdir|rm|grep|cat|chmod|sudo)\b/.test(code) ||
-        /\$\(|\${/.test(code)) {
+        /\$\(|\${/.test(code)
+    ) {
         return 'bash';
     }
 
@@ -1761,13 +1971,15 @@ function detectLanguage(code) {
 function reinitializePrismForNewContent() {
     // Usa MutationObserver per rilevare nuovo contenuto
     if (typeof MutationObserver !== 'undefined') {
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === 1) { // Element node
-                        const codeBlocks = node.querySelectorAll ? 
-                            node.querySelectorAll('pre code') : [];
-                        
+        const observer = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === 1) {
+                        // Element node
+                        const codeBlocks = node.querySelectorAll
+                            ? node.querySelectorAll('pre code')
+                            : [];
+
                         if (codeBlocks.length > 0) {
                             console.log('🔄 Nuovo contenuto rilevato, re-inizializzo Prism...');
                             setTimeout(() => initializePrismHighlighting(), 100);
@@ -1779,7 +1991,7 @@ function reinitializePrismForNewContent() {
 
         observer.observe(document.body, {
             childList: true,
-            subtree: true
+            subtree: true,
         });
 
         console.log('👁️ MutationObserver attivo per Prism.js');
@@ -1802,8 +2014,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         console.log('✅ WebArchitectureApp inizializzata con successo!');
     } catch (error) {
-        console.error('❌ Errore nell\'inizializzazione dell\'app:', error);
-        
+        console.error("❌ Errore nell'inizializzazione dell'app:", error);
+
         // Mostra errore all'utente
         const errorDiv = document.createElement('div');
         errorDiv.style.cssText = `

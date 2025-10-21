@@ -1,237 +1,482 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Node.js, V8 & Event Loop - Lezione 2</title>
-    <meta name="description" content="Spiegazione accessibile di Node.js: cos'è, come lavora il motore V8, come funziona l'event loop e perché l'asincronia è fondamentale." />
-    <link rel="stylesheet" href="../../style.css">
-</head>
-<body>
-    <header class="app-header">
-        <div class="header-content">
-            <h1 class="header-title">🏗️ Architettura Web</h1>
-            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
-                <span class="theme-toggle-icon">🌙</span>
-                <span class="theme-toggle-text">Dark</span>
-            </button>
-        </div>
-    </header>
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
-                <p class="sidebar-subtitle">Lezione 2: Node.js, Async, API</p>
-                <div class="progress-indicator">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <span class="progress-text" id="progressText">Sezione 2 di 5</span>
-                </div>
-            </div>
-            <nav class="sidebar-nav">
-                <ul class="nav-list" id="navList">
-                    <li class="nav-item"><a href="promises-async.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Promises & Async</span></a></li>
-                    <li class="nav-item active"><a href="nodejs-v8-eventloop.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Node.js, V8 & Event Loop</span></a></li>
-                    <li class="nav-item"><a href="api-rest.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">API REST</span></a></li>
-                    <li class="nav-item"><a href="esercizi-async-promises.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Esercizi Async & Promises</span></a></li>
-                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">📦</span><span class="nav-text">Node.js: Oggetti & CRUD</span></a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
-                    <span>←</span>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Node.js, V8 & Event Loop - Lezione 2</title>
+        <meta
+            name="description"
+            content="Spiegazione accessibile di Node.js: cos'è, come lavora il motore V8, come funziona l'event loop e perché l'asincronia è fondamentale."
+        />
+        <link rel="stylesheet" href="../../style.css" />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="header-title">🏗️ Architettura Web</h1>
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <span class="theme-toggle-text">Dark</span>
                 </button>
             </div>
-        </aside>
-        <main class="main-content" id="mainContent">
-            <div class="content-container" id="contentContainer">
-                <section class="content-section active" id="nodejs-v8-eventloop">
-                    <div class="section-content">
-                        <header class="section-header">
-                            <h1>⚙️ Node.js, V8 & Event Loop</h1>
-                            <p class="section-description">Scopri cosa rende Node.js speciale: un runtime leggero basato sul motore V8 di Google e un event loop che permette di gestire migliaia di richieste senza bloccare il server.</p>
-                        </header>
+        </header>
+        <div class="app-container">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                    <p class="sidebar-subtitle">Lezione 2: Node.js, Async, API</p>
+                    <div class="progress-indicator">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">Sezione 2 di 5</span>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul class="nav-list" id="navList">
+                        <li class="nav-item">
+                            <a href="promises-async.html" class="nav-link"
+                                ><span class="nav-icon">🔄</span
+                                ><span class="nav-text">Promises & Async</span></a
+                            >
+                        </li>
+                        <li class="nav-item active">
+                            <a href="nodejs-v8-eventloop.html" class="nav-link"
+                                ><span class="nav-icon">⚙️</span
+                                ><span class="nav-text">Node.js, V8 & Event Loop</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="api-rest.html" class="nav-link"
+                                ><span class="nav-icon">🌐</span
+                                ><span class="nav-text">API REST</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="esercizi-async-promises.html" class="nav-link"
+                                ><span class="nav-icon">📝</span
+                                ><span class="nav-text">Esercizi Async & Promises</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="nodejs-oggetti-crud.html" class="nav-link"
+                                ><span class="nav-icon">📦</span
+                                ><span class="nav-text">Node.js: Oggetti & CRUD</span></a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                    <button
+                        class="toggle-sidebar"
+                        id="toggleSidebar"
+                        aria-label="Nascondi/Mostra sidebar"
+                    >
+                        <span>←</span>
+                    </button>
+                </div>
+            </aside>
+            <main class="main-content" id="mainContent">
+                <div class="content-container" id="contentContainer">
+                    <section class="content-section active" id="nodejs-v8-eventloop">
+                        <div class="section-content">
+                            <header class="section-header">
+                                <h1>⚙️ Node.js, V8 & Event Loop</h1>
+                                <p class="section-description">
+                                    Scopri cosa rende Node.js speciale: un runtime leggero basato
+                                    sul motore V8 di Google e un event loop che permette di gestire
+                                    migliaia di richieste senza bloccare il server.
+                                </p>
+                            </header>
 
-                        <article class="subsection">
-                            <h2>🚀 Che cos'è Node.js in parole semplici</h2>
-                            <p>Immagina Node.js come un <strong>"traduttore universale"</strong> che permette al tuo computer di capire ed eseguire JavaScript, proprio come fa il browser, ma per creare applicazioni server.</p>
-                            
-                            <div class="info-box welcome">
-                                <h3>🎯 Analogia pratica</h3>
-                                <p>Se JavaScript nel browser è come un <strong>cameriere</strong> che gestisce un singolo tavolo (una pagina web), Node.js è come il <strong>maitre di un ristorante</strong> che coordina centinaia di tavoli contemporaneamente senza mai fermarsi.</p>
-                            </div>
+                            <article class="subsection">
+                                <h2>🚀 Che cos'è Node.js in parole semplici</h2>
+                                <p>
+                                    Immagina Node.js come un
+                                    <strong>"traduttore universale"</strong> che permette al tuo
+                                    computer di capire ed eseguire JavaScript, proprio come fa il
+                                    browser, ma per creare applicazioni server.
+                                </p>
 
-                            <div class="principles-grid">
-                                <div class="principle-card advantage">
-                                    <h3>🌍 Open Source e Gratuito</h3>
-                                    <p>Creato nel 2009 da Ryan Dahl. È gratuito, il codice è pubblico e migliaia di sviluppatori contribuiscono quotidianamente.</p>
+                                <div class="info-box welcome">
+                                    <h3>🎯 Analogia pratica</h3>
+                                    <p>
+                                        Se JavaScript nel browser è come un
+                                        <strong>cameriere</strong> che gestisce un singolo tavolo
+                                        (una pagina web), Node.js è come il
+                                        <strong>maitre di un ristorante</strong> che coordina
+                                        centinaia di tavoli contemporaneamente senza mai fermarsi.
+                                    </p>
                                 </div>
-                                <div class="principle-card advantage">
-                                    <h3>🔄 Single-Threaded ma Potente</h3>
-                                    <p>Un solo thread gestisce migliaia di richieste grazie all'Event Loop. Come un vigile urbano che dirige il traffico invece di fermare ogni macchina.</p>
-                                </div>
-                                <div class="principle-card advantage">
-                                    <h3>📦 Ecosistema NPM</h3>
-                                    <p>Oltre 2 milioni di pacchetti pronti all'uso. È come avere una cassetta degli attrezzi infinita dove trovi sempre lo strumento giusto.</p>
-                                </div>
-                                <div class="principle-card curiosity">
-                                    <h3>🧰 Un Linguaggio, Due Mondi</h3>
-                                    <p>Con JavaScript puoi creare sia il frontend (ciò che vede l'utente) che il backend (il server). Come essere bilingue in un mondo globale.</p>
-                                </div>
-                            </div>
 
-                            <div class="info-box info">
-                                <h3>📚 Documentazione Ufficiale</h3>
-                                <p>La guida completa si trova su <a href="https://nodejs.org/docs/latest/api/" target="_blank" rel="noopener"><strong>nodejs.org/docs</strong></a>. Sezioni utili per iniziare:</p>
-                                <ul>
-                                    <li><a href="https://nodejs.org/en/learn/getting-started/introduction-to-nodejs" target="_blank" rel="noopener">Introduzione a Node.js</a> - Le basi fundamentali</li>
-                                    <li><a href="https://nodejs.org/docs/latest/api/http.html" target="_blank" rel="noopener">HTTP Module</a> - Per creare server web</li>
-                                    <li><a href="https://nodejs.org/docs/latest/api/fs.html" target="_blank" rel="noopener">File System</a> - Per leggere e scrivere file</li>
-                                </ul>
-                            </div>
-                        </article>
+                                <div class="principles-grid">
+                                    <div class="principle-card advantage">
+                                        <h3>🌍 Open Source e Gratuito</h3>
+                                        <p>
+                                            Creato nel 2009 da Ryan Dahl. È gratuito, il codice è
+                                            pubblico e migliaia di sviluppatori contribuiscono
+                                            quotidianamente.
+                                        </p>
+                                    </div>
+                                    <div class="principle-card advantage">
+                                        <h3>🔄 Single-Threaded ma Potente</h3>
+                                        <p>
+                                            Un solo thread gestisce migliaia di richieste grazie
+                                            all'Event Loop. Come un vigile urbano che dirige il
+                                            traffico invece di fermare ogni macchina.
+                                        </p>
+                                    </div>
+                                    <div class="principle-card advantage">
+                                        <h3>📦 Ecosistema NPM</h3>
+                                        <p>
+                                            Oltre 2 milioni di pacchetti pronti all'uso. È come
+                                            avere una cassetta degli attrezzi infinita dove trovi
+                                            sempre lo strumento giusto.
+                                        </p>
+                                    </div>
+                                    <div class="principle-card curiosity">
+                                        <h3>🧰 Un Linguaggio, Due Mondi</h3>
+                                        <p>
+                                            Con JavaScript puoi creare sia il frontend (ciò che vede
+                                            l'utente) che il backend (il server). Come essere
+                                            bilingue in un mondo globale.
+                                        </p>
+                                    </div>
+                                </div>
 
-                        <article class="subsection">
-                            <h2>� Anatomia di un runtime Node.js</h2>
-                            <p>Node.js è composto da più livelli che collaborano tra loro. Conoscere questi componenti ti permette di capire dove intervenire quando ottimizzi o risolvi bug complessi.</p>
-                            <div class="info-box info">
-                                <h3>Componenti principali</h3>
-                                <p>Descritti nella documentazione ufficiale Node.js:</p>
-                                <ul>
-                                    <li><strong>Motore V8</strong> – interpreta e ottimizza il codice JavaScript.</li>
-                                    <li><strong>Libuv</strong> – libreria C che fornisce event loop e thread pool per operazioni I/O (<a href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick" target="_blank" rel="noopener noreferrer">Event Loop Guide</a>).</li>
-                                    <li><strong>Bindings C++</strong> – collegano le API di basso livello al mondo JavaScript (es. <code>fs</code>, <code>net</code>).</li>
-                                    <li><strong>Moduli core</strong> – API standard documentate in <a href="https://nodejs.org/docs/latest/api/" target="_blank" rel="noopener noreferrer">docs/latest/api</a>.</li>
-                                </ul>
-                            </div>
-                            <div class="info-box curiosity">
-                                <h3>Thread pool configurabile</h3>
-                                <p>Libuv usa un <strong>pool di 4 thread</strong> per operazioni intensive (hash, compressione, DNS). Puoi configurarlo con la variabile d'ambiente <code>UV_THREADPOOL_SIZE</code> come descritto nella <a href="https://nodejs.org/api/async_hooks.html#async-hooks" target="_blank" rel="noopener noreferrer">documentazione sui thread pool</a>.</p>
-                            </div>
-                            <pre><code>// Controlla quanti thread usa il tuo ambiente
+                                <div class="info-box info">
+                                    <h3>📚 Documentazione Ufficiale</h3>
+                                    <p>
+                                        La guida completa si trova su
+                                        <a
+                                            href="https://nodejs.org/docs/latest/api/"
+                                            target="_blank"
+                                            rel="noopener"
+                                            ><strong>nodejs.org/docs</strong></a
+                                        >. Sezioni utili per iniziare:
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/en/learn/getting-started/introduction-to-nodejs"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >Introduzione a Node.js</a
+                                            >
+                                            - Le basi fundamentali
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/docs/latest/api/http.html"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >HTTP Module</a
+                                            >
+                                            - Per creare server web
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/docs/latest/api/fs.html"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >File System</a
+                                            >
+                                            - Per leggere e scrivere file
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>� Anatomia di un runtime Node.js</h2>
+                                <p>
+                                    Node.js è composto da più livelli che collaborano tra loro.
+                                    Conoscere questi componenti ti permette di capire dove
+                                    intervenire quando ottimizzi o risolvi bug complessi.
+                                </p>
+                                <div class="info-box info">
+                                    <h3>Componenti principali</h3>
+                                    <p>Descritti nella documentazione ufficiale Node.js:</p>
+                                    <ul>
+                                        <li>
+                                            <strong>Motore V8</strong> – interpreta e ottimizza il
+                                            codice JavaScript.
+                                        </li>
+                                        <li>
+                                            <strong>Libuv</strong> – libreria C che fornisce event
+                                            loop e thread pool per operazioni I/O (<a
+                                                href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >Event Loop Guide</a
+                                            >).
+                                        </li>
+                                        <li>
+                                            <strong>Bindings C++</strong> – collegano le API di
+                                            basso livello al mondo JavaScript (es. <code>fs</code>,
+                                            <code>net</code>).
+                                        </li>
+                                        <li>
+                                            <strong>Moduli core</strong> – API standard documentate
+                                            in
+                                            <a
+                                                href="https://nodejs.org/docs/latest/api/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >docs/latest/api</a
+                                            >.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="info-box curiosity">
+                                    <h3>Thread pool configurabile</h3>
+                                    <p>
+                                        Libuv usa un <strong>pool di 4 thread</strong> per
+                                        operazioni intensive (hash, compressione, DNS). Puoi
+                                        configurarlo con la variabile d'ambiente
+                                        <code>UV_THREADPOOL_SIZE</code> come descritto nella
+                                        <a
+                                            href="https://nodejs.org/api/async_hooks.html#async-hooks"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >documentazione sui thread pool</a
+                                        >.
+                                    </p>
+                                </div>
+                                <pre><code>// Controlla quanti thread usa il tuo ambiente
 console.log('Thread pool:', process.env.UV_THREADPOOL_SIZE ?? 'default=4');</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>�🧠 Il motore V8: il cuore performante</h2>
-                            <p><strong>V8</strong> è il "cervello" che trasforma il tuo codice JavaScript in istruzioni che il computer può capire. È lo stesso motore che usa Google Chrome, quindi è super testato e velocissimo.</p>
-                            
-                            <div class="info-box welcome">
-                                <h3>🎭 Analogia del traduttore simultaneo</h3>
-                                <p>V8 è come un traduttore simultaneo a una conferenza internazionale: prende il tuo JavaScript (italiano) e lo traduce istantaneamente in "linguaggio macchina" (inglese) che il computer capisce.</p>
-                            </div>
+                            <article class="subsection">
+                                <h2>�🧠 Il motore V8: il cuore performante</h2>
+                                <p>
+                                    <strong>V8</strong> è il "cervello" che trasforma il tuo codice
+                                    JavaScript in istruzioni che il computer può capire. È lo stesso
+                                    motore che usa Google Chrome, quindi è super testato e
+                                    velocissimo.
+                                </p>
 
-                            <div class="info-box info">
-                                <h3>🔧 Cosa fa V8 nel dettaglio?</h3>
-                                <ol>
-                                    <li><strong>📖 Parsing:</strong> Legge il tuo codice JS riga per riga e controlla che sia scritto correttamente (sintassi)</li>
-                                    <li><strong>🏗️ Compilation:</strong> Trasforma il codice in istruzioni comprensibili al processore</li>
-                                    <li><strong>⚡ Ottimizzazione:</strong> Se vede che una funzione viene chiamata spesso, la rende ancora più veloce</li>
-                                    <li><strong>🗑️ Garbage Collection:</strong> Fa "le pulizie" cancellando dati non più necessari per evitare sprechi di memoria</li>
-                                </ol>
-                            </div>
+                                <div class="info-box welcome">
+                                    <h3>🎭 Analogia del traduttore simultaneo</h3>
+                                    <p>
+                                        V8 è come un traduttore simultaneo a una conferenza
+                                        internazionale: prende il tuo JavaScript (italiano) e lo
+                                        traduce istantaneamente in "linguaggio macchina" (inglese)
+                                        che il computer capisce.
+                                    </p>
+                                </div>
 
-                            <div class="info-box curiosity">
-                                <h3>🚀 JIT Compilation (Just-In-Time)</h3>
-                                <p>È come avere un <strong>assistente intelligente</strong>: mentre il programma gira, V8 osserva quali parti di codice usi di più e le "potenzia" rendendole più veloci. Non devi fare nulla tu, succede automaticamente!</p>
-                                <pre><code>// V8 nota che questa funzione viene chiamata spesso
+                                <div class="info-box info">
+                                    <h3>🔧 Cosa fa V8 nel dettaglio?</h3>
+                                    <ol>
+                                        <li>
+                                            <strong>📖 Parsing:</strong> Legge il tuo codice JS riga
+                                            per riga e controlla che sia scritto correttamente
+                                            (sintassi)
+                                        </li>
+                                        <li>
+                                            <strong>🏗️ Compilation:</strong> Trasforma il codice in
+                                            istruzioni comprensibili al processore
+                                        </li>
+                                        <li>
+                                            <strong>⚡ Ottimizzazione:</strong> Se vede che una
+                                            funzione viene chiamata spesso, la rende ancora più
+                                            veloce
+                                        </li>
+                                        <li>
+                                            <strong>🗑️ Garbage Collection:</strong> Fa "le pulizie"
+                                            cancellando dati non più necessari per evitare sprechi
+                                            di memoria
+                                        </li>
+                                    </ol>
+                                </div>
+
+                                <div class="info-box curiosity">
+                                    <h3>🚀 JIT Compilation (Just-In-Time)</h3>
+                                    <p>
+                                        È come avere un <strong>assistente intelligente</strong>:
+                                        mentre il programma gira, V8 osserva quali parti di codice
+                                        usi di più e le "potenzia" rendendole più veloci. Non devi
+                                        fare nulla tu, succede automaticamente!
+                                    </p>
+                                    <pre><code>// V8 nota che questa funzione viene chiamata spesso
 function calcolaSconto(prezzo) {
     return prezzo * 0.9; // 10% di sconto
 }
 
 // Dopo alcune chiamate, V8 la ottimizza automaticamente</code></pre>
-                            </div>
-
-                            <div class="info-box info">
-                                <h3>📖 Approfondimenti V8</h3>
-                                <ul>
-                                    <li><a href="https://v8.dev/docs" target="_blank" rel="noopener">V8 Official Documentation</a> - Documentazione completa del motore</li>
-                                    <li><a href="https://nodejs.org/en/learn/getting-started/the-v8-javascript-engine" target="_blank" rel="noopener">V8 in Node.js</a> - Come Node.js usa V8</li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>🔁 L'Event Loop: il direttore d'orchestra</h2>
-                            <p>L'<strong>Event Loop</strong> è come un <strong>direttore d'orchestra</strong> che coordina tutti i musicisti (le operazioni) senza mai fermarsi. È il segreto che permette a Node.js di gestire migliaia di richieste con un solo thread.</p>
-                            
-                            <div class="info-box welcome">
-                                <h3>🎭 Analogia del ristorante</h3>
-                                <p>Immagina un cameriere in un ristorante affollato:</p>
-                                <ul>
-                                    <li><strong>Prende l'ordine</strong> al tavolo 1 (richiesta)</li>
-                                    <li><strong>Lo passa in cucina</strong> (operazione asincrona)</li>
-                                    <li><strong>Non resta ad aspettare</strong> - va ai tavoli 2, 3, 4...</li>
-                                    <li><strong>Quando il piatto è pronto</strong>, lo serve (callback)</li>
-                                </ul>
-                                <p>Il cameriere non si blocca mai: è sempre in movimento!</p>
-                            </div>
-
-                            <h3>🏗️ I componenti dell'Event Loop</h3>
-                            <dl class="definition-list">
-                                <div>
-                                    <dt>📚 Call Stack (La scrivania)</dt>
-                                    <dd>Il posto dove il codice viene eseguito, una funzione alla volta. È come una pila di fogli: solo quello in cima viene processato.</dd>
                                 </div>
-                                <div>
-                                    <dt>🛠️ Node APIs (Gli assistenti)</dt>
-                                    <dd>Specialisti (scritti in C++) che gestiscono compiti lenti: leggere file, connessioni di rete, timer. Lavorano "dietro le quinte".</dd>
-                                </div>
-                                <div>
-                                    <dt>📦 Callback Queue (La sala d'attesa)</dt>
-                                    <dd>Coda dove aspettano le funzioni pronte per essere eseguite. Rispetta l'ordine di arrivo (FIFO - First In, First Out).</dd>
-                                </div>
-                                <div>
-                                    <dt>🔄 Event Loop (Il supervisore)</dt>
-                                    <dd>Controlla continuamente: "La scrivania è libera? C'è qualcuno in sala d'attesa?" Se sì, sposta la prossima funzione sulla scrivania.</dd>
-                                </div>
-                            </dl>
 
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Fase</th>
-                                        <th>Descrizione</th>
-                                        <th>Esempi di API</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>Timers</strong></td>
-                                        <td>Esegue callback pianificate con <code>setTimeout</code>/<code>setInterval</code> quando il timer è scaduto. Fonte: <a href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick" target="_blank" rel="noopener noreferrer">Node.js Event Loop Guide</a>.</td>
-                                        <td><code>setTimeout(fn, 0)</code>, <code>setInterval(fn, 500)</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Pending Callbacks</strong></td>
-                                        <td>Elabora callback per I/O differiti e operazioni di sistema.</td>
-                                        <td>Callback interne di <code>net</code>, DNS async</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Idle/Prepare</strong></td>
-                                        <td>Fasi interne usate da libuv per impostare l'iterazione successiva.</td>
-                                        <td>—</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Poll</strong></td>
-                                        <td>Recupera nuovi eventi I/O e li esegue; può attendere se la coda è vuota.</td>
-                                        <td><code>fs.readFile</code>, <code>http</code> server</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Check</strong></td>
-                                        <td>Esegue callback registrate con <code>setImmediate</code>.</td>
-                                        <td><code>setImmediate(() => ...)</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Close Callbacks</strong></td>
-                                        <td>Invocata quando una risorsa si chiude (<code>'close'</code> events).</td>
-                                        <td><code>socket.on('close')</code>, stream</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                <div class="info-box info">
+                                    <h3>📖 Approfondimenti V8</h3>
+                                    <ul>
+                                        <li>
+                                            <a
+                                                href="https://v8.dev/docs"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >V8 Official Documentation</a
+                                            >
+                                            - Documentazione completa del motore
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/en/learn/getting-started/the-v8-javascript-engine"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >V8 in Node.js</a
+                                            >
+                                            - Come Node.js usa V8
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
 
-                            <h3>🎬 Esempio pratico passo-passo</h3>
-                            <pre><code>console.log("🏁 Iniziamo!"); // ⏱️ Tempo: 0ms
+                            <article class="subsection">
+                                <h2>🔁 L'Event Loop: il direttore d'orchestra</h2>
+                                <p>
+                                    L'<strong>Event Loop</strong> è come un
+                                    <strong>direttore d'orchestra</strong> che coordina tutti i
+                                    musicisti (le operazioni) senza mai fermarsi. È il segreto che
+                                    permette a Node.js di gestire migliaia di richieste con un solo
+                                    thread.
+                                </p>
+
+                                <div class="info-box welcome">
+                                    <h3>🎭 Analogia del ristorante</h3>
+                                    <p>Immagina un cameriere in un ristorante affollato:</p>
+                                    <ul>
+                                        <li>
+                                            <strong>Prende l'ordine</strong> al tavolo 1 (richiesta)
+                                        </li>
+                                        <li>
+                                            <strong>Lo passa in cucina</strong> (operazione
+                                            asincrona)
+                                        </li>
+                                        <li>
+                                            <strong>Non resta ad aspettare</strong> - va ai tavoli
+                                            2, 3, 4...
+                                        </li>
+                                        <li>
+                                            <strong>Quando il piatto è pronto</strong>, lo serve
+                                            (callback)
+                                        </li>
+                                    </ul>
+                                    <p>Il cameriere non si blocca mai: è sempre in movimento!</p>
+                                </div>
+
+                                <h3>🏗️ I componenti dell'Event Loop</h3>
+                                <dl class="definition-list">
+                                    <div>
+                                        <dt>📚 Call Stack (La scrivania)</dt>
+                                        <dd>
+                                            Il posto dove il codice viene eseguito, una funzione
+                                            alla volta. È come una pila di fogli: solo quello in
+                                            cima viene processato.
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>🛠️ Node APIs (Gli assistenti)</dt>
+                                        <dd>
+                                            Specialisti (scritti in C++) che gestiscono compiti
+                                            lenti: leggere file, connessioni di rete, timer.
+                                            Lavorano "dietro le quinte".
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>📦 Callback Queue (La sala d'attesa)</dt>
+                                        <dd>
+                                            Coda dove aspettano le funzioni pronte per essere
+                                            eseguite. Rispetta l'ordine di arrivo (FIFO - First In,
+                                            First Out).
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>🔄 Event Loop (Il supervisore)</dt>
+                                        <dd>
+                                            Controlla continuamente: "La scrivania è libera? C'è
+                                            qualcuno in sala d'attesa?" Se sì, sposta la prossima
+                                            funzione sulla scrivania.
+                                        </dd>
+                                    </div>
+                                </dl>
+
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Fase</th>
+                                            <th>Descrizione</th>
+                                            <th>Esempi di API</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Timers</strong></td>
+                                            <td>
+                                                Esegue callback pianificate con
+                                                <code>setTimeout</code>/<code>setInterval</code>
+                                                quando il timer è scaduto. Fonte:
+                                                <a
+                                                    href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    >Node.js Event Loop Guide</a
+                                                >.
+                                            </td>
+                                            <td>
+                                                <code>setTimeout(fn, 0)</code>,
+                                                <code>setInterval(fn, 500)</code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Pending Callbacks</strong></td>
+                                            <td>
+                                                Elabora callback per I/O differiti e operazioni di
+                                                sistema.
+                                            </td>
+                                            <td>Callback interne di <code>net</code>, DNS async</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Idle/Prepare</strong></td>
+                                            <td>
+                                                Fasi interne usate da libuv per impostare
+                                                l'iterazione successiva.
+                                            </td>
+                                            <td>—</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Poll</strong></td>
+                                            <td>
+                                                Recupera nuovi eventi I/O e li esegue; può attendere
+                                                se la coda è vuota.
+                                            </td>
+                                            <td>
+                                                <code>fs.readFile</code>, <code>http</code> server
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Check</strong></td>
+                                            <td>
+                                                Esegue callback registrate con
+                                                <code>setImmediate</code>.
+                                            </td>
+                                            <td><code>setImmediate(() => ...)</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Close Callbacks</strong></td>
+                                            <td>
+                                                Invocata quando una risorsa si chiude (<code
+                                                    >'close'</code
+                                                >
+                                                events).
+                                            </td>
+                                            <td><code>socket.on('close')</code>, stream</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h3>🎬 Esempio pratico passo-passo</h3>
+                                <pre><code>console.log("🏁 Iniziamo!"); // ⏱️ Tempo: 0ms
 
 setTimeout(() => {
     console.log("⏰ Timer finito!"); // ⏱️ Tempo: ~100ms
@@ -246,105 +491,244 @@ Promise.resolve().then(() => {
 
 console.log("🏃 Finisco il sincrono"); // ⏱️ Tempo: 3ms</code></pre>
 
-                            <div class="info-box curiosity">
-                                <h3>📊 Output finale (ordine di esecuzione)</h3>
-                                <pre><code>🏁 Iniziamo!
+                                <div class="info-box curiosity">
+                                    <h3>📊 Output finale (ordine di esecuzione)</h3>
+                                    <pre><code>🏁 Iniziamo!
 🔄 Sto continuando...  
 🏃 Finisco il sincrono
 ✅ Promise risolta!     ← Le Promise hanno priorità alta!
 ⏰ Timer finito!</code></pre>
-                                <p><strong>Perché questo ordine?</strong> Le Promise vanno nella <em>Microtask Queue</em> (priorità alta), mentre setTimeout va nella <em>Callback Queue</em> (priorità normale).</p>
-                            </div>
-
-                            <div class="info-box info">
-                                <h3>Microtask e <code>process.nextTick()</code></h3>
-                                <p>Oltre alle microtask delle Promise, Node.js dispone di una <strong>next tick queue</strong> gestita da <code>process.nextTick()</code>. Questa coda ha precedenza su tutte le altre e viene svuotata prima di tornare all'event loop (<a href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#processnexttick" target="_blank" rel="noopener noreferrer">documentazione ufficiale</a>). Evita di usarla in catene lunghe per non affamare le altre code.</p>
-                            </div>
-
-                            <div class="info-box info">
-                                <h3>📖 Documentazione Event Loop</h3>
-                                <ul>
-                                    <li><a href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick" target="_blank" rel="noopener">Event Loop Guide</a> - Guida ufficiale Node.js</li>
-                                    <li><a href="https://nodejs.org/en/learn/asynchronous-work/dont-block-the-event-loop" target="_blank" rel="noopener">Don't Block the Event Loop</a> - Best practices</li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>🧱 Strati principali</h2>
-                            <dl class="definition-list">
-                                <div>
-                                    <dt>Call Stack</dt>
-                                    <dd>Struttura <em>LIFO</em> (Last In, First Out) dove le funzioni vengono eseguite. È gestita da V8.</dd>
+                                    <p>
+                                        <strong>Perché questo ordine?</strong> Le Promise vanno
+                                        nella <em>Microtask Queue</em> (priorità alta), mentre
+                                        setTimeout va nella <em>Callback Queue</em> (priorità
+                                        normale).
+                                    </p>
                                 </div>
-                                <div>
-                                    <dt>Heap</dt>
-                                    <dd>Area di memoria dove vengono salvati oggetti e dati complessi.</dd>
+
+                                <div class="info-box info">
+                                    <h3>Microtask e <code>process.nextTick()</code></h3>
+                                    <p>
+                                        Oltre alle microtask delle Promise, Node.js dispone di una
+                                        <strong>next tick queue</strong> gestita da
+                                        <code>process.nextTick()</code>. Questa coda ha precedenza
+                                        su tutte le altre e viene svuotata prima di tornare
+                                        all'event loop (<a
+                                            href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#processnexttick"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >documentazione ufficiale</a
+                                        >). Evita di usarla in catene lunghe per non affamare le
+                                        altre code.
+                                    </p>
                                 </div>
-                                <div>
-                                    <dt>Callback/Task Queue</dt>
-                                    <dd>Coda di funzioni pronte ad essere eseguite quando lo stack è libero.</dd>
+
+                                <div class="info-box info">
+                                    <h3>📖 Documentazione Event Loop</h3>
+                                    <ul>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >Event Loop Guide</a
+                                            >
+                                            - Guida ufficiale Node.js
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/en/learn/asynchronous-work/dont-block-the-event-loop"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >Don't Block the Event Loop</a
+                                            >
+                                            - Best practices
+                                        </li>
+                                    </ul>
                                 </div>
-                                <div>
-                                    <dt>Microtask Queue</dt>
-                                    <dd>Coda prioritaria che contiene le callback delle Promise risolte (<code>.then</code>/<code>.catch</code>).</dd>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>🧱 Strati principali</h2>
+                                <dl class="definition-list">
+                                    <div>
+                                        <dt>Call Stack</dt>
+                                        <dd>
+                                            Struttura <em>LIFO</em> (Last In, First Out) dove le
+                                            funzioni vengono eseguite. È gestita da V8.
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>Heap</dt>
+                                        <dd>
+                                            Area di memoria dove vengono salvati oggetti e dati
+                                            complessi.
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>Callback/Task Queue</dt>
+                                        <dd>
+                                            Coda di funzioni pronte ad essere eseguite quando lo
+                                            stack è libero.
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>Microtask Queue</dt>
+                                        <dd>
+                                            Coda prioritaria che contiene le callback delle Promise
+                                            risolte (<code>.then</code>/<code>.catch</code>).
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>🔗 I Middleware: la catena di montaggio del web</h2>
+                                <p>
+                                    Un <strong>middleware</strong> è una funzione che si interpone
+                                    tra la richiesta del client e la risposta del server. È come un
+                                    <strong>filtro</strong> o un <strong>checkpoint</strong> che
+                                    ogni richiesta deve attraversare.
+                                </p>
+
+                                <div class="info-box welcome">
+                                    <h3>🏭 Analogia della catena di montaggio</h3>
+                                    <p>
+                                        Immagina una fabbrica di automobili: ogni operaio
+                                        (middleware) fa un lavoro specifico prima di passare l'auto
+                                        al prossimo. Uno monta il motore, uno verifica i freni, uno
+                                        dipinge... Al termine hai un'auto completa.
+                                    </p>
                                 </div>
-                            </dl>
-                        </article>
 
-                        <article class="subsection">
-                            <h2>🔗 I Middleware: la catena di montaggio del web</h2>
-                            <p>Un <strong>middleware</strong> è una funzione che si interpone tra la richiesta del client e la risposta del server. È come un <strong>filtro</strong> o un <strong>checkpoint</strong> che ogni richiesta deve attraversare.</p>
-                            
-                            <div class="info-box welcome">
-                                <h3>🏭 Analogia della catena di montaggio</h3>
-                                <p>Immagina una fabbrica di automobili: ogni operaio (middleware) fa un lavoro specifico prima di passare l'auto al prossimo. Uno monta il motore, uno verifica i freni, uno dipinge... Al termine hai un'auto completa.</p>
-                            </div>
+                                <div class="info-box info">
+                                    <h3>🛠️ Cosa fanno i middleware più comuni?</h3>
+                                    <ul>
+                                        <li>
+                                            <strong>🔐 Autenticazione:</strong> verifica
+                                            token/sessioni prima di proseguire (<a
+                                                href="https://expressjs.com/en/resources/middleware.html"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >Express middleware ufficiali</a
+                                            >).
+                                        </li>
+                                        <li>
+                                            <strong>📝 Logging:</strong> registra ogni richiesta per
+                                            auditing (es. <code>morgan</code> catalogato nella
+                                            <a
+                                                href="https://expressjs.com/en/resources/middleware/morgan.html"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >documentazione Express</a
+                                            >).
+                                        </li>
+                                        <li>
+                                            <strong>🛡️ Sicurezza:</strong> aggiunge header
+                                            protettivi con <code>helmet</code> (<a
+                                                href="https://helmetjs.github.io/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >guida ufficiale</a
+                                            >).
+                                        </li>
+                                        <li>
+                                            <strong>📄 Parsing:</strong> trasforma JSON in oggetti
+                                            JS tramite <code>express.json()</code> (<a
+                                                href="https://expressjs.com/en/4x/api.html#express.json"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >API reference</a
+                                            >).
+                                        </li>
+                                        <li>
+                                            <strong>💰 Rate limiting:</strong> limita il numero di
+                                            richieste (es.
+                                            <code>express-rate-limit</code> documentato su
+                                            <a
+                                                href="https://github.com/express-rate-limit/express-rate-limit"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >GitHub ufficiale</a
+                                            >).
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <div class="info-box info">
-                                <h3>🛠️ Cosa fanno i middleware più comuni?</h3>
-                                <ul>
-                                    <li><strong>🔐 Autenticazione:</strong> verifica token/sessioni prima di proseguire (<a href="https://expressjs.com/en/resources/middleware.html" target="_blank" rel="noopener noreferrer">Express middleware ufficiali</a>).</li>
-                                    <li><strong>📝 Logging:</strong> registra ogni richiesta per auditing (es. <code>morgan</code> catalogato nella <a href="https://expressjs.com/en/resources/middleware/morgan.html" target="_blank" rel="noopener noreferrer">documentazione Express</a>).</li>
-                                    <li><strong>🛡️ Sicurezza:</strong> aggiunge header protettivi con <code>helmet</code> (<a href="https://helmetjs.github.io/" target="_blank" rel="noopener noreferrer">guida ufficiale</a>).</li>
-                                    <li><strong>📄 Parsing:</strong> trasforma JSON in oggetti JS tramite <code>express.json()</code> (<a href="https://expressjs.com/en/4x/api.html#express.json" target="_blank" rel="noopener noreferrer">API reference</a>).</li>
-                                    <li><strong>💰 Rate limiting:</strong> limita il numero di richieste (es. <code>express-rate-limit</code> documentato su <a href="https://github.com/express-rate-limit/express-rate-limit" target="_blank" rel="noopener noreferrer">GitHub ufficiale</a>).</li>
-                                </ul>
-                            </div>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Framework</th>
+                                            <th>Firma Middleware</th>
+                                            <th>Parametri principali</th>
+                                            <th>Documentazione ufficiale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Express</td>
+                                            <td>
+                                                <code>function middleware(req, res, next)</code>
+                                            </td>
+                                            <td>
+                                                <code>req</code> (istanza
+                                                <code>IncomingMessage</code>),
+                                                <code>res</code> (<code>ServerResponse</code>),
+                                                <code>next</code> (funzione)
+                                            </td>
+                                            <td>
+                                                <a
+                                                    href="https://expressjs.com/en/guide/using-middleware.html"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    >Express Guide</a
+                                                >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Express (error)</td>
+                                            <td>
+                                                <code
+                                                    >function errorHandler(err, req, res,
+                                                    next)</code
+                                                >
+                                            </td>
+                                            <td>
+                                                <code>err</code> (oggetto errore), <code>req</code>,
+                                                <code>res</code>, <code>next</code>
+                                            </td>
+                                            <td>
+                                                <a
+                                                    href="https://expressjs.com/en/guide/error-handling.html"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    >Error Handling</a
+                                                >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Koa</td>
+                                            <td>
+                                                <code>async function middleware(ctx, next)</code>
+                                            </td>
+                                            <td>
+                                                <code>ctx</code> (contesto),
+                                                <code>next</code> (Promise)
+                                            </td>
+                                            <td>
+                                                <a
+                                                    href="https://koajs.com/#application"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    >Koa Application</a
+                                                >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Framework</th>
-                                        <th>Firma Middleware</th>
-                                        <th>Parametri principali</th>
-                                        <th>Documentazione ufficiale</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Express</td>
-                                        <td><code>function middleware(req, res, next)</code></td>
-                                        <td><code>req</code> (istanza <code>IncomingMessage</code>), <code>res</code> (<code>ServerResponse</code>), <code>next</code> (funzione)</td>
-                                        <td><a href="https://expressjs.com/en/guide/using-middleware.html" target="_blank" rel="noopener noreferrer">Express Guide</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Express (error)</td>
-                                        <td><code>function errorHandler(err, req, res, next)</code></td>
-                                        <td><code>err</code> (oggetto errore), <code>req</code>, <code>res</code>, <code>next</code></td>
-                                        <td><a href="https://expressjs.com/en/guide/error-handling.html" target="_blank" rel="noopener noreferrer">Error Handling</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Koa</td>
-                                        <td><code>async function middleware(ctx, next)</code></td>
-                                        <td><code>ctx</code> (contesto), <code>next</code> (Promise)</td>
-                                        <td><a href="https://koajs.com/#application" target="_blank" rel="noopener noreferrer">Koa Application</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <h3>🔍 Esempio pratico: Sistema di autenticazione</h3>
-                            <pre><code>// Middleware semplice per controllare autenticazione
+                                <h3>🔍 Esempio pratico: Sistema di autenticazione</h3>
+                                <pre><code>// Middleware semplice per controllare autenticazione
 function checkAuth(req, res, next) {
     const token = req.headers.authorization;
     
@@ -382,23 +766,38 @@ app.get('/api/profile', (req, res) => {
     });
 });</code></pre>
 
-                            <div class="info-box curiosity">
-                                <h3>🎯 La funzione next() - Il passaggio del testimone</h3>
-                                <p><code>next()</code> è come dire <strong>"ho finito, tocca al prossimo!"</strong> Se dimentichi di chiamarla, la richiesta rimane bloccata per sempre. Se chiami <code>next(errore)</code>, salti direttamente alla gestione errori.</p>
-                            </div>
+                                <div class="info-box curiosity">
+                                    <h3>🎯 La funzione next() - Il passaggio del testimone</h3>
+                                    <p>
+                                        <code>next()</code> è come dire
+                                        <strong>"ho finito, tocca al prossimo!"</strong> Se
+                                        dimentichi di chiamarla, la richiesta rimane bloccata per
+                                        sempre. Se chiami <code>next(errore)</code>, salti
+                                        direttamente alla gestione errori.
+                                    </p>
+                                </div>
 
-                            <div class="info-box warning">
-                                <h3>Middleware di errore (Express 4.x)</h3>
-                                <p>Secondo la documentazione ufficiale (<a href="https://expressjs.com/en/guide/error-handling.html" target="_blank" rel="noopener noreferrer">Express Error Handling</a>) un middleware di errore deve dichiarare <strong>4 parametri</strong>. In caso contrario non verrà riconosciuto.</p>
-                                <pre><code>app.use((err, req, res, next) => {
+                                <div class="info-box warning">
+                                    <h3>Middleware di errore (Express 4.x)</h3>
+                                    <p>
+                                        Secondo la documentazione ufficiale (<a
+                                            href="https://expressjs.com/en/guide/error-handling.html"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >Express Error Handling</a
+                                        >) un middleware di errore deve dichiarare
+                                        <strong>4 parametri</strong>. In caso contrario non verrà
+                                        riconosciuto.
+                                    </p>
+                                    <pre><code>app.use((err, req, res, next) => {
     console.error('Errore intercettato:', err);
     res.status(500).json({ messaggio: 'Ops! Qualcosa è andato storto.' });
 });</code></pre>
-                            </div>
+                                </div>
 
-                            <div class="info-box success">
-                                <h3>🏗️ Costruisci la tua prima catena middleware</h3>
-                                <pre><code>const express = require('express');
+                                <div class="info-box success">
+                                    <h3>🏗️ Costruisci la tua prima catena middleware</h3>
+                                    <pre><code>const express = require('express');
 const app = express();
 
 // 1. Per prima cosa: parsing del JSON
@@ -425,26 +824,47 @@ app.get('/hello', (req, res) => {
 });
 
 app.listen(3000);</code></pre>
-                            </div>
-                        </article>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🤝 Perché Promises e Async sono indispensabili</h2>
-                            <p>Node.js basa la sua efficienza sull'event loop. Per mantenere il thread libero dobbiamo evitare operazioni bloccanti. Ecco perché è fondamentale padroneggiare Promise e async/await: sono gli strumenti che ci permettono di lavorare in armonia con questo modello.</p>
-                            <div class="info-box success">
-                                <h3>Linee guida pratiche</h3>
-                                <ul>
-                                    <li>Preferisci <code>fs.promises</code> alle versioni sincrone come <code>fs.readFileSync</code>.</li>
-                                    <li>Usa <code>Promise.all()</code> per eseguire query indipendenti in parallelo.</li>
-                                    <li>Non bloccare il thread con cicli <code>while</code> infiniti o calcoli enormi: delegali a servizi dedicati.</li>
-                                </ul>
-                            </div>
-                        </article>
+                            <article class="subsection">
+                                <h2>🤝 Perché Promises e Async sono indispensabili</h2>
+                                <p>
+                                    Node.js basa la sua efficienza sull'event loop. Per mantenere il
+                                    thread libero dobbiamo evitare operazioni bloccanti. Ecco perché
+                                    è fondamentale padroneggiare Promise e async/await: sono gli
+                                    strumenti che ci permettono di lavorare in armonia con questo
+                                    modello.
+                                </p>
+                                <div class="info-box success">
+                                    <h3>Linee guida pratiche</h3>
+                                    <ul>
+                                        <li>
+                                            Preferisci <code>fs.promises</code> alle versioni
+                                            sincrone come <code>fs.readFileSync</code>.
+                                        </li>
+                                        <li>
+                                            Usa <code>Promise.all()</code> per eseguire query
+                                            indipendenti in parallelo.
+                                        </li>
+                                        <li>
+                                            Non bloccare il thread con cicli
+                                            <code>while</code> infiniti o calcoli enormi: delegali a
+                                            servizi dedicati.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
 
-                                                <article class="subsection">
-                                                        <h2>🚚 Caso reale: tracciamento consegne in tempo reale</h2>
-                                                        <p>Una startup logistica usa Node.js per gestire gli aggiornamenti dei corrieri. Ogni volta che un autista invia la posizione, l'evento viene gestito senza bloccare gli altri aggiornamenti grazie all'event loop.</p>
-                                                        <pre><code>const http = require("http");
+                            <article class="subsection">
+                                <h2>🚚 Caso reale: tracciamento consegne in tempo reale</h2>
+                                <p>
+                                    Una startup logistica usa Node.js per gestire gli aggiornamenti
+                                    dei corrieri. Ogni volta che un autista invia la posizione,
+                                    l'evento viene gestito senza bloccare gli altri aggiornamenti
+                                    grazie all'event loop.
+                                </p>
+                                <pre><code>const http = require("http");
                             const { EventEmitter } = require("events");
 
                             const trackingBus = new EventEmitter();
@@ -479,44 +899,84 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(8080);</code></pre>
-                                                        <div class="info-box curiosity">
-                                                                <h3>Perché funziona bene</h3>
-                                                                <ul>
-                                                                        <li>Gli aggiornamenti sono gestiti come eventi: non serve un thread per ogni corriere.</li>
-                                                                        <li>La risposta HTTP usa <strong>Server-Sent Events</strong> per inviare dati continui al frontend.</li>
-                                                                        <li>L'event loop può servire centinaia di clienti contemporaneamente in modo efficiente.</li>
-                                                                </ul>
-                                                        </div>
-                                                </article>
+                                <div class="info-box curiosity">
+                                    <h3>Perché funziona bene</h3>
+                                    <ul>
+                                        <li>
+                                            Gli aggiornamenti sono gestiti come eventi: non serve un
+                                            thread per ogni corriere.
+                                        </li>
+                                        <li>
+                                            La risposta HTTP usa
+                                            <strong>Server-Sent Events</strong> per inviare dati
+                                            continui al frontend.
+                                        </li>
+                                        <li>
+                                            L'event loop può servire centinaia di clienti
+                                            contemporaneamente in modo efficiente.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🎯 Preparati agli esercizi: concetti chiave</h2>
-                            <div class="info-box success">
-                                <h3>✅ Checklist delle competenze base</h3>
-                                <p>Prima di passare agli esercizi pratici con Node.js, assicurati di capire questi concetti:</p>
-                                <ul>
-                                    <li><strong>🔄 Event Loop:</strong> Un solo thread gestisce tutto senza bloccarsi</li>
-                                    <li><strong>📞 Callback:</strong> Funzioni che vengono chiamate "quando è il momento"</li>
-                                    <li><strong>🔗 Middleware:</strong> Funzioni che processano le richieste una dopo l'altra</li>
-                                    <li><strong>⚡ Operazioni asincrone:</strong> Non bloccano il programma mentre aspettano</li>
-                                    <li><strong>🎭 next():</strong> La funzione che passa il controllo al middleware successivo</li>
-                                </ul>
-                            </div>
+                            <article class="subsection">
+                                <h2>🎯 Preparati agli esercizi: concetti chiave</h2>
+                                <div class="info-box success">
+                                    <h3>✅ Checklist delle competenze base</h3>
+                                    <p>
+                                        Prima di passare agli esercizi pratici con Node.js,
+                                        assicurati di capire questi concetti:
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            <strong>🔄 Event Loop:</strong> Un solo thread gestisce
+                                            tutto senza bloccarsi
+                                        </li>
+                                        <li>
+                                            <strong>📞 Callback:</strong> Funzioni che vengono
+                                            chiamate "quando è il momento"
+                                        </li>
+                                        <li>
+                                            <strong>🔗 Middleware:</strong> Funzioni che processano
+                                            le richieste una dopo l'altra
+                                        </li>
+                                        <li>
+                                            <strong>⚡ Operazioni asincrone:</strong> Non bloccano
+                                            il programma mentre aspettano
+                                        </li>
+                                        <li>
+                                            <strong>🎭 next():</strong> La funzione che passa il
+                                            controllo al middleware successivo
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <div class="info-box info">
-                                <h3>🛠️ Strumenti che userai negli esercizi</h3>
-                                <ul>
-                                    <li><strong>Express.js:</strong> Framework per creare server web facilmente</li>
-                                    <li><strong>fs (File System):</strong> Per leggere e scrivere file</li>
-                                    <li><strong>http:</strong> Per creare server web "puri" (senza framework)</li>
-                                    <li><strong>npm:</strong> Per installare pacchetti e gestire dipendenze</li>
-                                </ul>
-                            </div>
+                                <div class="info-box info">
+                                    <h3>🛠️ Strumenti che userai negli esercizi</h3>
+                                    <ul>
+                                        <li>
+                                            <strong>Express.js:</strong> Framework per creare server
+                                            web facilmente
+                                        </li>
+                                        <li>
+                                            <strong>fs (File System):</strong> Per leggere e
+                                            scrivere file
+                                        </li>
+                                        <li>
+                                            <strong>http:</strong> Per creare server web "puri"
+                                            (senza framework)
+                                        </li>
+                                        <li>
+                                            <strong>npm:</strong> Per installare pacchetti e gestire
+                                            dipendenze
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <div class="info-box curiosity">
-                                <h3>🚀 Il tuo primo server Node.js (anteprima)</h3>
-                                <p>Ecco cosa costruirai nei prossimi esercizi:</p>
-                                <pre><code>const express = require('express');
+                                <div class="info-box curiosity">
+                                    <h3>🚀 Il tuo primo server Node.js (anteprima)</h3>
+                                    <p>Ecco cosa costruirai nei prossimi esercizi:</p>
+                                    <pre><code>const express = require('express');
 const app = express();
 
 // Middleware di logging
@@ -533,60 +993,177 @@ app.get('/ciao', (req, res) => {
 app.listen(3000, () => {
     console.log("🚀 Server attivo su http://localhost:3000");
 });</code></pre>
-                            </div>
-                        </article>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>📚 Risorse per approfondire</h2>
-                            <div class="info-box info">
-                                <h3>Documentazione Ufficiale Node.js</h3>
+                            <article class="subsection">
+                                <h2>📚 Risorse per approfondire</h2>
+                                <div class="info-box info">
+                                    <h3>Documentazione Ufficiale Node.js</h3>
+                                    <ul>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/en/learn"
+                                                target="_blank"
+                                                rel="noopener"
+                                                ><strong>Learn Node.js</strong></a
+                                            >
+                                            - Tutorial ufficiali passo-passo
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/docs/latest/api/"
+                                                target="_blank"
+                                                rel="noopener"
+                                                ><strong>API Reference</strong></a
+                                            >
+                                            - Documentazione completa di tutte le funzioni
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/en/learn/getting-started/introduction-to-nodejs"
+                                                target="_blank"
+                                                rel="noopener"
+                                                ><strong>Introduction to Node.js</strong></a
+                                            >
+                                            - Cos'è e come iniziare
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/en/learn/asynchronous-work"
+                                                target="_blank"
+                                                rel="noopener"
+                                                ><strong>Asynchronous Work</strong></a
+                                            >
+                                            - Promise, async/await, Event Loop
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="info-box curiosity">
+                                    <h3>Guide Pratiche</h3>
+                                    <ul>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/en/learn/getting-started/nodejs-with-webstreams"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >Working with Streams</a
+                                            >
+                                            - Per gestire file grandi
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/en/learn/command-line/how-to-read-environment-variables-from-nodejs"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >Environment Variables</a
+                                            >
+                                            - Configurazione sicura
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://nodejs.org/en/learn/modules"
+                                                target="_blank"
+                                                rel="noopener"
+                                                >Working with Modules</a
+                                            >
+                                            - Come organizzare il codice
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>� Fonti ufficiali consigliate</h2>
                                 <ul>
-                                    <li><a href="https://nodejs.org/en/learn" target="_blank" rel="noopener"><strong>Learn Node.js</strong></a> - Tutorial ufficiali passo-passo</li>
-                                    <li><a href="https://nodejs.org/docs/latest/api/" target="_blank" rel="noopener"><strong>API Reference</strong></a> - Documentazione completa di tutte le funzioni</li>
-                                    <li><a href="https://nodejs.org/en/learn/getting-started/introduction-to-nodejs" target="_blank" rel="noopener"><strong>Introduction to Node.js</strong></a> - Cos'è e come iniziare</li>
-                                    <li><a href="https://nodejs.org/en/learn/asynchronous-work" target="_blank" rel="noopener"><strong>Asynchronous Work</strong></a> - Promise, async/await, Event Loop</li>
+                                    <li>
+                                        <a
+                                            href="https://nodejs.org/en/learn/getting-started/introduction-to-nodejs"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >Introduction to Node.js</a
+                                        >
+                                        – panoramica sul funzionamento interno del runtime.
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >Event Loop, Timers, and <code>nextTick</code></a
+                                        >
+                                        – descrizione ufficiale delle fasi e delle code.
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >Event Loop & Thread Pool</a
+                                        >
+                                        – approfondimento su event loop e thread pool.
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://expressjs.com/en/guide/using-middleware.html"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >Express Middleware Guide</a
+                                        >
+                                        – uso e scrittura di middleware.
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://koajs.com/#application"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >Koa Application</a
+                                        >
+                                        – composizione middleware basata su
+                                        <code>async/await</code>.
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://v8.dev/docs"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >V8.dev Documentation</a
+                                        >
+                                        – risorse tecniche sul motore V8.
+                                    </li>
                                 </ul>
-                            </div>
-                            
-                            <div class="info-box curiosity">
-                                <h3>Guide Pratiche</h3>
-                                <ul>
-                                    <li><a href="https://nodejs.org/en/learn/getting-started/nodejs-with-webstreams" target="_blank" rel="noopener">Working with Streams</a> - Per gestire file grandi</li>
-                                    <li><a href="https://nodejs.org/en/learn/command-line/how-to-read-environment-variables-from-nodejs" target="_blank" rel="noopener">Environment Variables</a> - Configurazione sicura</li>
-                                    <li><a href="https://nodejs.org/en/learn/modules" target="_blank" rel="noopener">Working with Modules</a> - Come organizzare il codice</li>
-                                </ul>
-                            </div>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>� Fonti ufficiali consigliate</h2>
-                            <ul>
-                                <li><a href="https://nodejs.org/en/learn/getting-started/introduction-to-nodejs" target="_blank" rel="noopener noreferrer">Introduction to Node.js</a> – panoramica sul funzionamento interno del runtime.</li>
-                                <li><a href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick" target="_blank" rel="noopener noreferrer">Event Loop, Timers, and <code>nextTick</code></a> – descrizione ufficiale delle fasi e delle code.</li>
-                                <li><a href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick" target="_blank" rel="noopener noreferrer">Event Loop & Thread Pool</a> – approfondimento su event loop e thread pool.</li>
-                                <li><a href="https://expressjs.com/en/guide/using-middleware.html" target="_blank" rel="noopener noreferrer">Express Middleware Guide</a> – uso e scrittura di middleware.</li>
-                                <li><a href="https://koajs.com/#application" target="_blank" rel="noopener noreferrer">Koa Application</a> – composizione middleware basata su <code>async/await</code>.</li>
-                                <li><a href="https://v8.dev/docs" target="_blank" rel="noopener noreferrer">V8.dev Documentation</a> – risorse tecniche sul motore V8.</li>
-                            </ul>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>�📌 Riepilogo visivo</h2>
-                            <div class="info-box welcome">
-                                <h3>🎯 Flusso semplificato</h3>
-                                <p><strong>Richiesta → Middleware 1 → Middleware 2 → Route Handler → Risposta</strong></p>
-                                <p>Ogni passo può essere asincrono grazie all'Event Loop che coordina tutto senza mai bloccarsi!</p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="section-navigation">
-                        <a class="btn btn--outline" href="promises-async.html">← Sezione precedente: Promises & Async</a>
-                        <a class="btn btn--primary" href="api-rest.html">Prossima sezione: API REST →</a>
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-    <script src="../app.js"></script>
-</body>
+                            <article class="subsection">
+                                <h2>�📌 Riepilogo visivo</h2>
+                                <div class="info-box welcome">
+                                    <h3>🎯 Flusso semplificato</h3>
+                                    <p>
+                                        <strong
+                                            >Richiesta → Middleware 1 → Middleware 2 → Route Handler
+                                            → Risposta</strong
+                                        >
+                                    </p>
+                                    <p>
+                                        Ogni passo può essere asincrono grazie all'Event Loop che
+                                        coordina tutto senza mai bloccarsi!
+                                    </p>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="section-navigation">
+                            <a class="btn btn--outline" href="promises-async.html"
+                                >← Sezione precedente: Promises & Async</a
+                            >
+                            <a class="btn btn--primary" href="api-rest.html"
+                                >Prossima sezione: API REST →</a
+                            >
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script src="../app.js"></script>
+    </body>
 </html>

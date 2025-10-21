@@ -1,65 +1,105 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esercizi Pratici - Lezione 3</title>
-    <link rel="stylesheet" href="../../style.css">
-</head>
-<body>
-    <header class="app-header">
-        <div class="header-content">
-            <h1 class="header-title">🏗️ Architettura Web</h1>
-            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
-                <span class="theme-toggle-icon">🌙</span>
-                <span class="theme-toggle-text">Dark</span>
-            </button>
-        </div>
-    </header>
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
-                <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Esercizi Pratici - Lezione 3</title>
+        <link rel="stylesheet" href="../../style.css" />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="header-title">🏗️ Architettura Web</h1>
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <span class="theme-toggle-text">Dark</span>
+                </button>
             </div>
-            <nav class="sidebar-nav">
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="intro-riepilogo.html" class="nav-link"><span class="nav-icon">📖</span>Intro</a></li>
-                    <li class="nav-item"><a href="moduli-nodejs.html" class="nav-link"><span class="nav-icon">📦</span>Moduli</a></li>
-                    <li class="nav-item"><a href="package-json.html" class="nav-link"><span class="nav-icon">⚙️</span>Package.json</a></li>
-                    <li class="nav-item"><a href="oggetti-globali.html" class="nav-link"><span class="nav-icon">🌐</span>Oggetti</a></li>
-                    <li class="nav-item"><a href="stream-filesystem.html" class="nav-link"><span class="nav-icon">🔄</span>Stream</a></li>
-                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">💾</span>CRUD</a></li>
-                    <li class="nav-item active"><a href="esercizi-lezione3.html" class="nav-link"><span class="nav-icon">✏️</span>Esercizi</a></li>
-                </ul>
-            </nav>
-        </aside>
-        <main class="main-content">
-            <div class="content-container">
-                <section class="content-section active">
-                    <div class="section-content">
-                        <header class="section-header">
-                            <h1>✏️ Esercizi Pratici - Lezione 3</h1>
-                            <p>Metti in pratica tutto ciò che hai imparato con progetti completi</p>
-                        </header>
+        </header>
+        <div class="app-container">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                    <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="intro-riepilogo.html" class="nav-link"
+                                ><span class="nav-icon">📖</span>Intro</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="moduli-nodejs.html" class="nav-link"
+                                ><span class="nav-icon">📦</span>Moduli</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="package-json.html" class="nav-link"
+                                ><span class="nav-icon">⚙️</span>Package.json</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="oggetti-globali.html" class="nav-link"
+                                ><span class="nav-icon">🌐</span>Oggetti</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="stream-filesystem.html" class="nav-link"
+                                ><span class="nav-icon">🔄</span>Stream</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="nodejs-oggetti-crud.html" class="nav-link"
+                                ><span class="nav-icon">💾</span>CRUD</a
+                            >
+                        </li>
+                        <li class="nav-item active">
+                            <a href="esercizi-lezione3.html" class="nav-link"
+                                ><span class="nav-icon">✏️</span>Esercizi</a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+            <main class="main-content">
+                <div class="content-container">
+                    <section class="content-section active">
+                        <div class="section-content">
+                            <header class="section-header">
+                                <h1>✏️ Esercizi Pratici - Lezione 3</h1>
+                                <p>
+                                    Metti in pratica tutto ciò che hai imparato con progetti
+                                    completi
+                                </p>
+                            </header>
 
-                        <article class="subsection">
-                            <h2>🎯 Esercizio 1: Task Manager CLI</h2>
-                            <div class="info-box info">
-                                <h3>Obiettivo</h3>
-                                <p>Creare un'applicazione CLI per gestire tasks con persistenza su file JSON</p>
-                                <h4>Requisiti:</h4>
-                                <ul>
-                                    <li>✅ Usa ES Modules (<code>import/export</code>)</li>
-                                    <li>✅ Comandi: <code>add, list, complete, remove</code></li>
-                                    <li>✅ Salva tasks in <code>tasks.json</code></li>
-                                    <li>✅ Gestisci errori (file non trovato, JSON invalido)</li>
-                                    <li>✅ Usa <code>process.argv</code> per leggere comandi</li>
-                                </ul>
-                            </div>
+                            <article class="subsection">
+                                <h2>🎯 Esercizio 1: Task Manager CLI</h2>
+                                <div class="info-box info">
+                                    <h3>Obiettivo</h3>
+                                    <p>
+                                        Creare un'applicazione CLI per gestire tasks con persistenza
+                                        su file JSON
+                                    </p>
+                                    <h4>Requisiti:</h4>
+                                    <ul>
+                                        <li>✅ Usa ES Modules (<code>import/export</code>)</li>
+                                        <li>
+                                            ✅ Comandi: <code>add, list, complete, remove</code>
+                                        </li>
+                                        <li>✅ Salva tasks in <code>tasks.json</code></li>
+                                        <li>
+                                            ✅ Gestisci errori (file non trovato, JSON invalido)
+                                        </li>
+                                        <li>
+                                            ✅ Usa <code>process.argv</code> per leggere comandi
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <h3>Struttura progetto</h3>
-                            <pre><code>task-manager/
+                                <h3>Struttura progetto</h3>
+                                <pre><code>task-manager/
 ├── package.json
 ├── index.js
 ├── lib/
@@ -68,8 +108,8 @@
 └── data/
     └── tasks.json</code></pre>
 
-                            <h3>Esempio utilizzo</h3>
-                            <pre><code># Aggiungi task
+                                <h3>Esempio utilizzo</h3>
+                                <pre><code># Aggiungi task
 node index.js add "Studiare Node.js"
 
 # Lista tutti i tasks
@@ -81,8 +121,8 @@ node index.js complete 1
 # Rimuovi task
 node index.js remove 1</code></pre>
 
-                            <h3>Starter Code</h3>
-                            <pre><code>// lib/storage.js
+                                <h3>Starter Code</h3>
+                                <pre><code>// lib/storage.js
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -124,25 +164,31 @@ async function main() {
 }
 
 main().catch(console.error);</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🎯 Esercizio 2: File Logger con Rotazione</h2>
-                            <div class="info-box info">
-                                <h3>Obiettivo</h3>
-                                <p>Creare un sistema di logging che scrive su file e fa rotazione automatica</p>
-                                <h4>Requisiti:</h4>
-                                <ul>
-                                    <li>✅ Usa Stream per performance</li>
-                                    <li>✅ Livelli: INFO, WARN, ERROR</li>
-                                    <li>✅ Rotazione ogni 100 righe o 1MB</li>
-                                    <li>✅ Formato: <code>[2025-01-20 10:30:45] [INFO] Messaggio</code></li>
-                                    <li>✅ File archivio: <code>app-TIMESTAMP.log</code></li>
-                                </ul>
-                            </div>
+                            <article class="subsection">
+                                <h2>🎯 Esercizio 2: File Logger con Rotazione</h2>
+                                <div class="info-box info">
+                                    <h3>Obiettivo</h3>
+                                    <p>
+                                        Creare un sistema di logging che scrive su file e fa
+                                        rotazione automatica
+                                    </p>
+                                    <h4>Requisiti:</h4>
+                                    <ul>
+                                        <li>✅ Usa Stream per performance</li>
+                                        <li>✅ Livelli: INFO, WARN, ERROR</li>
+                                        <li>✅ Rotazione ogni 100 righe o 1MB</li>
+                                        <li>
+                                            ✅ Formato:
+                                            <code>[2025-01-20 10:30:45] [INFO] Messaggio</code>
+                                        </li>
+                                        <li>✅ File archivio: <code>app-TIMESTAMP.log</code></li>
+                                    </ul>
+                                </div>
 
-                            <h3>Esempio utilizzo</h3>
-                            <pre><code>import Logger from './logger.js';
+                                <h3>Esempio utilizzo</h3>
+                                <pre><code>import Logger from './logger.js';
 
 const logger = new Logger('./logs', {
     maxLines: 100,
@@ -153,8 +199,8 @@ logger.info('Server started');
 logger.warn('Memory usage high');
 logger.error('Database connection failed');</code></pre>
 
-                            <h3>Starter Code</h3>
-                            <pre><code>// logger.js
+                                <h3>Starter Code</h3>
+                                <pre><code>// logger.js
 import fs from 'fs';
 import path from 'path';
 
@@ -185,25 +231,28 @@ export default class Logger {
         // TODO: Apri nuovo stream
     }
 }</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🎯 Esercizio 3: API REST con Express e Moduli</h2>
-                            <div class="info-box info">
-                                <h3>Obiettivo</h3>
-                                <p>API completa per gestire una libreria di libri con architettura modulare</p>
-                                <h4>Requisiti:</h4>
-                                <ul>
-                                    <li>✅ Struttura MVC (Model-Controller-Routes)</li>
-                                    <li>✅ CRUD completo su libri</li>
-                                    <li>✅ Validazione input con middleware</li>
-                                    <li>✅ Variabili ambiente per configurazione</li>
-                                    <li>✅ Gestione errori centralizzata</li>
-                                </ul>
-                            </div>
+                            <article class="subsection">
+                                <h2>🎯 Esercizio 3: API REST con Express e Moduli</h2>
+                                <div class="info-box info">
+                                    <h3>Obiettivo</h3>
+                                    <p>
+                                        API completa per gestire una libreria di libri con
+                                        architettura modulare
+                                    </p>
+                                    <h4>Requisiti:</h4>
+                                    <ul>
+                                        <li>✅ Struttura MVC (Model-Controller-Routes)</li>
+                                        <li>✅ CRUD completo su libri</li>
+                                        <li>✅ Validazione input con middleware</li>
+                                        <li>✅ Variabili ambiente per configurazione</li>
+                                        <li>✅ Gestione errori centralizzata</li>
+                                    </ul>
+                                </div>
 
-                            <h3>Struttura</h3>
-                            <pre><code>library-api/
+                                <h3>Struttura</h3>
+                                <pre><code>library-api/
 ├── package.json
 ├── .env
 ├── src/
@@ -224,16 +273,16 @@ export default class Logger {
 └── data/
     └── books.json</code></pre>
 
-                            <h3>Endpoints richiesti</h3>
-                            <pre><code>GET    /api/books           # Lista tutti i libri
+                                <h3>Endpoints richiesti</h3>
+                                <pre><code>GET    /api/books           # Lista tutti i libri
 GET    /api/books/:id       # Singolo libro
 POST   /api/books           # Crea libro
 PUT    /api/books/:id       # Aggiorna libro
 DELETE /api/books/:id       # Elimina libro
 GET    /api/books/search?q= # Cerca per titolo/autore</code></pre>
 
-                            <h3>Starter Code</h3>
-                            <pre><code>// src/models/Book.js
+                                <h3>Starter Code</h3>
+                                <pre><code>// src/models/Book.js
 export default class Book {
     constructor({ title, author, isbn, year }) {
         this.id = Date.now().toString();
@@ -315,31 +364,31 @@ app.use(errorHandler);
 app.listen(PORT, () => {
     console.log(`🚀 Server su http://localhost:${PORT}`);
 });</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🎯 Esercizio 4: CSV to JSON Converter (Stream)</h2>
-                            <div class="info-box info">
-                                <h3>Obiettivo</h3>
-                                <p>Convertire file CSV grandi (100MB+) in JSON usando Stream</p>
-                                <h4>Requisiti:</h4>
-                                <ul>
-                                    <li>✅ Usa createReadStream per leggere CSV</li>
-                                    <li>✅ Transform stream per convertire righe</li>
-                                    <li>✅ createWriteStream per scrivere JSON</li>
-                                    <li>✅ Mostra progresso percentuale</li>
-                                    <li>✅ Gestisci CSV header automaticamente</li>
-                                </ul>
-                            </div>
+                            <article class="subsection">
+                                <h2>🎯 Esercizio 4: CSV to JSON Converter (Stream)</h2>
+                                <div class="info-box info">
+                                    <h3>Obiettivo</h3>
+                                    <p>Convertire file CSV grandi (100MB+) in JSON usando Stream</p>
+                                    <h4>Requisiti:</h4>
+                                    <ul>
+                                        <li>✅ Usa createReadStream per leggere CSV</li>
+                                        <li>✅ Transform stream per convertire righe</li>
+                                        <li>✅ createWriteStream per scrivere JSON</li>
+                                        <li>✅ Mostra progresso percentuale</li>
+                                        <li>✅ Gestisci CSV header automaticamente</li>
+                                    </ul>
+                                </div>
 
-                            <pre><code># Utilizzo
+                                <pre><code># Utilizzo
 node csv-to-json.js input.csv output.json
 
 # Output
 Processing: 45% | 45000/100000 rows</code></pre>
 
-                            <h3>Starter Code</h3>
-                            <pre><code>import fs from 'fs';
+                                <h3>Starter Code</h3>
+                                <pre><code>import fs from 'fs';
 import { Transform } from 'stream';
 import { createInterface } from 'readline';
 
@@ -365,26 +414,31 @@ async function convertCSVtoJSON(inputFile, outputFile) {
 
 const [,, inputFile, outputFile] = process.argv;
 convertCSVtoJSON(inputFile, outputFile).catch(console.error);</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🎯 Esercizio 5: Task Manager - Da CLI a Microservizio</h2>
-                            <div class="info-box info">
-                                <h3>Obiettivo</h3>
-                                <p><strong>Ripeti l'Esercizio 1</strong> ma esponi le funzionalità tramite API REST invece che CLI</p>
-                                <h4>Requisiti:</h4>
-                                <ul>
-                                    <li>✅ Converti la logica CLI in API REST con Express</li>
-                                    <li>✅ Endpoints RESTful completi (GET, POST, PUT, DELETE)</li>
-                                    <li>✅ Validazione input con middleware</li>
-                                    <li>✅ Gestione errori centralizzata</li>
-                                    <li>✅ Frontend semplice per testare le API</li>
-                                    <li>✅ Documentazione per testing con Postman</li>
-                                </ul>
-                            </div>
+                            <article class="subsection">
+                                <h2>🎯 Esercizio 5: Task Manager - Da CLI a Microservizio</h2>
+                                <div class="info-box info">
+                                    <h3>Obiettivo</h3>
+                                    <p>
+                                        <strong>Ripeti l'Esercizio 1</strong> ma esponi le
+                                        funzionalità tramite API REST invece che CLI
+                                    </p>
+                                    <h4>Requisiti:</h4>
+                                    <ul>
+                                        <li>✅ Converti la logica CLI in API REST con Express</li>
+                                        <li>
+                                            ✅ Endpoints RESTful completi (GET, POST, PUT, DELETE)
+                                        </li>
+                                        <li>✅ Validazione input con middleware</li>
+                                        <li>✅ Gestione errori centralizzata</li>
+                                        <li>✅ Frontend semplice per testare le API</li>
+                                        <li>✅ Documentazione per testing con Postman</li>
+                                    </ul>
+                                </div>
 
-                            <h3>Struttura progetto</h3>
-                            <pre><code>task-api/
+                                <h3>Struttura progetto</h3>
+                                <pre><code>task-api/
 ├── package.json
 ├── .env
 ├── server.js
@@ -404,58 +458,63 @@ convertCSVtoJSON(inputFile, outputFile).catch(console.error);</code></pre>
 └── data/
     └── tasks.json</code></pre>
 
-                            <h3>📡 Endpoints da implementare</h3>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Metodo</th>
-                                        <th>Endpoint</th>
-                                        <th>Descrizione</th>
-                                        <th>Body</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><code>GET</code></td>
-                                        <td><code>/api/tasks</code></td>
-                                        <td>Lista tutti i task</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>GET</code></td>
-                                        <td><code>/api/tasks/:id</code></td>
-                                        <td>Singolo task per ID</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>POST</code></td>
-                                        <td><code>/api/tasks</code></td>
-                                        <td>Crea nuovo task</td>
-                                        <td><code>{ description: string }</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>PUT</code></td>
-                                        <td><code>/api/tasks/:id</code></td>
-                                        <td>Aggiorna task</td>
-                                        <td><code>{ description?: string, completed?: boolean }</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>PATCH</code></td>
-                                        <td><code>/api/tasks/:id/complete</code></td>
-                                        <td>Segna come completato</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>DELETE</code></td>
-                                        <td><code>/api/tasks/:id</code></td>
-                                        <td>Elimina task</td>
-                                        <td>-</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                <h3>📡 Endpoints da implementare</h3>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Metodo</th>
+                                            <th>Endpoint</th>
+                                            <th>Descrizione</th>
+                                            <th>Body</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>GET</code></td>
+                                            <td><code>/api/tasks</code></td>
+                                            <td>Lista tutti i task</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>GET</code></td>
+                                            <td><code>/api/tasks/:id</code></td>
+                                            <td>Singolo task per ID</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>POST</code></td>
+                                            <td><code>/api/tasks</code></td>
+                                            <td>Crea nuovo task</td>
+                                            <td><code>{ description: string }</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>PUT</code></td>
+                                            <td><code>/api/tasks/:id</code></td>
+                                            <td>Aggiorna task</td>
+                                            <td>
+                                                <code
+                                                    >{ description?: string, completed?: boolean
+                                                    }</code
+                                                >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>PATCH</code></td>
+                                            <td><code>/api/tasks/:id/complete</code></td>
+                                            <td>Segna come completato</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>DELETE</code></td>
+                                            <td><code>/api/tasks/:id</code></td>
+                                            <td>Elimina task</td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                            <h3>Starter Code - Backend</h3>
-                            <pre><code>// server.js
+                                <h3>Starter Code - Backend</h3>
+                                <pre><code>// server.js
 import express from 'express';
 import 'dotenv/config';
 import taskRoutes from './routes/taskRoutes.js';
@@ -584,21 +643,29 @@ export function errorHandler(err, req, res, next) {
     });
 }</code></pre>
 
-                            <h3>🖥️ Frontend - Interfaccia di test semplice</h3>
-                            <div class="info-box success">
-                                <h3>Linee guida per il frontend</h3>
-                                <p>Crea un'interfaccia HTML/CSS/JS minimale ma funzionale per testare tutte le operazioni:</p>
-                                <ul>
-                                    <li>✅ Form per aggiungere task</li>
-                                    <li>✅ Lista task con bottoni (Complete, Delete)</li>
-                                    <li>✅ Indica visivamente task completati (strikethrough, colore diverso)</li>
-                                    <li>✅ Feedback visivo per successo/errore (alert o toast)</li>
-                                    <li>✅ Usa fetch API per chiamate AJAX</li>
-                                    <li>✅ NO framework (vanilla JS)</li>
-                                </ul>
-                            </div>
+                                <h3>🖥️ Frontend - Interfaccia di test semplice</h3>
+                                <div class="info-box success">
+                                    <h3>Linee guida per il frontend</h3>
+                                    <p>
+                                        Crea un'interfaccia HTML/CSS/JS minimale ma funzionale per
+                                        testare tutte le operazioni:
+                                    </p>
+                                    <ul>
+                                        <li>✅ Form per aggiungere task</li>
+                                        <li>✅ Lista task con bottoni (Complete, Delete)</li>
+                                        <li>
+                                            ✅ Indica visivamente task completati (strikethrough,
+                                            colore diverso)
+                                        </li>
+                                        <li>
+                                            ✅ Feedback visivo per successo/errore (alert o toast)
+                                        </li>
+                                        <li>✅ Usa fetch API per chiamate AJAX</li>
+                                        <li>✅ NO framework (vanilla JS)</li>
+                                    </ul>
+                                </div>
 
-                            <pre><code>&lt;!-- public/index.html --&gt;
+                                <pre><code>&lt;!-- public/index.html --&gt;
 &lt;!DOCTYPE html&gt;
 &lt;html lang="it"&gt;
 &lt;head&gt;
@@ -750,7 +817,7 @@ button:hover {
     display: none;
 }</code></pre>
 
-                            <pre><code>// public/app.js
+                                <pre><code>// public/app.js
 const API_URL = 'http://localhost:3000/api/tasks';
 
 // Carica tasks all'avvio
@@ -879,21 +946,34 @@ document.getElementById('taskInput').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') addTask();
 });</code></pre>
 
-                            <h3>📮 Testing con Postman</h3>
-                            <div class="info-box info">
-                                <h3>Guida completa Postman</h3>
-                                <p><strong>1. Setup iniziale</strong></p>
-                                <ul>
-                                    <li>Scarica <a href="https://www.postman.com/downloads/" target="_blank">Postman</a> o usa la versione web</li>
-                                    <li>Crea una nuova Collection chiamata "Task Manager API"</li>
-                                    <li>Imposta Base URL come variabile: <code>{{baseUrl}} = http://localhost:3000</code></li>
-                                </ul>
+                                <h3>📮 Testing con Postman</h3>
+                                <div class="info-box info">
+                                    <h3>Guida completa Postman</h3>
+                                    <p><strong>1. Setup iniziale</strong></p>
+                                    <ul>
+                                        <li>
+                                            Scarica
+                                            <a
+                                                href="https://www.postman.com/downloads/"
+                                                target="_blank"
+                                                >Postman</a
+                                            >
+                                            o usa la versione web
+                                        </li>
+                                        <li>
+                                            Crea una nuova Collection chiamata "Task Manager API"
+                                        </li>
+                                        <li>
+                                            Imposta Base URL come variabile:
+                                            <code>{{baseUrl}} = http://localhost:3000</code>
+                                        </li>
+                                    </ul>
 
-                                <p><strong>2. Crea richieste per ogni endpoint</strong></p>
-                            </div>
+                                    <p><strong>2. Crea richieste per ogni endpoint</strong></p>
+                                </div>
 
-                            <h4>📍 GET - Lista tutti i tasks</h4>
-                            <pre><code>Metodo: GET
+                                <h4>📍 GET - Lista tutti i tasks</h4>
+                                <pre><code>Metodo: GET
 URL: {{baseUrl}}/api/tasks
 Headers: (nessuno)
 Body: (nessuno)
@@ -911,8 +991,8 @@ Risposta attesa (200 OK):
   ]
 }</code></pre>
 
-                            <h4>📍 POST - Crea nuovo task</h4>
-                            <pre><code>Metodo: POST
+                                <h4>📍 POST - Crea nuovo task</h4>
+                                <pre><code>Metodo: POST
 URL: {{baseUrl}}/api/tasks
 Headers: Content-Type: application/json
 Body (raw JSON):
@@ -931,8 +1011,8 @@ Risposta attesa (201 Created):
   }
 }</code></pre>
 
-                            <h4>📍 GET - Singolo task</h4>
-                            <pre><code>Metodo: GET
+                                <h4>📍 GET - Singolo task</h4>
+                                <pre><code>Metodo: GET
 URL: {{baseUrl}}/api/tasks/1234567890
 Headers: (nessuno)
 Body: (nessuno)
@@ -954,8 +1034,8 @@ Risposta errore (404 Not Found):
   "error": "Task non trovato"
 }</code></pre>
 
-                            <h4>📍 PATCH - Completa task</h4>
-                            <pre><code>Metodo: PATCH
+                                <h4>📍 PATCH - Completa task</h4>
+                                <pre><code>Metodo: PATCH
 URL: {{baseUrl}}/api/tasks/1234567890/complete
 Headers: (nessuno)
 Body: (nessuno)
@@ -971,8 +1051,8 @@ Risposta attesa (200 OK):
   }
 }</code></pre>
 
-                            <h4>📍 PUT - Aggiorna task</h4>
-                            <pre><code>Metodo: PUT
+                                <h4>📍 PUT - Aggiorna task</h4>
+                                <pre><code>Metodo: PUT
 URL: {{baseUrl}}/api/tasks/1234567890
 Headers: Content-Type: application/json
 Body (raw JSON):
@@ -992,8 +1072,8 @@ Risposta attesa (200 OK):
   }
 }</code></pre>
 
-                            <h4>📍 DELETE - Elimina task</h4>
-                            <pre><code>Metodo: DELETE
+                                <h4>📍 DELETE - Elimina task</h4>
+                                <pre><code>Metodo: DELETE
 URL: {{baseUrl}}/api/tasks/1234567890
 Headers: (nessuno)
 Body: (nessuno)
@@ -1004,8 +1084,8 @@ Risposta attesa (200 OK):
   "message": "Task eliminato"
 }</code></pre>
 
-                            <h3>🧪 Test automatici in Postman</h3>
-                            <pre><code>// Aggiungi nella tab "Tests" di ogni richiesta
+                                <h3>🧪 Test automatici in Postman</h3>
+                                <pre><code>// Aggiungi nella tab "Tests" di ogni richiesta
 
 // Test per GET /api/tasks
 pm.test("Status code is 200", () => {
@@ -1039,24 +1119,49 @@ pm.test("Task has required properties", () => {
 // Salva ID per test successivi
 pm.collectionVariables.set("taskId", pm.response.json().data.id);</code></pre>
 
-                            <h3>📊 Workflow testing completo</h3>
-                            <div class="info-box success">
-                                <h3>Sequenza di test consigliata</h3>
-                                <ol>
-                                    <li><strong>GET /api/tasks</strong> - Verifica lista vuota iniziale</li>
-                                    <li><strong>POST /api/tasks</strong> - Crea primo task (salva ID)</li>
-                                    <li><strong>POST /api/tasks</strong> - Crea secondo task</li>
-                                    <li><strong>GET /api/tasks</strong> - Verifica 2 tasks presenti</li>
-                                    <li><strong>GET /api/tasks/:id</strong> - Recupera task specifico</li>
-                                    <li><strong>PATCH /api/tasks/:id/complete</strong> - Completa task</li>
-                                    <li><strong>PUT /api/tasks/:id</strong> - Modifica descrizione</li>
-                                    <li><strong>DELETE /api/tasks/:id</strong> - Elimina task</li>
-                                    <li><strong>GET /api/tasks</strong> - Verifica 1 task rimanente</li>
-                                </ol>
-                            </div>
+                                <h3>📊 Workflow testing completo</h3>
+                                <div class="info-box success">
+                                    <h3>Sequenza di test consigliata</h3>
+                                    <ol>
+                                        <li>
+                                            <strong>GET /api/tasks</strong> - Verifica lista vuota
+                                            iniziale
+                                        </li>
+                                        <li>
+                                            <strong>POST /api/tasks</strong> - Crea primo task
+                                            (salva ID)
+                                        </li>
+                                        <li>
+                                            <strong>POST /api/tasks</strong> - Crea secondo task
+                                        </li>
+                                        <li>
+                                            <strong>GET /api/tasks</strong> - Verifica 2 tasks
+                                            presenti
+                                        </li>
+                                        <li>
+                                            <strong>GET /api/tasks/:id</strong> - Recupera task
+                                            specifico
+                                        </li>
+                                        <li>
+                                            <strong>PATCH /api/tasks/:id/complete</strong> -
+                                            Completa task
+                                        </li>
+                                        <li>
+                                            <strong>PUT /api/tasks/:id</strong> - Modifica
+                                            descrizione
+                                        </li>
+                                        <li>
+                                            <strong>DELETE /api/tasks/:id</strong> - Elimina task
+                                        </li>
+                                        <li>
+                                            <strong>GET /api/tasks</strong> - Verifica 1 task
+                                            rimanente
+                                        </li>
+                                    </ol>
+                                </div>
 
-                            <h3>💾 Esporta Collection Postman</h3>
-                            <pre><code>// task-manager.postman_collection.json
+                                <h3>💾 Esporta Collection Postman</h3>
+                                <pre><code>// task-manager.postman_collection.json
 {
   "info": {
     "name": "Task Manager API",
@@ -1096,62 +1201,90 @@ pm.collectionVariables.set("taskId", pm.response.json().data.id);</code></pre>
     // ... altri endpoint
   ]
 }</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🎯 Challenge Bonus: Sistema Completo</h2>
-                            <div class="info-box warning">
-                                <h3>🏆 Per studenti avanzati</h3>
-                                <p>Estendi l'Esercizio 5 con feature avanzate:</p>
+                            <article class="subsection">
+                                <h2>🎯 Challenge Bonus: Sistema Completo</h2>
+                                <div class="info-box warning">
+                                    <h3>🏆 Per studenti avanzati</h3>
+                                    <p>Estendi l'Esercizio 5 con feature avanzate:</p>
+                                    <ul>
+                                        <li>🔐 Autenticazione JWT con login/register</li>
+                                        <li>📝 Logging su file con rotazione automatica</li>
+                                        <li>📊 Import/export dati CSV</li>
+                                        <li>💻 CLI di amministrazione (reset DB, stats, backup)</li>
+                                        <li>🐳 Dockerfile per containerizzazione</li>
+                                        <li>🧪 Test con Jest o Mocha</li>
+                                        <li>📚 Documentazione API con Swagger/OpenAPI</li>
+                                        <li>⚡ Rate limiting per prevenire abusi</li>
+                                        <li>🔍 Paginazione e filtri avanzati</li>
+                                        <li>📱 Responsive design per mobile</li>
+                                    </ul>
+                                </div>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>✅ Checklist Completamento</h2>
+                                <div class="info-box success">
+                                    <h3>Hai completato la Lezione 3 quando sai:</h3>
+                                    <ul>
+                                        <li>❓ Creare e usare moduli ES e CommonJS</li>
+                                        <li>❓ Configurare package.json con script utili</li>
+                                        <li>
+                                            ❓ Usare oggetti globali (process, Buffer, __dirname)
+                                        </li>
+                                        <li>❓ Lavorare con Stream per file grandi</li>
+                                        <li>❓ Implementare CRUD completo su file JSON</li>
+                                        <li>❓ Strutturare un progetto Node.js professionale</li>
+                                        <li>❓ Gestire errori e logging in modo robusto</li>
+                                    </ul>
+                                </div>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>📚 Risorse per approfondire</h2>
                                 <ul>
-                                    <li>🔐 Autenticazione JWT con login/register</li>
-                                    <li>📝 Logging su file con rotazione automatica</li>
-                                    <li>📊 Import/export dati CSV</li>
-                                    <li>💻 CLI di amministrazione (reset DB, stats, backup)</li>
-                                    <li>🐳 Dockerfile per containerizzazione</li>
-                                    <li>🧪 Test con Jest o Mocha</li>
-                                    <li>📚 Documentazione API con Swagger/OpenAPI</li>
-                                    <li>⚡ Rate limiting per prevenire abusi</li>
-                                    <li>🔍 Paginazione e filtri avanzati</li>
-                                    <li>📱 Responsive design per mobile</li>
+                                    <li>
+                                        <a href="https://nodejs.org/en/learn" target="_blank"
+                                            >Node.js Learning Path</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://github.com/goldbergyoni/nodebestpractices"
+                                            target="_blank"
+                                            >Node.js Best Practices</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://expressjs.com/en/guide/routing.html"
+                                            target="_blank"
+                                            >Express Routing Guide</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://jestjs.io/docs/getting-started"
+                                            target="_blank"
+                                            >Jest Testing Framework</a
+                                        >
+                                    </li>
                                 </ul>
-                            </div>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>✅ Checklist Completamento</h2>
-                            <div class="info-box success">
-                                <h3>Hai completato la Lezione 3 quando sai:</h3>
-                                <ul>
-                                    <li>❓ Creare e usare moduli ES e CommonJS</li>
-                                    <li>❓ Configurare package.json con script utili</li>
-                                    <li>❓ Usare oggetti globali (process, Buffer, __dirname)</li>
-                                    <li>❓ Lavorare con Stream per file grandi</li>
-                                    <li>❓ Implementare CRUD completo su file JSON</li>
-                                    <li>❓ Strutturare un progetto Node.js professionale</li>
-                                    <li>❓ Gestire errori e logging in modo robusto</li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>📚 Risorse per approfondire</h2>
-                            <ul>
-                                <li><a href="https://nodejs.org/en/learn" target="_blank">Node.js Learning Path</a></li>
-                                <li><a href="https://github.com/goldbergyoni/nodebestpractices" target="_blank">Node.js Best Practices</a></li>
-                                <li><a href="https://expressjs.com/en/guide/routing.html" target="_blank">Express Routing Guide</a></li>
-                                <li><a href="https://jestjs.io/docs/getting-started" target="_blank">Jest Testing Framework</a></li>
-                            </ul>
-                        </article>
-                    </div>
-                    <div class="section-navigation">
-                        <a class="btn btn--outline" href="nodejs-oggetti-crud.html">← Oggetti & CRUD</a>
-                        <a class="btn btn--primary" href="../../index.html">Completa Lezione 3 →</a>
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-    <script src="../../app.js"></script>
-</body>
+                            </article>
+                        </div>
+                        <div class="section-navigation">
+                            <a class="btn btn--outline" href="nodejs-oggetti-crud.html"
+                                >← Oggetti & CRUD</a
+                            >
+                            <a class="btn btn--primary" href="../../index.html"
+                                >Completa Lezione 3 →</a
+                            >
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script src="../../app.js"></script>
+    </body>
 </html>

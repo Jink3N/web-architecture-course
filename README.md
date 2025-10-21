@@ -13,11 +13,13 @@ npm install
 ### 2. Avvio del Server
 
 **Modalità Produzione:**
+
 ```bash
 npm start
 ```
 
 **Modalità Sviluppo (con auto-reload):**
+
 ```bash
 npm run dev
 ```
@@ -32,18 +34,20 @@ npm run dev
 L'applicazione include anche alcune API REST per future estensioni:
 
 - `GET /api/health` - Health check del server
-- `GET /api/course-info` - Informazioni sul corso  
+- `GET /api/course-info` - Informazioni sul corso
 - `GET /api/stats` - Statistiche di utilizzo (demo)
 
 ## 🏗️ Architettura
 
 ### Frontend (SPA)
+
 - **Shell:** `index.html` - Entry point dell'applicazione
 - **Sezioni:** `pages/*.html` - 25 sezioni caricate dinamicamente
 - **Stili:** `style.css` - CSS centralizzato con tema light/dark
 - **Logic:** `app.js` - Gestione navigazione, caricamento dinamico, accessibilità
 
 ### Backend (Node.js + Express)
+
 - **Server:** `server.js` - Server Express con middleware moderni
 - **Static Files:** Serve tutti i file frontend
 - **API:** Endpoints REST per funzionalità future
@@ -52,18 +56,21 @@ L'applicazione include anche alcune API REST per future estensioni:
 ## 🎯 Funzionalità
 
 ### Navigazione
+
 - ✅ **25 Sezioni Complete:** Dalla storia del web a Node.js
 - ✅ **Caricamento Dinamico:** Fetch delle sezioni senza reload pagina
 - ✅ **Cache Intelligente:** Ogni sezione caricata una volta sola
 - ✅ **Gestione Errori:** Retry automatico e messaggi user-friendly
 
 ### Accessibilità
+
 - ✅ **Navigazione Tastiera:** Frecce ← → per precedente/successivo
 - ✅ **Screen Readers:** ARIA labels e live regions
 - ✅ **Temi:** Light/Dark mode (T per toggle)
 - ✅ **Mobile Friendly:** Layout responsive + menu hamburger
 
 ### Performance
+
 - ✅ **Lazy Loading:** Sezioni caricate on-demand
 - ✅ **Compression:** Gzip per tutti i contenuti
 - ✅ **Caching:** Headers appropriati per static assets
@@ -72,8 +79,9 @@ L'applicazione include anche alcune API REST per future estensioni:
 ## 📚 Contenuti del Corso
 
 ### 🏛️ Fondamenti (9 sezioni)
+
 1. **Introduzione** - Storia e panoramica
-2. **Client-Server** - Modello fondamentale  
+2. **Client-Server** - Modello fondamentale
 3. **Architettura Monolitica** - Vantaggi e svantaggi
 4. **Microservizi** - Scalabilità e distribuzione
 5. **Single Page Applications** - SPA vs MPA
@@ -83,12 +91,14 @@ L'applicazione include anche alcune API REST per future estensioni:
 9. **URL/URI** - Identificatori web
 
 ### 📡 API & REST (4 sezioni)
+
 10. **API/SOAP** - Confronto paradigmi
 11. **REST** - Architectural style
 12. **Endpoints** - Design e best practices
 13. **JSON/XML** - Formati dati
 
-### 🔐 Autenticazione (6 sezioni)  
+### 🔐 Autenticazione (6 sezioni)
+
 14. **JWT** - JSON Web Tokens
 15. **Cookie/Session** - Gestione stato
 16. **Web Storage** - LocalStorage e SessionStorage
@@ -97,6 +107,7 @@ L'applicazione include anche alcune API REST per future estensioni:
 19. **OpenID Connect** - Identità e SSO
 
 ### 💚 Node.js (6 sezioni)
+
 20. **Node.js Introduzione** - Runtime JavaScript
 21. **Installazione** - Setup ambiente sviluppo
 22. **VS Code** - IDE e tooling
@@ -107,12 +118,14 @@ L'applicazione include anche alcune API REST per future estensioni:
 ## 🛠️ Tecnologie Utilizzate
 
 **Frontend:**
+
 - HTML5 semantico con accessibilità
 - CSS3 con variabili e grid/flexbox
 - JavaScript ES6+ vanilla (no framework)
 - Fetch API per caricamento dinamico
 
 **Backend:**
+
 - Node.js 16+
 - Express.js 4.x
 - Helmet (sicurezza)
@@ -137,6 +150,7 @@ Se usi un altro server di sviluppo, puoi configurare un proxy verso Node.js.
 ### Deploy
 
 L'applicazione è pronta per il deploy su:
+
 - **Vercel:** `vercel --prod`
 - **Netlify:** Commit su git con auto-deploy
 - **Heroku:** `git push heroku main`
@@ -157,7 +171,7 @@ CMD ["npm", "start"]
 ## 📱 Compatibilità Browser
 
 - ✅ Chrome 90+
-- ✅ Firefox 88+  
+- ✅ Firefox 88+
 - ✅ Safari 14+
 - ✅ Edge 90+
 
@@ -177,4 +191,4 @@ MIT License - Vedi LICENSE per dettagli.
 ---
 
 **🎓 Steve Jobs Academy**  
-*Formare sviluppatori del futuro*
+_Formare sviluppatori del futuro_

@@ -1,144 +1,281 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSRF</title>
-    <link rel="stylesheet" href="../style.css">
-    <meta name="description" content="CSRF: Cross-Site Request Forgery, attacchi e protezioni.">
-</head>
-<body>
-    <header class="app-header">
-        <div class="header-content">
-            <h1 class="header-title">🏗️ Architettura Web</h1>
-            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
-                <span class="theme-toggle-icon">🌙</span>
-                <span class="theme-toggle-text">Dark</span>
-            </button>
-        </div>
-    </header>
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
-                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
-                <div class="progress-indicator">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <span class="progress-text" id="progressText">Sezione 8 di 20</span>
-                </div>
-            </div>
-            <nav class="sidebar-nav">
-                <ul class="nav-list" id="navList">
-                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
-                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
-                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
-                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
-                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
-                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
-                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
-                    <li class="nav-item active"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
-                    <li class="nav-item"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
-                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
-                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
-                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
-                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
-                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
-                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
-                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
-                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
-                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
-                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
-                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
-                    <span>←</span>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CSRF</title>
+        <link rel="stylesheet" href="../style.css" />
+        <meta
+            name="description"
+            content="CSRF: Cross-Site Request Forgery, attacchi e protezioni."
+        />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="header-title">🏗️ Architettura Web</h1>
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <span class="theme-toggle-text">Dark</span>
                 </button>
             </div>
-        </aside>
-        <main class="main-content" id="mainContent">
-            <div class="content-container" id="contentContainer">
-                <section class="content-section active" id="csrf">
-                    <div class="section-content">
-                        <header class="section-header">
-                            <h1>🛡️ CSRF - Cross-Site Request Forgery</h1>
-                            <p class="section-description">CSRF è un attacco che sfrutta la fiducia di un sito web nell'utente autenticato.</p>
-                        </header>
-                        <article class="subsection">
-                            <h2>📜 Storia degli Attacchi CSRF</h2>
-                            <p>Primo attacco documentato nel <strong>2001</strong>. Standardizzazioni di difesa dal 2008.</p>
+        </header>
+        <div class="app-container">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                    <p class="sidebar-subtitle">
+                        Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web
+                    </p>
+                    <div class="progress-indicator">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">Sezione 8 di 20</span>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul class="nav-list" id="navList">
+                        <li class="nav-item">
+                            <a href="intro.html" class="nav-link"
+                                ><span class="nav-icon">🏗️</span
+                                ><span class="nav-text">Introduzione all'Architettura Web</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="client-server.html" class="nav-link"
+                                ><span class="nav-icon">🔄</span
+                                ><span class="nav-text">Architettura Client-Server</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="monolithic.html" class="nav-link"
+                                ><span class="nav-icon">🏢</span
+                                ><span class="nav-text">Architettura Monolitica</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="microservices.html" class="nav-link"
+                                ><span class="nav-icon">🔧</span
+                                ><span class="nav-text">Architettura a Microservizi</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="spa.html" class="nav-link"
+                                ><span class="nav-icon">📱</span
+                                ><span class="nav-text">Single Page Application</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="http.html" class="nav-link"
+                                ><span class="nav-icon">🌐</span
+                                ><span class="nav-text">Protocollo HTTP</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="cors.html" class="nav-link"
+                                ><span class="nav-icon">🔐</span
+                                ><span class="nav-text">CORS</span></a
+                            >
+                        </li>
+                        <li class="nav-item active">
+                            <a href="csrf.html" class="nav-link"
+                                ><span class="nav-icon">🛡️</span
+                                ><span class="nav-text">CSRF</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="url-uri.html" class="nav-link"
+                                ><span class="nav-icon">🔗</span
+                                ><span class="nav-text">URL, URI, URN</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="api-soap.html" class="nav-link"
+                                ><span class="nav-icon">⚡</span
+                                ><span class="nav-text">API REST vs SOAP</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="rest.html" class="nav-link"
+                                ><span class="nav-icon">🏗️</span
+                                ><span class="nav-text">Architettura REST</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="endpoints.html" class="nav-link"
+                                ><span class="nav-icon">🎯</span
+                                ><span class="nav-text">API Endpoints</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="json-xml.html" class="nav-link"
+                                ><span class="nav-icon">📄</span
+                                ><span class="nav-text">JSON vs XML</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="jwt.html" class="nav-link"
+                                ><span class="nav-icon">🔑</span
+                                ><span class="nav-text">JWT - JSON Web Token</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="nodejs-intro.html" class="nav-link"
+                                ><span class="nav-icon">⚙️</span
+                                ><span class="nav-text">Introduzione a Node.js</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="installation.html" class="nav-link"
+                                ><span class="nav-icon">💻</span
+                                ><span class="nav-text">Installazione Ambiente</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="vscode.html" class="nav-link"
+                                ><span class="nav-icon">📝</span
+                                ><span class="nav-text">Visual Studio Code Setup</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="first-app.html" class="nav-link"
+                                ><span class="nav-icon">🚀</span
+                                ><span class="nav-text">Prima Applicazione Node.js</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="spa-details.html" class="nav-link"
+                                ><span class="nav-icon">🎨</span
+                                ><span class="nav-text">SPA Dettagli Avanzati</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="spa-nodejs.html" class="nav-link"
+                                ><span class="nav-icon">🔄</span
+                                ><span class="nav-text">SPA con Node.js</span></a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                    <button
+                        class="toggle-sidebar"
+                        id="toggleSidebar"
+                        aria-label="Nascondi/Mostra sidebar"
+                    >
+                        <span>←</span>
+                    </button>
+                </div>
+            </aside>
+            <main class="main-content" id="mainContent">
+                <div class="content-container" id="contentContainer">
+                    <section class="content-section active" id="csrf">
+                        <div class="section-content">
+                            <header class="section-header">
+                                <h1>🛡️ CSRF - Cross-Site Request Forgery</h1>
+                                <p class="section-description">
+                                    CSRF è un attacco che sfrutta la fiducia di un sito web
+                                    nell'utente autenticato.
+                                </p>
+                            </header>
+                            <article class="subsection">
+                                <h2>📜 Storia degli Attacchi CSRF</h2>
+                                <p>
+                                    Primo attacco documentato nel <strong>2001</strong>.
+                                    Standardizzazioni di difesa dal 2008.
+                                </p>
 
-                            <h2>🎯 Come Funziona un Attacco CSRF</h2>
-                            <p>CSRF sfrutta il fatto che i browser inviano automaticamente cookies di autenticazione con ogni richiesta al dominio target, anche se la richiesta proviene da un sito malevolo.</p>
+                                <h2>🎯 Come Funziona un Attacco CSRF</h2>
+                                <p>
+                                    CSRF sfrutta il fatto che i browser inviano automaticamente
+                                    cookies di autenticazione con ogni richiesta al dominio target,
+                                    anche se la richiesta proviene da un sito malevolo.
+                                </p>
 
-                            <div class="communication-flow">
-                                <div class="flow-step">
-                                    <div class="step-number">1</div>
-                                    <div class="step-content">
-                                        <h3>🔐 Vittima Autenticata</h3>
-                                        <p>L'utente è già loggato su un sito legittimo (es. banking, social network) e ha cookies di sessione validi.</p>
-                                        <ul>
-                                            <li>Session cookie attivo nel browser</li>
-                                            <li>Autenticazione valida</li>
-                                            <li>Privilegi per operazioni sensibili</li>
-                                            <li>Fiducia del server nell'utente</li>
-                                        </ul>
+                                <div class="communication-flow">
+                                    <div class="flow-step">
+                                        <div class="step-number">1</div>
+                                        <div class="step-content">
+                                            <h3>🔐 Vittima Autenticata</h3>
+                                            <p>
+                                                L'utente è già loggato su un sito legittimo (es.
+                                                banking, social network) e ha cookies di sessione
+                                                validi.
+                                            </p>
+                                            <ul>
+                                                <li>Session cookie attivo nel browser</li>
+                                                <li>Autenticazione valida</li>
+                                                <li>Privilegi per operazioni sensibili</li>
+                                                <li>Fiducia del server nell'utente</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="flow-step">
+                                        <div class="step-number">2</div>
+                                        <div class="step-content">
+                                            <h3>🕸️ Sito Malevolo</h3>
+                                            <p>
+                                                L'attaccante convince la vittima a visitare un sito
+                                                controllato dall'attaccante (email, link social,
+                                                ads).
+                                            </p>
+                                            <ul>
+                                                <li>Link in email phishing</li>
+                                                <li>Post su social media</li>
+                                                <li>Banner pubblicitari</li>
+                                                <li>Siti compromessi</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="flow-step">
+                                        <div class="step-number">3</div>
+                                        <div class="step-content">
+                                            <h3>⚡ Richiesta Forzata</h3>
+                                            <p>
+                                                Il sito malevolo esegue automaticamente richieste al
+                                                sito target usando JavaScript o form nascosti.
+                                            </p>
+                                            <ul>
+                                                <li>Form auto-submit nascosti</li>
+                                                <li>Immagini con URL malevoli</li>
+                                                <li>XMLHttpRequest automatici</li>
+                                                <li>Frame invisibili</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="flow-step">
+                                        <div class="step-number">4</div>
+                                        <div class="step-content">
+                                            <h3>💰 Azione Eseguita</h3>
+                                            <p>
+                                                Il browser invia automaticamente i cookies di
+                                                autenticazione, e il server esegue l'azione pensando
+                                                provenga dall'utente legittimo.
+                                            </p>
+                                            <ul>
+                                                <li>Trasferimento denaro</li>
+                                                <li>Cambio password/email</li>
+                                                <li>Post social malevoli</li>
+                                                <li>Acquisti non autorizzati</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="flow-step">
-                                    <div class="step-number">2</div>
-                                    <div class="step-content">
-                                        <h3>🕸️ Sito Malevolo</h3>
-                                        <p>L'attaccante convince la vittima a visitare un sito controllato dall'attaccante (email, link social, ads).</p>
-                                        <ul>
-                                            <li>Link in email phishing</li>
-                                            <li>Post su social media</li>
-                                            <li>Banner pubblicitari</li>
-                                            <li>Siti compromessi</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <h2>💻 Esempi di Attacchi CSRF</h2>
 
-                                <div class="flow-step">
-                                    <div class="step-number">3</div>
-                                    <div class="step-content">
-                                        <h3>⚡ Richiesta Forzata</h3>
-                                        <p>Il sito malevolo esegue automaticamente richieste al sito target usando JavaScript o form nascosti.</p>
-                                        <ul>
-                                            <li>Form auto-submit nascosti</li>
-                                            <li>Immagini con URL malevoli</li>
-                                            <li>XMLHttpRequest automatici</li>
-                                            <li>Frame invisibili</li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="flow-step">
-                                    <div class="step-number">4</div>
-                                    <div class="step-content">
-                                        <h3>💰 Azione Eseguita</h3>
-                                        <p>Il browser invia automaticamente i cookies di autenticazione, e il server esegue l'azione pensando provenga dall'utente legittimo.</p>
-                                        <ul>
-                                            <li>Trasferimento denaro</li>
-                                            <li>Cambio password/email</li>
-                                            <li>Post social malevoli</li>
-                                            <li>Acquisti non autorizzati</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h2>💻 Esempi di Attacchi CSRF</h2>
-
-                            <div class="examples-grid">
-                                <div class="example-card">
-                                    <h3>💸 Banking Transfer</h3>
-                                    <p><strong>Scenario:</strong> Trasferimento fondi non autorizzato</p>
-                                    <pre><code>&lt;!-- Sito malevolo --&gt;
+                                <div class="examples-grid">
+                                    <div class="example-card">
+                                        <h3>💸 Banking Transfer</h3>
+                                        <p>
+                                            <strong>Scenario:</strong> Trasferimento fondi non
+                                            autorizzato
+                                        </p>
+                                        <pre><code>&lt;!-- Sito malevolo --&gt;
 &lt;img src="https://bank.com/transfer?to=attacker&amp;amount=1000" 
      style="display:none"&gt;
 
@@ -148,12 +285,15 @@
   &lt;input type="hidden" name="amount" value="1000"&gt;
 &lt;/form&gt;
 &lt;script&gt;document.forms[0].submit();&lt;/script&gt;</code></pre>
-                                </div>
+                                    </div>
 
-                                <div class="example-card">
-                                    <h3>📧 Email Change</h3>
-                                    <p><strong>Scenario:</strong> Cambio email per account takeover</p>
-                                    <pre><code>&lt;!-- Richiesta AJAX nascosta --&gt;
+                                    <div class="example-card">
+                                        <h3>📧 Email Change</h3>
+                                        <p>
+                                            <strong>Scenario:</strong> Cambio email per account
+                                            takeover
+                                        </p>
+                                        <pre><code>&lt;!-- Richiesta AJAX nascosta --&gt;
 &lt;script&gt;
 fetch('https://social.com/api/profile', {
   method: 'PUT',
@@ -166,24 +306,30 @@ fetch('https://social.com/api/profile', {
   })
 });
 &lt;/script&gt;</code></pre>
-                                </div>
+                                    </div>
 
-                                <div class="example-card">
-                                    <h3>🛒 Shopping Cart</h3>
-                                    <p><strong>Scenario:</strong> Aggiunta prodotti e checkout forzato</p>
-                                    <pre><code>&lt;!-- Multiple richieste in sequenza --&gt;
+                                    <div class="example-card">
+                                        <h3>🛒 Shopping Cart</h3>
+                                        <p>
+                                            <strong>Scenario:</strong> Aggiunta prodotti e checkout
+                                            forzato
+                                        </p>
+                                        <pre><code>&lt;!-- Multiple richieste in sequenza --&gt;
 &lt;iframe src="https://shop.com/cart/add?item=expensive-item" 
         style="display:none"&gt;&lt;/iframe&gt;
 &lt;iframe src="https://shop.com/cart/add?item=another-item" 
         style="display:none"&gt;&lt;/iframe&gt;
 &lt;iframe src="https://shop.com/checkout/confirm" 
         style="display:none"&gt;&lt;/iframe&gt;</code></pre>
-                                </div>
+                                    </div>
 
-                                <div class="example-card">
-                                    <h3>👥 Social Engineering</h3>
-                                    <p><strong>Scenario:</strong> Post automatici per spam/propaganda</p>
-                                    <pre><code>&lt;!-- Form per post automatico --&gt;
+                                    <div class="example-card">
+                                        <h3>👥 Social Engineering</h3>
+                                        <p>
+                                            <strong>Scenario:</strong> Post automatici per
+                                            spam/propaganda
+                                        </p>
+                                        <pre><code>&lt;!-- Form per post automatico --&gt;
 &lt;form action="https://social.com/api/posts" method="POST"&gt;
   &lt;input type="hidden" name="content" 
          value="Check out this amazing product! [spam link]"&gt;
@@ -192,67 +338,127 @@ fetch('https://social.com/api/profile', {
 &lt;script&gt;
   setTimeout(() =&gt; document.forms[0].submit(), 1000);
 &lt;/script&gt;</code></pre>
-                                </div>
-                            </div>
-
-                            <h2>🛡️ Protezioni Anti-CSRF</h2>
-
-                            <div class="principles-grid">
-                                <div class="principle-card advantage">
-                                    <h3>🎟️ CSRF Tokens</h3>
-                                    <p><strong>Token segreto</strong> generato server-side e validato ad ogni richiesta.</p>
-                                    <ul>
-                                        <li><strong>Generazione:</strong> Token casuale per sessione</li>
-                                        <li><strong>Inclusione:</strong> Hidden field in form o header</li>
-                                        <li><strong>Validazione:</strong> Server verifica match</li>
-                                        <li><strong>Scadenza:</strong> Token hanno TTL limitato</li>
-                                    </ul>
-                                    <p><em>Più efficace: difficile da prevedere per attaccanti</em></p>
+                                    </div>
                                 </div>
 
-                                <div class="principle-card advantage">
-                                    <h3>🏠 SameSite Cookies</h3>
-                                    <p><strong>Attributo cookie</strong> che blocca invio in richieste cross-site.</p>
-                                    <ul>
-                                        <li><strong>Strict:</strong> Mai inviato cross-site</li>
-                                        <li><strong>Lax:</strong> Solo con navigazione top-level</li>
-                                        <li><strong>None:</strong> Sempre inviato (richiede Secure)</li>
-                                        <li><strong>Default:</strong> Lax nei browser moderni</li>
-                                    </ul>
-                                    <p><em>Semplice ma efficace per molti scenari</em></p>
+                                <h2>🛡️ Protezioni Anti-CSRF</h2>
+
+                                <div class="principles-grid">
+                                    <div class="principle-card advantage">
+                                        <h3>🎟️ CSRF Tokens</h3>
+                                        <p>
+                                            <strong>Token segreto</strong> generato server-side e
+                                            validato ad ogni richiesta.
+                                        </p>
+                                        <ul>
+                                            <li>
+                                                <strong>Generazione:</strong> Token casuale per
+                                                sessione
+                                            </li>
+                                            <li>
+                                                <strong>Inclusione:</strong> Hidden field in form o
+                                                header
+                                            </li>
+                                            <li>
+                                                <strong>Validazione:</strong> Server verifica match
+                                            </li>
+                                            <li>
+                                                <strong>Scadenza:</strong> Token hanno TTL limitato
+                                            </li>
+                                        </ul>
+                                        <p>
+                                            <em
+                                                >Più efficace: difficile da prevedere per
+                                                attaccanti</em
+                                            >
+                                        </p>
+                                    </div>
+
+                                    <div class="principle-card advantage">
+                                        <h3>🏠 SameSite Cookies</h3>
+                                        <p>
+                                            <strong>Attributo cookie</strong> che blocca invio in
+                                            richieste cross-site.
+                                        </p>
+                                        <ul>
+                                            <li><strong>Strict:</strong> Mai inviato cross-site</li>
+                                            <li>
+                                                <strong>Lax:</strong> Solo con navigazione top-level
+                                            </li>
+                                            <li>
+                                                <strong>None:</strong> Sempre inviato (richiede
+                                                Secure)
+                                            </li>
+                                            <li>
+                                                <strong>Default:</strong> Lax nei browser moderni
+                                            </li>
+                                        </ul>
+                                        <p><em>Semplice ma efficace per molti scenari</em></p>
+                                    </div>
+
+                                    <div class="principle-card advantage">
+                                        <h3>🌍 Origin/Referer Check</h3>
+                                        <p>
+                                            <strong>Validazione header</strong> per verificare
+                                            origine richiesta.
+                                        </p>
+                                        <ul>
+                                            <li>
+                                                <strong>Origin Header:</strong> Dominio di origine
+                                            </li>
+                                            <li>
+                                                <strong>Referer Header:</strong> URL completo
+                                                precedente
+                                            </li>
+                                            <li>
+                                                <strong>Whitelist:</strong> Solo domini autorizzati
+                                            </li>
+                                            <li>
+                                                <strong>Fallback:</strong> Blocca se header mancanti
+                                            </li>
+                                        </ul>
+                                        <p><em>Buona difesa complementare, non primaria</em></p>
+                                    </div>
+
+                                    <div class="principle-card advantage">
+                                        <h3>🔐 Double Submit Cookies</h3>
+                                        <p>
+                                            <strong>Token duplicato</strong> in cookie e form,
+                                            validati insieme.
+                                        </p>
+                                        <ul>
+                                            <li>
+                                                <strong>Cookie token:</strong> Valore casuale in
+                                                cookie
+                                            </li>
+                                            <li>
+                                                <strong>Form token:</strong> Stesso valore in hidden
+                                                field
+                                            </li>
+                                            <li>
+                                                <strong>Validazione:</strong> Server confronta
+                                                entrambi
+                                            </li>
+                                            <li>
+                                                <strong>Sicurezza:</strong> Attaccante non può
+                                                leggere cookie
+                                            </li>
+                                        </ul>
+                                        <p>
+                                            <em
+                                                >Alternativa quando non si può mantenere stato
+                                                server</em
+                                            >
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <div class="principle-card advantage">
-                                    <h3>🌍 Origin/Referer Check</h3>
-                                    <p><strong>Validazione header</strong> per verificare origine richiesta.</p>
-                                    <ul>
-                                        <li><strong>Origin Header:</strong> Dominio di origine</li>
-                                        <li><strong>Referer Header:</strong> URL completo precedente</li>
-                                        <li><strong>Whitelist:</strong> Solo domini autorizzati</li>
-                                        <li><strong>Fallback:</strong> Blocca se header mancanti</li>
-                                    </ul>
-                                    <p><em>Buona difesa complementare, non primaria</em></p>
-                                </div>
+                                <h2>⚙️ Implementazioni Pratiche</h2>
 
-                                <div class="principle-card advantage">
-                                    <h3>🔐 Double Submit Cookies</h3>
-                                    <p><strong>Token duplicato</strong> in cookie e form, validati insieme.</p>
-                                    <ul>
-                                        <li><strong>Cookie token:</strong> Valore casuale in cookie</li>
-                                        <li><strong>Form token:</strong> Stesso valore in hidden field</li>
-                                        <li><strong>Validazione:</strong> Server confronta entrambi</li>
-                                        <li><strong>Sicurezza:</strong> Attaccante non può leggere cookie</li>
-                                    </ul>
-                                    <p><em>Alternativa quando non si può mantenere stato server</em></p>
-                                </div>
-                            </div>
-
-                            <h2>⚙️ Implementazioni Pratiche</h2>
-
-                            <div class="examples-grid">
-                                <div class="example-card">
-                                    <h3>🟢 Node.js + Express</h3>
-                                    <pre><code>const csrf = require('csurf');
+                                <div class="examples-grid">
+                                    <div class="example-card">
+                                        <h3>🟢 Node.js + Express</h3>
+                                        <pre><code>const csrf = require('csurf');
 
 // CSRF middleware
 const csrfProtection = csrf({ cookie: true });
@@ -267,11 +473,11 @@ app.use((err, req, res, next) =&gt; {
     res.status(403).send('Invalid CSRF token');
   }
 });</code></pre>
-                                </div>
+                                    </div>
 
-                                <div class="example-card">
-                                    <h3>🐍 Django</h3>
-                                    <pre><code># settings.py
+                                    <div class="example-card">
+                                        <h3>🐍 Django</h3>
+                                        <pre><code># settings.py
 MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
 ]
@@ -286,11 +492,11 @@ from django.views.decorators.csrf import csrf_protect
 def my_view(request):
     # View logic here
     pass</code></pre>
-                                </div>
+                                    </div>
 
-                                <div class="example-card">
-                                    <h3>🔴 Ruby on Rails</h3>
-                                    <pre><code># Application controller
+                                    <div class="example-card">
+                                        <h3>🔴 Ruby on Rails</h3>
+                                        <pre><code># Application controller
 class ApplicationController &lt; ActionController::Base
   protect_from_forgery with: :exception
 end
@@ -302,11 +508,11 @@ end
 
 # Custom CSRF handling
 skip_before_action :verify_authenticity_token, only: [:api_endpoint]</code></pre>
-                                </div>
+                                    </div>
 
-                                <div class="example-card">
-                                    <h3>☁️ SameSite Cookie</h3>
-                                    <pre><code>// Modern approach
+                                    <div class="example-card">
+                                        <h3>☁️ SameSite Cookie</h3>
+                                        <pre><code>// Modern approach
 Set-Cookie: sessionid=abc123; SameSite=Strict; Secure; HttpOnly
 
 // JavaScript setting
@@ -320,33 +526,59 @@ app.use(session({
     httpOnly: true
   }
 }));</code></pre>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="info-box">
-                                <h3>🎯 Best Practices Anti-CSRF</h3>
-                                <p><strong>Difesa a livelli:</strong> Combina CSRF tokens + SameSite cookies + Origin validation per protezione massima.</p>
-                                <p><strong>State-changing ops:</strong> Proteggi sempre POST, PUT, DELETE - mai GET per modifiche.</p>
-                                <p><strong>Token management:</strong> Genera token cryptographically secure, ruota regolarmente, valida sempre.</p>
-                                <p><strong>User experience:</strong> Gestisci token scaduti gracefully, da feedback clear su errori CSRF.</p>
-                            </div>
+                                <div class="info-box">
+                                    <h3>🎯 Best Practices Anti-CSRF</h3>
+                                    <p>
+                                        <strong>Difesa a livelli:</strong> Combina CSRF tokens +
+                                        SameSite cookies + Origin validation per protezione massima.
+                                    </p>
+                                    <p>
+                                        <strong>State-changing ops:</strong> Proteggi sempre POST,
+                                        PUT, DELETE - mai GET per modifiche.
+                                    </p>
+                                    <p>
+                                        <strong>Token management:</strong> Genera token
+                                        cryptographically secure, ruota regolarmente, valida sempre.
+                                    </p>
+                                    <p>
+                                        <strong>User experience:</strong> Gestisci token scaduti
+                                        gracefully, da feedback clear su errori CSRF.
+                                    </p>
+                                </div>
 
-                            <div class="info-box curiosity">
-                                <h3>💸 Curiosità: Primo Attacco CSRF</h3>
-                                <p>Il primo attacco CSRF documentato <strong>rubò $1M</strong> trasferendo fondi bancari automaticamente quando le vittime visitavano siti malevoli!</p>
-                                <p><strong>L'attacco:</strong> Sfruttava un bug nel sistema banking online che permetteva trasferimenti via semplici richieste GET con parametri URL.</p>
-                                <p><strong>La scoperta:</strong> Fu scoperto quando una banca notò trasferimenti anomali tutti originanti da utenti che avevano visitato lo stesso forum online.</p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="section-navigation">
-                        <a class="btn btn--outline" href="cors.html">← Precedente: CORS</a>
-                        <a class="btn btn--primary" href="url-uri.html">Successivo: URL/URI →</a>
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-    <script src="../app.js"></script>
-</body>
+                                <div class="info-box curiosity">
+                                    <h3>💸 Curiosità: Primo Attacco CSRF</h3>
+                                    <p>
+                                        Il primo attacco CSRF documentato
+                                        <strong>rubò $1M</strong> trasferendo fondi bancari
+                                        automaticamente quando le vittime visitavano siti malevoli!
+                                    </p>
+                                    <p>
+                                        <strong>L'attacco:</strong> Sfruttava un bug nel sistema
+                                        banking online che permetteva trasferimenti via semplici
+                                        richieste GET con parametri URL.
+                                    </p>
+                                    <p>
+                                        <strong>La scoperta:</strong> Fu scoperto quando una banca
+                                        notò trasferimenti anomali tutti originanti da utenti che
+                                        avevano visitato lo stesso forum online.
+                                    </p>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="section-navigation">
+                            <a class="btn btn--outline" href="cors.html">← Precedente: CORS</a>
+                            <a class="btn btn--primary" href="url-uri.html"
+                                >Successivo: URL/URI →</a
+                            >
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script src="../app.js"></script>
+    </body>
 </html>

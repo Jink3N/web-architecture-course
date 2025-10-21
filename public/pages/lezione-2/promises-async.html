@@ -1,85 +1,162 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promises e Async - Lezione 2</title>
-    <meta name="description" content="Introduzione chiara all'asincronia in JavaScript: differenze tra codice sincrono e asincrono, Promise, async/await e gestione degli errori." />
-    <link rel="stylesheet" href="../../style.css">
-    <!-- Prism.js Core CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" media="(prefers-color-scheme: dark)">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" media="(prefers-color-scheme: light)">
-    <!-- Prism.js Plugins CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/toolbar/prism-toolbar.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
-</head>
-<body>
-    <header class="app-header">
-        <div class="header-content">
-            <h1 class="header-title">🏗️ Architettura Web</h1>
-            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
-                <span class="theme-toggle-icon">🌙</span>
-                <span class="theme-toggle-text">Dark</span>
-            </button>
-        </div>
-    </header>
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
-                <p class="sidebar-subtitle">Lezione 2: Node.js, Async, API</p>
-                <div class="progress-indicator">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <span class="progress-text" id="progressText">Sezione 1 di 5</span>
-                </div>
-            </div>
-            <nav class="sidebar-nav">
-                <ul class="nav-list" id="navList">
-                    <li class="nav-item active"><a href="promises-async.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Promises & Async</span></a></li>
-                    <li class="nav-item"><a href="nodejs-v8-eventloop.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Node.js, V8 & Event Loop</span></a></li>
-                    <li class="nav-item"><a href="api-rest.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">API REST</span></a></li>
-                    <li class="nav-item"><a href="esercizi-async-promises.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Esercizi Async & Promises</span></a></li>
-                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">📦</span><span class="nav-text">Node.js: Oggetti & CRUD</span></a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
-                    <span>←</span>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Promises e Async - Lezione 2</title>
+        <meta
+            name="description"
+            content="Introduzione chiara all'asincronia in JavaScript: differenze tra codice sincrono e asincrono, Promise, async/await e gestione degli errori."
+        />
+        <link rel="stylesheet" href="../../style.css" />
+        <!-- Prism.js Core CSS -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css"
+            media="(prefers-color-scheme: dark)"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css"
+            media="(prefers-color-scheme: light)"
+        />
+        <!-- Prism.js Plugins CSS -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/toolbar/prism-toolbar.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+        />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="header-title">🏗️ Architettura Web</h1>
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <span class="theme-toggle-text">Dark</span>
                 </button>
             </div>
-        </aside>
-        <main class="main-content" id="mainContent">
-            <div class="content-container" id="contentContainer">
-                <section class="content-section active" id="promises-async">
-                    <div class="section-content">
-                        <header class="section-header">
-                            <h1>🔄 Promises & Async</h1>
-                            <p class="section-description">Capire l'asincronia in JavaScript partendo dalle basi: cosa significa non bloccare il thread, come funzionano le Promise e come semplificare il codice con async/await.</p>
-                        </header>
+        </header>
+        <div class="app-container">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                    <p class="sidebar-subtitle">Lezione 2: Node.js, Async, API</p>
+                    <div class="progress-indicator">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">Sezione 1 di 5</span>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul class="nav-list" id="navList">
+                        <li class="nav-item active">
+                            <a href="promises-async.html" class="nav-link"
+                                ><span class="nav-icon">🔄</span
+                                ><span class="nav-text">Promises & Async</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="nodejs-v8-eventloop.html" class="nav-link"
+                                ><span class="nav-icon">⚙️</span
+                                ><span class="nav-text">Node.js, V8 & Event Loop</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="api-rest.html" class="nav-link"
+                                ><span class="nav-icon">🌐</span
+                                ><span class="nav-text">API REST</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="esercizi-async-promises.html" class="nav-link"
+                                ><span class="nav-icon">📝</span
+                                ><span class="nav-text">Esercizi Async & Promises</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="nodejs-oggetti-crud.html" class="nav-link"
+                                ><span class="nav-icon">📦</span
+                                ><span class="nav-text">Node.js: Oggetti & CRUD</span></a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                    <button
+                        class="toggle-sidebar"
+                        id="toggleSidebar"
+                        aria-label="Nascondi/Mostra sidebar"
+                    >
+                        <span>←</span>
+                    </button>
+                </div>
+            </aside>
+            <main class="main-content" id="mainContent">
+                <div class="content-container" id="contentContainer">
+                    <section class="content-section active" id="promises-async">
+                        <div class="section-content">
+                            <header class="section-header">
+                                <h1>🔄 Promises & Async</h1>
+                                <p class="section-description">
+                                    Capire l'asincronia in JavaScript partendo dalle basi: cosa
+                                    significa non bloccare il thread, come funzionano le Promise e
+                                    come semplificare il codice con async/await.
+                                </p>
+                            </header>
 
-                        <article class="subsection">
-                            <h2>⏱️ Sincrono vs Asincrono</h2>
-                            <p>In un programma <strong>sincrono</strong> le istruzioni vengono eseguite una dopo l'altra. Se un'istruzione impiega tempo (es. leggere un file dal disco), tutto il resto aspetta. In un programma <strong>asincrono</strong>, invece, possiamo avviare un'operazione lenta e continuare a fare altro finché non riceviamo il risultato.</p>
-                            <div class="info-box info">
-                                <h3>Termini chiave</h3>
-                                <ul>
-                                    <li><strong>Thread:</strong> un flusso di esecuzione. In JavaScript c'è un solo thread principale.</li>
-                                    <li><strong>Bloccante:</strong> un'operazione che ferma il thread finché non termina.</li>
-                                    <li><strong>Non bloccante:</strong> un'operazione che delega il lavoro e notifica quando ha finito.</li>
-                                </ul>
-                            </div>
-                            <div class="info-box welcome">
-                                <h3>Esempio intuitivo</h3>
-                                <p>Pensa a quando ordini una pizza. In modalità sincrona staresti fermo finché il pizzaiolo non ha finito. In modalità asincrona fai l'ordine, continui le tue attività e verrai avvisato quando la pizza è pronta.</p>
-                            </div>
-                        </article>
+                            <article class="subsection">
+                                <h2>⏱️ Sincrono vs Asincrono</h2>
+                                <p>
+                                    In un programma <strong>sincrono</strong> le istruzioni vengono
+                                    eseguite una dopo l'altra. Se un'istruzione impiega tempo (es.
+                                    leggere un file dal disco), tutto il resto aspetta. In un
+                                    programma <strong>asincrono</strong>, invece, possiamo avviare
+                                    un'operazione lenta e continuare a fare altro finché non
+                                    riceviamo il risultato.
+                                </p>
+                                <div class="info-box info">
+                                    <h3>Termini chiave</h3>
+                                    <ul>
+                                        <li>
+                                            <strong>Thread:</strong> un flusso di esecuzione. In
+                                            JavaScript c'è un solo thread principale.
+                                        </li>
+                                        <li>
+                                            <strong>Bloccante:</strong> un'operazione che ferma il
+                                            thread finché non termina.
+                                        </li>
+                                        <li>
+                                            <strong>Non bloccante:</strong> un'operazione che delega
+                                            il lavoro e notifica quando ha finito.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="info-box welcome">
+                                    <h3>Esempio intuitivo</h3>
+                                    <p>
+                                        Pensa a quando ordini una pizza. In modalità sincrona
+                                        staresti fermo finché il pizzaiolo non ha finito. In
+                                        modalità asincrona fai l'ordine, continui le tue attività e
+                                        verrai avvisato quando la pizza è pronta.
+                                    </p>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🧩 Dal callback al "callback hell"</h2>
-                            <p>Prima delle Promise, l'asincronia era gestita con <strong>callback</strong>: funzioni da eseguire quando l'operazione termina. Molte callback annidate portano al cosiddetto <em>callback hell</em>, difficile da leggere e da gestire.</p>
-                            <pre><code>// Callback hell (da evitare)
+                            <article class="subsection">
+                                <h2>🧩 Dal callback al "callback hell"</h2>
+                                <p>
+                                    Prima delle Promise, l'asincronia era gestita con
+                                    <strong>callback</strong>: funzioni da eseguire quando
+                                    l'operazione termina. Molte callback annidate portano al
+                                    cosiddetto <em>callback hell</em>, difficile da leggere e da
+                                    gestire.
+                                </p>
+                                <pre><code>// Callback hell (da evitare)
 leggiUtente(id, function(utente) {
   leggiOrdini(utente, function(ordini) {
     leggiDettagli(ordini[0], function(dettagli) {
@@ -87,50 +164,107 @@ leggiUtente(id, function(utente) {
     });
   });
 });</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>📑 Callback: struttura, parametri e pattern ufficiali</h2>
-                            <p>Una <strong>callback</strong> è qualsiasi funzione passata come argomento a un'altra funzione e invocata da quest'ultima in un momento successivo. La definizione è riportata nella <a href="https://developer.mozilla.org/en-US/docs/Glossary/Callback_function" target="_blank" rel="noopener noreferrer">glossario ufficiale MDN</a>. Il motore JavaScript non impone un numero fisso di parametri: spetta all'API che accetta la callback definire la firma.</p>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Uso reale</th>
-                                        <th>Firma documentata</th>
-                                        <th>Parametri della callback</th>
-                                        <th>Fonte ufficiale</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Iterazione array</td>
-                                        <td><code>Array.prototype.map(callbackFn, thisArg?)</code></td>
-                                        <td><code>callbackFn(currentValue, index, array)</code></td>
-                                        <td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map" target="_blank" rel="noopener noreferrer">MDN Array.map()</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Gestione eventi DOM</td>
-                                        <td><code>EventTarget.addEventListener(type, listener, options?)</code></td>
-                                        <td><code>listener(Event)</code></td>
-                                        <td><a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener" target="_blank" rel="noopener noreferrer">MDN addEventListener()</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>API Node.js (stile errore-prima)</td>
-                                        <td><code>fs.readFile(path, options?, callback)</code></td>
-                                        <td><code>callback(err, data)</code></td>
-                                        <td><a href="https://nodejs.org/api/fs.html#fsreadfilepath-options-callback" target="_blank" rel="noopener noreferrer">Node.js docs fs.readFile</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="info-box info">
-                                <h3>Pattern comuni</h3>
-                                <ul>
-                                    <li><strong>Errore-prima (error-first):</strong> adottato dalle API core di Node.js. Il primo parametro indica l'errore (o <code>null</code>), il secondo il risultato.</li>
-                                    <li><strong>Callback di progresso:</strong> alcune API, come <code>XMLHttpRequest</code>, invocano più volte la callback per segnalare avanzamento.</li>
-                                    <li><strong>Callback sincrone vs asincrone:</strong> la callback può essere invocata subito (es. <code>Array.map</code>) o più tardi (es. eventi, I/O).</li>
-                                </ul>
-                            </div>
-                            <pre><code>// Callback stile Node.js documentata in fs.readFile
+                            <article class="subsection">
+                                <h2>📑 Callback: struttura, parametri e pattern ufficiali</h2>
+                                <p>
+                                    Una <strong>callback</strong> è qualsiasi funzione passata come
+                                    argomento a un'altra funzione e invocata da quest'ultima in un
+                                    momento successivo. La definizione è riportata nella
+                                    <a
+                                        href="https://developer.mozilla.org/en-US/docs/Glossary/Callback_function"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        >glossario ufficiale MDN</a
+                                    >. Il motore JavaScript non impone un numero fisso di parametri:
+                                    spetta all'API che accetta la callback definire la firma.
+                                </p>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Uso reale</th>
+                                            <th>Firma documentata</th>
+                                            <th>Parametri della callback</th>
+                                            <th>Fonte ufficiale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Iterazione array</td>
+                                            <td>
+                                                <code
+                                                    >Array.prototype.map(callbackFn, thisArg?)</code
+                                                >
+                                            </td>
+                                            <td>
+                                                <code>callbackFn(currentValue, index, array)</code>
+                                            </td>
+                                            <td>
+                                                <a
+                                                    href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    >MDN Array.map()</a
+                                                >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gestione eventi DOM</td>
+                                            <td>
+                                                <code
+                                                    >EventTarget.addEventListener(type, listener,
+                                                    options?)</code
+                                                >
+                                            </td>
+                                            <td><code>listener(Event)</code></td>
+                                            <td>
+                                                <a
+                                                    href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    >MDN addEventListener()</a
+                                                >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>API Node.js (stile errore-prima)</td>
+                                            <td>
+                                                <code>fs.readFile(path, options?, callback)</code>
+                                            </td>
+                                            <td><code>callback(err, data)</code></td>
+                                            <td>
+                                                <a
+                                                    href="https://nodejs.org/api/fs.html#fsreadfilepath-options-callback"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    >Node.js docs fs.readFile</a
+                                                >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="info-box info">
+                                    <h3>Pattern comuni</h3>
+                                    <ul>
+                                        <li>
+                                            <strong>Errore-prima (error-first):</strong> adottato
+                                            dalle API core di Node.js. Il primo parametro indica
+                                            l'errore (o <code>null</code>), il secondo il risultato.
+                                        </li>
+                                        <li>
+                                            <strong>Callback di progresso:</strong> alcune API, come
+                                            <code>XMLHttpRequest</code>, invocano più volte la
+                                            callback per segnalare avanzamento.
+                                        </li>
+                                        <li>
+                                            <strong>Callback sincrone vs asincrone:</strong> la
+                                            callback può essere invocata subito (es.
+                                            <code>Array.map</code>) o più tardi (es. eventi, I/O).
+                                        </li>
+                                    </ul>
+                                </div>
+                                <pre><code>// Callback stile Node.js documentata in fs.readFile
 const fs = require("node:fs");
 
 fs.readFile("config.json", "utf-8", (err, data) => {
@@ -140,31 +274,75 @@ fs.readFile("config.json", "utf-8", (err, data) => {
   }
   console.log("Contenuto:", data);
 });</code></pre>
-                            <p>Il passaggio dal pattern di callback annidate alle Promise riduce la complessità della gestione del flusso, ma è fondamentale riconoscere la firma corretta delle callback per comprendere le API legacy.</p>
-                        </article>
+                                <p>
+                                    Il passaggio dal pattern di callback annidate alle Promise
+                                    riduce la complessità della gestione del flusso, ma è
+                                    fondamentale riconoscere la firma corretta delle callback per
+                                    comprendere le API legacy.
+                                </p>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🔐 Promise: il nuovo standard</h2>
-                            <p>Una <strong>Promise</strong> rappresenta il risultato futuro di un'operazione asincrona. È un oggetto con uno <strong>stato</strong> che può cambiare nel tempo:</p>
-                            <div class="info-box success">
-                                <h3>Stati di una Promise</h3>
-                                <ul>
-                                    <li><strong>pending:</strong> l'operazione è in corso.</li>
-                                    <li><strong>fulfilled:</strong> l'operazione è andata a buon fine e abbiamo un valore.</li>
-                                    <li><strong>rejected:</strong> qualcosa è andato storto e abbiamo un errore.</li>
-                                </ul>
-                            </div>
-                            <div class="info-box info">
-                                <h3>Costruttore ufficiale</h3>
-                                <p><code>new Promise(executor)</code> è definito nella <a href="https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise-objects" target="_blank" rel="noopener noreferrer">sezione 27.2 dell'ECMAScript® 2026 Language Specification</a>.</p>
-                                <ul>
-                                    <li><strong>executor(resolve, reject)</strong> viene invocato subito e riceve due funzioni:</li>
-                                    <li><code>resolve(value)</code> sposta la Promise in stato <em>fulfilled</em> con <code>value</code>.</li>
-                                    <li><code>reject(reason)</code> sposta la Promise in stato <em>rejected</em> con <code>reason</code> (tipicamente un <code>Error</code>).</li>
-                                </ul>
-                                <p>Se l'<code>executor</code> lancia un'eccezione, la Promise viene automaticamente rifiutata con quell'errore (comportamento documentato sia nella specifica sia in <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/Promise" target="_blank" rel="noopener noreferrer">MDN Promise()</a>).</p>
-                            </div>
-                            <pre><code>// Creare e consumare una Promise documentata in MDN Promise()
+                            <article class="subsection">
+                                <h2>🔐 Promise: il nuovo standard</h2>
+                                <p>
+                                    Una <strong>Promise</strong> rappresenta il risultato futuro di
+                                    un'operazione asincrona. È un oggetto con uno
+                                    <strong>stato</strong> che può cambiare nel tempo:
+                                </p>
+                                <div class="info-box success">
+                                    <h3>Stati di una Promise</h3>
+                                    <ul>
+                                        <li><strong>pending:</strong> l'operazione è in corso.</li>
+                                        <li>
+                                            <strong>fulfilled:</strong> l'operazione è andata a buon
+                                            fine e abbiamo un valore.
+                                        </li>
+                                        <li>
+                                            <strong>rejected:</strong> qualcosa è andato storto e
+                                            abbiamo un errore.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="info-box info">
+                                    <h3>Costruttore ufficiale</h3>
+                                    <p>
+                                        <code>new Promise(executor)</code> è definito nella
+                                        <a
+                                            href="https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise-objects"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >sezione 27.2 dell'ECMAScript® 2026 Language
+                                            Specification</a
+                                        >.
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            <strong>executor(resolve, reject)</strong> viene
+                                            invocato subito e riceve due funzioni:
+                                        </li>
+                                        <li>
+                                            <code>resolve(value)</code> sposta la Promise in stato
+                                            <em>fulfilled</em> con <code>value</code>.
+                                        </li>
+                                        <li>
+                                            <code>reject(reason)</code> sposta la Promise in stato
+                                            <em>rejected</em> con <code>reason</code> (tipicamente
+                                            un <code>Error</code>).
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        Se l'<code>executor</code> lancia un'eccezione, la Promise
+                                        viene automaticamente rifiutata con quell'errore
+                                        (comportamento documentato sia nella specifica sia in
+                                        <a
+                                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/Promise"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >MDN Promise()</a
+                                        >).
+                                    </p>
+                                </div>
+                                <pre><code>// Creare e consumare una Promise documentata in MDN Promise()
 function leggiDato() {
   return new Promise((resolve, reject) => {
     const datoDisponibile = Math.random() > 0.2;
@@ -180,93 +358,196 @@ leggiDato()
   .then((dato) => console.log(dato))
   .catch((err) => console.error(err.message))
   .finally(() => console.log("Operazione terminata"));</code></pre>
-                            <p><strong>.then(onFulfilled?, onRejected?)</strong>, <strong>.catch(onRejected)</strong> e <strong>.finally(onFinally?)</strong> sono metodi documentati in <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener noreferrer">MDN Promise API reference</a>. Ognuno restituisce una nuova Promise e consente il chaining. Parametri facoltativi vengono ignorati se non forniti.</p>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Metodo</th>
-                                        <th>Firma</th>
-                                        <th>Parametri principali</th>
-                                        <th>Documentazione</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><code>.then</code></td>
-                                        <td><code>promise.then(onFulfilled?, onRejected?)</code></td>
-                                        <td><code>onFulfilled(value)</code>, <code>onRejected(reason)</code></td>
-                                        <td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then" target="_blank" rel="noopener noreferrer">MDN Promise.then()</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>.catch</code></td>
-                                        <td><code>promise.catch(onRejected)</code></td>
-                                        <td><code>onRejected(reason)</code></td>
-                                        <td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener noreferrer">MDN Promise.catch()</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>.finally</code></td>
-                                        <td><code>promise.finally(onFinally?)</code></td>
-                                        <td><code>onFinally()</code> (nessun argomento garantito)</td>
-                                        <td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally" target="_blank" rel="noopener noreferrer">MDN Promise.finally()</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="info-box warning">
-                                <h3>Attenzione a questi dettagli</h3>
-                                <ul>
-                                    <li>L'executor è invocato subito: eventuali operazioni costose dovrebbero essere pianificate di conseguenza.</li>
-                                    <li>Restituire un valore da <code>then</code> lo incapsula nella nuova Promise; restituire un'altra Promise concatena automaticamente l'attesa.</li>
-                                    <li>Omettere <code>catch</code> può propagare errori non gestiti. Dal 2021, ambienti moderni generano warning su Promise rifiutate senza handler.</li>
-                                </ul>
-                            </div>
-                        </article>
+                                <p>
+                                    <strong>.then(onFulfilled?, onRejected?)</strong>,
+                                    <strong>.catch(onRejected)</strong> e
+                                    <strong>.finally(onFinally?)</strong> sono metodi documentati in
+                                    <a
+                                        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        >MDN Promise API reference</a
+                                    >. Ognuno restituisce una nuova Promise e consente il chaining.
+                                    Parametri facoltativi vengono ignorati se non forniti.
+                                </p>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Metodo</th>
+                                            <th>Firma</th>
+                                            <th>Parametri principali</th>
+                                            <th>Documentazione</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>.then</code></td>
+                                            <td>
+                                                <code>promise.then(onFulfilled?, onRejected?)</code>
+                                            </td>
+                                            <td>
+                                                <code>onFulfilled(value)</code>,
+                                                <code>onRejected(reason)</code>
+                                            </td>
+                                            <td>
+                                                <a
+                                                    href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    >MDN Promise.then()</a
+                                                >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>.catch</code></td>
+                                            <td><code>promise.catch(onRejected)</code></td>
+                                            <td><code>onRejected(reason)</code></td>
+                                            <td>
+                                                <a
+                                                    href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    >MDN Promise.catch()</a
+                                                >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>.finally</code></td>
+                                            <td><code>promise.finally(onFinally?)</code></td>
+                                            <td>
+                                                <code>onFinally()</code> (nessun argomento
+                                                garantito)
+                                            </td>
+                                            <td>
+                                                <a
+                                                    href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    >MDN Promise.finally()</a
+                                                >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="info-box warning">
+                                    <h3>Attenzione a questi dettagli</h3>
+                                    <ul>
+                                        <li>
+                                            L'executor è invocato subito: eventuali operazioni
+                                            costose dovrebbero essere pianificate di conseguenza.
+                                        </li>
+                                        <li>
+                                            Restituire un valore da <code>then</code> lo incapsula
+                                            nella nuova Promise; restituire un'altra Promise
+                                            concatena automaticamente l'attesa.
+                                        </li>
+                                        <li>
+                                            Omettere <code>catch</code> può propagare errori non
+                                            gestiti. Dal 2021, ambienti moderni generano warning su
+                                            Promise rifiutate senza handler.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🧮 Promise combinators e casi d'uso</h2>
-                            <p>Il linguaggio fornisce metodi statici per orchestrare più Promise. Le firme ufficiali sono documentate sia nella <a href="https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise-objects" target="_blank" rel="noopener noreferrer">specifica ECMAScript §27.2</a> sia su <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener noreferrer">MDN</a>.</p>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Metodo</th>
-                                        <th>Firma</th>
-                                        <th>Comportamento</th>
-                                        <th>Quando usarlo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><code>Promise.all</code></td>
-                                        <td><code>Promise.all(iterable)</code></td>
-                                        <td>Si risolve quando tutte le Promise sono <em>fulfilled</em>; si rifiuta al primo <em>reject</em>.</td>
-                                        <td>Operazioni indipendenti da eseguire in parallelo (es. caricamento risorse multiple).</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>Promise.allSettled</code></td>
-                                        <td><code>Promise.allSettled(iterable)</code></td>
-                                        <td>Restituisce tutte le conclusioni (<code>{ status, value|reason }</code>) senza fermarsi ai rifiuti.</td>
-                                        <td>Reporting o UI che deve mostrare esiti multipli senza fallire in blocco.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>Promise.any</code></td>
-                                        <td><code>Promise.any(iterable)</code></td>
-                                        <td>Si risolve con il primo valore <em>fulfilled</em>; si rifiuta con <code>AggregateError</code> se tutte rifiutate.</td>
-                                        <td>Fallback multipli (es. più endpoint mirror fino al primo successo).</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>Promise.race</code></td>
-                                        <td><code>Promise.race(iterable)</code></td>
-                                        <td>Si risolve o rifiuta con il primo risultato che si manifesta.</td>
-                                        <td>Implementare timeout o strategie "first-responder".</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>Promise.withResolvers</code> <small>(stage 3)</small></td>
-                                        <td><code>Promise.withResolvers()</code></td>
-                                        <td>Restituisce <code>{ promise, resolve, reject }</code> già collegati.</td>
-                                        <td>Pattern utility; disponibile in ambienti che supportano la proposta TC39 stage&nbsp;3.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <pre><code>// Eseguire richieste in parallelo con la firma Promise.all(iterable)
+                            <article class="subsection">
+                                <h2>🧮 Promise combinators e casi d'uso</h2>
+                                <p>
+                                    Il linguaggio fornisce metodi statici per orchestrare più
+                                    Promise. Le firme ufficiali sono documentate sia nella
+                                    <a
+                                        href="https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise-objects"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        >specifica ECMAScript §27.2</a
+                                    >
+                                    sia su
+                                    <a
+                                        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        >MDN</a
+                                    >.
+                                </p>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Metodo</th>
+                                            <th>Firma</th>
+                                            <th>Comportamento</th>
+                                            <th>Quando usarlo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>Promise.all</code></td>
+                                            <td><code>Promise.all(iterable)</code></td>
+                                            <td>
+                                                Si risolve quando tutte le Promise sono
+                                                <em>fulfilled</em>; si rifiuta al primo
+                                                <em>reject</em>.
+                                            </td>
+                                            <td>
+                                                Operazioni indipendenti da eseguire in parallelo
+                                                (es. caricamento risorse multiple).
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>Promise.allSettled</code></td>
+                                            <td><code>Promise.allSettled(iterable)</code></td>
+                                            <td>
+                                                Restituisce tutte le conclusioni (<code
+                                                    >{ status, value|reason }</code
+                                                >) senza fermarsi ai rifiuti.
+                                            </td>
+                                            <td>
+                                                Reporting o UI che deve mostrare esiti multipli
+                                                senza fallire in blocco.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>Promise.any</code></td>
+                                            <td><code>Promise.any(iterable)</code></td>
+                                            <td>
+                                                Si risolve con il primo valore <em>fulfilled</em>;
+                                                si rifiuta con <code>AggregateError</code> se tutte
+                                                rifiutate.
+                                            </td>
+                                            <td>
+                                                Fallback multipli (es. più endpoint mirror fino al
+                                                primo successo).
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>Promise.race</code></td>
+                                            <td><code>Promise.race(iterable)</code></td>
+                                            <td>
+                                                Si risolve o rifiuta con il primo risultato che si
+                                                manifesta.
+                                            </td>
+                                            <td>
+                                                Implementare timeout o strategie "first-responder".
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <code>Promise.withResolvers</code>
+                                                <small>(stage 3)</small>
+                                            </td>
+                                            <td><code>Promise.withResolvers()</code></td>
+                                            <td>
+                                                Restituisce
+                                                <code>{ promise, resolve, reject }</code> già
+                                                collegati.
+                                            </td>
+                                            <td>
+                                                Pattern utility; disponibile in ambienti che
+                                                supportano la proposta TC39 stage&nbsp;3.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <pre><code>// Eseguire richieste in parallelo con la firma Promise.all(iterable)
 async function caricaDashboard() {
   const [utente, notifiche, preferenze] = await Promise.all([
     fetchJson("/api/user"),
@@ -275,21 +556,63 @@ async function caricaDashboard() {
   ]);
   renderDashboard({ utente, notifiche, preferenze });
 }</code></pre>
-                            <p>Ogni combinator accetta un <strong>iterable</strong>: array, <code>Set</code>, generatori. Se si passa un valore non Promise viene coerzito con <code>Promise.resolve</code>, secondo la specifica.</p>
-                        </article>
+                                <p>
+                                    Ogni combinator accetta un <strong>iterable</strong>: array,
+                                    <code>Set</code>, generatori. Se si passa un valore non Promise
+                                    viene coerzito con <code>Promise.resolve</code>, secondo la
+                                    specifica.
+                                </p>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>✨ Async/Await: sintassi moderna</h2>
-                            <p><strong>async/await</strong> è una sintassi introdotta in ES2017 che permette di usare le Promise scrivendo codice che <em>sembra</em> sincrono. Una funzione dichiarata <code>async</code> restituisce sempre una Promise. La parola chiave <code>await</code> sospende l'esecuzione della funzione finché la Promise non è risolta.</p>
-                            <div class="info-box info">
-                                <h3>Firme ufficiali</h3>
-                                <ul>
-                                    <li><strong>Dichiarazioni async:</strong> documentate nella <a href="https://tc39.es/ecma262/multipage/ecmascript-language-functions-and-classes.html#sec-async-function-definitions" target="_blank" rel="noopener noreferrer">sezione 15.8 della specifica ECMAScript</a>. Forme ammesse: dichiarazione (<code>async function nome(){}</code>), espressione, metodo di classe, metodo oggetto, <code>async () =&gt; {}</code>.</li>
-                                    <li><strong><code>await</code> expression:</strong> descritta in <a href="https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-await-expression" target="_blank" rel="noopener noreferrer">§ 13.3.8</a>. Restituisce il valore risolto della Promise o lancia l'errore rifiutato.</li>
-                                    <li><strong>Top-level await:</strong> disponibile nei moduli ECMAScript, come specificato in <a href="https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-top-level-await" target="_blank" rel="noopener noreferrer">§ 16.5.1</a>.</li>
-                                </ul>
-                            </div>
-                            <pre><code>async function mostraPrimoOrdine() {
+                            <article class="subsection">
+                                <h2>✨ Async/Await: sintassi moderna</h2>
+                                <p>
+                                    <strong>async/await</strong> è una sintassi introdotta in ES2017
+                                    che permette di usare le Promise scrivendo codice che
+                                    <em>sembra</em> sincrono. Una funzione dichiarata
+                                    <code>async</code> restituisce sempre una Promise. La parola
+                                    chiave <code>await</code> sospende l'esecuzione della funzione
+                                    finché la Promise non è risolta.
+                                </p>
+                                <div class="info-box info">
+                                    <h3>Firme ufficiali</h3>
+                                    <ul>
+                                        <li>
+                                            <strong>Dichiarazioni async:</strong> documentate nella
+                                            <a
+                                                href="https://tc39.es/ecma262/multipage/ecmascript-language-functions-and-classes.html#sec-async-function-definitions"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >sezione 15.8 della specifica ECMAScript</a
+                                            >. Forme ammesse: dichiarazione (<code
+                                                >async function nome(){}</code
+                                            >), espressione, metodo di classe, metodo oggetto,
+                                            <code>async () =&gt; {}</code>.
+                                        </li>
+                                        <li>
+                                            <strong><code>await</code> expression:</strong>
+                                            descritta in
+                                            <a
+                                                href="https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-await-expression"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >§ 13.3.8</a
+                                            >. Restituisce il valore risolto della Promise o lancia
+                                            l'errore rifiutato.
+                                        </li>
+                                        <li>
+                                            <strong>Top-level await:</strong> disponibile nei moduli
+                                            ECMAScript, come specificato in
+                                            <a
+                                                href="https://tc39.es/ecma262/multipage/ecmascript-language-scripts-and-modules.html#sec-top-level-await"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >§ 16.5.1</a
+                                            >.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <pre><code>async function mostraPrimoOrdine() {
   try {
     const utente = await leggiUtente(1);
     const ordini = await leggiOrdini(utente.id);
@@ -307,81 +630,212 @@ async function mostraDashboard() {
   ]);
   console.log({ profilo, primoOrdine: ordini.at(0) });
 }</code></pre>
-                            <div class="info-box curiosity">
-                                <h3>Gestione degli errori</h3>
-                                <p>All'interno di una funzione async usiamo <code>try/catch</code> per intercettare errori. È l'equivalente del blocco <code>.catch()</code> sulle Promise. Puoi anche gestire errori direttamente sulle Promise restituite: <code>mostraPrimoOrdine().catch(console.error)</code>.</p>
-                            </div>
-                            <div class="info-box success">
-                                <h3>Checklist per principianti e intermedi</h3>
+                                <div class="info-box curiosity">
+                                    <h3>Gestione degli errori</h3>
+                                    <p>
+                                        All'interno di una funzione async usiamo
+                                        <code>try/catch</code> per intercettare errori. È
+                                        l'equivalente del blocco <code>.catch()</code> sulle
+                                        Promise. Puoi anche gestire errori direttamente sulle
+                                        Promise restituite:
+                                        <code>mostraPrimoOrdine().catch(console.error)</code>.
+                                    </p>
+                                </div>
+                                <div class="info-box success">
+                                    <h3>Checklist per principianti e intermedi</h3>
+                                    <ul>
+                                        <li>
+                                            <strong
+                                                >Ogni funzione async restituisce una
+                                                Promise:</strong
+                                            >
+                                            anche quando <code>return</code> un valore semplice,
+                                            viene incapsulato con <code>Promise.resolve</code>.
+                                        </li>
+                                        <li>
+                                            <strong
+                                                ><code>await</code> funziona con qualsiasi
+                                                thenable:</strong
+                                            >
+                                            se un oggetto implementa <code>then</code>, verrà
+                                            trattato come una Promise.
+                                        </li>
+                                        <li>
+                                            <strong>Gestione parallela:</strong> preferisci
+                                            <code>Promise.all</code> invece di <code>await</code> in
+                                            sequenza quando non c'è dipendenza tra i risultati.
+                                        </li>
+                                        <li>
+                                            <strong><code>for await...of</code>:</strong> consente
+                                            di consumare iterabili asincroni (es. stream) ed è
+                                            definito in
+                                            <a
+                                                href="https://tc39.es/ecma262/multipage/ecmascript-language-statements-and-declarations.html#sec-for-in-and-for-of-statements"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >§ 14.7.5</a
+                                            >.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <p>
+                                    Per la documentazione di riferimento, consulta
+                                    <a
+                                        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        >MDN async function</a
+                                    >
+                                    e
+                                    <a
+                                        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        >MDN await</a
+                                    >, che riassumono sintassi e casi d'uso con esempi aggiornati.
+                                </p>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>🧠 Buone pratiche per principianti</h2>
+                                <div class="tips-grid">
+                                    <div class="tip-card">
+                                        <h3>✅ Dai nomi chiari</h3>
+                                        <p>
+                                            Funzioni asincrone dovrebbero raccontare cosa
+                                            restituiscono: <code>fetchUtenti</code>,
+                                            <code>caricaProdotti</code>.
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>✅ Centralizza gli errori</h3>
+                                        <p>
+                                            Gestisci gli errori in un solo punto per evitare
+                                            duplicazioni e messaggi confusi.
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>⚠️ Evita attese inutili</h3>
+                                        <p>
+                                            Usa <code>Promise.all()</code> quando puoi avviare
+                                            operazioni in parallelo.
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>💬 Documenta i termini</h3>
+                                        <p>
+                                            Annota nel codice cosa significa “resolve” o “reject”
+                                            per chi legge dopo di te.
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>📚 Glossario veloce</h2>
+                                <dl class="definition-list">
+                                    <div>
+                                        <dt>Runtime</dt>
+                                        <dd>
+                                            Ambiente in cui il codice viene eseguito (browser,
+                                            Node.js).
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>Stack</dt>
+                                        <dd>
+                                            Struttura dati che tiene traccia delle funzioni in
+                                            esecuzione. In JavaScript è gestita dal motore V8.
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>Event Loop</dt>
+                                        <dd>
+                                            Meccanismo che controlla la coda di operazioni asincrone
+                                            e decide quando eseguirle.
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>API</dt>
+                                        <dd>
+                                            Interfaccia che permette a due sistemi di comunicare. In
+                                            questo contesto spesso è una chiamata HTTP.
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>🔗 Fonti ufficiali consigliate</h2>
                                 <ul>
-                                    <li><strong>Ogni funzione async restituisce una Promise:</strong> anche quando <code>return</code> un valore semplice, viene incapsulato con <code>Promise.resolve</code>.</li>
-                                    <li><strong><code>await</code> funziona con qualsiasi thenable:</strong> se un oggetto implementa <code>then</code>, verrà trattato come una Promise.</li>
-                                    <li><strong>Gestione parallela:</strong> preferisci <code>Promise.all</code> invece di <code>await</code> in sequenza quando non c'è dipendenza tra i risultati.</li>
-                                    <li><strong><code>for await...of</code>:</strong> consente di consumare iterabili asincroni (es. stream) ed è definito in <a href="https://tc39.es/ecma262/multipage/ecmascript-language-statements-and-declarations.html#sec-for-in-and-for-of-statements" target="_blank" rel="noopener noreferrer">§ 14.7.5</a>.</li>
+                                    <li>
+                                        <a
+                                            href="https://tc39.es/ecma262/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >ECMAScript® 2024 Language Specification</a
+                                        >
+                                        – in particolare sezioni 15.8 (Async Functions), 27.2
+                                        (Promise Objects) e 13.3.8 (Await Expression).
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >MDN: Promise</a
+                                        >
+                                        – panoramica completa su costruttore, metodi istanza e
+                                        statici.
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://developer.mozilla.org/en-US/docs/Glossary/Callback_function"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >MDN: Callback function</a
+                                        >
+                                        – definizione e best practice per le funzioni callback.
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >MDN: async function</a
+                                        >
+                                        e
+                                        <a
+                                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >MDN: await</a
+                                        >
+                                        – guida aggiornata alla sintassi moderna.
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://nodejs.org/api/fs.html"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >Documentazione ufficiale Node.js</a
+                                        >
+                                        – esempi concreti di callback error-first e versioni
+                                        Promise-based delle API (es. <code>fs/promises</code>).
+                                    </li>
                                 </ul>
-                            </div>
-                            <p>Per la documentazione di riferimento, consulta <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function" target="_blank" rel="noopener noreferrer">MDN async function</a> e <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await" target="_blank" rel="noopener noreferrer">MDN await</a>, che riassumono sintassi e casi d'uso con esempi aggiornati.</p>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🧠 Buone pratiche per principianti</h2>
-                            <div class="tips-grid">
-                                <div class="tip-card">
-                                    <h3>✅ Dai nomi chiari</h3>
-                                    <p>Funzioni asincrone dovrebbero raccontare cosa restituiscono: <code>fetchUtenti</code>, <code>caricaProdotti</code>.</p>
-                                </div>
-                                <div class="tip-card">
-                                    <h3>✅ Centralizza gli errori</h3>
-                                    <p>Gestisci gli errori in un solo punto per evitare duplicazioni e messaggi confusi.</p>
-                                </div>
-                                <div class="tip-card">
-                                    <h3>⚠️ Evita attese inutili</h3>
-                                    <p>Usa <code>Promise.all()</code> quando puoi avviare operazioni in parallelo.</p>
-                                </div>
-                                <div class="tip-card">
-                                    <h3>💬 Documenta i termini</h3>
-                                    <p>Annota nel codice cosa significa “resolve” o “reject” per chi legge dopo di te.</p>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>📚 Glossario veloce</h2>
-                            <dl class="definition-list">
-                                <div>
-                                    <dt>Runtime</dt>
-                                    <dd>Ambiente in cui il codice viene eseguito (browser, Node.js).</dd>
-                                </div>
-                                <div>
-                                    <dt>Stack</dt>
-                                    <dd>Struttura dati che tiene traccia delle funzioni in esecuzione. In JavaScript è gestita dal motore V8.</dd>
-                                </div>
-                                <div>
-                                    <dt>Event Loop</dt>
-                                    <dd>Meccanismo che controlla la coda di operazioni asincrone e decide quando eseguirle.</dd>
-                                </div>
-                                <div>
-                                    <dt>API</dt>
-                                    <dd>Interfaccia che permette a due sistemi di comunicare. In questo contesto spesso è una chiamata HTTP.</dd>
-                                </div>
-                            </dl>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>🔗 Fonti ufficiali consigliate</h2>
-                            <ul>
-                                <li><a href="https://tc39.es/ecma262/" target="_blank" rel="noopener noreferrer">ECMAScript® 2024 Language Specification</a> – in particolare sezioni 15.8 (Async Functions), 27.2 (Promise Objects) e 13.3.8 (Await Expression).</li>
-                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener noreferrer">MDN: Promise</a> – panoramica completa su costruttore, metodi istanza e statici.</li>
-                                <li><a href="https://developer.mozilla.org/en-US/docs/Glossary/Callback_function" target="_blank" rel="noopener noreferrer">MDN: Callback function</a> – definizione e best practice per le funzioni callback.</li>
-                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function" target="_blank" rel="noopener noreferrer">MDN: async function</a> e <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await" target="_blank" rel="noopener noreferrer">MDN: await</a> – guida aggiornata alla sintassi moderna.</li>
-                                <li><a href="https://nodejs.org/api/fs.html" target="_blank" rel="noopener noreferrer">Documentazione ufficiale Node.js</a> – esempi concreti di callback error-first e versioni Promise-based delle API (es. <code>fs/promises</code>).</li>
-                            </ul>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>🏪 Caso reale: notifiche ordine e-commerce</h2>
-                            <p>In un negozio online l'utente vuole sapere quando il proprio ordine è pronto. Il backend espone un endpoint che segnala lo stato dell'ordine e invia notifiche via e-mail. Il frontend può interrogare l'API senza bloccare l'interfaccia usando async/await e gestendo time-out.</p>
-                            <pre><code>async function controllaOrdine(orderId) {
+                            <article class="subsection">
+                                <h2>🏪 Caso reale: notifiche ordine e-commerce</h2>
+                                <p>
+                                    In un negozio online l'utente vuole sapere quando il proprio
+                                    ordine è pronto. Il backend espone un endpoint che segnala lo
+                                    stato dell'ordine e invia notifiche via e-mail. Il frontend può
+                                    interrogare l'API senza bloccare l'interfaccia usando
+                                    async/await e gestendo time-out.
+                                </p>
+                                <pre><code>async function controllaOrdine(orderId) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 5000);
 
@@ -405,44 +859,59 @@ async function mostraDashboard() {
 }
 
 setInterval(() => controllaOrdine("ORD-2025-101"), 15000);</code></pre>
-                            <div class="info-box success">
-                                <h3>Cosa impariamo</h3>
-                                <ul>
-                                    <li>Le Promise permettono di gestire timeout e abort controller senza bloccare l'utente.</li>
-                                    <li>La UI resta reattiva perché le richieste avvengono in background.</li>
-                                    <li>Centralizzare la gestione degli errori (funzioni <code>mostraMessaggio</code> e <code>registraErrore</code>) rende il codice più robusto.</li>
-                                </ul>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="section-navigation">
-                        <a class="btn btn--outline" href="../../index.html">← Torna alla selezione lezioni</a>
-                        <a class="btn btn--primary" href="nodejs-v8-eventloop.html">Prossima sezione: Node.js, V8 & Event Loop →</a>
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-    <script src="../../app.js"></script>
-    <!-- Prism.js Core -->
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
-    <!-- Prism.js Autoloader per riconoscimento automatico linguaggi -->
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <!-- Prism.js Plugins -->
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"></script>
-    <!-- Linguaggi comuni -->
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-jsx.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-tsx.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
-</body>
+                                <div class="info-box success">
+                                    <h3>Cosa impariamo</h3>
+                                    <ul>
+                                        <li>
+                                            Le Promise permettono di gestire timeout e abort
+                                            controller senza bloccare l'utente.
+                                        </li>
+                                        <li>
+                                            La UI resta reattiva perché le richieste avvengono in
+                                            background.
+                                        </li>
+                                        <li>
+                                            Centralizzare la gestione degli errori (funzioni
+                                            <code>mostraMessaggio</code> e
+                                            <code>registraErrore</code>) rende il codice più
+                                            robusto.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="section-navigation">
+                            <a class="btn btn--outline" href="../../index.html"
+                                >← Torna alla selezione lezioni</a
+                            >
+                            <a class="btn btn--primary" href="nodejs-v8-eventloop.html"
+                                >Prossima sezione: Node.js, V8 & Event Loop →</a
+                            >
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script src="../../app.js"></script>
+        <!-- Prism.js Core -->
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+        <!-- Prism.js Autoloader per riconoscimento automatico linguaggi -->
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+        <!-- Prism.js Plugins -->
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"></script>
+        <!-- Linguaggi comuni -->
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-jsx.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-tsx.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+    </body>
 </html>

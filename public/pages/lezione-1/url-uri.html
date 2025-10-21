@@ -1,294 +1,552 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL, URI, URN</title>
-    <link rel="stylesheet" href="../style.css">
-    <meta name="description" content="URL, URI, URN: differenze, anatomia e best practices.">
-</head>
-<body>
-    <header class="app-header">
-        <div class="header-content">
-            <h1 class="header-title">🏗️ Architettura Web</h1>
-            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
-                <span class="theme-toggle-icon">🌙</span>
-                <span class="theme-toggle-text">Dark</span>
-            </button>
-        </div>
-    </header>
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
-                <p class="sidebar-subtitle">Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web</p>
-                <div class="progress-indicator">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <span class="progress-text" id="progressText">Sezione 9 di 20</span>
-                </div>
-            </div>
-            <nav class="sidebar-nav">
-                <ul class="nav-list" id="navList">
-                    <li class="nav-item"><a href="intro.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Introduzione all'Architettura Web</span></a></li>
-                    <li class="nav-item"><a href="client-server.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Architettura Client-Server</span></a></li>
-                    <li class="nav-item"><a href="monolithic.html" class="nav-link"><span class="nav-icon">🏢</span><span class="nav-text">Architettura Monolitica</span></a></li>
-                    <li class="nav-item"><a href="microservices.html" class="nav-link"><span class="nav-icon">🔧</span><span class="nav-text">Architettura a Microservizi</span></a></li>
-                    <li class="nav-item"><a href="spa.html" class="nav-link"><span class="nav-icon">📱</span><span class="nav-text">Single Page Application</span></a></li>
-                    <li class="nav-item"><a href="http.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Protocollo HTTP</span></a></li>
-                    <li class="nav-item"><a href="cors.html" class="nav-link"><span class="nav-icon">🔐</span><span class="nav-text">CORS</span></a></li>
-                    <li class="nav-item"><a href="csrf.html" class="nav-link"><span class="nav-icon">🛡️</span><span class="nav-text">CSRF</span></a></li>
-                    <li class="nav-item active"><a href="url-uri.html" class="nav-link"><span class="nav-icon">🔗</span><span class="nav-text">URL, URI, URN</span></a></li>
-                    <li class="nav-item"><a href="api-soap.html" class="nav-link"><span class="nav-icon">⚡</span><span class="nav-text">API REST vs SOAP</span></a></li>
-                    <li class="nav-item"><a href="rest.html" class="nav-link"><span class="nav-icon">🏗️</span><span class="nav-text">Architettura REST</span></a></li>
-                    <li class="nav-item"><a href="endpoints.html" class="nav-link"><span class="nav-icon">🎯</span><span class="nav-text">API Endpoints</span></a></li>
-                    <li class="nav-item"><a href="json-xml.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text">JSON vs XML</span></a></li>
-                    <li class="nav-item"><a href="jwt.html" class="nav-link"><span class="nav-icon">🔑</span><span class="nav-text">JWT - JSON Web Token</span></a></li>
-                    <li class="nav-item"><a href="nodejs-intro.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Introduzione a Node.js</span></a></li>
-                    <li class="nav-item"><a href="installation.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Installazione Ambiente</span></a></li>
-                    <li class="nav-item"><a href="vscode.html" class="nav-link"><span class="nav-icon">📝</span><span class="nav-text">Visual Studio Code Setup</span></a></li>
-                    <li class="nav-item"><a href="first-app.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Prima Applicazione Node.js</span></a></li>
-                    <li class="nav-item"><a href="spa-details.html" class="nav-link"><span class="nav-icon">🎨</span><span class="nav-text">SPA Dettagli Avanzati</span></a></li>
-                    <li class="nav-item"><a href="spa-nodejs.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">SPA con Node.js</span></a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
-                    <span>←</span>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>URL, URI, URN</title>
+        <link rel="stylesheet" href="../style.css" />
+        <meta name="description" content="URL, URI, URN: differenze, anatomia e best practices." />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="header-title">🏗️ Architettura Web</h1>
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <span class="theme-toggle-text">Dark</span>
                 </button>
             </div>
-        </aside>
-        <main class="main-content" id="mainContent">
-            <div class="content-container" id="contentContainer">
-                <section class="content-section active" id="url-uri">
-                    <div class="section-content">
-                        <header class="section-header">
-                            <h1>🔗 URL, URI, URN</h1>
-                            <p class="section-description">Identificatori universali per risorse nel web.</p>
-                        </header>
-                        <article class="subsection">
-                            <h2>🎯 Le Tre Tipologie di Identificatori</h2>
-                            <p>Nel web esistono tre tipi fondamentali di identificatori per risorse, spesso confusi ma con scopi diversi.</p>
+        </header>
+        <div class="app-container">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                    <p class="sidebar-subtitle">
+                        Dal Mainframe al Cloud: Storia, Tecnica e Futuro del Web
+                    </p>
+                    <div class="progress-indicator">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">Sezione 9 di 20</span>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul class="nav-list" id="navList">
+                        <li class="nav-item">
+                            <a href="intro.html" class="nav-link"
+                                ><span class="nav-icon">🏗️</span
+                                ><span class="nav-text">Introduzione all'Architettura Web</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="client-server.html" class="nav-link"
+                                ><span class="nav-icon">🔄</span
+                                ><span class="nav-text">Architettura Client-Server</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="monolithic.html" class="nav-link"
+                                ><span class="nav-icon">🏢</span
+                                ><span class="nav-text">Architettura Monolitica</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="microservices.html" class="nav-link"
+                                ><span class="nav-icon">🔧</span
+                                ><span class="nav-text">Architettura a Microservizi</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="spa.html" class="nav-link"
+                                ><span class="nav-icon">📱</span
+                                ><span class="nav-text">Single Page Application</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="http.html" class="nav-link"
+                                ><span class="nav-icon">🌐</span
+                                ><span class="nav-text">Protocollo HTTP</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="cors.html" class="nav-link"
+                                ><span class="nav-icon">🔐</span
+                                ><span class="nav-text">CORS</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="csrf.html" class="nav-link"
+                                ><span class="nav-icon">🛡️</span
+                                ><span class="nav-text">CSRF</span></a
+                            >
+                        </li>
+                        <li class="nav-item active">
+                            <a href="url-uri.html" class="nav-link"
+                                ><span class="nav-icon">🔗</span
+                                ><span class="nav-text">URL, URI, URN</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="api-soap.html" class="nav-link"
+                                ><span class="nav-icon">⚡</span
+                                ><span class="nav-text">API REST vs SOAP</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="rest.html" class="nav-link"
+                                ><span class="nav-icon">🏗️</span
+                                ><span class="nav-text">Architettura REST</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="endpoints.html" class="nav-link"
+                                ><span class="nav-icon">🎯</span
+                                ><span class="nav-text">API Endpoints</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="json-xml.html" class="nav-link"
+                                ><span class="nav-icon">📄</span
+                                ><span class="nav-text">JSON vs XML</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="jwt.html" class="nav-link"
+                                ><span class="nav-icon">🔑</span
+                                ><span class="nav-text">JWT - JSON Web Token</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="nodejs-intro.html" class="nav-link"
+                                ><span class="nav-icon">⚙️</span
+                                ><span class="nav-text">Introduzione a Node.js</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="installation.html" class="nav-link"
+                                ><span class="nav-icon">💻</span
+                                ><span class="nav-text">Installazione Ambiente</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="vscode.html" class="nav-link"
+                                ><span class="nav-icon">📝</span
+                                ><span class="nav-text">Visual Studio Code Setup</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="first-app.html" class="nav-link"
+                                ><span class="nav-icon">🚀</span
+                                ><span class="nav-text">Prima Applicazione Node.js</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="spa-details.html" class="nav-link"
+                                ><span class="nav-icon">🎨</span
+                                ><span class="nav-text">SPA Dettagli Avanzati</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="spa-nodejs.html" class="nav-link"
+                                ><span class="nav-icon">🔄</span
+                                ><span class="nav-text">SPA con Node.js</span></a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                    <button
+                        class="toggle-sidebar"
+                        id="toggleSidebar"
+                        aria-label="Nascondi/Mostra sidebar"
+                    >
+                        <span>←</span>
+                    </button>
+                </div>
+            </aside>
+            <main class="main-content" id="mainContent">
+                <div class="content-container" id="contentContainer">
+                    <section class="content-section active" id="url-uri">
+                        <div class="section-content">
+                            <header class="section-header">
+                                <h1>🔗 URL, URI, URN</h1>
+                                <p class="section-description">
+                                    Identificatori universali per risorse nel web.
+                                </p>
+                            </header>
+                            <article class="subsection">
+                                <h2>🎯 Le Tre Tipologie di Identificatori</h2>
+                                <p>
+                                    Nel web esistono tre tipi fondamentali di identificatori per
+                                    risorse, spesso confusi ma con scopi diversi.
+                                </p>
 
-                            <div class="definition-cards">
-                                <div class="definition-card client">
-                                    <h3>🌐 URL - Uniform Resource Locator</h3>
-                                    <h4>L'indirizzo di una risorsa</h4>
-                                    <ul>
-                                        <li><strong>Funzione:</strong> Specifica DOVE trovare una risorsa</li>
-                                        <li><strong>Include:</strong> Protocollo, server, percorso</li>
-                                        <li><strong>Esempio:</strong> https://www.example.com/pages/about.html</li>
-                                        <li><strong>Caratteristica:</strong> Può cambiare se la risorsa si sposta</li>
-                                    </ul>
-                                    <p><strong>Analogia:</strong> Come un indirizzo fisico - ti dice dove andare</p>
-                                </div>
-
-                                <div class="definition-card server">
-                                    <h3>🆔 URN - Uniform Resource Name</h3>
-                                    <h4>Il nome permanente di una risorsa</h4>
-                                    <ul>
-                                        <li><strong>Funzione:</strong> Identifica COSA è una risorsa (nome unico)</li>
-                                        <li><strong>Include:</strong> Namespace, identificatore specifico</li>
-                                        <li><strong>Esempio:</strong> urn:isbn:9780123456789</li>
-                                        <li><strong>Caratteristica:</strong> Immutabile, non dice dove trovarla</li>
-                                    </ul>
-                                    <p><strong>Analogia:</strong> Come il codice fiscale - identifica univocamente</p>
-                                </div>
-                            </div>
-
-                            <div class="info-box">
-                                <h3>🔗 URI - Uniform Resource Identifier</h3>
-                                <p><strong>Il concetto generale</strong> che include sia URL che URN. Ogni URL è un URI, ogni URN è un URI, ma non viceversa.</p>
-                                <p><strong>Formula:</strong> URI = URL ∪ URN (URI è l'insieme che contiene entrambi)</p>
-                            </div>
-
-                            <h2>🧩 Anatomia di un URL</h2>
-                            <p>Un URL completo è composto da diverse parti, ognuna con uno scopo specifico.</p>
-
-                            <div class="communication-flow">
-                                <div class="flow-step">
-                                    <div class="step-number">1</div>
-                                    <div class="step-content">
-                                        <h3>🔒 Schema/Protocollo</h3>
-                                        <p><strong>https://</strong>www.example.com/path?query=value#section</p>
+                                <div class="definition-cards">
+                                    <div class="definition-card client">
+                                        <h3>🌐 URL - Uniform Resource Locator</h3>
+                                        <h4>L'indirizzo di una risorsa</h4>
                                         <ul>
-                                            <li><strong>http/https:</strong> Web standard</li>
-                                            <li><strong>ftp:</strong> File transfer</li>
-                                            <li><strong>mailto:</strong> Email addresses</li>
-                                            <li><strong>file:</strong> File locali</li>
+                                            <li>
+                                                <strong>Funzione:</strong> Specifica DOVE trovare
+                                                una risorsa
+                                            </li>
+                                            <li>
+                                                <strong>Include:</strong> Protocollo, server,
+                                                percorso
+                                            </li>
+                                            <li>
+                                                <strong>Esempio:</strong>
+                                                https://www.example.com/pages/about.html
+                                            </li>
+                                            <li>
+                                                <strong>Caratteristica:</strong> Può cambiare se la
+                                                risorsa si sposta
+                                            </li>
+                                        </ul>
+                                        <p>
+                                            <strong>Analogia:</strong> Come un indirizzo fisico - ti
+                                            dice dove andare
+                                        </p>
+                                    </div>
+
+                                    <div class="definition-card server">
+                                        <h3>🆔 URN - Uniform Resource Name</h3>
+                                        <h4>Il nome permanente di una risorsa</h4>
+                                        <ul>
+                                            <li>
+                                                <strong>Funzione:</strong> Identifica COSA è una
+                                                risorsa (nome unico)
+                                            </li>
+                                            <li>
+                                                <strong>Include:</strong> Namespace, identificatore
+                                                specifico
+                                            </li>
+                                            <li>
+                                                <strong>Esempio:</strong> urn:isbn:9780123456789
+                                            </li>
+                                            <li>
+                                                <strong>Caratteristica:</strong> Immutabile, non
+                                                dice dove trovarla
+                                            </li>
+                                        </ul>
+                                        <p>
+                                            <strong>Analogia:</strong> Come il codice fiscale -
+                                            identifica univocamente
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="info-box">
+                                    <h3>🔗 URI - Uniform Resource Identifier</h3>
+                                    <p>
+                                        <strong>Il concetto generale</strong> che include sia URL
+                                        che URN. Ogni URL è un URI, ogni URN è un URI, ma non
+                                        viceversa.
+                                    </p>
+                                    <p>
+                                        <strong>Formula:</strong> URI = URL ∪ URN (URI è l'insieme
+                                        che contiene entrambi)
+                                    </p>
+                                </div>
+
+                                <h2>🧩 Anatomia di un URL</h2>
+                                <p>
+                                    Un URL completo è composto da diverse parti, ognuna con uno
+                                    scopo specifico.
+                                </p>
+
+                                <div class="communication-flow">
+                                    <div class="flow-step">
+                                        <div class="step-number">1</div>
+                                        <div class="step-content">
+                                            <h3>🔒 Schema/Protocollo</h3>
+                                            <p>
+                                                <strong>https://</strong
+                                                >www.example.com/path?query=value#section
+                                            </p>
+                                            <ul>
+                                                <li><strong>http/https:</strong> Web standard</li>
+                                                <li><strong>ftp:</strong> File transfer</li>
+                                                <li><strong>mailto:</strong> Email addresses</li>
+                                                <li><strong>file:</strong> File locali</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="flow-step">
+                                        <div class="step-number">2</div>
+                                        <div class="step-content">
+                                            <h3>🌍 Authority/Host</h3>
+                                            <p>
+                                                https://<strong>www.example.com</strong>/path?query=value#section
+                                            </p>
+                                            <ul>
+                                                <li><strong>Subdomain:</strong> www, api, cdn</li>
+                                                <li><strong>Domain:</strong> example.com</li>
+                                                <li><strong>Port:</strong> :8080 (opzionale)</li>
+                                                <li>
+                                                    <strong>Credentials:</strong> user:pass@
+                                                    (deprecato)
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="flow-step">
+                                        <div class="step-number">3</div>
+                                        <div class="step-content">
+                                            <h3>📁 Path</h3>
+                                            <p>
+                                                https://www.example.com<strong>/path/to/resource</strong>?query=value#section
+                                            </p>
+                                            <ul>
+                                                <li>
+                                                    <strong>Hierarchical:</strong> Struttura simile
+                                                    a folder
+                                                </li>
+                                                <li>
+                                                    <strong>Case sensitive:</strong> /Path ≠ /path
+                                                </li>
+                                                <li>
+                                                    <strong>Encoding:</strong> Spazi diventano %20
+                                                </li>
+                                                <li>
+                                                    <strong>Trailing slash:</strong> /path/ vs /path
+                                                    può essere diverso
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="flow-step">
+                                        <div class="step-number">4</div>
+                                        <div class="step-content">
+                                            <h3>❓ Query String</h3>
+                                            <p>
+                                                https://www.example.com/path<strong>?param1=value1&param2=value2</strong>#section
+                                            </p>
+                                            <ul>
+                                                <li>
+                                                    <strong>Key-value pairs:</strong> Separati da &
+                                                </li>
+                                                <li>
+                                                    <strong>URL encoding:</strong> Caratteri
+                                                    speciali encoded
+                                                </li>
+                                                <li>
+                                                    <strong>Optional:</strong> Può essere assente
+                                                </li>
+                                                <li>
+                                                    <strong>Order:</strong> Generalmente non importa
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="flow-step">
+                                        <div class="step-number">5</div>
+                                        <div class="step-content">
+                                            <h3>🎯 Fragment/Hash</h3>
+                                            <p>
+                                                https://www.example.com/path?query=value<strong
+                                                    >#section-id</strong
+                                                >
+                                            </p>
+                                            <ul>
+                                                <li>
+                                                    <strong>Client-side:</strong> Non inviato al
+                                                    server
+                                                </li>
+                                                <li>
+                                                    <strong>Page navigation:</strong> Anchor links
+                                                </li>
+                                                <li>
+                                                    <strong>SPA routing:</strong> Usato per client
+                                                    routing
+                                                </li>
+                                                <li>
+                                                    <strong>State:</strong> Può contenere
+                                                    application state
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h2>📚 Esempi di URN</h2>
+                                <p>
+                                    I URN forniscono identificazione permanente senza specificare la
+                                    location.
+                                </p>
+
+                                <div class="examples-grid">
+                                    <div class="example-card">
+                                        <h3>📖 ISBN Books</h3>
+                                        <p><strong>urn:isbn:9780123456789</strong></p>
+                                        <p>
+                                            Identifica univocamente un libro specifico a livello
+                                            mondiale, indipendentemente da dove si trova.
+                                        </p>
+                                        <p><em>Namespace:</em> isbn</p>
+                                    </div>
+
+                                    <div class="example-card">
+                                        <h3>📄 DOI Documents</h3>
+                                        <p><strong>urn:doi:10.1000/182</strong></p>
+                                        <p>
+                                            Digital Object Identifier per articoli scientifici,
+                                            paper di ricerca, documenti accademici.
+                                        </p>
+                                        <p><em>Namespace:</em> doi</p>
+                                    </div>
+
+                                    <div class="example-card">
+                                        <h3>🌐 UUID Universal</h3>
+                                        <p>
+                                            <strong
+                                                >urn:uuid:6e8bc430-9c3a-11d9-9669-0800200c9a66</strong
+                                            >
+                                        </p>
+                                        <p>
+                                            Universally Unique Identifier per qualsiasi tipo di
+                                            risorsa digitale.
+                                        </p>
+                                        <p><em>Namespace:</em> uuid</p>
+                                    </div>
+
+                                    <div class="example-card">
+                                        <h3>🏛️ Legal Documents</h3>
+                                        <p><strong>urn:lex:it:stato:legge:2023-01-15;42</strong></p>
+                                        <p>
+                                            Identificazione standard per documenti legali e
+                                            normativi.
+                                        </p>
+                                        <p><em>Namespace:</em> lex</p>
+                                    </div>
+                                </div>
+
+                                <h2>🔧 URL Encoding e Best Practices</h2>
+
+                                <div class="principles-grid">
+                                    <div class="principle-card advantage">
+                                        <h3>📝 URL Encoding</h3>
+                                        <p>
+                                            <strong>Caratteri speciali</strong> devono essere
+                                            encoded per sicurezza.
+                                        </p>
+                                        <ul>
+                                            <li><strong>Spazi:</strong> %20 o + (in query)</li>
+                                            <li><strong>Non-ASCII:</strong> UTF-8 encoding</li>
+                                            <li><strong>Reserved chars:</strong> ? & = # % etc.</li>
+                                            <li>
+                                                <strong>Unsafe chars:</strong> &lt; &gt; " { } | ^ ~
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="principle-card advantage">
+                                        <h3>🔗 URL Structure Best Practices</h3>
+                                        <p><strong>Design intuitivo</strong> e SEO-friendly.</p>
+                                        <ul>
+                                            <li>
+                                                <strong>Descriptive:</strong> /products/laptops vs
+                                                /cat/123
+                                            </li>
+                                            <li>
+                                                <strong>Lowercase:</strong> Evita case sensitivity
+                                                issues
+                                            </li>
+                                            <li>
+                                                <strong>Hyphens:</strong> word-separator invece di
+                                                underscores
+                                            </li>
+                                            <li>
+                                                <strong>Consistent:</strong> Schema URL coerente
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="principle-card disadvantage">
+                                        <h3>⚠️ Common URL Problems</h3>
+                                        <p><strong>Errori frequenti</strong> nella gestione URL.</p>
+                                        <ul>
+                                            <li>
+                                                <strong>Length limits:</strong> 2000+ chars
+                                                problematici
+                                            </li>
+                                            <li>
+                                                <strong>Sensitive data:</strong> Mai password in URL
+                                            </li>
+                                            <li>
+                                                <strong>Special characters:</strong> Encoding
+                                                mancante
+                                            </li>
+                                            <li>
+                                                <strong>Trailing slash:</strong> Inconsistenza
+                                                comportamento
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="principle-card advantage">
+                                        <h3>🔒 Security Considerations</h3>
+                                        <p><strong>Sicurezza</strong> nella gestione URL.</p>
+                                        <ul>
+                                            <li>
+                                                <strong>No secrets:</strong> Mai token/password in
+                                                URL
+                                            </li>
+                                            <li>
+                                                <strong>Validation:</strong> Sempre validare input
+                                                URL
+                                            </li>
+                                            <li>
+                                                <strong>Canonicalization:</strong> Normalize before
+                                                processing
+                                            </li>
+                                            <li>
+                                                <strong>Access control:</strong> Verify permissions
+                                                per path
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                <div class="flow-step">
-                                    <div class="step-number">2</div>
-                                    <div class="step-content">
-                                        <h3>🌍 Authority/Host</h3>
-                                        <p>https://<strong>www.example.com</strong>/path?query=value#section</p>
-                                        <ul>
-                                            <li><strong>Subdomain:</strong> www, api, cdn</li>
-                                            <li><strong>Domain:</strong> example.com</li>
-                                            <li><strong>Port:</strong> :8080 (opzionale)</li>
-                                            <li><strong>Credentials:</strong> user:pass@ (deprecato)</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <h2>🌍 URL Internationalization</h2>
+                                <p>
+                                    Gestione di URL con caratteri non-ASCII e domini internazionali.
+                                </p>
 
-                                <div class="flow-step">
-                                    <div class="step-number">3</div>
-                                    <div class="step-content">
-                                        <h3>📁 Path</h3>
-                                        <p>https://www.example.com<strong>/path/to/resource</strong>?query=value#section</p>
-                                        <ul>
-                                            <li><strong>Hierarchical:</strong> Struttura simile a folder</li>
-                                            <li><strong>Case sensitive:</strong> /Path ≠ /path</li>
-                                            <li><strong>Encoding:</strong> Spazi diventano %20</li>
-                                            <li><strong>Trailing slash:</strong> /path/ vs /path può essere diverso</li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="flow-step">
-                                    <div class="step-number">4</div>
-                                    <div class="step-content">
-                                        <h3>❓ Query String</h3>
-                                        <p>https://www.example.com/path<strong>?param1=value1&param2=value2</strong>#section</p>
-                                        <ul>
-                                            <li><strong>Key-value pairs:</strong> Separati da &</li>
-                                            <li><strong>URL encoding:</strong> Caratteri speciali encoded</li>
-                                            <li><strong>Optional:</strong> Può essere assente</li>
-                                            <li><strong>Order:</strong> Generalmente non importa</li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="flow-step">
-                                    <div class="step-number">5</div>
-                                    <div class="step-content">
-                                        <h3>🎯 Fragment/Hash</h3>
-                                        <p>https://www.example.com/path?query=value<strong>#section-id</strong></p>
-                                        <ul>
-                                            <li><strong>Client-side:</strong> Non inviato al server</li>
-                                            <li><strong>Page navigation:</strong> Anchor links</li>
-                                            <li><strong>SPA routing:</strong> Usato per client routing</li>
-                                            <li><strong>State:</strong> Può contenere application state</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h2>📚 Esempi di URN</h2>
-                            <p>I URN forniscono identificazione permanente senza specificare la location.</p>
-
-                            <div class="examples-grid">
-                                <div class="example-card">
-                                    <h3>📖 ISBN Books</h3>
-                                    <p><strong>urn:isbn:9780123456789</strong></p>
-                                    <p>Identifica univocamente un libro specifico a livello mondiale, indipendentemente da dove si trova.</p>
-                                    <p><em>Namespace:</em> isbn</p>
-                                </div>
-
-                                <div class="example-card">
-                                    <h3>📄 DOI Documents</h3>
-                                    <p><strong>urn:doi:10.1000/182</strong></p>
-                                    <p>Digital Object Identifier per articoli scientifici, paper di ricerca, documenti accademici.</p>
-                                    <p><em>Namespace:</em> doi</p>
-                                </div>
-
-                                <div class="example-card">
-                                    <h3>🌐 UUID Universal</h3>
-                                    <p><strong>urn:uuid:6e8bc430-9c3a-11d9-9669-0800200c9a66</strong></p>
-                                    <p>Universally Unique Identifier per qualsiasi tipo di risorsa digitale.</p>
-                                    <p><em>Namespace:</em> uuid</p>
-                                </div>
-
-                                <div class="example-card">
-                                    <h3>🏛️ Legal Documents</h3>
-                                    <p><strong>urn:lex:it:stato:legge:2023-01-15;42</strong></p>
-                                    <p>Identificazione standard per documenti legali e normativi.</p>
-                                    <p><em>Namespace:</em> lex</p>
-                                </div>
-                            </div>
-
-                            <h2>🔧 URL Encoding e Best Practices</h2>
-
-                            <div class="principles-grid">
-                                <div class="principle-card advantage">
-                                    <h3>📝 URL Encoding</h3>
-                                    <p><strong>Caratteri speciali</strong> devono essere encoded per sicurezza.</p>
-                                    <ul>
-                                        <li><strong>Spazi:</strong> %20 o + (in query)</li>
-                                        <li><strong>Non-ASCII:</strong> UTF-8 encoding</li>
-                                        <li><strong>Reserved chars:</strong> ? & = # % etc.</li>
-                                        <li><strong>Unsafe chars:</strong> &lt; &gt; " { } | ^ ~</li>
-                                    </ul>
-                                </div>
-
-                                <div class="principle-card advantage">
-                                    <h3>🔗 URL Structure Best Practices</h3>
-                                    <p><strong>Design intuitivo</strong> e SEO-friendly.</p>
-                                    <ul>
-                                        <li><strong>Descriptive:</strong> /products/laptops vs /cat/123</li>
-                                        <li><strong>Lowercase:</strong> Evita case sensitivity issues</li>
-                                        <li><strong>Hyphens:</strong> word-separator invece di underscores</li>
-                                        <li><strong>Consistent:</strong> Schema URL coerente</li>
-                                    </ul>
-                                </div>
-
-                                <div class="principle-card disadvantage">
-                                    <h3>⚠️ Common URL Problems</h3>
-                                    <p><strong>Errori frequenti</strong> nella gestione URL.</p>
-                                    <ul>
-                                        <li><strong>Length limits:</strong> 2000+ chars problematici</li>
-                                        <li><strong>Sensitive data:</strong> Mai password in URL</li>
-                                        <li><strong>Special characters:</strong> Encoding mancante</li>
-                                        <li><strong>Trailing slash:</strong> Inconsistenza comportamento</li>
-                                    </ul>
-                                </div>
-
-                                <div class="principle-card advantage">
-                                    <h3>🔒 Security Considerations</h3>
-                                    <p><strong>Sicurezza</strong> nella gestione URL.</p>
-                                    <ul>
-                                        <li><strong>No secrets:</strong> Mai token/password in URL</li>
-                                        <li><strong>Validation:</strong> Sempre validare input URL</li>
-                                        <li><strong>Canonicalization:</strong> Normalize before processing</li>
-                                        <li><strong>Access control:</strong> Verify permissions per path</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <h2>🌍 URL Internationalization</h2>
-                            <p>Gestione di URL con caratteri non-ASCII e domini internazionali.</p>
-
-                            <div class="examples-grid">
-                                <div class="example-card">
-                                    <h3>🌐 IDN - International Domain Names</h3>
-                                    <p><strong>Punycode encoding</strong> per domini non-ASCII</p>
-                                    <pre><code>// Domain con caratteri speciali
+                                <div class="examples-grid">
+                                    <div class="example-card">
+                                        <h3>🌐 IDN - International Domain Names</h3>
+                                        <p>
+                                            <strong>Punycode encoding</strong> per domini non-ASCII
+                                        </p>
+                                        <pre><code>// Domain con caratteri speciali
 例え.テスト → xn--r8jz45g.xn--zckzah
 
 // URL completo
 https://例え.テスト/ページ → 
 https://xn--r8jz45g.xn--zckzah/%E3%83%9A%E3%83%BC%E3%82%B8</code></pre>
-                                </div>
+                                    </div>
 
-                                <div class="example-card">
-                                    <h3>🔤 UTF-8 URL Encoding</h3>
-                                    <p><strong>Caratteri Unicode</strong> in path e query</p>
-                                    <pre><code>// Caratteri accentati
+                                    <div class="example-card">
+                                        <h3>🔤 UTF-8 URL Encoding</h3>
+                                        <p><strong>Caratteri Unicode</strong> in path e query</p>
+                                        <pre><code>// Caratteri accentati
 café → caf%C3%A9
 
 // Emoji in URL (tecnicamente possibile)
 https://example.com/🏠 → 
 https://example.com/%F0%9F%8F%A0</code></pre>
-                                </div>
+                                    </div>
 
-                                <div class="example-card">
-                                    <h3>📱 Modern URL Handling</h3>
-                                    <p><strong>Browser moderni</strong> gestiscono Unicode</p>
-                                    <pre><code>// JavaScript URL API
+                                    <div class="example-card">
+                                        <h3>📱 Modern URL Handling</h3>
+                                        <p><strong>Browser moderni</strong> gestiscono Unicode</p>
+                                        <pre><code>// JavaScript URL API
 const url = new URL('https://example.com/café');
 console.log(url.pathname); // '/café'
 console.log(url.href); // 'https://example.com/caf%C3%A9'
@@ -296,12 +554,12 @@ console.log(url.href); // 'https://example.com/caf%C3%A9'
 // Encoding/decoding
 encodeURIComponent('café'); // 'caf%C3%A9'
 decodeURIComponent('caf%C3%A9'); // 'café'</code></pre>
-                                </div>
+                                    </div>
 
-                                <div class="example-card">
-                                    <h3>🎨 URL Beautification</h3>
-                                    <p><strong>User-friendly URLs</strong> per miglior UX</p>
-                                    <pre><code>// Before: ugly URLs
+                                    <div class="example-card">
+                                        <h3>🎨 URL Beautification</h3>
+                                        <p><strong>User-friendly URLs</strong> per miglior UX</p>
+                                        <pre><code>// Before: ugly URLs
 /article.php?id=123&cat=tech
 
 // After: clean URLs
@@ -309,34 +567,64 @@ decodeURIComponent('caf%C3%A9'); // 'café'</code></pre>
 
 // SEO-friendly slugs
 "My Awesome Article!" → "my-awesome-article"</code></pre>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="info-box">
-                                <h3>🎯 Best Practices URL Design</h3>
-                                <p><strong>User Experience:</strong> URL dovrebbero essere leggibili, prevedibili e condivisibili facilmente.</p>
-                                <p><strong>SEO Optimization:</strong> Include keyword rilevanti, usa struttura gerarchica logica, evita parametri quando possibile.</p>
-                                <p><strong>Technical:</strong> Implementa redirect 301 per URL obsoleti, usa canonical URLs, gestisci trailing slash consistentemente.</p>
-                                <p><strong>Security:</strong> Valida sempre input URL, evita injection attacks, non esporre informazioni sensibili.</p>
-                            </div>
+                                <div class="info-box">
+                                    <h3>🎯 Best Practices URL Design</h3>
+                                    <p>
+                                        <strong>User Experience:</strong> URL dovrebbero essere
+                                        leggibili, prevedibili e condivisibili facilmente.
+                                    </p>
+                                    <p>
+                                        <strong>SEO Optimization:</strong> Include keyword
+                                        rilevanti, usa struttura gerarchica logica, evita parametri
+                                        quando possibile.
+                                    </p>
+                                    <p>
+                                        <strong>Technical:</strong> Implementa redirect 301 per URL
+                                        obsoleti, usa canonical URLs, gestisci trailing slash
+                                        consistentemente.
+                                    </p>
+                                    <p>
+                                        <strong>Security:</strong> Valida sempre input URL, evita
+                                        injection attacks, non esporre informazioni sensibili.
+                                    </p>
+                                </div>
 
-                            <div class="info-box curiosity">
-                                <h3>🌍 Curiosità: Primo URL</h3>
-                                <p>Il primo URL della storia era <strong>http://info.cern.ch/hypertext/WWW/TheProject.html</strong> - ancora funzionante oggi!</p>
-                                <p><strong>Creato da:</strong> Tim Berners-Lee al CERN nel 1990</p>
-                                <p><strong>Prima pagina web:</strong> Descriveva il progetto World Wide Web stesso</p>
-                                <p><strong>Preservazione:</strong> CERN mantiene attivo questo URL storico come reliquia dell'internet primordiale</p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="section-navigation">
-                        <a class="btn btn--outline" href="csrf.html">← Precedente: CSRF</a>
-                        <a class="btn btn--primary" href="api-soap.html">Successivo: REST vs SOAP →</a>
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-    <script src="../app.js"></script>
-</body>
+                                <div class="info-box curiosity">
+                                    <h3>🌍 Curiosità: Primo URL</h3>
+                                    <p>
+                                        Il primo URL della storia era
+                                        <strong
+                                            >http://info.cern.ch/hypertext/WWW/TheProject.html</strong
+                                        >
+                                        - ancora funzionante oggi!
+                                    </p>
+                                    <p>
+                                        <strong>Creato da:</strong> Tim Berners-Lee al CERN nel 1990
+                                    </p>
+                                    <p>
+                                        <strong>Prima pagina web:</strong> Descriveva il progetto
+                                        World Wide Web stesso
+                                    </p>
+                                    <p>
+                                        <strong>Preservazione:</strong> CERN mantiene attivo questo
+                                        URL storico come reliquia dell'internet primordiale
+                                    </p>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="section-navigation">
+                            <a class="btn btn--outline" href="csrf.html">← Precedente: CSRF</a>
+                            <a class="btn btn--primary" href="api-soap.html"
+                                >Successivo: REST vs SOAP →</a
+                            >
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script src="../app.js"></script>
+    </body>
 </html>

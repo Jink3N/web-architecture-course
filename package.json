@@ -1,44 +1,44 @@
 {
-  "name": "web-architecture-course",
-  "version": "1.0.0",
-  "description": "Corso interattivo completo sull'architettura web - dalla storia ai microservizi",
-  "main": "index.js",
-  "scripts": {
-    "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development nodemon index.js",
-    "build": "echo 'Build completed'",
-    "vercel-build": "echo 'Vercel build process completed'",
-    "lint": "eslint . --ext .js --ignore-path .gitignore",
-    "lint:fix": "eslint . --ext .js --fix --ignore-path .gitignore",
-    "format": "prettier --write \"**/*.{js,json,md,html,css}\"",
-    "format:check": "prettier --check \"**/*.{js,json,md,html,css}\"",
-    "test": "echo 'No tests configured yet' && exit 0",
-    "precommit": "npm run lint && npm run format:check"
-  },
-  "keywords": [
-    "web-architecture",
-    "spa",
-    "education",
-    "corso",
-    "microservizi",
-    "client-server"
-  ],
-  "author": "Steve Jobs Academy",
-  "license": "MIT",
-  "dependencies": {
-    "compression": "^1.7.4",
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "express-rate-limit": "^7.2.0",
-    "helmet": "^7.1.0",
-    "morgan": "^1.10.0"
-  },
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "devDependencies": {
-    "eslint": "^8.57.0",
-    "nodemon": "^3.1.10",
-    "prettier": "^3.2.5"
-  }
+    "name": "web-architecture-course",
+    "version": "1.0.0",
+    "description": "Corso interattivo completo sull'architettura web - dalla storia ai microservizi",
+    "main": "index.js",
+    "scripts": {
+        "start": "NODE_ENV=production node index.js",
+        "dev": "NODE_ENV=development nodemon index.js",
+        "build": "echo 'Build completed'",
+        "vercel-build": "echo 'Vercel build process completed'",
+        "lint": "eslint . --ext .js --ignore-path .gitignore",
+        "lint:fix": "eslint . --ext .js --fix --ignore-path .gitignore",
+        "format": "prettier --write \"**/*.{js,json,md,html,css}\"",
+        "format:check": "prettier --check \"**/*.{js,json,md,html,css}\"",
+        "test": "echo 'No tests configured yet' && exit 0",
+        "precommit": "npm run lint && npm run format:check"
+    },
+    "keywords": [
+        "web-architecture",
+        "spa",
+        "education",
+        "corso",
+        "microservizi",
+        "client-server"
+    ],
+    "author": "Steve Jobs Academy",
+    "license": "MIT",
+    "dependencies": {
+        "compression": "^1.7.4",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "express-rate-limit": "^7.2.0",
+        "helmet": "^7.1.0",
+        "morgan": "^1.10.0"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "devDependencies": {
+        "eslint": "^8.57.0",
+        "nodemon": "^3.1.10",
+        "prettier": "^3.2.5"
+    }
 }

@@ -1,55 +1,105 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Package.json & NPM - Lezione 3</title>
-    <meta name="description" content="Guida completa a package.json, gestione dipendenze con NPM, scripts e configurazione progetti Node.js" />
-    <link rel="stylesheet" href="../../style.css">
-</head>
-<body>
-    <header class="app-header">
-        <div class="header-content">
-            <h1 class="header-title">🏗️ Architettura Web</h1>
-            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
-                <span class="theme-toggle-icon">🌙</span>
-                <span class="theme-toggle-text">Dark</span>
-            </button>
-        </div>
-    </header>
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
-                <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Package.json & NPM - Lezione 3</title>
+        <meta
+            name="description"
+            content="Guida completa a package.json, gestione dipendenze con NPM, scripts e configurazione progetti Node.js"
+        />
+        <link rel="stylesheet" href="../../style.css" />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="header-title">🏗️ Architettura Web</h1>
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <span class="theme-toggle-text">Dark</span>
+                </button>
             </div>
-            <nav class="sidebar-nav">
-                <ul class="nav-list" id="navList">
-                    <li class="nav-item"><a href="intro-riepilogo.html" class="nav-link"><span class="nav-icon">📖</span><span class="nav-text">Intro e Riepilogo</span></a></li>
-                    <li class="nav-item"><a href="moduli-nodejs.html" class="nav-link"><span class="nav-icon">📦</span><span class="nav-text">Moduli in Node.js</span></a></li>
-                    <li class="nav-item active"><a href="package-json.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Package.json & NPM</span></a></li>
-                    <li class="nav-item"><a href="oggetti-globali.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Oggetti Globali</span></a></li>
-                    <li class="nav-item"><a href="stream-filesystem.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Stream & File System</span></a></li>
-                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">💾</span><span class="nav-text">Oggetti & CRUD</span></a></li>
-                    <li class="nav-item"><a href="esercizi-lezione3.html" class="nav-link"><span class="nav-icon">✏️</span><span class="nav-text">Esercizi Pratici</span></a></li>
-                </ul>
-            </nav>
-        </aside>
-        <main class="main-content" id="mainContent">
-            <div class="content-container" id="contentContainer">
-                <section class="content-section active">
-                    <div class="section-content">
-                        <header class="section-header">
-                            <h1>⚙️ Package.json & NPM</h1>
-                            <p class="section-description">Il cuore di ogni progetto Node.js: configurazione, dipendenze, scripts e metadata</p>
-                        </header>
+        </header>
+        <div class="app-container">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                    <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul class="nav-list" id="navList">
+                        <li class="nav-item">
+                            <a href="intro-riepilogo.html" class="nav-link"
+                                ><span class="nav-icon">📖</span
+                                ><span class="nav-text">Intro e Riepilogo</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="moduli-nodejs.html" class="nav-link"
+                                ><span class="nav-icon">📦</span
+                                ><span class="nav-text">Moduli in Node.js</span></a
+                            >
+                        </li>
+                        <li class="nav-item active">
+                            <a href="package-json.html" class="nav-link"
+                                ><span class="nav-icon">⚙️</span
+                                ><span class="nav-text">Package.json & NPM</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="oggetti-globali.html" class="nav-link"
+                                ><span class="nav-icon">🌐</span
+                                ><span class="nav-text">Oggetti Globali</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="stream-filesystem.html" class="nav-link"
+                                ><span class="nav-icon">🔄</span
+                                ><span class="nav-text">Stream & File System</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="nodejs-oggetti-crud.html" class="nav-link"
+                                ><span class="nav-icon">💾</span
+                                ><span class="nav-text">Oggetti & CRUD</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="esercizi-lezione3.html" class="nav-link"
+                                ><span class="nav-icon">✏️</span
+                                ><span class="nav-text">Esercizi Pratici</span></a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+            <main class="main-content" id="mainContent">
+                <div class="content-container" id="contentContainer">
+                    <section class="content-section active">
+                        <div class="section-content">
+                            <header class="section-header">
+                                <h1>⚙️ Package.json & NPM</h1>
+                                <p class="section-description">
+                                    Il cuore di ogni progetto Node.js: configurazione, dipendenze,
+                                    scripts e metadata
+                                </p>
+                            </header>
 
-                        <article class="subsection">
-                            <h2>📦 Cos'è package.json?</h2>
-                            <p>Il <strong>package.json</strong> è il file di configurazione principale di un progetto Node.js. Contiene metadata, dipendenze, script e configurazioni. Documentazione: <a href="https://docs.npmjs.com/cli/v10/configuring-npm/package-json" target="_blank">NPM Docs</a></p>
-                            
-                            <h3>🚀 Creare un package.json</h3>
-                            <pre><code># Metodo interattivo (fa domande)
+                            <article class="subsection">
+                                <h2>📦 Cos'è package.json?</h2>
+                                <p>
+                                    Il <strong>package.json</strong> è il file di configurazione
+                                    principale di un progetto Node.js. Contiene metadata,
+                                    dipendenze, script e configurazioni. Documentazione:
+                                    <a
+                                        href="https://docs.npmjs.com/cli/v10/configuring-npm/package-json"
+                                        target="_blank"
+                                        >NPM Docs</a
+                                    >
+                                </p>
+
+                                <h3>🚀 Creare un package.json</h3>
+                                <pre><code># Metodo interattivo (fa domande)
 npm init
 
 # Metodo rapido (usa defaults)
@@ -57,11 +107,11 @@ npm init -y
 
 # Con scope (per package privati/org)
 npm init --scope=@myorg</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🔑 Campi essenziali</h2>
-                            <pre><code>{
+                            <article class="subsection">
+                                <h2>🔑 Campi essenziali</h2>
+                                <pre><code>{
   "name": "my-app",
   "version": "1.0.0",
   "description": "La mia applicazione Node.js",
@@ -83,50 +133,58 @@ npm init --scope=@myorg</code></pre>
   }
 }</code></pre>
 
-                            <h3>📖 Spiegazione campi</h3>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Campo</th>
-                                        <th>Descrizione</th>
-                                        <th>Esempio</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><code>name</code></td>
-                                        <td>Nome univoco del package (lowercase, no spazi)</td>
-                                        <td><code>"my-awesome-app"</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>version</code></td>
-                                        <td>Versione semantica (MAJOR.MINOR.PATCH)</td>
-                                        <td><code>"1.2.3"</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>main</code></td>
-                                        <td>Entry point quando qualcuno importa il tuo package</td>
-                                        <td><code>"dist/index.js"</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>type</code></td>
-                                        <td><code>"module"</code> per ESM, <code>"commonjs"</code> per CJS</td>
-                                        <td><code>"module"</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>scripts</code></td>
-                                        <td>Comandi eseguibili con <code>npm run</code></td>
-                                        <td>Vedi sotto</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </article>
+                                <h3>📖 Spiegazione campi</h3>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Campo</th>
+                                            <th>Descrizione</th>
+                                            <th>Esempio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>name</code></td>
+                                            <td>Nome univoco del package (lowercase, no spazi)</td>
+                                            <td><code>"my-awesome-app"</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>version</code></td>
+                                            <td>Versione semantica (MAJOR.MINOR.PATCH)</td>
+                                            <td><code>"1.2.3"</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>main</code></td>
+                                            <td>
+                                                Entry point quando qualcuno importa il tuo package
+                                            </td>
+                                            <td><code>"dist/index.js"</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>type</code></td>
+                                            <td>
+                                                <code>"module"</code> per ESM,
+                                                <code>"commonjs"</code> per CJS
+                                            </td>
+                                            <td><code>"module"</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>scripts</code></td>
+                                            <td>Comandi eseguibili con <code>npm run</code></td>
+                                            <td>Vedi sotto</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>📜 Scripts: automatizza tutto</h2>
-                            <p>Gli script sono comandi personalizzati che puoi eseguire con <code>npm run nome-script</code></p>
+                            <article class="subsection">
+                                <h2>📜 Scripts: automatizza tutto</h2>
+                                <p>
+                                    Gli script sono comandi personalizzati che puoi eseguire con
+                                    <code>npm run nome-script</code>
+                                </p>
 
-                            <pre><code>"scripts": {
+                                <pre><code>"scripts": {
   "start": "node index.js",
   "dev": "nodemon --watch src index.js",
   "build": "tsc && node dist/index.js",
@@ -137,64 +195,72 @@ npm init --scope=@myorg</code></pre>
   "clean": "rm -rf dist node_modules"
 }</code></pre>
 
-                            <div class="info-box success">
-                                <h3>🎯 Script comuni</h3>
-                                <ul>
-                                    <li><code>npm start</code> - Avvia l'app (shortcut per <code>npm run start</code>)</li>
-                                    <li><code>npm test</code> - Esegue i test (shortcut)</li>
-                                    <li><code>npm run dev</code> - Modalità sviluppo con hot-reload</li>
-                                    <li><code>npm run build</code> - Compila il progetto</li>
-                                    <li><code>npm run lint</code> - Controlla errori di stile</li>
-                                </ul>
-                            </div>
+                                <div class="info-box success">
+                                    <h3>🎯 Script comuni</h3>
+                                    <ul>
+                                        <li>
+                                            <code>npm start</code> - Avvia l'app (shortcut per
+                                            <code>npm run start</code>)
+                                        </li>
+                                        <li><code>npm test</code> - Esegue i test (shortcut)</li>
+                                        <li>
+                                            <code>npm run dev</code> - Modalità sviluppo con
+                                            hot-reload
+                                        </li>
+                                        <li><code>npm run build</code> - Compila il progetto</li>
+                                        <li>
+                                            <code>npm run lint</code> - Controlla errori di stile
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <h3>🔗 Script concatenati</h3>
-                            <pre><code>"scripts": {
+                                <h3>🔗 Script concatenati</h3>
+                                <pre><code>"scripts": {
   "prebuild": "npm run clean",
   "build": "tsc",
   "postbuild": "npm run test",
   "deploy": "npm run build && npm run upload"
 }</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>📦 Gestione dipendenze</h2>
-                            
-                            <h3>Tipi di dipendenze</h3>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Tipo</th>
-                                        <th>Comando</th>
-                                        <th>Quando usarlo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>dependencies</strong></td>
-                                        <td><code>npm install express</code></td>
-                                        <td>Package necessari in produzione</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>devDependencies</strong></td>
-                                        <td><code>npm install -D nodemon</code></td>
-                                        <td>Tool di sviluppo (test, lint, build)</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>peerDependencies</strong></td>
-                                        <td>Manuale nel package.json</td>
-                                        <td>Compatibilità con altri package</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>optionalDependencies</strong></td>
-                                        <td><code>npm install --save-optional</code></td>
-                                        <td>Feature opzionali che possono fallire</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <article class="subsection">
+                                <h2>📦 Gestione dipendenze</h2>
 
-                            <h3>🔢 Versioni semantiche (Semver)</h3>
-                            <pre><code>"dependencies": {
+                                <h3>Tipi di dipendenze</h3>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo</th>
+                                            <th>Comando</th>
+                                            <th>Quando usarlo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>dependencies</strong></td>
+                                            <td><code>npm install express</code></td>
+                                            <td>Package necessari in produzione</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>devDependencies</strong></td>
+                                            <td><code>npm install -D nodemon</code></td>
+                                            <td>Tool di sviluppo (test, lint, build)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>peerDependencies</strong></td>
+                                            <td>Manuale nel package.json</td>
+                                            <td>Compatibilità con altri package</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>optionalDependencies</strong></td>
+                                            <td><code>npm install --save-optional</code></td>
+                                            <td>Feature opzionali che possono fallire</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h3>🔢 Versioni semantiche (Semver)</h3>
+                                <pre><code>"dependencies": {
   "express": "4.18.2",      // Esatta
   "lodash": "^4.17.21",     // Compatibile (^4.x.x)
   "axios": "~1.4.0",        // Patch (1.4.x)
@@ -203,20 +269,26 @@ npm init --scope=@myorg</code></pre>
   "redis": "2.x"            // Range 2.0.0 - 2.99.99
 }</code></pre>
 
-                            <div class="info-box info">
-                                <h3>Simboli versioni</h3>
-                                <ul>
-                                    <li><code>^</code> (caret): accetta MINOR e PATCH updates (^1.2.3 → 1.x.x)</li>
-                                    <li><code>~</code> (tilde): accetta solo PATCH updates (~1.2.3 → 1.2.x)</li>
-                                    <li>Nessuno: versione esatta (1.2.3 → 1.2.3)</li>
-                                </ul>
-                            </div>
-                        </article>
+                                <div class="info-box info">
+                                    <h3>Simboli versioni</h3>
+                                    <ul>
+                                        <li>
+                                            <code>^</code> (caret): accetta MINOR e PATCH updates
+                                            (^1.2.3 → 1.x.x)
+                                        </li>
+                                        <li>
+                                            <code>~</code> (tilde): accetta solo PATCH updates
+                                            (~1.2.3 → 1.2.x)
+                                        </li>
+                                        <li>Nessuno: versione esatta (1.2.3 → 1.2.3)</li>
+                                    </ul>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🛠️ Comandi NPM essenziali</h2>
-                            
-                            <pre><code># Installazione
+                            <article class="subsection">
+                                <h2>🛠️ Comandi NPM essenziali</h2>
+
+                                <pre><code># Installazione
 npm install                    # Installa tutte le dipendenze
 npm install express            # Installa e salva in dependencies
 npm install -D jest            # Installa in devDependencies
@@ -245,86 +317,126 @@ npm audit fix --force          # Fix forzato (breaking changes)
 
 # Cache
 npm cache clean --force        # Pulisce cache NPM</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🔒 Lock file: package-lock.json</h2>
-                            <p>Il <code>package-lock.json</code> registra le versioni ESATTE di tutte le dipendenze installate (incluse transitive).</p>
-                            
-                            <div class="info-box success">
-                                <h3>✅ Perché è importante</h3>
-                                <ul>
-                                    <li>Garantisce build riproducibili su macchine diverse</li>
-                                    <li>Velocizza l'installazione (cache ottimizzata)</li>
-                                    <li>Previene "works on my machine" syndrome</li>
-                                    <li><strong>Committa SEMPRE il lock file</strong> nel repo</li>
-                                </ul>
-                            </div>
-                        </article>
+                            <article class="subsection">
+                                <h2>🔒 Lock file: package-lock.json</h2>
+                                <p>
+                                    Il <code>package-lock.json</code> registra le versioni ESATTE di
+                                    tutte le dipendenze installate (incluse transitive).
+                                </p>
 
-                        <article class="subsection">
-                            <h2>🌍 Variabili d'ambiente</h2>
-                            <p>Usa il package <code>dotenv</code> per gestire configurazioni sensibili</p>
-                            
-                            <pre><code># .env (NON committare questo file!)
+                                <div class="info-box success">
+                                    <h3>✅ Perché è importante</h3>
+                                    <ul>
+                                        <li>Garantisce build riproducibili su macchine diverse</li>
+                                        <li>Velocizza l'installazione (cache ottimizzata)</li>
+                                        <li>Previene "works on my machine" syndrome</li>
+                                        <li>
+                                            <strong>Committa SEMPRE il lock file</strong> nel repo
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>🌍 Variabili d'ambiente</h2>
+                                <p>
+                                    Usa il package <code>dotenv</code> per gestire configurazioni
+                                    sensibili
+                                </p>
+
+                                <pre><code># .env (NON committare questo file!)
 DATABASE_URL=postgresql://localhost/mydb
 API_KEY=supersecretkey123
 PORT=3000
 NODE_ENV=development</code></pre>
 
-                            <pre><code>// index.js
+                                <pre><code>// index.js
 import 'dotenv/config';  // o require('dotenv').config()
 
 console.log(process.env.DATABASE_URL);
 console.log(process.env.PORT);          // "3000"
 console.log(process.env.NODE_ENV);      // "development"</code></pre>
 
-                            <pre><code># .gitignore - SEMPRE ignorare .env
+                                <pre><code># .gitignore - SEMPRE ignorare .env
 node_modules/
 .env
 .env.local
 *.log</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>💡 Best practices</h2>
-                            <div class="tips-grid">
-                                <div class="tip-card">
-                                    <h3>📌 Usa versioni specifiche</h3>
-                                    <p>In produzione usa versioni esatte o <code>^</code> per evitare breaking changes improvvisi</p>
+                            <article class="subsection">
+                                <h2>💡 Best practices</h2>
+                                <div class="tips-grid">
+                                    <div class="tip-card">
+                                        <h3>📌 Usa versioni specifiche</h3>
+                                        <p>
+                                            In produzione usa versioni esatte o <code>^</code> per
+                                            evitare breaking changes improvvisi
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>🔒 Committa package-lock.json</h3>
+                                        <p>
+                                            Garantisce che tutti abbiano le stesse versioni delle
+                                            dipendenze
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>🧪 Separa dev e prod</h3>
+                                        <p>
+                                            Tool di test e build vanno in devDependencies per
+                                            ridurre bundle size
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>🔍 Audit regolarmente</h3>
+                                        <p>
+                                            Esegui <code>npm audit</code> settimanalmente per
+                                            sicurezza
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="tip-card">
-                                    <h3>🔒 Committa package-lock.json</h3>
-                                    <p>Garantisce che tutti abbiano le stesse versioni delle dipendenze</p>
-                                </div>
-                                <div class="tip-card">
-                                    <h3>🧪 Separa dev e prod</h3>
-                                    <p>Tool di test e build vanno in devDependencies per ridurre bundle size</p>
-                                </div>
-                                <div class="tip-card">
-                                    <h3>🔍 Audit regolarmente</h3>
-                                    <p>Esegui <code>npm audit</code> settimanalmente per sicurezza</p>
-                                </div>
-                            </div>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>📖 Risorse ufficiali</h2>
-                            <ul>
-                                <li><a href="https://docs.npmjs.com/cli/v10/configuring-npm/package-json" target="_blank">NPM package.json docs</a></li>
-                                <li><a href="https://semver.org/" target="_blank">Semantic Versioning</a></li>
-                                <li><a href="https://docs.npmjs.com/cli/v10/commands" target="_blank">NPM CLI Commands</a></li>
-                            </ul>
-                        </article>
-                    </div>
-                    <div class="section-navigation">
-                        <a class="btn btn--outline" href="moduli-nodejs.html">← Moduli in Node.js</a>
-                        <a class="btn btn--primary" href="oggetti-globali.html">Oggetti Globali →</a>
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-    <script src="../../app.js"></script>
-</body>
+                            <article class="subsection">
+                                <h2>📖 Risorse ufficiali</h2>
+                                <ul>
+                                    <li>
+                                        <a
+                                            href="https://docs.npmjs.com/cli/v10/configuring-npm/package-json"
+                                            target="_blank"
+                                            >NPM package.json docs</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a href="https://semver.org/" target="_blank"
+                                            >Semantic Versioning</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="https://docs.npmjs.com/cli/v10/commands"
+                                            target="_blank"
+                                            >NPM CLI Commands</a
+                                        >
+                                    </li>
+                                </ul>
+                            </article>
+                        </div>
+                        <div class="section-navigation">
+                            <a class="btn btn--outline" href="moduli-nodejs.html"
+                                >← Moduli in Node.js</a
+                            >
+                            <a class="btn btn--primary" href="oggetti-globali.html"
+                                >Oggetti Globali →</a
+                            >
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script src="../../app.js"></script>
+    </body>
 </html>

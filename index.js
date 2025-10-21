@@ -21,19 +21,23 @@ app.set('trust proxy', 1);
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 // Sicurezza con Helmet (headers HTTP sicuri)
-app.use(helmet({
-    // CSP personalizzabile se necessario; per ora omesso per non bloccare Prism.js
-    contentSecurityPolicy: false,
-    crossOriginEmbedderPolicy: false, // evitiamo conflitti con CDN
-}));
+app.use(
+    helmet({
+        // CSP personalizzabile se necessario; per ora omesso per non bloccare Prism.js
+        contentSecurityPolicy: false,
+        crossOriginEmbedderPolicy: false, // evitiamo conflitti con CDN
+    })
+);
 
 // Abilita CORS in modo safe (limita metodi e headers)
-app.use(cors({
-    origin: true, // riflette l'origin della richiesta; per controllo fine-grained usare lista
-    credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-}));
+app.use(
+    cors({
+        origin: true, // riflette l'origin della richiesta; per controllo fine-grained usare lista
+        credentials: true,
+        methods: ['GET', 'POST', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    })
+);
 
 // Compressione gzip/br per payload più rapidi
 app.use(compression());
@@ -55,19 +59,21 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.static(path.join(__dirname, 'public'), {
-    maxAge: process.env.NODE_ENV === 'production' ? '7d' : 0,
-    etag: true,
-    lastModified: true,
-    setHeaders: (res, filePath) => {
-        // Asset fingerprintati potrebbero avere cache più lunga; qui manteniamo semplice
-        if (filePath.endsWith('.html')) {
-            res.setHeader('Cache-Control', 'no-cache');
-        } else {
-            res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
-        }
-    }
-}));
+app.use(
+    express.static(path.join(__dirname, 'public'), {
+        maxAge: process.env.NODE_ENV === 'production' ? '7d' : 0,
+        etag: true,
+        lastModified: true,
+        setHeaders: (res, filePath) => {
+            // Asset fingerprintati potrebbero avere cache più lunga; qui manteniamo semplice
+            if (filePath.endsWith('.html')) {
+                res.setHeader('Cache-Control', 'no-cache');
+            } else {
+                res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
+            }
+        },
+    })
+);
 
 // Serve lessons-config.json dalla root
 app.get('/lessons-config.json', (req, res) => {
@@ -81,7 +87,7 @@ app.get('/health', (req, res) => {
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
         environment: process.env.NODE_ENV || 'development',
-        version: require('./package.json').version
+        version: require('./package.json').version,
     });
 });
 
@@ -107,7 +113,7 @@ app.get('*', (req, res) => {
     if (req.path.includes('.') && !req.path.includes('html')) {
         return res.status(404).json({ error: 'File not found' });
     }
-    
+
     // Altrimenti serve la SPA
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -120,14 +126,14 @@ app.use((err, req, res, _next) => {
         stack: err.stack,
         url: req.url,
         method: req.method,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
     });
-    
+
     // Risposta user-friendly
     const statusCode = err.statusCode || 500;
-    res.status(statusCode).json({ 
+    res.status(statusCode).json({
         error: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : err.message,
-        ...(process.env.NODE_ENV !== 'production' && { stack: err.stack })
+        ...(process.env.NODE_ENV !== 'production' && { stack: err.stack }),
     });
 });
 
@@ -136,7 +142,7 @@ app.use((req, res) => {
     res.status(404).json({
         error: 'Not Found',
         message: `Route ${req.method} ${req.url} not found`,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
     });
 });
 
@@ -150,7 +156,7 @@ if (process.env.VERCEL) {
         console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
         console.log(`🏥 Health check: http://localhost:${PORT}/health`);
     });
-    
+
     // Graceful shutdown
     process.on('SIGTERM', () => {
         console.log('SIGTERM received, closing server gracefully...');
@@ -159,7 +165,7 @@ if (process.env.VERCEL) {
             process.exit(0);
         });
     });
-    
+
     process.on('SIGINT', () => {
         console.log('\nSIGINT received, closing server gracefully...');
         server.close(() => {

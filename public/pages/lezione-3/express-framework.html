@@ -1,153 +1,271 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Express.js Framework - Lezione 3</title>
-    <meta name="description" content="Guida completa a Express.js: routing, middleware, API REST, best practices e architettura MVC" />
-    <link rel="stylesheet" href="../../style.css">
-</head>
-<body>
-    <header class="app-header">
-        <div class="header-content">
-            <h1 class="header-title">🏗️ Architettura Web</h1>
-            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
-                <span class="theme-toggle-icon">🌙</span>
-                <span class="theme-toggle-text">Dark</span>
-            </button>
-        </div>
-    </header>
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
-                <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Express.js Framework - Lezione 3</title>
+        <meta
+            name="description"
+            content="Guida completa a Express.js: routing, middleware, API REST, best practices e architettura MVC"
+        />
+        <link rel="stylesheet" href="../../style.css" />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="header-title">🏗️ Architettura Web</h1>
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <span class="theme-toggle-text">Dark</span>
+                </button>
             </div>
-            <nav class="sidebar-nav">
-                <ul class="nav-list" id="navList">
-                    <li class="nav-item"><a href="intro-riepilogo.html" class="nav-link"><span class="nav-icon">📖</span><span class="nav-text">Intro e Riepilogo</span></a></li>
-                    <li class="nav-item"><a href="moduli-nodejs.html" class="nav-link"><span class="nav-icon">📦</span><span class="nav-text">Moduli in Node.js</span></a></li>
-                    <li class="nav-item"><a href="package-json.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Package.json & NPM</span></a></li>
-                    <li class="nav-item active"><a href="express-framework.html" class="nav-link"><span class="nav-icon">🚀</span><span class="nav-text">Express.js Framework</span></a></li>
-                    <li class="nav-item"><a href="oggetti-globali.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Oggetti Globali</span></a></li>
-                    <li class="nav-item"><a href="stream-filesystem.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Stream & File System</span></a></li>
-                    <li class="nav-item"><a href="comandi-cli.html" class="nav-link"><span class="nav-icon">💻</span><span class="nav-text">Comandi CLI</span></a></li>
-                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">💾</span><span class="nav-text">Oggetti & CRUD</span></a></li>
-                    <li class="nav-item"><a href="esercizi-lezione3.html" class="nav-link"><span class="nav-icon">✏️</span><span class="nav-text">Esercizi Pratici</span></a></li>
-                </ul>
-            </nav>
-        </aside>
-        <main class="main-content" id="mainContent">
-            <div class="content-container" id="contentContainer">
-                <section class="content-section active">
-                    <div class="section-content">
-                        <header class="section-header">
-                            <h1>🚀 Express.js Framework</h1>
-                            <p class="section-description">Il framework web più popolare per Node.js - minimalista, veloce e flessibile</p>
-                        </header>
+        </header>
+        <div class="app-container">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                    <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul class="nav-list" id="navList">
+                        <li class="nav-item">
+                            <a href="intro-riepilogo.html" class="nav-link"
+                                ><span class="nav-icon">📖</span
+                                ><span class="nav-text">Intro e Riepilogo</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="moduli-nodejs.html" class="nav-link"
+                                ><span class="nav-icon">📦</span
+                                ><span class="nav-text">Moduli in Node.js</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="package-json.html" class="nav-link"
+                                ><span class="nav-icon">⚙️</span
+                                ><span class="nav-text">Package.json & NPM</span></a
+                            >
+                        </li>
+                        <li class="nav-item active">
+                            <a href="express-framework.html" class="nav-link"
+                                ><span class="nav-icon">🚀</span
+                                ><span class="nav-text">Express.js Framework</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="oggetti-globali.html" class="nav-link"
+                                ><span class="nav-icon">🌐</span
+                                ><span class="nav-text">Oggetti Globali</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="stream-filesystem.html" class="nav-link"
+                                ><span class="nav-icon">🔄</span
+                                ><span class="nav-text">Stream & File System</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="comandi-cli.html" class="nav-link"
+                                ><span class="nav-icon">💻</span
+                                ><span class="nav-text">Comandi CLI</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="nodejs-oggetti-crud.html" class="nav-link"
+                                ><span class="nav-icon">💾</span
+                                ><span class="nav-text">Oggetti & CRUD</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="esercizi-lezione3.html" class="nav-link"
+                                ><span class="nav-icon">✏️</span
+                                ><span class="nav-text">Esercizi Pratici</span></a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+            <main class="main-content" id="mainContent">
+                <div class="content-container" id="contentContainer">
+                    <section class="content-section active">
+                        <div class="section-content">
+                            <header class="section-header">
+                                <h1>🚀 Express.js Framework</h1>
+                                <p class="section-description">
+                                    Il framework web più popolare per Node.js - minimalista, veloce
+                                    e flessibile
+                                </p>
+                            </header>
 
-                        <article class="subsection">
-                            <h2>🤔 Cos'è Express.js?</h2>
-                            <p><strong>Express.js</strong> è un framework web minimalista e flessibile per Node.js che semplifica la creazione di server web e API REST.</p>
-                            
-                            <div class="info-box welcome">
-                                <h3>🏗️ Analogia del Ristorante</h3>
-                                <p>Immagina Node.js come una cucina professionale con tutti gli strumenti base (forno, fornelli, pentole). Express.js è come avere:</p>
-                                <ul>
-                                    <li>👨‍� <strong>Chef specializzati</strong> (middleware) che preparano ingredienti specifici</li>
-                                    <li>📋 <strong>Menu organizzato</strong> (routing) per gestire gli ordini</li>
-                                    <li>🍽️ <strong>Sistema di servizio</strong> (request/response) efficiente</li>
-                                    <li>�️ <strong>Gestione errori</strong> se qualcosa va storto in cucina</li>
-                                </ul>
-                                <p>Senza Express dovresti fare tutto manualmente, con Express hai una struttura organizzata!</p>
-                            </div>
+                            <article class="subsection">
+                                <h2>🤔 Cos'è Express.js?</h2>
+                                <p>
+                                    <strong>Express.js</strong> è un framework web minimalista e
+                                    flessibile per Node.js che semplifica la creazione di server web
+                                    e API REST.
+                                </p>
 
-                            <h3>📊 Perché usare Express?</h3>
-                            <div class="principles-grid">
-                                <div class="principle-card advantage">
-                                    <h3>🎯 Semplicità</h3>
-                                    <p>Crea un server web in 5 righe di codice invece di 50 con Node.js puro.</p>
+                                <div class="info-box welcome">
+                                    <h3>🏗️ Analogia del Ristorante</h3>
+                                    <p>
+                                        Immagina Node.js come una cucina professionale con tutti gli
+                                        strumenti base (forno, fornelli, pentole). Express.js è come
+                                        avere:
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            👨‍� <strong>Chef specializzati</strong> (middleware)
+                                            che preparano ingredienti specifici
+                                        </li>
+                                        <li>
+                                            📋 <strong>Menu organizzato</strong> (routing) per
+                                            gestire gli ordini
+                                        </li>
+                                        <li>
+                                            🍽️
+                                            <strong>Sistema di servizio</strong> (request/response)
+                                            efficiente
+                                        </li>
+                                        <li>
+                                            �️ <strong>Gestione errori</strong> se qualcosa va
+                                            storto in cucina
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        Senza Express dovresti fare tutto manualmente, con Express
+                                        hai una struttura organizzata!
+                                    </p>
                                 </div>
-                                
-                                <div class="principle-card advantage">
-                                    <h3>⚡ Velocità</h3>
-                                    <p>Performance eccellenti: gestisce migliaia di richieste al secondo.</p>
+
+                                <h3>📊 Perché usare Express?</h3>
+                                <div class="principles-grid">
+                                    <div class="principle-card advantage">
+                                        <h3>🎯 Semplicità</h3>
+                                        <p>
+                                            Crea un server web in 5 righe di codice invece di 50 con
+                                            Node.js puro.
+                                        </p>
+                                    </div>
+
+                                    <div class="principle-card advantage">
+                                        <h3>⚡ Velocità</h3>
+                                        <p>
+                                            Performance eccellenti: gestisce migliaia di richieste
+                                            al secondo.
+                                        </p>
+                                    </div>
+
+                                    <div class="principle-card advantage">
+                                        <h3>📦 Ecosistema</h3>
+                                        <p>
+                                            ~30 milioni di download/settimana NPM. Migliaia di
+                                            middleware pronti all'uso.
+                                        </p>
+                                    </div>
+
+                                    <div class="principle-card curiosity">
+                                        <h3>🏆 Standard</h3>
+                                        <p>
+                                            Usato da Netflix, Uber, PayPal e milioni di sviluppatori
+                                            worldwide.
+                                        </p>
+                                    </div>
                                 </div>
-                                
-                                <div class="principle-card advantage">
-                                    <h3>📦 Ecosistema</h3>
-                                    <p>~30 milioni di download/settimana NPM. Migliaia di middleware pronti all'uso.</p>
+
+                                <div class="info-box info">
+                                    <h3>📖 Documentazione ufficiale</h3>
+                                    <p>
+                                        La documentazione completa è disponibile su
+                                        <a
+                                            href="https://expressjs.com/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >expressjs.com</a
+                                        >. Express è un progetto open-source mantenuto dalla
+                                        <a
+                                            href="https://openjsf.org/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >OpenJS Foundation</a
+                                        >.
+                                    </p>
                                 </div>
-                                
-                                <div class="principle-card curiosity">
-                                    <h3>🏆 Standard</h3>
-                                    <p>Usato da Netflix, Uber, PayPal e milioni di sviluppatori worldwide.</p>
+
+                                <h3>� Express vs Node.js puro: confronto</h3>
+                                <div class="comparison-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Operazione</th>
+                                                <th>Node.js puro</th>
+                                                <th>Express.js</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Creare server</td>
+                                                <td>~15 righe</td>
+                                                <td>~3 righe</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Routing</td>
+                                                <td>Manuale con if/switch</td>
+                                                <td><code>app.get('/path')</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Parse JSON body</td>
+                                                <td>~20 righe di codice</td>
+                                                <td><code>app.use(express.json())</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Middleware</td>
+                                                <td>Implementazione complessa</td>
+                                                <td>Integrato nativamente</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gestione errori</td>
+                                                <td>Try/catch ovunque</td>
+                                                <td>Error handler centralizzato</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
+                            </article>
 
-                            <div class="info-box info">
-                                <h3>📖 Documentazione ufficiale</h3>
-                                <p>La documentazione completa è disponibile su <a href="https://expressjs.com/" target="_blank" rel="noopener noreferrer">expressjs.com</a>. Express è un progetto open-source mantenuto dalla <a href="https://openjsf.org/" target="_blank" rel="noopener noreferrer">OpenJS Foundation</a>.</p>
-                            </div>
+                            <article class="subsection">
+                                <h2>🚀 Installazione e Setup</h2>
 
-                            <h3>� Express vs Node.js puro: confronto</h3>
-                            <div class="comparison-table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Operazione</th>
-                                            <th>Node.js puro</th>
-                                            <th>Express.js</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Creare server</td>
-                                            <td>~15 righe</td>
-                                            <td>~3 righe</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Routing</td>
-                                            <td>Manuale con if/switch</td>
-                                            <td><code>app.get('/path')</code></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Parse JSON body</td>
-                                            <td>~20 righe di codice</td>
-                                            <td><code>app.use(express.json())</code></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Middleware</td>
-                                            <td>Implementazione complessa</td>
-                                            <td>Integrato nativamente</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Gestione errori</td>
-                                            <td>Try/catch ovunque</td>
-                                            <td>Error handler centralizzato</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </article>
+                                <div class="info-box warning">
+                                    <h3>⚠️ Prerequisiti</h3>
+                                    <p>Prima di iniziare assicurati di avere:</p>
+                                    <ul>
+                                        <li>
+                                            ✅ <strong>Node.js</strong> installato (versione 16 o
+                                            superiore) -
+                                            <a href="https://nodejs.org/" target="_blank"
+                                                >Scarica qui</a
+                                            >
+                                        </li>
+                                        <li>
+                                            ✅ <strong>NPM</strong> (viene installato
+                                            automaticamente con Node.js)
+                                        </li>
+                                        <li>
+                                            ✅ Un <strong>editor di codice</strong> (VS Code
+                                            consigliato)
+                                        </li>
+                                        <li>
+                                            ✅ <strong>Terminal/Prompt</strong> per eseguire comandi
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        Verifica l'installazione: <code>node --version</code> e
+                                        <code>npm --version</code>
+                                    </p>
+                                </div>
 
-                        <article class="subsection">
-                            <h2>🚀 Installazione e Setup</h2>
-                            
-                            <div class="info-box warning">
-                                <h3>⚠️ Prerequisiti</h3>
-                                <p>Prima di iniziare assicurati di avere:</p>
-                                <ul>
-                                    <li>✅ <strong>Node.js</strong> installato (versione 16 o superiore) - <a href="https://nodejs.org/" target="_blank">Scarica qui</a></li>
-                                    <li>✅ <strong>NPM</strong> (viene installato automaticamente con Node.js)</li>
-                                    <li>✅ Un <strong>editor di codice</strong> (VS Code consigliato)</li>
-                                    <li>✅ <strong>Terminal/Prompt</strong> per eseguire comandi</li>
-                                </ul>
-                                <p>Verifica l'installazione: <code>node --version</code> e <code>npm --version</code></p>
-                            </div>
-
-                            <h3>📦 Step 1: Crea il progetto</h3>
-                            <pre><code># Crea una nuova cartella per il progetto
+                                <h3>📦 Step 1: Crea il progetto</h3>
+                                <pre><code># Crea una nuova cartella per il progetto
 mkdir my-express-app
 cd my-express-app
 
@@ -156,29 +274,45 @@ npm init -y
 
 # Il flag -y crea package.json automaticamente senza domande</code></pre>
 
-                            <div class="info-box info">
-                                <h3>💡 Cosa fa <code>npm init -y</code>?</h3>
-                                <p>Crea un file <code>package.json</code> con configurazioni di default. Questo file è come la "carta d'identità" del tuo progetto: contiene nome, versione, dipendenze e script.</p>
-                            </div>
+                                <div class="info-box info">
+                                    <h3>💡 Cosa fa <code>npm init -y</code>?</h3>
+                                    <p>
+                                        Crea un file <code>package.json</code> con configurazioni di
+                                        default. Questo file è come la "carta d'identità" del tuo
+                                        progetto: contiene nome, versione, dipendenze e script.
+                                    </p>
+                                </div>
 
-                            <h3>📥 Step 2: Installa Express</h3>
-                            <pre><code># Installa Express come dipendenza
+                                <h3>📥 Step 2: Installa Express</h3>
+                                <pre><code># Installa Express come dipendenza
 npm install express
 
 # Installa nodemon per development (riavvia automaticamente il server)
 npm install --save-dev nodemon</code></pre>
 
-                            <div class="tip-card">
-                                <h3>🤔 Differenza tra <code>--save</code> e <code>--save-dev</code></h3>
-                                <ul>
-                                    <li><code>npm install express</code> → Va in <strong>dependencies</strong> (serve in produzione)</li>
-                                    <li><code>npm install --save-dev nodemon</code> → Va in <strong>devDependencies</strong> (serve solo nello sviluppo)</li>
-                                </ul>
-                            </div>
+                                <div class="tip-card">
+                                    <h3>
+                                        🤔 Differenza tra <code>--save</code> e
+                                        <code>--save-dev</code>
+                                    </h3>
+                                    <ul>
+                                        <li>
+                                            <code>npm install express</code> → Va in
+                                            <strong>dependencies</strong> (serve in produzione)
+                                        </li>
+                                        <li>
+                                            <code>npm install --save-dev nodemon</code> → Va in
+                                            <strong>devDependencies</strong> (serve solo nello
+                                            sviluppo)
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <h3>⚙️ Step 3: Configura package.json</h3>
-                            <p>Apri <code>package.json</code> e aggiungi/modifica queste righe:</p>
-                            <pre><code>{
+                                <h3>⚙️ Step 3: Configura package.json</h3>
+                                <p>
+                                    Apri <code>package.json</code> e aggiungi/modifica queste righe:
+                                </p>
+                                <pre><code>{
   "name": "my-express-app",
   "version": "1.0.0",
   "description": "La mia prima app Express",
@@ -199,14 +333,18 @@ npm install --save-dev nodemon</code></pre>
   }
 }</code></pre>
 
-                            <div class="info-box success">
-                                <h3>✅ Cosa significa <code>"type": "module"</code>?</h3>
-                                <p>Permette di usare la sintassi moderna <code>import/export</code> invece di <code>require()</code>. È lo standard moderno di JavaScript.</p>
-                            </div>
+                                <div class="info-box success">
+                                    <h3>✅ Cosa significa <code>"type": "module"</code>?</h3>
+                                    <p>
+                                        Permette di usare la sintassi moderna
+                                        <code>import/export</code> invece di <code>require()</code>.
+                                        È lo standard moderno di JavaScript.
+                                    </p>
+                                </div>
 
-                            <h3>📝 Step 4: Crea il server (Hello World)</h3>
-                            <p>Crea un file <code>server.js</code> nella root del progetto:</p>
-                            <pre><code>// server.js - Il nostro primo server Express!
+                                <h3>📝 Step 4: Crea il server (Hello World)</h3>
+                                <p>Crea un file <code>server.js</code> nella root del progetto:</p>
+                                <pre><code>// server.js - Il nostro primo server Express!
 import express from 'express';
 
 // Crea un'applicazione Express
@@ -226,99 +364,149 @@ app.listen(PORT, () => {
     console.log(`📡 Premi CTRL+C per fermarlo`);
 });</code></pre>
 
-                            <div class="info-box welcome">
-                                <h3>🎓 Spiegazione riga per riga</h3>
-                                <ul>
-                                    <li><code>import express from 'express'</code> - Importa il framework Express</li>
-                                    <li><code>const app = express()</code> - Crea un'applicazione Express (il tuo server)</li>
-                                    <li><code>const PORT = 3000</code> - Porta su cui il server ascolterà (puoi cambiare il numero)</li>
-                                    <li><code>app.get('/', ...)</code> - Definisce cosa fare quando qualcuno visita la homepage</li>
-                                    <li><code>req</code> - Request (richiesta dal client)</li>
-                                    <li><code>res</code> - Response (risposta che mandiamo al client)</li>
-                                    <li><code>res.send(...)</code> - Invia il testo al browser</li>
-                                    <li><code>app.listen(PORT, ...)</code> - Avvia il server sulla porta specificata</li>
-                                </ul>
-                            </div>
+                                <div class="info-box welcome">
+                                    <h3>🎓 Spiegazione riga per riga</h3>
+                                    <ul>
+                                        <li>
+                                            <code>import express from 'express'</code> - Importa il
+                                            framework Express
+                                        </li>
+                                        <li>
+                                            <code>const app = express()</code> - Crea
+                                            un'applicazione Express (il tuo server)
+                                        </li>
+                                        <li>
+                                            <code>const PORT = 3000</code> - Porta su cui il server
+                                            ascolterà (puoi cambiare il numero)
+                                        </li>
+                                        <li>
+                                            <code>app.get('/', ...)</code> - Definisce cosa fare
+                                            quando qualcuno visita la homepage
+                                        </li>
+                                        <li><code>req</code> - Request (richiesta dal client)</li>
+                                        <li>
+                                            <code>res</code> - Response (risposta che mandiamo al
+                                            client)
+                                        </li>
+                                        <li>
+                                            <code>res.send(...)</code> - Invia il testo al browser
+                                        </li>
+                                        <li>
+                                            <code>app.listen(PORT, ...)</code> - Avvia il server
+                                            sulla porta specificata
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <h3>▶️ Step 5: Avvia il server</h3>
-                            <pre><code># Development (con auto-reload quando modifichi il codice)
+                                <h3>▶️ Step 5: Avvia il server</h3>
+                                <pre><code># Development (con auto-reload quando modifichi il codice)
 npm run dev
 
 # Oppure production (senza auto-reload)
 npm start</code></pre>
 
-                            <p>Vedrai nel terminal:</p>
-                            <pre><code>🚀 Server in ascolto su http://localhost:3000
+                                <p>Vedrai nel terminal:</p>
+                                <pre><code>🚀 Server in ascolto su http://localhost:3000
 📡 Premi CTRL+C per fermarlo</code></pre>
 
-                            <h3>🌐 Step 6: Testa nel browser</h3>
-                            <div class="info-box success">
-                                <h3>✅ Verifica che funzioni</h3>
-                                <ol>
-                                    <li>Apri il browser</li>
-                                    <li>Vai su <code>http://localhost:3000</code></li>
-                                    <li>Dovresti vedere: <strong>"🎉 Hello World! Il mio primo server Express funziona!"</strong></li>
-                                </ol>
-                                <p><strong>Congratulazioni! Hai creato il tuo primo server Express! 🎊</strong></p>
-                            </div>
-
-                            <h3>🔧 Risoluzione problemi comuni</h3>
-                            <div class="tip-card">
-                                <h4>❌ Error: Cannot find module 'express'</h4>
-                                <p><strong>Soluzione:</strong> Hai dimenticato <code>npm install express</code></p>
-                            </div>
-
-                            <div class="tip-card">
-                                <h4>❌ Error: Port 3000 is already in use</h4>
-                                <p><strong>Soluzione:</strong> Un altro programma usa già la porta 3000. Cambia <code>const PORT = 3000</code> in <code>const PORT = 3001</code> (o qualsiasi numero libero)</p>
-                            </div>
-
-                            <div class="tip-card">
-                                <h4>❌ SyntaxError: Cannot use import statement</h4>
-                                <p><strong>Soluzione:</strong> Aggiungi <code>"type": "module"</code> nel <code>package.json</code></p>
-                            </div>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>🛣️ Routing in Express</h2>
-                            
-                            <div class="info-box welcome">
-                                <h3>🗺️ Cos'è il Routing?</h3>
-                                <p>Il <strong>routing</strong> è come un sistema di strade in una città: decide dove "mandare" ogni richiesta in base all'indirizzo (URL) e al metodo HTTP.</p>
-                                <p><strong>Esempio pratico:</strong> Se visiti <code>/utenti</code> vedrai la lista utenti, se visiti <code>/prodotti</code> vedrai i prodotti. Express "instrada" ogni richiesta alla funzione corretta!</p>
-                            </div>
-
-                            <h3>📡 I Metodi HTTP: il linguaggio del web</h3>
-                            <div class="principles-grid">
-                                <div class="principle-card info">
-                                    <h4>GET 📖</h4>
-                                    <p><strong>Recupera</strong> dati dal server</p>
-                                    <p><em>Es: Visualizza lista prodotti</em></p>
+                                <h3>🌐 Step 6: Testa nel browser</h3>
+                                <div class="info-box success">
+                                    <h3>✅ Verifica che funzioni</h3>
+                                    <ol>
+                                        <li>Apri il browser</li>
+                                        <li>Vai su <code>http://localhost:3000</code></li>
+                                        <li>
+                                            Dovresti vedere:
+                                            <strong
+                                                >"🎉 Hello World! Il mio primo server Express
+                                                funziona!"</strong
+                                            >
+                                        </li>
+                                    </ol>
+                                    <p>
+                                        <strong
+                                            >Congratulazioni! Hai creato il tuo primo server
+                                            Express! 🎊</strong
+                                        >
+                                    </p>
                                 </div>
-                                <div class="principle-card success">
-                                    <h4>POST ➕</h4>
-                                    <p><strong>Crea</strong> una nuova risorsa</p>
-                                    <p><em>Es: Aggiungi nuovo prodotto</em></p>
-                                </div>
-                                <div class="principle-card warning">
-                                    <h4>PUT 🔄</h4>
-                                    <p><strong>Aggiorna</strong> completamente</p>
-                                    <p><em>Es: Sostituisci tutti i dati</em></p>
-                                </div>
-                                <div class="principle-card warning">
-                                    <h4>PATCH ✏️</h4>
-                                    <p><strong>Modifica</strong> parzialmente</p>
-                                    <p><em>Es: Cambia solo il prezzo</em></p>
-                                </div>
-                                <div class="principle-card danger">
-                                    <h4>DELETE 🗑️</h4>
-                                    <p><strong>Elimina</strong> una risorsa</p>
-                                    <p><em>Es: Rimuovi prodotto</em></p>
-                                </div>
-                            </div>
 
-                            <h3>🎯 Routing base - Esempio passo passo</h3>
-                            <pre><code>// server.js
+                                <h3>🔧 Risoluzione problemi comuni</h3>
+                                <div class="tip-card">
+                                    <h4>❌ Error: Cannot find module 'express'</h4>
+                                    <p>
+                                        <strong>Soluzione:</strong> Hai dimenticato
+                                        <code>npm install express</code>
+                                    </p>
+                                </div>
+
+                                <div class="tip-card">
+                                    <h4>❌ Error: Port 3000 is already in use</h4>
+                                    <p>
+                                        <strong>Soluzione:</strong> Un altro programma usa già la
+                                        porta 3000. Cambia <code>const PORT = 3000</code> in
+                                        <code>const PORT = 3001</code> (o qualsiasi numero libero)
+                                    </p>
+                                </div>
+
+                                <div class="tip-card">
+                                    <h4>❌ SyntaxError: Cannot use import statement</h4>
+                                    <p>
+                                        <strong>Soluzione:</strong> Aggiungi
+                                        <code>"type": "module"</code> nel <code>package.json</code>
+                                    </p>
+                                </div>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>🛣️ Routing in Express</h2>
+
+                                <div class="info-box welcome">
+                                    <h3>🗺️ Cos'è il Routing?</h3>
+                                    <p>
+                                        Il <strong>routing</strong> è come un sistema di strade in
+                                        una città: decide dove "mandare" ogni richiesta in base
+                                        all'indirizzo (URL) e al metodo HTTP.
+                                    </p>
+                                    <p>
+                                        <strong>Esempio pratico:</strong> Se visiti
+                                        <code>/utenti</code> vedrai la lista utenti, se visiti
+                                        <code>/prodotti</code> vedrai i prodotti. Express "instrada"
+                                        ogni richiesta alla funzione corretta!
+                                    </p>
+                                </div>
+
+                                <h3>📡 I Metodi HTTP: il linguaggio del web</h3>
+                                <div class="principles-grid">
+                                    <div class="principle-card info">
+                                        <h4>GET 📖</h4>
+                                        <p><strong>Recupera</strong> dati dal server</p>
+                                        <p><em>Es: Visualizza lista prodotti</em></p>
+                                    </div>
+                                    <div class="principle-card success">
+                                        <h4>POST ➕</h4>
+                                        <p><strong>Crea</strong> una nuova risorsa</p>
+                                        <p><em>Es: Aggiungi nuovo prodotto</em></p>
+                                    </div>
+                                    <div class="principle-card warning">
+                                        <h4>PUT 🔄</h4>
+                                        <p><strong>Aggiorna</strong> completamente</p>
+                                        <p><em>Es: Sostituisci tutti i dati</em></p>
+                                    </div>
+                                    <div class="principle-card warning">
+                                        <h4>PATCH ✏️</h4>
+                                        <p><strong>Modifica</strong> parzialmente</p>
+                                        <p><em>Es: Cambia solo il prezzo</em></p>
+                                    </div>
+                                    <div class="principle-card danger">
+                                        <h4>DELETE 🗑️</h4>
+                                        <p><strong>Elimina</strong> una risorsa</p>
+                                        <p><em>Es: Rimuovi prodotto</em></p>
+                                    </div>
+                                </div>
+
+                                <h3>🎯 Routing base - Esempio passo passo</h3>
+                                <pre><code>// server.js
 import express from 'express';
 const app = express();
 
@@ -408,21 +596,32 @@ app.listen(3000, () => {
     console.log('Server avviato su http://localhost:3000');
 });</code></pre>
 
-                            <div class="info-box info">
-                                <h3>🧪 Come testare queste route?</h3>
-                                <p><strong>Route GET</strong>: Apri il browser e visita:</p>
-                                <ul>
-                                    <li><code>http://localhost:3000/</code> → Homepage</li>
-                                    <li><code>http://localhost:3000/utenti</code> → Lista utenti</li>
-                                    <li><code>http://localhost:3000/chi-siamo</code> → Chi siamo</li>
-                                </ul>
-                                <p><strong>Route POST/PUT/PATCH/DELETE</strong>: Servono strumenti come Postman, Thunder Client o curl (non puoi testarle dal browser normale).</p>
-                            </div>
+                                <div class="info-box info">
+                                    <h3>🧪 Come testare queste route?</h3>
+                                    <p><strong>Route GET</strong>: Apri il browser e visita:</p>
+                                    <ul>
+                                        <li><code>http://localhost:3000/</code> → Homepage</li>
+                                        <li>
+                                            <code>http://localhost:3000/utenti</code> → Lista utenti
+                                        </li>
+                                        <li>
+                                            <code>http://localhost:3000/chi-siamo</code> → Chi siamo
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        <strong>Route POST/PUT/PATCH/DELETE</strong>: Servono
+                                        strumenti come Postman, Thunder Client o curl (non puoi
+                                        testarle dal browser normale).
+                                    </p>
+                                </div>
 
-                            <h3>🎯 Parametri URL: catturare valori dinamici</h3>
-                            <p>I <strong>parametri URL</strong> permettono di creare route dinamiche. Si definiscono con <code>:</code> (due punti).</p>
-                            
-                            <pre><code>// ═══════════════════════════════════════════════
+                                <h3>🎯 Parametri URL: catturare valori dinamici</h3>
+                                <p>
+                                    I <strong>parametri URL</strong> permettono di creare route
+                                    dinamiche. Si definiscono con <code>:</code> (due punti).
+                                </p>
+
+                                <pre><code>// ═══════════════════════════════════════════════
 // Parametri singoli
 // ═══════════════════════════════════════════════
 
@@ -493,10 +692,14 @@ app.get('/cerca/:termine?', (req, res) => {
 // http://localhost:3000/cerca/nodejs → "Cercando: nodejs"
 // http://localhost:3000/cerca        → "Nessun termine..."</code></pre>
 
-                            <h3>🔍 Query Parameters: filtri e opzioni</h3>
-                            <p>I <strong>query parameters</strong> vengono dopo il <code>?</code> nell'URL e servono per filtri, ordinamento, paginazione.</p>
-                            
-                            <pre><code>// Route che accetta query parameters
+                                <h3>🔍 Query Parameters: filtri e opzioni</h3>
+                                <p>
+                                    I <strong>query parameters</strong> vengono dopo il
+                                    <code>?</code> nell'URL e servono per filtri, ordinamento,
+                                    paginazione.
+                                </p>
+
+                                <pre><code>// Route che accetta query parameters
 app.get('/prodotti', (req, res) => {
     // Cattura tutti i parametri dalla query string
     const categoria = req.query.categoria;
@@ -524,32 +727,46 @@ app.get('/prodotti', (req, res) => {
 //   }
 // }</code></pre>
 
-                            <div class="tip-card">
-                                <h3>💡 Differenza tra Params e Query</h3>
-                                <ul>
-                                    <li><strong>Params</strong> (<code>:id</code>): Parte del path, obbligatori
-                                        <br><code>/utenti/<strong>123</strong></code> → <code>req.params.id</code></li>
-                                    <li><strong>Query</strong> (<code>?key=value</code>): Dopo il <code>?</code>, opzionali
-                                        <br><code>/prodotti<strong>?categoria=tech</strong></code> → <code>req.query.categoria</code></li>
-                                </ul>
-                            </div>
+                                <div class="tip-card">
+                                    <h3>💡 Differenza tra Params e Query</h3>
+                                    <ul>
+                                        <li>
+                                            <strong>Params</strong> (<code>:id</code>): Parte del
+                                            path, obbligatori <br /><code
+                                                >/utenti/<strong>123</strong></code
+                                            >
+                                            → <code>req.params.id</code>
+                                        </li>
+                                        <li>
+                                            <strong>Query</strong> (<code>?key=value</code>): Dopo
+                                            il <code>?</code>, opzionali <br /><code
+                                                >/prodotti<strong>?categoria=tech</strong></code
+                                            >
+                                            → <code>req.query.categoria</code>
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <h3>📁 Router Modulari: organizzare il codice</h3>
-                            <p>Con molte route, il file <code>server.js</code> diventa enorme. I <strong>Router modulari</strong> permettono di organizzare le route in file separati.</p>
-                            
-                            <div class="info-box welcome">
-                                <h3>🏗️ Struttura progetto con Router</h3>
-                                <pre><code>my-express-app/
+                                <h3>📁 Router Modulari: organizzare il codice</h3>
+                                <p>
+                                    Con molte route, il file <code>server.js</code> diventa enorme.
+                                    I <strong>Router modulari</strong> permettono di organizzare le
+                                    route in file separati.
+                                </p>
+
+                                <div class="info-box welcome">
+                                    <h3>🏗️ Struttura progetto con Router</h3>
+                                    <pre><code>my-express-app/
 ├── server.js           ← File principale
 ├── routes/             ← Cartella per le route
 │   ├── utentiRoutes.js
 │   ├── prodottiRoutes.js
 │   └── authRoutes.js
 └── package.json</code></pre>
-                            </div>
+                                </div>
 
-                            <h4>Step 1: Crea file route separato</h4>
-                            <pre><code>// routes/utentiRoutes.js
+                                <h4>Step 1: Crea file route separato</h4>
+                                <pre><code>// routes/utentiRoutes.js
 import express from 'express';
 const router = express.Router(); // Crea un router
 
@@ -572,8 +789,8 @@ router.delete('/:id', (req, res) => {
 
 export default router; // Esporta il router</code></pre>
 
-                            <h4>Step 2: Importa e usa nel server principale</h4>
-                            <pre><code>// server.js
+                                <h4>Step 2: Importa e usa nel server principale</h4>
+                                <pre><code>// server.js
 import express from 'express';
 import utentiRoutes from './routes/utentiRoutes.js'; // Importa router
 
@@ -594,56 +811,88 @@ app.listen(3000, () => {
     console.log('Server avviato!');
 });</code></pre>
 
-                            <div class="info-box success">
-                                <h3>✅ Vantaggi dei Router Modulari</h3>
-                                <ul>
-                                    <li>📁 <strong>Organizzazione</strong>: Codice diviso in file logici</li>
-                                    <li>🔍 <strong>Leggibilità</strong>: Facile trovare le route</li>
-                                    <li>🤝 <strong>Collaborazione</strong>: Team lavora su file diversi</li>
-                                    <li>♻️ <strong>Riutilizzo</strong>: Stesso router in più progetti</li>
-                                    <li>🧪 <strong>Testing</strong>: Testa ogni router separatamente</li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>🔌 Middleware in Express</h2>
-                            
-                            <div class="info-box welcome">
-                                <h3>🏭 Analogia della Catena di Montaggio</h3>
-                                <p>Immagina una fabbrica di automobili con stazioni di assemblaggio:</p>
-                                <ol>
-                                    <li>🔧 <strong>Stazione 1</strong>: Monta il telaio</li>
-                                    <li>🚗 <strong>Stazione 2</strong>: Installa il motore</li>
-                                    <li>🎨 <strong>Stazione 3</strong>: Vernicia l'auto</li>
-                                    <li>✅ <strong>Stazione finale</strong>: Controllo qualità e consegna</li>
-                                </ol>
-                                <p>I <strong>middleware</strong> sono come queste stazioni: ogni richiesta HTTP passa attraverso una "catena" di funzioni che la processano, una dopo l'altra!</p>
-                            </div>
-
-                            <h3>🤔 Cos'è un Middleware?</h3>
-                            <p>Un <strong>middleware</strong> è una funzione che ha accesso a tre oggetti fondamentali:</p>
-                            
-                            <div class="principles-grid">
-                                <div class="principle-card info">
-                                    <h4>📨 req</h4>
-                                    <p><strong>Request</strong></p>
-                                    <p>Contiene i dati della richiesta (URL, headers, body, parametri)</p>
+                                <div class="info-box success">
+                                    <h3>✅ Vantaggi dei Router Modulari</h3>
+                                    <ul>
+                                        <li>
+                                            📁 <strong>Organizzazione</strong>: Codice diviso in
+                                            file logici
+                                        </li>
+                                        <li>
+                                            🔍 <strong>Leggibilità</strong>: Facile trovare le route
+                                        </li>
+                                        <li>
+                                            🤝 <strong>Collaborazione</strong>: Team lavora su file
+                                            diversi
+                                        </li>
+                                        <li>
+                                            ♻️ <strong>Riutilizzo</strong>: Stesso router in più
+                                            progetti
+                                        </li>
+                                        <li>
+                                            🧪 <strong>Testing</strong>: Testa ogni router
+                                            separatamente
+                                        </li>
+                                    </ul>
                                 </div>
-                                <div class="principle-card success">
-                                    <h4>📤 res</h4>
-                                    <p><strong>Response</strong></p>
-                                    <p>Serve per inviare la risposta al client</p>
-                                </div>
-                                <div class="principle-card warning">
-                                    <h4>⏭️ next</h4>
-                                    <p><strong>Next</strong></p>
-                                    <p>Funzione che passa il controllo al prossimo middleware</p>
-                                </div>
-                            </div>
+                            </article>
 
-                            <h3>🎯 Middleware base: esempio visuale</h3>
-                            <pre><code>// Struttura di un middleware
+                            <article class="subsection">
+                                <h2>🔌 Middleware in Express</h2>
+
+                                <div class="info-box welcome">
+                                    <h3>🏭 Analogia della Catena di Montaggio</h3>
+                                    <p>
+                                        Immagina una fabbrica di automobili con stazioni di
+                                        assemblaggio:
+                                    </p>
+                                    <ol>
+                                        <li>🔧 <strong>Stazione 1</strong>: Monta il telaio</li>
+                                        <li>🚗 <strong>Stazione 2</strong>: Installa il motore</li>
+                                        <li>🎨 <strong>Stazione 3</strong>: Vernicia l'auto</li>
+                                        <li>
+                                            ✅ <strong>Stazione finale</strong>: Controllo qualità e
+                                            consegna
+                                        </li>
+                                    </ol>
+                                    <p>
+                                        I <strong>middleware</strong> sono come queste stazioni:
+                                        ogni richiesta HTTP passa attraverso una "catena" di
+                                        funzioni che la processano, una dopo l'altra!
+                                    </p>
+                                </div>
+
+                                <h3>🤔 Cos'è un Middleware?</h3>
+                                <p>
+                                    Un <strong>middleware</strong> è una funzione che ha accesso a
+                                    tre oggetti fondamentali:
+                                </p>
+
+                                <div class="principles-grid">
+                                    <div class="principle-card info">
+                                        <h4>📨 req</h4>
+                                        <p><strong>Request</strong></p>
+                                        <p>
+                                            Contiene i dati della richiesta (URL, headers, body,
+                                            parametri)
+                                        </p>
+                                    </div>
+                                    <div class="principle-card success">
+                                        <h4>📤 res</h4>
+                                        <p><strong>Response</strong></p>
+                                        <p>Serve per inviare la risposta al client</p>
+                                    </div>
+                                    <div class="principle-card warning">
+                                        <h4>⏭️ next</h4>
+                                        <p><strong>Next</strong></p>
+                                        <p>
+                                            Funzione che passa il controllo al prossimo middleware
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <h3>🎯 Middleware base: esempio visuale</h3>
+                                <pre><code>// Struttura di un middleware
 function mioMiddleware(req, res, next) {
     // 1️⃣ Fai qualcosa PRIMA della route
     console.log('⏰ Richiesta ricevuta alle:', new Date().toLocaleTimeString());
@@ -663,10 +912,14 @@ app.get('/', (req, res) => {
     // req.timestampRichiesta è disponibile qui!
 });</code></pre>
 
-                            <div class="info-box warning">
-                                <h3>⚠️ Regola d'oro: SEMPRE chiamare <code>next()</code></h3>
-                                <p>Se un middleware non chiama <code>next()</code> e non invia una risposta con <code>res.send()</code>, la richiesta rimarrà "appesa" e il client riceverà timeout!</p>
-                                <pre><code>// ❌ SBAGLIATO - La richiesta si blocca
+                                <div class="info-box warning">
+                                    <h3>⚠️ Regola d'oro: SEMPRE chiamare <code>next()</code></h3>
+                                    <p>
+                                        Se un middleware non chiama <code>next()</code> e non invia
+                                        una risposta con <code>res.send()</code>, la richiesta
+                                        rimarrà "appesa" e il client riceverà timeout!
+                                    </p>
+                                    <pre><code>// ❌ SBAGLIATO - La richiesta si blocca
 app.use((req, res, next) => {
     console.log('Logged');
     // Manca next()!
@@ -677,13 +930,13 @@ app.use((req, res, next) => {
     console.log('Logged');
     next(); // Passa al prossimo
 });</code></pre>
-                            </div>
+                                </div>
 
-                            <h3>📊 Tipi di Middleware</h3>
-                            
-                            <h4>1️⃣ Application-level Middleware</h4>
-                            <p>Applicato a tutta l'applicazione o a gruppi di route.</p>
-                            <pre><code>import express from 'express';
+                                <h3>📊 Tipi di Middleware</h3>
+
+                                <h4>1️⃣ Application-level Middleware</h4>
+                                <p>Applicato a tutta l'applicazione o a gruppi di route.</p>
+                                <pre><code>import express from 'express';
 const app = express();
 
 // Middleware globale - applicato a TUTTE le route
@@ -702,9 +955,9 @@ app.use('/admin', (req, res, next) => {
 app.get('/', (req, res) => res.send('Home'));
 app.get('/admin/dashboard', (req, res) => res.send('Dashboard'));</code></pre>
 
-                            <h4>2️⃣ Router-level Middleware</h4>
-                            <p>Applicato solo a un router specifico.</p>
-                            <pre><code>// routes/utentiRoutes.js
+                                <h4>2️⃣ Router-level Middleware</h4>
+                                <p>Applicato solo a un router specifico.</p>
+                                <pre><code>// routes/utentiRoutes.js
 import express from 'express';
 const router = express.Router();
 
@@ -718,8 +971,8 @@ router.get('/', (req, res) => res.json({ users: [] }));
 
 export default router;</code></pre>
 
-                            <h4>3️⃣ Built-in Middleware (integrati in Express)</h4>
-                            <pre><code>import express from 'express';
+                                <h4>3️⃣ Built-in Middleware (integrati in Express)</h4>
+                                <pre><code>import express from 'express';
 const app = express();
 
 // 🔹 express.json() - Parsing JSON dal body
@@ -738,22 +991,31 @@ app.use(express.static('public'));
 app.use('/assets', express.static('assets'));
 // http://localhost:3000/assets/logo.png</code></pre>
 
-                            <div class="info-box info">
-                                <h3>💡 Perché <code>express.json()</code> è importante?</h3>
-                                <p>Senza questo middleware, quando un client invia JSON nel body:</p>
-                                <ul>
-                                    <li>❌ <code>req.body</code> sarà <code>undefined</code></li>
-                                    <li>✅ Con <code>app.use(express.json())</code>, <code>req.body</code> conterrà l'oggetto JavaScript pronto all'uso!</li>
-                                </ul>
-                            </div>
+                                <div class="info-box info">
+                                    <h3>💡 Perché <code>express.json()</code> è importante?</h3>
+                                    <p>
+                                        Senza questo middleware, quando un client invia JSON nel
+                                        body:
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            ❌ <code>req.body</code> sarà <code>undefined</code>
+                                        </li>
+                                        <li>
+                                            ✅ Con <code>app.use(express.json())</code>,
+                                            <code>req.body</code> conterrà l'oggetto JavaScript
+                                            pronto all'uso!
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <h4>4️⃣ Third-party Middleware (librerie esterne)</h4>
-                            <p>Middleware creati dalla community, installabili con NPM.</p>
-                            
-                            <pre><code># Installa middleware popolari
+                                <h4>4️⃣ Third-party Middleware (librerie esterne)</h4>
+                                <p>Middleware creati dalla community, installabili con NPM.</p>
+
+                                <pre><code># Installa middleware popolari
 npm install cors helmet morgan compression cookie-parser</code></pre>
 
-                            <pre><code>import express from 'express';
+                                <pre><code>import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -781,20 +1043,29 @@ app.use(compression());
 app.use(cookieParser());
 // Ora puoi usare req.cookies</code></pre>
 
-                            <div class="tip-card">
-                                <h3>🛡️ Middleware essenziali per la sicurezza</h3>
-                                <ul>
-                                    <li><code>helmet</code> - Protegge da vulnerabilità comuni</li>
-                                    <li><code>cors</code> - Controlla chi può chiamare la tua API</li>
-                                    <li><code>express-rate-limit</code> - Previene attacchi DDoS</li>
-                                    <li><code>express-validator</code> - Valida input utente</li>
-                                </ul>
-                            </div>
+                                <div class="tip-card">
+                                    <h3>🛡️ Middleware essenziali per la sicurezza</h3>
+                                    <ul>
+                                        <li>
+                                            <code>helmet</code> - Protegge da vulnerabilità comuni
+                                        </li>
+                                        <li>
+                                            <code>cors</code> - Controlla chi può chiamare la tua
+                                            API
+                                        </li>
+                                        <li>
+                                            <code>express-rate-limit</code> - Previene attacchi DDoS
+                                        </li>
+                                        <li>
+                                            <code>express-validator</code> - Valida input utente
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <h4>5️⃣ Custom Middleware (creati da te)</h4>
-                            
-                            <h5>Esempio 1: Logger personalizzato</h5>
-                            <pre><code>// middleware/logger.js
+                                <h4>5️⃣ Custom Middleware (creati da te)</h4>
+
+                                <h5>Esempio 1: Logger personalizzato</h5>
+                                <pre><code>// middleware/logger.js
 const logger = (req, res, next) => {
     const ora = new Date().toLocaleTimeString('it-IT');
     const metodo = req.method;
@@ -816,8 +1087,8 @@ export default logger;
 import logger from './middleware/logger.js';
 app.use(logger);</code></pre>
 
-                            <h5>Esempio 2: Middleware di autenticazione</h5>
-                            <pre><code>// middleware/auth.js
+                                <h5>Esempio 2: Middleware di autenticazione</h5>
+                                <pre><code>// middleware/auth.js
 const autenticaUtente = (req, res, next) => {
     // Leggi il token dall'header Authorization
     const token = req.headers.authorization;
@@ -864,8 +1135,8 @@ app.get('/profilo', autenticaUtente, (req, res) => {
     });
 });</code></pre>
 
-                            <h5>Esempio 3: Middleware di validazione</h5>
-                            <pre><code>// middleware/validation.js
+                                <h5>Esempio 3: Middleware di validazione</h5>
+                                <pre><code>// middleware/validation.js
 export const validaUtente = (req, res, next) => {
     const { username, email, password } = req.body;
     
@@ -908,13 +1179,16 @@ app.post('/registrazione', validaUtente, (req, res) => {
     res.json({ messaggio: 'Registrazione completata!' });
 });</code></pre>
 
-                            <h3>🎬 Ordine di esecuzione dei Middleware</h3>
-                            <div class="info-box warning">
-                                <h3>⚠️ L'ordine è FONDAMENTALE!</h3>
-                                <p>I middleware vengono eseguiti nell'ordine in cui sono definiti con <code>app.use()</code>.</p>
-                            </div>
-                            
-                            <pre><code>import express from 'express';
+                                <h3>🎬 Ordine di esecuzione dei Middleware</h3>
+                                <div class="info-box warning">
+                                    <h3>⚠️ L'ordine è FONDAMENTALE!</h3>
+                                    <p>
+                                        I middleware vengono eseguiti nell'ordine in cui sono
+                                        definiti con <code>app.use()</code>.
+                                    </p>
+                                </div>
+
+                                <pre><code>import express from 'express';
 const app = express();
 
 // 1️⃣ Primo middleware - esegue per PRIMO
@@ -940,10 +1214,13 @@ app.get('/', (req, res) => {
 // 2️⃣ Secondo middleware
 // 3️⃣ Route handler</code></pre>
 
-                            <h3>🚨 Error Handling Middleware</h3>
-                            <p>I middleware di gestione errori hanno una firma speciale: <strong>4 parametri</strong> invece di 3.</p>
-                            
-                            <pre><code>// Error handler - DEVE avere 4 parametri (err, req, res, next)
+                                <h3>🚨 Error Handling Middleware</h3>
+                                <p>
+                                    I middleware di gestione errori hanno una firma speciale:
+                                    <strong>4 parametri</strong> invece di 3.
+                                </p>
+
+                                <pre><code>// Error handler - DEVE avere 4 parametri (err, req, res, next)
 const errorHandler = (err, req, res, next) => {
     console.error('❌ Errore catturato:', err.message);
     console.error('Stack trace:', err.stack);
@@ -990,36 +1267,48 @@ app.get('/dati', async (req, res, next) => {
     }
 });</code></pre>
 
-                            <div class="info-box success">
-                                <h3>✅ Best Practice Middleware</h3>
-                                <ol>
-                                    <li>🔝 Metti middleware generici (logger, cors) all'inizio</li>
-                                    <li>📦 <code>express.json()</code> prima delle route che ricevono JSON</li>
-                                    <li>🛣️ Definisci le route</li>
-                                    <li>🚫 404 handler dopo tutte le route</li>
-                                    <li>🚨 Error handler come ULTIMO middleware</li>
-                                </ol>
-                                <pre><code>// ✅ Ordine corretto
+                                <div class="info-box success">
+                                    <h3>✅ Best Practice Middleware</h3>
+                                    <ol>
+                                        <li>
+                                            🔝 Metti middleware generici (logger, cors) all'inizio
+                                        </li>
+                                        <li>
+                                            📦 <code>express.json()</code> prima delle route che
+                                            ricevono JSON
+                                        </li>
+                                        <li>🛣️ Definisci le route</li>
+                                        <li>🚫 404 handler dopo tutte le route</li>
+                                        <li>🚨 Error handler come ULTIMO middleware</li>
+                                    </ol>
+                                    <pre><code>// ✅ Ordine corretto
 app.use(logger);           // 1. Logger
 app.use(cors());           // 2. CORS
 app.use(express.json());   // 3. Body parser
 app.use('/api', routes);   // 4. Route
 app.use(notFoundHandler);  // 5. 404
 app.use(errorHandler);     // 6. Errori</code></pre>
-                            </div>
-                        </article>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>📡 Request e Response - Gli oggetti fondamentali</h2>
-                            
-                            <div class="info-box welcome">
-                                <h3>💌 Analogia della Lettera</h3>
-                                <p><strong>Request (req)</strong> è come una lettera che ricevi: contiene il mittente, il contenuto, quando è arrivata, ecc.</p>
-                                <p><strong>Response (res)</strong> è come la tua risposta: decidi cosa scrivere, come formattarla, e la invii indietro!</p>
-                            </div>
+                            <article class="subsection">
+                                <h2>📡 Request e Response - Gli oggetti fondamentali</h2>
 
-                            <h3>📨 Oggetto Request (req) - Cosa contiene</h3>
-                            <pre><code>app.get('/info', (req, res) => {
+                                <div class="info-box welcome">
+                                    <h3>💌 Analogia della Lettera</h3>
+                                    <p>
+                                        <strong>Request (req)</strong> è come una lettera che
+                                        ricevi: contiene il mittente, il contenuto, quando è
+                                        arrivata, ecc.
+                                    </p>
+                                    <p>
+                                        <strong>Response (res)</strong> è come la tua risposta:
+                                        decidi cosa scrivere, come formattarla, e la invii indietro!
+                                    </p>
+                                </div>
+
+                                <h3>📨 Oggetto Request (req) - Cosa contiene</h3>
+                                <pre><code>app.get('/info', (req, res) => {
     // 🔍 Ispeziona tutto quello che ricevi
     console.log({
         // 1️⃣ Parametri URL dinamici
@@ -1070,9 +1359,9 @@ app.use(errorHandler);     // 6. Errori</code></pre>
     res.json({ messaggio: 'Controlla la console!' });
 });</code></pre>
 
-                            <div class="info-box info">
-                                <h3>💡 Esempio pratico - Leggi dati dalla richiesta</h3>
-                                <pre><code>// Ricevi dati da un form di registrazione
+                                <div class="info-box info">
+                                    <h3>💡 Esempio pratico - Leggi dati dalla richiesta</h3>
+                                    <pre><code>// Ricevi dati da un form di registrazione
 app.post('/registrazione', (req, res) => {
     // Dati dal body (form o JSON)
     const { username, email, password } = req.body;
@@ -1095,12 +1384,12 @@ app.post('/registrazione', (req, res) => {
         utente: username 
     });
 });</code></pre>
-                            </div>
+                                </div>
 
-                            <h3>📤 Oggetto Response (res) - Come rispondere</h3>
-                            
-                            <h4>🎯 Metodi principali di Response</h4>
-                            <pre><code>// ═══════════════════════════════════════════════
+                                <h3>📤 Oggetto Response (res) - Come rispondere</h3>
+
+                                <h4>🎯 Metodi principali di Response</h4>
+                                <pre><code>// ═══════════════════════════════════════════════
 // 1️⃣ res.send() - Invia testo o HTML
 // ═══════════════════════════════════════════════
 app.get('/testo', (req, res) => {
@@ -1217,74 +1506,84 @@ app.post('/utente', (req, res) => {
         });
 });</code></pre>
 
-                            <div class="tip-card">
-                                <h3>📋 Status Code HTTP più comuni</h3>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Code</th>
-                                            <th>Significato</th>
-                                            <th>Quando usarlo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><code>200</code></td>
-                                            <td>OK</td>
-                                            <td>Richiesta andata a buon fine</td>
-                                        </tr>
-                                        <tr>
-                                            <td><code>201</code></td>
-                                            <td>Created</td>
-                                            <td>Risorsa creata (POST)</td>
-                                        </tr>
-                                        <tr>
-                                            <td><code>204</code></td>
-                                            <td>No Content</td>
-                                            <td>Successo senza risposta body</td>
-                                        </tr>
-                                        <tr>
-                                            <td><code>400</code></td>
-                                            <td>Bad Request</td>
-                                            <td>Dati non validi dal client</td>
-                                        </tr>
-                                        <tr>
-                                            <td><code>401</code></td>
-                                            <td>Unauthorized</td>
-                                            <td>Autenticazione richiesta</td>
-                                        </tr>
-                                        <tr>
-                                            <td><code>403</code></td>
-                                            <td>Forbidden</td>
-                                            <td>Non hai i permessi</td>
-                                        </tr>
-                                        <tr>
-                                            <td><code>404</code></td>
-                                            <td>Not Found</td>
-                                            <td>Risorsa non esistente</td>
-                                        </tr>
-                                        <tr>
-                                            <td><code>500</code></td>
-                                            <td>Internal Error</td>
-                                            <td>Errore del server</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </article>
+                                <div class="tip-card">
+                                    <h3>📋 Status Code HTTP più comuni</h3>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Significato</th>
+                                                <th>Quando usarlo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>200</code></td>
+                                                <td>OK</td>
+                                                <td>Richiesta andata a buon fine</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>201</code></td>
+                                                <td>Created</td>
+                                                <td>Risorsa creata (POST)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>204</code></td>
+                                                <td>No Content</td>
+                                                <td>Successo senza risposta body</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>400</code></td>
+                                                <td>Bad Request</td>
+                                                <td>Dati non validi dal client</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>401</code></td>
+                                                <td>Unauthorized</td>
+                                                <td>Autenticazione richiesta</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>403</code></td>
+                                                <td>Forbidden</td>
+                                                <td>Non hai i permessi</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>404</code></td>
+                                                <td>Not Found</td>
+                                                <td>Risorsa non esistente</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>500</code></td>
+                                                <td>Internal Error</td>
+                                                <td>Errore del server</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🏗️ Architettura MVC - Organizza il tuo progetto</h2>
-                            
-                            <div class="info-box welcome">
-                                <h3>🏢 Analogia dell'Ufficio</h3>
-                                <p><strong>Model (Modello)</strong> = L'archivio dove conservi i documenti e i dati</p>
-                                <p><strong>View (Vista)</strong> = La vetrina che mostra i dati ai clienti</p>
-                                <p><strong>Controller</strong> = L'impiegato che gestisce le richieste, recupera i dati dall'archivio e li prepara per la vetrina</p>
-                            </div>
+                            <article class="subsection">
+                                <h2>🏗️ Architettura MVC - Organizza il tuo progetto</h2>
 
-                            <h3>📁 Struttura cartelle MVC consigliata</h3>
-                            <pre><code>mio-progetto/
+                                <div class="info-box welcome">
+                                    <h3>🏢 Analogia dell'Ufficio</h3>
+                                    <p>
+                                        <strong>Model (Modello)</strong> = L'archivio dove conservi
+                                        i documenti e i dati
+                                    </p>
+                                    <p>
+                                        <strong>View (Vista)</strong> = La vetrina che mostra i dati
+                                        ai clienti
+                                    </p>
+                                    <p>
+                                        <strong>Controller</strong> = L'impiegato che gestisce le
+                                        richieste, recupera i dati dall'archivio e li prepara per la
+                                        vetrina
+                                    </p>
+                                </div>
+
+                                <h3>📁 Struttura cartelle MVC consigliata</h3>
+                                <pre><code>mio-progetto/
 ├── server.js              ← Entry point principale
 ├── package.json
 ├── .env                   ← Variabili d'ambiente
@@ -1314,53 +1613,53 @@ app.post('/utente', (req, res) => {
 └── config/                ← ⚙️ Configurazioni
     └── database.js       ← Setup database</code></pre>
 
-                            <div class="principles-grid">
-                                <div class="principle-card">
-                                    <div class="icon">📦</div>
-                                    <h4>Model</h4>
-                                    <p><strong>Gestisce i dati</strong></p>
-                                    <ul>
-                                        <li>Struttura dei dati</li>
-                                        <li>Logica business</li>
-                                        <li>Interazione database</li>
-                                    </ul>
+                                <div class="principles-grid">
+                                    <div class="principle-card">
+                                        <div class="icon">📦</div>
+                                        <h4>Model</h4>
+                                        <p><strong>Gestisce i dati</strong></p>
+                                        <ul>
+                                            <li>Struttura dei dati</li>
+                                            <li>Logica business</li>
+                                            <li>Interazione database</li>
+                                        </ul>
+                                    </div>
+                                    <div class="principle-card">
+                                        <div class="icon">🎮</div>
+                                        <h4>Controller</h4>
+                                        <p><strong>Gestisce le richieste</strong></p>
+                                        <ul>
+                                            <li>Riceve richieste HTTP</li>
+                                            <li>Chiama i model</li>
+                                            <li>Restituisce risposte</li>
+                                        </ul>
+                                    </div>
+                                    <div class="principle-card">
+                                        <div class="icon">🛣️</div>
+                                        <h4>Routes</h4>
+                                        <p><strong>Definisce i percorsi</strong></p>
+                                        <ul>
+                                            <li>Mapping URL</li>
+                                            <li>Collega a controller</li>
+                                            <li>Applica middleware</li>
+                                        </ul>
+                                    </div>
+                                    <div class="principle-card">
+                                        <div class="icon">👁️</div>
+                                        <h4>View</h4>
+                                        <p><strong>Presenta i dati</strong></p>
+                                        <ul>
+                                            <li>Template HTML</li>
+                                            <li>Visualizzazione</li>
+                                            <li>UI/Frontend</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="principle-card">
-                                    <div class="icon">🎮</div>
-                                    <h4>Controller</h4>
-                                    <p><strong>Gestisce le richieste</strong></p>
-                                    <ul>
-                                        <li>Riceve richieste HTTP</li>
-                                        <li>Chiama i model</li>
-                                        <li>Restituisce risposte</li>
-                                    </ul>
-                                </div>
-                                <div class="principle-card">
-                                    <div class="icon">🛣️</div>
-                                    <h4>Routes</h4>
-                                    <p><strong>Definisce i percorsi</strong></p>
-                                    <ul>
-                                        <li>Mapping URL</li>
-                                        <li>Collega a controller</li>
-                                        <li>Applica middleware</li>
-                                    </ul>
-                                </div>
-                                <div class="principle-card">
-                                    <div class="icon">👁️</div>
-                                    <h4>View</h4>
-                                    <p><strong>Presenta i dati</strong></p>
-                                    <ul>
-                                        <li>Template HTML</li>
-                                        <li>Visualizzazione</li>
-                                        <li>UI/Frontend</li>
-                                    </ul>
-                                </div>
-                            </div>
 
-                            <h3>💻 Esempio completo MVC - Sistema Utenti</h3>
-                            
-                            <h4>1️⃣ Model - <code>models/User.js</code></h4>
-                            <pre><code>// 📦 MODEL: Definisce la struttura dati e la logica
+                                <h3>💻 Esempio completo MVC - Sistema Utenti</h3>
+
+                                <h4>1️⃣ Model - <code>models/User.js</code></h4>
+                                <pre><code>// 📦 MODEL: Definisce la struttura dati e la logica
 let users = []; // Simulazione database (in produzione usa MongoDB, PostgreSQL, etc.)
 let nextId = 1;
 
@@ -1405,8 +1704,8 @@ export const User = {
     }
 };</code></pre>
 
-                            <h4>2️⃣ Controller - <code>controllers/userController.js</code></h4>
-                            <pre><code>// 🎮 CONTROLLER: Gestisce la logica delle richieste
+                                <h4>2️⃣ Controller - <code>controllers/userController.js</code></h4>
+                                <pre><code>// 🎮 CONTROLLER: Gestisce la logica delle richieste
 import { User } from '../models/User.js';
 
 export const userController = {
@@ -1520,8 +1819,8 @@ export const userController = {
     }
 };</code></pre>
 
-                            <h4>3️⃣ Routes - <code>routes/userRoutes.js</code></h4>
-                            <pre><code>// 🛣️ ROUTES: Definisce gli endpoint
+                                <h4>3️⃣ Routes - <code>routes/userRoutes.js</code></h4>
+                                <pre><code>// 🛣️ ROUTES: Definisce gli endpoint
 import express from 'express';
 import { userController } from '../controllers/userController.js';
 
@@ -1537,8 +1836,8 @@ router.delete('/:id', userController.deleteUser);      // DELETE /api/users/123
 
 export default router;</code></pre>
 
-                            <h4>4️⃣ Server principale - <code>server.js</code></h4>
-                            <pre><code>// 🚀 SERVER: Assembla tutto insieme
+                                <h4>4️⃣ Server principale - <code>server.js</code></h4>
+                                <pre><code>// 🚀 SERVER: Assembla tutto insieme
 import express from 'express';
 import userRoutes from './routes/userRoutes.js';
 
@@ -1582,20 +1881,38 @@ app.listen(PORT, () => {
     console.log(`   DELETE /api/users/:id   - Elimina utente`);
 });</code></pre>
 
-                            <div class="info-box success">
-                                <h3>✅ Vantaggi dell'architettura MVC</h3>
-                                <ul>
-                                    <li><strong>Separazione delle responsabilità</strong>: Ogni componente ha un ruolo preciso</li>
-                                    <li><strong>Manutenibilità</strong>: Facile trovare e modificare il codice</li>
-                                    <li><strong>Riusabilità</strong>: I model possono essere usati da più controller</li>
-                                    <li><strong>Testabilità</strong>: Ogni parte può essere testata indipendentemente</li>
-                                    <li><strong>Scalabilità</strong>: Puoi aggiungere nuove features senza toccare il codice esistente</li>
-                                    <li><strong>Collaborazione</strong>: Team diversi possono lavorare su parti diverse</li>
-                                </ul>
-                            </div>
+                                <div class="info-box success">
+                                    <h3>✅ Vantaggi dell'architettura MVC</h3>
+                                    <ul>
+                                        <li>
+                                            <strong>Separazione delle responsabilità</strong>: Ogni
+                                            componente ha un ruolo preciso
+                                        </li>
+                                        <li>
+                                            <strong>Manutenibilità</strong>: Facile trovare e
+                                            modificare il codice
+                                        </li>
+                                        <li>
+                                            <strong>Riusabilità</strong>: I model possono essere
+                                            usati da più controller
+                                        </li>
+                                        <li>
+                                            <strong>Testabilità</strong>: Ogni parte può essere
+                                            testata indipendentemente
+                                        </li>
+                                        <li>
+                                            <strong>Scalabilità</strong>: Puoi aggiungere nuove
+                                            features senza toccare il codice esistente
+                                        </li>
+                                        <li>
+                                            <strong>Collaborazione</strong>: Team diversi possono
+                                            lavorare su parti diverse
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            <h3>🧪 Testa la tua API MVC</h3>
-                            <pre><code># 1️⃣ Crea un utente
+                                <h3>🧪 Testa la tua API MVC</h3>
+                                <pre><code># 1️⃣ Crea un utente
 curl -X POST http://localhost:3000/api/users \
   -H "Content-Type: application/json" \
   -d '{"username": "mario", "email": "mario@example.com"}'
@@ -1613,18 +1930,21 @@ curl -X PUT http://localhost:3000/api/users/1 \
 
 # 5️⃣ Elimina utente
 curl -X DELETE http://localhost:3000/api/users/1</code></pre>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🛡️ Best Practices e Sicurezza</h2>
-                            
-                            <div class="info-box warning">
-                                <h3>⚠️ Attenzione alla Sicurezza!</h3>
-                                <p>Le applicazioni web sono costantemente sotto attacco. Segui sempre queste regole fondamentali!</p>
-                            </div>
+                            <article class="subsection">
+                                <h2>🛡️ Best Practices e Sicurezza</h2>
 
-                            <h3>🔒 1. Usa Helmet per la sicurezza HTTP</h3>
-                            <pre><code>// Installa: npm install helmet
+                                <div class="info-box warning">
+                                    <h3>⚠️ Attenzione alla Sicurezza!</h3>
+                                    <p>
+                                        Le applicazioni web sono costantemente sotto attacco. Segui
+                                        sempre queste regole fondamentali!
+                                    </p>
+                                </div>
+
+                                <h3>🔒 1. Usa Helmet per la sicurezza HTTP</h3>
+                                <pre><code>// Installa: npm install helmet
 import helmet from 'helmet';
 
 app.use(helmet());
@@ -1635,8 +1955,8 @@ app.use(helmet());
 // - Strict-Transport-Security (HSTS)
 // - X-XSS-Protection</code></pre>
 
-                            <h3>🚦 2. Rate Limiting - Previeni attacchi bruteforce</h3>
-                            <pre><code>// Installa: npm install express-rate-limit
+                                <h3>🚦 2. Rate Limiting - Previeni attacchi bruteforce</h3>
+                                <pre><code>// Installa: npm install express-rate-limit
 import rateLimit from 'express-rate-limit';
 
 const limiter = rateLimit({
@@ -1653,8 +1973,8 @@ app.post('/login', limiter, (req, res) => {
     // Login logic
 });</code></pre>
 
-                            <h3>✅ 3. Validazione Input - Mai fidarsi del client</h3>
-                            <pre><code>// Installa: npm install express-validator
+                                <h3>✅ 3. Validazione Input - Mai fidarsi del client</h3>
+                                <pre><code>// Installa: npm install express-validator
 import { body, validationResult } from 'express-validator';
 
 app.post('/registrazione',
@@ -1683,8 +2003,8 @@ app.post('/registrazione',
     }
 );</code></pre>
 
-                            <h3>🔐 4. Variabili d'Ambiente - Non hardcodare credenziali</h3>
-                            <pre><code>// ❌ MALE - Credenziali nel codice
+                                <h3>🔐 4. Variabili d'Ambiente - Non hardcodare credenziali</h3>
+                                <pre><code>// ❌ MALE - Credenziali nel codice
 const DB_PASSWORD = 'password123';
 const API_KEY = 'sk_live_abc123xyz';
 
@@ -1710,8 +2030,8 @@ app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`);
 });</code></pre>
 
-                            <h3>📝 5. Logging - Monitora cosa succede</h3>
-                            <pre><code>// Installa: npm install morgan
+                                <h3>📝 5. Logging - Monitora cosa succede</h3>
+                                <pre><code>// Installa: npm install morgan
 import morgan from 'morgan';
 
 // Development: log dettagliati
@@ -1724,15 +2044,15 @@ if (process.env.NODE_ENV === 'production') {
     app.use(morgan('combined'));
 }</code></pre>
 
-                            <h3>⚡ 6. Performance - Comprimi le risposte</h3>
-                            <pre><code>// Installa: npm install compression
+                                <h3>⚡ 6. Performance - Comprimi le risposte</h3>
+                                <pre><code>// Installa: npm install compression
 import compression from 'compression';
 
 app.use(compression());
 // Riduce drasticamente la dimensione delle risposte HTTP</code></pre>
 
-                            <h3>🌐 7. CORS - Gestisci richieste cross-origin</h3>
-                            <pre><code>// Installa: npm install cors
+                                <h3>🌐 7. CORS - Gestisci richieste cross-origin</h3>
+                                <pre><code>// Installa: npm install cors
 import cors from 'cors';
 
 // Permetti tutto (solo development!)
@@ -1745,143 +2065,206 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));</code></pre>
 
-                            <div class="principles-grid">
-                                <div class="principle-card">
-                                    <div class="icon">🔒</div>
-                                    <h4>Sicurezza</h4>
-                                    <ul style="text-align: left; font-size: 0.9em;">
-                                        <li>Helmet headers</li>
-                                        <li>Rate limiting</li>
-                                        <li>Input validation</li>
-                                        <li>HTTPS in production</li>
-                                    </ul>
+                                <div class="principles-grid">
+                                    <div class="principle-card">
+                                        <div class="icon">🔒</div>
+                                        <h4>Sicurezza</h4>
+                                        <ul style="text-align: left; font-size: 0.9em">
+                                            <li>Helmet headers</li>
+                                            <li>Rate limiting</li>
+                                            <li>Input validation</li>
+                                            <li>HTTPS in production</li>
+                                        </ul>
+                                    </div>
+                                    <div class="principle-card">
+                                        <div class="icon">⚡</div>
+                                        <h4>Performance</h4>
+                                        <ul style="text-align: left; font-size: 0.9em">
+                                            <li>Compression</li>
+                                            <li>Caching</li>
+                                            <li>Connection pooling</li>
+                                            <li>Async operations</li>
+                                        </ul>
+                                    </div>
+                                    <div class="principle-card">
+                                        <div class="icon">📦</div>
+                                        <h4>Struttura</h4>
+                                        <ul style="text-align: left; font-size: 0.9em">
+                                            <li>Architettura MVC</li>
+                                            <li>Separation of concerns</li>
+                                            <li>Moduli riutilizzabili</li>
+                                            <li>Error boundaries</li>
+                                        </ul>
+                                    </div>
+                                    <div class="principle-card">
+                                        <div class="icon">🧪</div>
+                                        <h4>Testing & Deploy</h4>
+                                        <ul style="text-align: left; font-size: 0.9em">
+                                            <li>Unit tests</li>
+                                            <li>Environment config</li>
+                                            <li>Logging/monitoring</li>
+                                            <li>Graceful shutdown</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="principle-card">
-                                    <div class="icon">⚡</div>
-                                    <h4>Performance</h4>
-                                    <ul style="text-align: left; font-size: 0.9em;">
-                                        <li>Compression</li>
-                                        <li>Caching</li>
-                                        <li>Connection pooling</li>
-                                        <li>Async operations</li>
-                                    </ul>
-                                </div>
-                                <div class="principle-card">
-                                    <div class="icon">📦</div>
-                                    <h4>Struttura</h4>
-                                    <ul style="text-align: left; font-size: 0.9em;">
-                                        <li>Architettura MVC</li>
-                                        <li>Separation of concerns</li>
-                                        <li>Moduli riutilizzabili</li>
-                                        <li>Error boundaries</li>
-                                    </ul>
-                                </div>
-                                <div class="principle-card">
-                                    <div class="icon">🧪</div>
-                                    <h4>Testing & Deploy</h4>
-                                    <ul style="text-align: left; font-size: 0.9em;">
-                                        <li>Unit tests</li>
-                                        <li>Environment config</li>
-                                        <li>Logging/monitoring</li>
-                                        <li>Graceful shutdown</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </article>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>📚 Risorse e Middleware Popolari</h2>
-                            
-                            <h3>🔧 Middleware essenziali per Express</h3>
-                            <table class="comparison-table">
-                                <thead>
-                                    <tr>
-                                        <th>Middleware</th>
-                                        <th>Scopo</th>
-                                        <th>Installazione</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>helmet</strong></td>
-                                        <td>Sicurezza headers HTTP</td>
-                                        <td><code>npm i helmet</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>cors</strong></td>
-                                        <td>Gestione CORS</td>
-                                        <td><code>npm i cors</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>morgan</strong></td>
-                                        <td>HTTP logging</td>
-                                        <td><code>npm i morgan</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>compression</strong></td>
-                                        <td>Compressione risposte</td>
-                                        <td><code>npm i compression</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>express-rate-limit</strong></td>
-                                        <td>Rate limiting</td>
-                                        <td><code>npm i express-rate-limit</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>express-validator</strong></td>
-                                        <td>Validazione input</td>
-                                        <td><code>npm i express-validator</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>cookie-parser</strong></td>
-                                        <td>Parsing cookie</td>
-                                        <td><code>npm i cookie-parser</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>dotenv</strong></td>
-                                        <td>Variabili ambiente</td>
-                                        <td><code>npm i dotenv</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>multer</strong></td>
-                                        <td>Upload file</td>
-                                        <td><code>npm i multer</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>express-session</strong></td>
-                                        <td>Gestione sessioni</td>
-                                        <td><code>npm i express-session</code></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <article class="subsection">
+                                <h2>📚 Risorse e Middleware Popolari</h2>
 
-                            <h3>📖 Documentazione ufficiale</h3>
-                            <div class="tip-card">
-                                <ul>
-                                    <li><strong>Express.js Docs</strong>: <a href="https://expressjs.com/" target="_blank">https://expressjs.com/</a></li>
-                                    <li><strong>Express API Reference</strong>: <a href="https://expressjs.com/en/4x/api.html" target="_blank">https://expressjs.com/en/4x/api.html</a></li>
-                                    <li><strong>Express Guide</strong>: <a href="https://expressjs.com/en/guide/routing.html" target="_blank">https://expressjs.com/en/guide/routing.html</a></li>
-                                    <li><strong>NPM - Express</strong>: <a href="https://www.npmjs.com/package/express" target="_blank">https://www.npmjs.com/package/express</a></li>
-                                    <li><strong>GitHub - Express</strong>: <a href="https://github.com/expressjs/express" target="_blank">https://github.com/expressjs/express</a></li>
-                                </ul>
-                            </div>
+                                <h3>🔧 Middleware essenziali per Express</h3>
+                                <table class="comparison-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Middleware</th>
+                                            <th>Scopo</th>
+                                            <th>Installazione</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>helmet</strong></td>
+                                            <td>Sicurezza headers HTTP</td>
+                                            <td><code>npm i helmet</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>cors</strong></td>
+                                            <td>Gestione CORS</td>
+                                            <td><code>npm i cors</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>morgan</strong></td>
+                                            <td>HTTP logging</td>
+                                            <td><code>npm i morgan</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>compression</strong></td>
+                                            <td>Compressione risposte</td>
+                                            <td><code>npm i compression</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>express-rate-limit</strong></td>
+                                            <td>Rate limiting</td>
+                                            <td><code>npm i express-rate-limit</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>express-validator</strong></td>
+                                            <td>Validazione input</td>
+                                            <td><code>npm i express-validator</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>cookie-parser</strong></td>
+                                            <td>Parsing cookie</td>
+                                            <td><code>npm i cookie-parser</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>dotenv</strong></td>
+                                            <td>Variabili ambiente</td>
+                                            <td><code>npm i dotenv</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>multer</strong></td>
+                                            <td>Upload file</td>
+                                            <td><code>npm i multer</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>express-session</strong></td>
+                                            <td>Gestione sessioni</td>
+                                            <td><code>npm i express-session</code></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                            <div class="info-box success">
-                                <h3>🎯 Punti Chiave Express.js</h3>
-                                <ol>
-                                    <li><strong>Express è minimalista</strong>: Ti dà le basi, tu aggiungi quello che serve</li>
-                                    <li><strong>Routing potente</strong>: Gestisci facilmente URL complessi con parametri</li>
-                                    <li><strong>Middleware è tutto</strong>: Ogni richiesta passa attraverso una catena di middleware</li>
-                                    <li><strong>Req/Res objects</strong>: Contengono tutto quello che ti serve per gestire richieste</li>
-                                    <li><strong>MVC consigliato</strong>: Separa Model, Controller, Routes per codice pulito</li>
-                                    <li><strong>Sicurezza prima di tutto</strong>: Usa helmet, validazione, rate limiting</li>
-                                    <li><strong>Environment variables</strong>: Mai hardcodare credenziali nel codice</li>
-                                    <li><strong>Error handling</strong>: Middleware con 4 parametri (err, req, res, next)</li>
-                                    <li><strong>Ecosistema ricco</strong>: Migliaia di middleware pronti all'uso su npm</li>
-                                    <li><strong>Pratica costante</strong>: Crea progetti reali per padroneggiare Express!</li>
-                                </ol>
-                            </div>
-                        </article>
+                                <h3>📖 Documentazione ufficiale</h3>
+                                <div class="tip-card">
+                                    <ul>
+                                        <li>
+                                            <strong>Express.js Docs</strong>:
+                                            <a href="https://expressjs.com/" target="_blank"
+                                                >https://expressjs.com/</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <strong>Express API Reference</strong>:
+                                            <a
+                                                href="https://expressjs.com/en/4x/api.html"
+                                                target="_blank"
+                                                >https://expressjs.com/en/4x/api.html</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <strong>Express Guide</strong>:
+                                            <a
+                                                href="https://expressjs.com/en/guide/routing.html"
+                                                target="_blank"
+                                                >https://expressjs.com/en/guide/routing.html</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <strong>NPM - Express</strong>:
+                                            <a
+                                                href="https://www.npmjs.com/package/express"
+                                                target="_blank"
+                                                >https://www.npmjs.com/package/express</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <strong>GitHub - Express</strong>:
+                                            <a
+                                                href="https://github.com/expressjs/express"
+                                                target="_blank"
+                                                >https://github.com/expressjs/express</a
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="info-box success">
+                                    <h3>🎯 Punti Chiave Express.js</h3>
+                                    <ol>
+                                        <li>
+                                            <strong>Express è minimalista</strong>: Ti dà le basi,
+                                            tu aggiungi quello che serve
+                                        </li>
+                                        <li>
+                                            <strong>Routing potente</strong>: Gestisci facilmente
+                                            URL complessi con parametri
+                                        </li>
+                                        <li>
+                                            <strong>Middleware è tutto</strong>: Ogni richiesta
+                                            passa attraverso una catena di middleware
+                                        </li>
+                                        <li>
+                                            <strong>Req/Res objects</strong>: Contengono tutto
+                                            quello che ti serve per gestire richieste
+                                        </li>
+                                        <li>
+                                            <strong>MVC consigliato</strong>: Separa Model,
+                                            Controller, Routes per codice pulito
+                                        </li>
+                                        <li>
+                                            <strong>Sicurezza prima di tutto</strong>: Usa helmet,
+                                            validazione, rate limiting
+                                        </li>
+                                        <li>
+                                            <strong>Environment variables</strong>: Mai hardcodare
+                                            credenziali nel codice
+                                        </li>
+                                        <li>
+                                            <strong>Error handling</strong>: Middleware con 4
+                                            parametri (err, req, res, next)
+                                        </li>
+                                        <li>
+                                            <strong>Ecosistema ricco</strong>: Migliaia di
+                                            middleware pronti all'uso su npm
+                                        </li>
+                                        <li>
+                                            <strong>Pratica costante</strong>: Crea progetti reali
+                                            per padroneggiare Express!
+                                        </li>
+                                    </ol>
+                                </div>
+                            </article>
                             <ul>
                                 <li>✅ Usa <code>helmet</code> per headers sicuri</li>
                                 <li>✅ Validazione input con <code>express-validator</code></li>
@@ -1929,103 +2312,164 @@ app.post('/users',
         }
         res.json({ success: true });
     }
-);</code></pre>
-                        </article>
+);
+</code></pre>
 
-                        <article class="subsection">
-                            <h2>📦 Middleware Popolari</h2>
-                            
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Package</th>
-                                        <th>Scopo</th>
-                                        <th>Installazione</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><code>cors</code></td>
-                                        <td>Cross-Origin Resource Sharing</td>
-                                        <td><code>npm install cors</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>helmet</code></td>
-                                        <td>Security headers</td>
-                                        <td><code>npm install helmet</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>morgan</code></td>
-                                        <td>HTTP request logger</td>
-                                        <td><code>npm install morgan</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>express-validator</code></td>
-                                        <td>Validazione input</td>
-                                        <td><code>npm install express-validator</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>express-rate-limit</code></td>
-                                        <td>Rate limiting</td>
-                                        <td><code>npm install express-rate-limit</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>compression</code></td>
-                                        <td>Compressione gzip</td>
-                                        <td><code>npm install compression</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>cookie-parser</code></td>
-                                        <td>Parsing cookie</td>
-                                        <td><code>npm install cookie-parser</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>dotenv</code></td>
-                                        <td>Environment variables</td>
-                                        <td><code>npm install dotenv</code></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </article>
+                            <article class="subsection">
+                                <h2>📦 Middleware Popolari</h2>
 
-                        <article class="subsection">
-                            <h2>📚 Risorse e Documentazione</h2>
-                            <ul>
-                                <li>📖 <a href="https://expressjs.com/" target="_blank">Documentazione ufficiale Express.js</a></li>
-                                <li>🎓 <a href="https://expressjs.com/en/guide/routing.html" target="_blank">Guida Routing</a></li>
-                                <li>🔌 <a href="https://expressjs.com/en/guide/using-middleware.html" target="_blank">Guida Middleware</a></li>
-                                <li>🛡️ <a href="https://expressjs.com/en/advanced/best-practice-security.html" target="_blank">Security Best Practices</a></li>
-                                <li>⚡ <a href="https://expressjs.com/en/advanced/best-practice-performance.html" target="_blank">Performance Best Practices</a></li>
-                                <li>📦 <a href="https://github.com/expressjs/express" target="_blank">Express.js su GitHub</a></li>
-                            </ul>
-                        </article>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Package</th>
+                                            <th>Scopo</th>
+                                            <th>Installazione</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>cors</code></td>
+                                            <td>Cross-Origin Resource Sharing</td>
+                                            <td><code>npm install cors</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>helmet</code></td>
+                                            <td>Security headers</td>
+                                            <td><code>npm install helmet</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>morgan</code></td>
+                                            <td>HTTP request logger</td>
+                                            <td><code>npm install morgan</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>express-validator</code></td>
+                                            <td>Validazione input</td>
+                                            <td><code>npm install express-validator</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>express-rate-limit</code></td>
+                                            <td>Rate limiting</td>
+                                            <td><code>npm install express-rate-limit</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>compression</code></td>
+                                            <td>Compressione gzip</td>
+                                            <td><code>npm install compression</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>cookie-parser</code></td>
+                                            <td>Parsing cookie</td>
+                                            <td><code>npm install cookie-parser</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>dotenv</code></td>
+                                            <td>Environment variables</td>
+                                            <td><code>npm install dotenv</code></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🎯 Punti chiave</h2>
-                            <div class="info-box">
-                                <h3>✅ Da ricordare</h3>
+                            <article class="subsection">
+                                <h2>📚 Risorse e Documentazione</h2>
                                 <ul>
-                                    <li>Express è un framework <strong>minimalista</strong> e <strong>non-opinionated</strong></li>
-                                    <li>Il <strong>middleware</strong> è il concetto fondamentale (pipeline di funzioni)</li>
-                                    <li>Usare <code>next()</code> per passare al prossimo middleware</li>
-                                    <li>Error handler deve avere <strong>4 parametri</strong> (err, req, res, next)</li>
-                                    <li>Router modulari per organizzare il codice</li>
-                                    <li>Separare logica in <strong>controllers</strong>, <strong>models</strong>, <strong>routes</strong></li>
-                                    <li>Usare middleware di sicurezza (helmet, cors, rate-limit)</li>
-                                    <li>Environment variables per configurazioni sensibili</li>
-                                    <li>Async/await per operazioni asincrone</li>
+                                    <li>
+                                        📖
+                                        <a href="https://expressjs.com/" target="_blank"
+                                            >Documentazione ufficiale Express.js</a
+                                        >
+                                    </li>
+                                    <li>
+                                        🎓
+                                        <a
+                                            href="https://expressjs.com/en/guide/routing.html"
+                                            target="_blank"
+                                            >Guida Routing</a
+                                        >
+                                    </li>
+                                    <li>
+                                        🔌
+                                        <a
+                                            href="https://expressjs.com/en/guide/using-middleware.html"
+                                            target="_blank"
+                                            >Guida Middleware</a
+                                        >
+                                    </li>
+                                    <li>
+                                        🛡️
+                                        <a
+                                            href="https://expressjs.com/en/advanced/best-practice-security.html"
+                                            target="_blank"
+                                            >Security Best Practices</a
+                                        >
+                                    </li>
+                                    <li>
+                                        ⚡
+                                        <a
+                                            href="https://expressjs.com/en/advanced/best-practice-performance.html"
+                                            target="_blank"
+                                            >Performance Best Practices</a
+                                        >
+                                    </li>
+                                    <li>
+                                        📦
+                                        <a
+                                            href="https://github.com/expressjs/express"
+                                            target="_blank"
+                                            >Express.js su GitHub</a
+                                        >
+                                    </li>
                                 </ul>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="section-navigation">
-                        <a class="btn btn--outline" href="package-json.html">← Package.json & NPM</a>
-                        <a class="btn btn--primary" href="oggetti-globali.html">Oggetti Globali →</a>
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-    <script src="../../app.js"></script>
-</body>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>🎯 Punti chiave</h2>
+                                <div class="info-box">
+                                    <h3>✅ Da ricordare</h3>
+                                    <ul>
+                                        <li>
+                                            Express è un framework <strong>minimalista</strong> e
+                                            <strong>non-opinionated</strong>
+                                        </li>
+                                        <li>
+                                            Il <strong>middleware</strong> è il concetto
+                                            fondamentale (pipeline di funzioni)
+                                        </li>
+                                        <li>
+                                            Usare <code>next()</code> per passare al prossimo
+                                            middleware
+                                        </li>
+                                        <li>
+                                            Error handler deve avere
+                                            <strong>4 parametri</strong> (err, req, res, next)
+                                        </li>
+                                        <li>Router modulari per organizzare il codice</li>
+                                        <li>
+                                            Separare logica in <strong>controllers</strong>,
+                                            <strong>models</strong>, <strong>routes</strong>
+                                        </li>
+                                        <li>
+                                            Usare middleware di sicurezza (helmet, cors, rate-limit)
+                                        </li>
+                                        <li>Environment variables per configurazioni sensibili</li>
+                                        <li>Async/await per operazioni asincrone</li>
+                                    </ul>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="section-navigation">
+                            <a class="btn btn--outline" href="package-json.html"
+                                >← Package.json & NPM</a
+                            >
+                            <a class="btn btn--primary" href="oggetti-globali.html"
+                                >Oggetti Globali →</a
+                            >
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script src="../../app.js"></script>
+    </body>
 </html>

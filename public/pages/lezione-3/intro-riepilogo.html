@@ -1,343 +1,575 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Introduzione e Riepilogo - Lezione 3</title>
-    <meta name="description" content="Riepilogo delle lezioni precedenti e introduzione alla Lezione 3: moduli, package.json e oggetti avanzati di Node.js" />
-    <link rel="stylesheet" href="../../style.css">
-</head>
-<body>
-    <header class="app-header">
-        <div class="header-content">
-            <h1 class="header-title">🏗️ Architettura Web</h1>
-            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
-                <span class="theme-toggle-icon">🌙</span>
-                <span class="theme-toggle-text">Dark</span>
-            </button>
-        </div>
-    </header>
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-title">🏗️ Architettura Web</h1>
-                <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
-                <div class="progress-indicator">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <span class="progress-text" id="progressText">Sezione 1 di 7</span>
-                </div>
-            </div>
-            <nav class="sidebar-nav">
-                <ul class="nav-list" id="navList">
-                    <li class="nav-item active"><a href="intro-riepilogo.html" class="nav-link"><span class="nav-icon">📖</span><span class="nav-text">Intro e Riepilogo</span></a></li>
-                    <li class="nav-item"><a href="moduli-nodejs.html" class="nav-link"><span class="nav-icon">📦</span><span class="nav-text">Moduli in Node.js</span></a></li>
-                    <li class="nav-item"><a href="package-json.html" class="nav-link"><span class="nav-icon">⚙️</span><span class="nav-text">Package.json & NPM</span></a></li>
-                    <li class="nav-item"><a href="oggetti-globali.html" class="nav-link"><span class="nav-icon">🌐</span><span class="nav-text">Oggetti Globali</span></a></li>
-                    <li class="nav-item"><a href="stream-filesystem.html" class="nav-link"><span class="nav-icon">🔄</span><span class="nav-text">Stream & File System</span></a></li>
-                    <li class="nav-item"><a href="nodejs-oggetti-crud.html" class="nav-link"><span class="nav-icon">💾</span><span class="nav-text">Oggetti & CRUD</span></a></li>
-                    <li class="nav-item"><a href="esercizi-lezione3.html" class="nav-link"><span class="nav-icon">✏️</span><span class="nav-text">Esercizi Pratici</span></a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <button class="toggle-sidebar" id="toggleSidebar" aria-label="Nascondi/Mostra sidebar">
-                    <span>←</span>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Introduzione e Riepilogo - Lezione 3</title>
+        <meta
+            name="description"
+            content="Riepilogo delle lezioni precedenti e introduzione alla Lezione 3: moduli, package.json e oggetti avanzati di Node.js"
+        />
+        <link rel="stylesheet" href="../../style.css" />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="header-title">🏗️ Architettura Web</h1>
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <span class="theme-toggle-text">Dark</span>
                 </button>
             </div>
-        </aside>
-        <main class="main-content" id="mainContent">
-            <div class="content-container" id="contentContainer">
-                <section class="content-section active" id="intro-riepilogo">
-                    <div class="section-content">
-                        <header class="section-header">
-                            <h1>📖 Benvenuti alla Lezione 3</h1>
-                            <p class="section-description">Prima di andare avanti, facciamo un riepilogo completo di cosa abbiamo imparato e dove stiamo andando. Questa pagina ti aiuterà a consolidare i concetti fondamentali.</p>
-                        </header>
+        </header>
+        <div class="app-container">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-title">🏗️ Architettura Web</h1>
+                    <p class="sidebar-subtitle">Lezione 3: Node.js Avanzato</p>
+                    <div class="progress-indicator">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">Sezione 1 di 7</span>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul class="nav-list" id="navList">
+                        <li class="nav-item active">
+                            <a href="intro-riepilogo.html" class="nav-link"
+                                ><span class="nav-icon">📖</span
+                                ><span class="nav-text">Intro e Riepilogo</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="moduli-nodejs.html" class="nav-link"
+                                ><span class="nav-icon">📦</span
+                                ><span class="nav-text">Moduli in Node.js</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="package-json.html" class="nav-link"
+                                ><span class="nav-icon">⚙️</span
+                                ><span class="nav-text">Package.json & NPM</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="oggetti-globali.html" class="nav-link"
+                                ><span class="nav-icon">🌐</span
+                                ><span class="nav-text">Oggetti Globali</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="stream-filesystem.html" class="nav-link"
+                                ><span class="nav-icon">🔄</span
+                                ><span class="nav-text">Stream & File System</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="nodejs-oggetti-crud.html" class="nav-link"
+                                ><span class="nav-icon">💾</span
+                                ><span class="nav-text">Oggetti & CRUD</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a href="esercizi-lezione3.html" class="nav-link"
+                                ><span class="nav-icon">✏️</span
+                                ><span class="nav-text">Esercizi Pratici</span></a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                    <button
+                        class="toggle-sidebar"
+                        id="toggleSidebar"
+                        aria-label="Nascondi/Mostra sidebar"
+                    >
+                        <span>←</span>
+                    </button>
+                </div>
+            </aside>
+            <main class="main-content" id="mainContent">
+                <div class="content-container" id="contentContainer">
+                    <section class="content-section active" id="intro-riepilogo">
+                        <div class="section-content">
+                            <header class="section-header">
+                                <h1>📖 Benvenuti alla Lezione 3</h1>
+                                <p class="section-description">
+                                    Prima di andare avanti, facciamo un riepilogo completo di cosa
+                                    abbiamo imparato e dove stiamo andando. Questa pagina ti aiuterà
+                                    a consolidare i concetti fondamentali.
+                                </p>
+                            </header>
 
-                        <article class="subsection">
-                            <h2>🎯 Obiettivi della Lezione 3</h2>
-                            <div class="info-box welcome">
-                                <h3>Cosa imparerai oggi</h3>
-                                <p>In questa lezione approfondiremo gli aspetti più pratici di Node.js per costruire applicazioni reali:</p>
-                                <ul>
-                                    <li>🔧 <strong>Moduli:</strong> come organizzare il codice in file separati (CommonJS e ES Modules)</li>
-                                    <li>📦 <strong>Package.json:</strong> gestire dipendenze e configurazioni del progetto</li>
-                                    <li>🌐 <strong>Oggetti globali:</strong> process, Buffer, __dirname e altri strumenti essenziali</li>
-                                    <li>🔄 <strong>Stream:</strong> gestire file grandi e flussi di dati in modo efficiente</li>
-                                    <li>💾 <strong>CRUD avanzato:</strong> operazioni complete su dati persistenti</li>
-                                    <li>✏️ <strong>Esercizi:</strong> progetti pratici per consolidare tutto</li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>📚 Riepilogo Lezione 1: Fondamenti di Architettura Web</h2>
-                            
-                            <div class="principles-grid">
-                                <div class="principle-card advantage">
-                                    <h3>🔄 Client-Server</h3>
-                                    <p>Abbiamo imparato come funziona la comunicazione tra client (browser) e server attraverso richieste HTTP.</p>
+                            <article class="subsection">
+                                <h2>🎯 Obiettivi della Lezione 3</h2>
+                                <div class="info-box welcome">
+                                    <h3>Cosa imparerai oggi</h3>
+                                    <p>
+                                        In questa lezione approfondiremo gli aspetti più pratici di
+                                        Node.js per costruire applicazioni reali:
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            🔧 <strong>Moduli:</strong> come organizzare il codice
+                                            in file separati (CommonJS e ES Modules)
+                                        </li>
+                                        <li>
+                                            📦 <strong>Package.json:</strong> gestire dipendenze e
+                                            configurazioni del progetto
+                                        </li>
+                                        <li>
+                                            🌐 <strong>Oggetti globali:</strong> process, Buffer,
+                                            __dirname e altri strumenti essenziali
+                                        </li>
+                                        <li>
+                                            🔄 <strong>Stream:</strong> gestire file grandi e flussi
+                                            di dati in modo efficiente
+                                        </li>
+                                        <li>
+                                            💾 <strong>CRUD avanzato:</strong> operazioni complete
+                                            su dati persistenti
+                                        </li>
+                                        <li>
+                                            ✏️ <strong>Esercizi:</strong> progetti pratici per
+                                            consolidare tutto
+                                        </li>
+                                    </ul>
                                 </div>
-                                
-                                <div class="principle-card advantage">
-                                    <h3>🏢 Architetture</h3>
-                                    <p>Differenza tra architetture monolitiche (tutto in un blocco) e microservizi (componenti separati).</p>
-                                </div>
-                                
-                                <div class="principle-card advantage">
-                                    <h3>📱 Single Page Application</h3>
-                                    <p>Le SPA caricano una sola volta e aggiornano il contenuto dinamicamente senza ricaricare la pagina.</p>
-                                </div>
-                                
-                                <div class="principle-card curiosity">
-                                    <h3>🌐 Protocollo HTTP</h3>
-                                    <p>Il linguaggio che browser e server usano per comunicare: GET, POST, PUT, DELETE.</p>
-                                </div>
-                            </div>
+                            </article>
 
-                            <div class="info-box info">
-                                <h3>🔑 Concetti chiave della Lezione 1</h3>
-                                <table class="data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Concetto</th>
-                                            <th>Cosa ricordare</th>
-                                            <th>Perché è importante</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>REST API</strong></td>
-                                            <td>Interfacce standardizzate per comunicare tra sistemi</td>
-                                            <td>Base per qualsiasi applicazione web moderna</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>JSON</strong></td>
-                                            <td>Formato per scambiare dati strutturati</td>
-                                            <td>Linguaggio universale tra frontend e backend</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>JWT</strong></td>
-                                            <td>Token per autenticare utenti in modo sicuro</td>
-                                            <td>Gestione sessioni nelle applicazioni moderne</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>CORS</strong></td>
-                                            <td>Meccanismo di sicurezza tra domini diversi</td>
-                                            <td>Evita che siti malevoli rubino dati</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <article class="subsection">
+                                <h2>📚 Riepilogo Lezione 1: Fondamenti di Architettura Web</h2>
 
-                            <div class="info-box welcome">
-                                <h3>🎭 Analogia pratica</h3>
-                                <p>La Lezione 1 è come imparare le <strong>regole del traffico stradale</strong>: hai capito i segnali (HTTP), le precedenze (sicurezza), e come funziona la comunicazione tra veicoli (client-server).</p>
-                            </div>
-                        </article>
+                                <div class="principles-grid">
+                                    <div class="principle-card advantage">
+                                        <h3>🔄 Client-Server</h3>
+                                        <p>
+                                            Abbiamo imparato come funziona la comunicazione tra
+                                            client (browser) e server attraverso richieste HTTP.
+                                        </p>
+                                    </div>
 
-                        <article class="subsection">
-                            <h2>🚀 Riepilogo Lezione 2: Architetture Avanzate</h2>
-                            
-                            <div class="principles-grid">
-                                <div class="principle-card advantage">
-                                    <h3>⏱️ Promises & Async</h3>
-                                    <p>Gestione del codice asincrono: Promise, async/await e combinatori come Promise.all().</p>
-                                </div>
-                                
-                                <div class="principle-card advantage">
-                                    <h3>⚙️ V8 & Event Loop</h3>
-                                    <p>Come Node.js esegue JavaScript: motore V8, event loop e gestione migliaia di connessioni simultanee.</p>
-                                </div>
-                                
-                                <div class="principle-card advantage">
-                                    <h3>🌐 API REST</h3>
-                                    <p>Progettazione e implementazione di API RESTful con Node.js ed Express.</p>
-                                </div>
-                                
-                                <div class="principle-card curiosity">
-                                    <h3>🔗 Middleware</h3>
-                                    <p>Funzioni che processano richieste in sequenza: autenticazione, logging, parsing dati.</p>
-                                </div>
-                            </div>
+                                    <div class="principle-card advantage">
+                                        <h3>🏢 Architetture</h3>
+                                        <p>
+                                            Differenza tra architetture monolitiche (tutto in un
+                                            blocco) e microservizi (componenti separati).
+                                        </p>
+                                    </div>
 
-                            <div class="info-box info">
-                                <h3>🔑 Concetti chiave della Lezione 2</h3>
-                                <table class="data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Concetto</th>
-                                            <th>Cosa ricordare</th>
-                                            <th>Quando usarlo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>async/await</strong></td>
-                                            <td>Sintassi per scrivere codice asincrono come se fosse sincrono</td>
-                                            <td>Sempre, quando lavori con operazioni asincrone</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Promise.all()</strong></td>
-                                            <td>Esegue più Promise in parallelo</td>
-                                            <td>Quando hai operazioni indipendenti da velocizzare</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Event Loop</strong></td>
-                                            <td>Il "direttore d'orchestra" che gestisce l'asincronia</td>
-                                            <td>Per capire come ottimizzare le performance</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Middleware</strong></td>
-                                            <td>Funzioni che processano req/res in catena</td>
-                                            <td>Autenticazione, validazione, logging</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                    <div class="principle-card advantage">
+                                        <h3>📱 Single Page Application</h3>
+                                        <p>
+                                            Le SPA caricano una sola volta e aggiornano il contenuto
+                                            dinamicamente senza ricaricare la pagina.
+                                        </p>
+                                    </div>
 
-                            <div class="info-box welcome">
-                                <h3>🎭 Analogia pratica</h3>
-                                <p>La Lezione 2 è come imparare a <strong>guidare un autobus</strong>: non solo conosci le regole (Lezione 1), ma sai come gestire tanti passeggeri (richieste) contemporaneamente senza fermarti mai (event loop).</p>
-                            </div>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>🎓 Check delle competenze acquisite</h2>
-                            <div class="info-box success">
-                                <h3>✅ Verifica di essere pronto per la Lezione 3</h3>
-                                <p>Prima di continuare, assicurati di poter rispondere "SÌ" a queste domande:</p>
-                                
-                                <h4>📚 Lezione 1 - Fondamenti</h4>
-                                <ul>
-                                    <li>❓ So cos'è un'API REST e quali sono i metodi HTTP principali?</li>
-                                    <li>❓ Capisco la differenza tra architettura monolitica e microservizi?</li>
-                                    <li>❓ So cosa sono JSON e JWT e a cosa servono?</li>
-                                    <li>❓ Conosco i concetti base di sicurezza (CORS, CSRF)?</li>
-                                </ul>
-
-                                <h4>🚀 Lezione 2 - Asincronia</h4>
-                                <ul>
-                                    <li>❓ So usare async/await e gestire gli errori con try/catch?</li>
-                                    <li>❓ Capisco come funziona l'Event Loop di Node.js?</li>
-                                    <li>❓ So cos'è un middleware e come si usa in Express?</li>
-                                    <li>❓ Conosco la differenza tra operazioni sincrone e asincrone?</li>
-                                </ul>
-                            </div>
-
-                            <div class="info-box warning">
-                                <h3>⚠️ Se hai risposto NO a qualche domanda</h3>
-                                <p>Non preoccuparti! Torna indietro e rivedi gli argomenti che non hai chiaro. È importante avere solide basi prima di procedere. Ecco cosa fare:</p>
-                                <ul>
-                                    <li>📖 Rileggi le sezioni relative alle domande dove hai dubbi</li>
-                                    <li>💻 Prova gli esempi di codice nel terminale</li>
-                                    <li>✏️ Fai gli esercizi delle lezioni precedenti</li>
-                                    <li>🤔 Chiedi al docente di chiarire i concetti poco chiari</li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="subsection">
-                            <h2>🗺️ La roadmap della Lezione 3</h2>
-                            <div class="steps">
-                                <div class="step">
-                                    <h3>1️⃣ Moduli in Node.js</h3>
-                                    <p><strong>Prerequisiti:</strong> JavaScript base, variabili e funzioni</p>
-                                    <p><strong>Imparerai:</strong> Come dividere il codice in file separati, differenza tra CommonJS (<code>require</code>) e ES Modules (<code>import/export</code>)</p>
+                                    <div class="principle-card curiosity">
+                                        <h3>🌐 Protocollo HTTP</h3>
+                                        <p>
+                                            Il linguaggio che browser e server usano per comunicare:
+                                            GET, POST, PUT, DELETE.
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <div class="step">
-                                    <h3>2️⃣ Package.json & NPM</h3>
-                                    <p><strong>Prerequisiti:</strong> Concetto di moduli</p>
-                                    <p><strong>Imparerai:</strong> Gestire dipendenze, configurare il progetto, usare script automatici</p>
+                                <div class="info-box info">
+                                    <h3>🔑 Concetti chiave della Lezione 1</h3>
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Concetto</th>
+                                                <th>Cosa ricordare</th>
+                                                <th>Perché è importante</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>REST API</strong></td>
+                                                <td>
+                                                    Interfacce standardizzate per comunicare tra
+                                                    sistemi
+                                                </td>
+                                                <td>Base per qualsiasi applicazione web moderna</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>JSON</strong></td>
+                                                <td>Formato per scambiare dati strutturati</td>
+                                                <td>
+                                                    Linguaggio universale tra frontend e backend
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>JWT</strong></td>
+                                                <td>Token per autenticare utenti in modo sicuro</td>
+                                                <td>
+                                                    Gestione sessioni nelle applicazioni moderne
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>CORS</strong></td>
+                                                <td>Meccanismo di sicurezza tra domini diversi</td>
+                                                <td>Evita che siti malevoli rubino dati</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
 
-                                <div class="step">
-                                    <h3>3️⃣ Oggetti Globali</h3>
-                                    <p><strong>Prerequisiti:</strong> Node.js installato, concetti base di runtime</p>
-                                    <p><strong>Imparerai:</strong> process, Buffer, __dirname, __filename e altri oggetti essenziali</p>
+                                <div class="info-box welcome">
+                                    <h3>🎭 Analogia pratica</h3>
+                                    <p>
+                                        La Lezione 1 è come imparare le
+                                        <strong>regole del traffico stradale</strong>: hai capito i
+                                        segnali (HTTP), le precedenze (sicurezza), e come funziona
+                                        la comunicazione tra veicoli (client-server).
+                                    </p>
+                                </div>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>🚀 Riepilogo Lezione 2: Architetture Avanzate</h2>
+
+                                <div class="principles-grid">
+                                    <div class="principle-card advantage">
+                                        <h3>⏱️ Promises & Async</h3>
+                                        <p>
+                                            Gestione del codice asincrono: Promise, async/await e
+                                            combinatori come Promise.all().
+                                        </p>
+                                    </div>
+
+                                    <div class="principle-card advantage">
+                                        <h3>⚙️ V8 & Event Loop</h3>
+                                        <p>
+                                            Come Node.js esegue JavaScript: motore V8, event loop e
+                                            gestione migliaia di connessioni simultanee.
+                                        </p>
+                                    </div>
+
+                                    <div class="principle-card advantage">
+                                        <h3>🌐 API REST</h3>
+                                        <p>
+                                            Progettazione e implementazione di API RESTful con
+                                            Node.js ed Express.
+                                        </p>
+                                    </div>
+
+                                    <div class="principle-card curiosity">
+                                        <h3>🔗 Middleware</h3>
+                                        <p>
+                                            Funzioni che processano richieste in sequenza:
+                                            autenticazione, logging, parsing dati.
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <div class="step">
-                                    <h3>4️⃣ Stream & File System</h3>
-                                    <p><strong>Prerequisiti:</strong> Async/await, conoscenza base di I/O</p>
-                                    <p><strong>Imparerai:</strong> Gestire file grandi con Stream, operazioni avanzate sul file system</p>
+                                <div class="info-box info">
+                                    <h3>🔑 Concetti chiave della Lezione 2</h3>
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Concetto</th>
+                                                <th>Cosa ricordare</th>
+                                                <th>Quando usarlo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>async/await</strong></td>
+                                                <td>
+                                                    Sintassi per scrivere codice asincrono come se
+                                                    fosse sincrono
+                                                </td>
+                                                <td>
+                                                    Sempre, quando lavori con operazioni asincrone
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Promise.all()</strong></td>
+                                                <td>Esegue più Promise in parallelo</td>
+                                                <td>
+                                                    Quando hai operazioni indipendenti da
+                                                    velocizzare
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Event Loop</strong></td>
+                                                <td>
+                                                    Il "direttore d'orchestra" che gestisce
+                                                    l'asincronia
+                                                </td>
+                                                <td>Per capire come ottimizzare le performance</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Middleware</strong></td>
+                                                <td>Funzioni che processano req/res in catena</td>
+                                                <td>Autenticazione, validazione, logging</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
 
-                                <div class="step">
-                                    <h3>5️⃣ Oggetti & CRUD</h3>
-                                    <p><strong>Prerequisiti:</strong> Tutti gli argomenti precedenti</p>
-                                    <p><strong>Imparerai:</strong> Implementare operazioni CRUD complete, gestire dati persistenti</p>
+                                <div class="info-box welcome">
+                                    <h3>🎭 Analogia pratica</h3>
+                                    <p>
+                                        La Lezione 2 è come imparare a
+                                        <strong>guidare un autobus</strong>: non solo conosci le
+                                        regole (Lezione 1), ma sai come gestire tanti passeggeri
+                                        (richieste) contemporaneamente senza fermarti mai (event
+                                        loop).
+                                    </p>
+                                </div>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>🎓 Check delle competenze acquisite</h2>
+                                <div class="info-box success">
+                                    <h3>✅ Verifica di essere pronto per la Lezione 3</h3>
+                                    <p>
+                                        Prima di continuare, assicurati di poter rispondere "SÌ" a
+                                        queste domande:
+                                    </p>
+
+                                    <h4>📚 Lezione 1 - Fondamenti</h4>
+                                    <ul>
+                                        <li>
+                                            ❓ So cos'è un'API REST e quali sono i metodi HTTP
+                                            principali?
+                                        </li>
+                                        <li>
+                                            ❓ Capisco la differenza tra architettura monolitica e
+                                            microservizi?
+                                        </li>
+                                        <li>❓ So cosa sono JSON e JWT e a cosa servono?</li>
+                                        <li>
+                                            ❓ Conosco i concetti base di sicurezza (CORS, CSRF)?
+                                        </li>
+                                    </ul>
+
+                                    <h4>🚀 Lezione 2 - Asincronia</h4>
+                                    <ul>
+                                        <li>
+                                            ❓ So usare async/await e gestire gli errori con
+                                            try/catch?
+                                        </li>
+                                        <li>❓ Capisco come funziona l'Event Loop di Node.js?</li>
+                                        <li>❓ So cos'è un middleware e come si usa in Express?</li>
+                                        <li>
+                                            ❓ Conosco la differenza tra operazioni sincrone e
+                                            asincrone?
+                                        </li>
+                                    </ul>
                                 </div>
 
-                                <div class="step">
-                                    <h3>6️⃣ Esercizi Pratici</h3>
-                                    <p><strong>Prerequisiti:</strong> Tutta la Lezione 3</p>
-                                    <p><strong>Farai:</strong> Progetti completi che integrano tutto ciò che hai imparato</p>
+                                <div class="info-box warning">
+                                    <h3>⚠️ Se hai risposto NO a qualche domanda</h3>
+                                    <p>
+                                        Non preoccuparti! Torna indietro e rivedi gli argomenti che
+                                        non hai chiaro. È importante avere solide basi prima di
+                                        procedere. Ecco cosa fare:
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            📖 Rileggi le sezioni relative alle domande dove hai
+                                            dubbi
+                                        </li>
+                                        <li>💻 Prova gli esempi di codice nel terminale</li>
+                                        <li>✏️ Fai gli esercizi delle lezioni precedenti</li>
+                                        <li>
+                                            🤔 Chiedi al docente di chiarire i concetti poco chiari
+                                        </li>
+                                    </ul>
                                 </div>
-                            </div>
+                            </article>
 
-                            <div class="info-box curiosity">
-                                <h3>💡 Perché questo ordine?</h3>
-                                <p>Ogni argomento si basa sui precedenti, come costruire una casa:</p>
-                                <ol>
-                                    <li><strong>Moduli</strong> = Le fondamenta (organizzare il codice)</li>
-                                    <li><strong>Package.json</strong> = Gli impianti (gestire dipendenze)</li>
-                                    <li><strong>Oggetti Globali</strong> = Gli strumenti (conoscere l'ambiente)</li>
-                                    <li><strong>Stream</strong> = Le tubature (gestire flussi di dati)</li>
-                                    <li><strong>CRUD</strong> = I mobili (funzionalità complete)</li>
-                                    <li><strong>Esercizi</strong> = Arredare la casa (mettere tutto insieme)</li>
-                                </ol>
-                            </div>
-                        </article>
+                            <article class="subsection">
+                                <h2>🗺️ La roadmap della Lezione 3</h2>
+                                <div class="steps">
+                                    <div class="step">
+                                        <h3>1️⃣ Moduli in Node.js</h3>
+                                        <p>
+                                            <strong>Prerequisiti:</strong> JavaScript base,
+                                            variabili e funzioni
+                                        </p>
+                                        <p>
+                                            <strong>Imparerai:</strong> Come dividere il codice in
+                                            file separati, differenza tra CommonJS
+                                            (<code>require</code>) e ES Modules
+                                            (<code>import/export</code>)
+                                        </p>
+                                    </div>
 
-                        <article class="subsection">
-                            <h2>🎯 Obiettivi pratici al termine della Lezione 3</h2>
-                            <div class="info-box success">
-                                <h3>🏆 Cosa sarai in grado di fare</h3>
-                                <p>Alla fine di questa lezione saprai costruire:</p>
-                                <ul>
-                                    <li>✅ Un'applicazione Node.js ben strutturata con moduli separati</li>
-                                    <li>✅ Un progetto con dipendenze gestite tramite npm</li>
-                                    <li>✅ Un sistema CRUD completo per gestire dati</li>
-                                    <li>✅ Un'API REST che legge/scrive file in modo efficiente</li>
-                                    <li>✅ Script automatici per semplificare il workflow di sviluppo</li>
-                                </ul>
-                            </div>
+                                    <div class="step">
+                                        <h3>2️⃣ Package.json & NPM</h3>
+                                        <p><strong>Prerequisiti:</strong> Concetto di moduli</p>
+                                        <p>
+                                            <strong>Imparerai:</strong> Gestire dipendenze,
+                                            configurare il progetto, usare script automatici
+                                        </p>
+                                    </div>
 
-                            <div class="info-box welcome">
-                                <h3>🚀 Il tuo primo progetto completo</h3>
-                                <p>Negli esercizi finali costruirai un <strong>Task Manager API</strong> completo che include:</p>
-                                <ul>
-                                    <li>📦 Struttura modulare (file separati per route, controller, utils)</li>
-                                    <li>⚙️ Configurazione con package.json e variabili d'ambiente</li>
-                                    <li>💾 Persistenza dati su file JSON con Stream per performance</li>
-                                    <li>🔒 Middleware di autenticazione e validazione</li>
-                                    <li>📝 CRUD completo (Create, Read, Update, Delete tasks)</li>
-                                    <li>✏️ Testing con esempi pratici</li>
-                                </ul>
-                            </div>
-                        </article>
+                                    <div class="step">
+                                        <h3>3️⃣ Oggetti Globali</h3>
+                                        <p>
+                                            <strong>Prerequisiti:</strong> Node.js installato,
+                                            concetti base di runtime
+                                        </p>
+                                        <p>
+                                            <strong>Imparerai:</strong> process, Buffer, __dirname,
+                                            __filename e altri oggetti essenziali
+                                        </p>
+                                    </div>
 
-                        <article class="subsection">
-                            <h2>💪 Prepara il tuo ambiente di sviluppo</h2>
-                            <div class="info-box info">
-                                <h3>🛠️ Checklist pre-lezione</h3>
-                                <p>Assicurati di avere tutto pronto:</p>
-                                <ul>
-                                    <li>✅ <strong>Node.js</strong> installato (versione 16 o superiore): <code>node --version</code></li>
-                                    <li>✅ <strong>NPM</strong> funzionante: <code>npm --version</code></li>
-                                    <li>✅ <strong>Editor di codice</strong> (VS Code consigliato)</li>
-                                    <li>✅ <strong>Terminale</strong> aperto e pronto</li>
-                                    <li>✅ <strong>Cartella di lavoro</strong> dove salvare i progetti</li>
-                                </ul>
-                            </div>
+                                    <div class="step">
+                                        <h3>4️⃣ Stream & File System</h3>
+                                        <p>
+                                            <strong>Prerequisiti:</strong> Async/await, conoscenza
+                                            base di I/O
+                                        </p>
+                                        <p>
+                                            <strong>Imparerai:</strong> Gestire file grandi con
+                                            Stream, operazioni avanzate sul file system
+                                        </p>
+                                    </div>
 
-                            <div class="info-box welcome">
-                                <h3>💻 Test rapido dell'ambiente</h3>
-                                <p>Prova a eseguire questi comandi nel terminale:</p>
-                                <pre><code># Verifica Node.js
+                                    <div class="step">
+                                        <h3>5️⃣ Oggetti & CRUD</h3>
+                                        <p>
+                                            <strong>Prerequisiti:</strong> Tutti gli argomenti
+                                            precedenti
+                                        </p>
+                                        <p>
+                                            <strong>Imparerai:</strong> Implementare operazioni CRUD
+                                            complete, gestire dati persistenti
+                                        </p>
+                                    </div>
+
+                                    <div class="step">
+                                        <h3>6️⃣ Esercizi Pratici</h3>
+                                        <p><strong>Prerequisiti:</strong> Tutta la Lezione 3</p>
+                                        <p>
+                                            <strong>Farai:</strong> Progetti completi che integrano
+                                            tutto ciò che hai imparato
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="info-box curiosity">
+                                    <h3>💡 Perché questo ordine?</h3>
+                                    <p>
+                                        Ogni argomento si basa sui precedenti, come costruire una
+                                        casa:
+                                    </p>
+                                    <ol>
+                                        <li>
+                                            <strong>Moduli</strong> = Le fondamenta (organizzare il
+                                            codice)
+                                        </li>
+                                        <li>
+                                            <strong>Package.json</strong> = Gli impianti (gestire
+                                            dipendenze)
+                                        </li>
+                                        <li>
+                                            <strong>Oggetti Globali</strong> = Gli strumenti
+                                            (conoscere l'ambiente)
+                                        </li>
+                                        <li>
+                                            <strong>Stream</strong> = Le tubature (gestire flussi di
+                                            dati)
+                                        </li>
+                                        <li>
+                                            <strong>CRUD</strong> = I mobili (funzionalità complete)
+                                        </li>
+                                        <li>
+                                            <strong>Esercizi</strong> = Arredare la casa (mettere
+                                            tutto insieme)
+                                        </li>
+                                    </ol>
+                                </div>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>🎯 Obiettivi pratici al termine della Lezione 3</h2>
+                                <div class="info-box success">
+                                    <h3>🏆 Cosa sarai in grado di fare</h3>
+                                    <p>Alla fine di questa lezione saprai costruire:</p>
+                                    <ul>
+                                        <li>
+                                            ✅ Un'applicazione Node.js ben strutturata con moduli
+                                            separati
+                                        </li>
+                                        <li>✅ Un progetto con dipendenze gestite tramite npm</li>
+                                        <li>✅ Un sistema CRUD completo per gestire dati</li>
+                                        <li>
+                                            ✅ Un'API REST che legge/scrive file in modo efficiente
+                                        </li>
+                                        <li>
+                                            ✅ Script automatici per semplificare il workflow di
+                                            sviluppo
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="info-box welcome">
+                                    <h3>🚀 Il tuo primo progetto completo</h3>
+                                    <p>
+                                        Negli esercizi finali costruirai un
+                                        <strong>Task Manager API</strong> completo che include:
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            📦 Struttura modulare (file separati per route,
+                                            controller, utils)
+                                        </li>
+                                        <li>
+                                            ⚙️ Configurazione con package.json e variabili
+                                            d'ambiente
+                                        </li>
+                                        <li>
+                                            💾 Persistenza dati su file JSON con Stream per
+                                            performance
+                                        </li>
+                                        <li>🔒 Middleware di autenticazione e validazione</li>
+                                        <li>
+                                            📝 CRUD completo (Create, Read, Update, Delete tasks)
+                                        </li>
+                                        <li>✏️ Testing con esempi pratici</li>
+                                    </ul>
+                                </div>
+                            </article>
+
+                            <article class="subsection">
+                                <h2>💪 Prepara il tuo ambiente di sviluppo</h2>
+                                <div class="info-box info">
+                                    <h3>🛠️ Checklist pre-lezione</h3>
+                                    <p>Assicurati di avere tutto pronto:</p>
+                                    <ul>
+                                        <li>
+                                            ✅ <strong>Node.js</strong> installato (versione 16 o
+                                            superiore): <code>node --version</code>
+                                        </li>
+                                        <li>
+                                            ✅ <strong>NPM</strong> funzionante:
+                                            <code>npm --version</code>
+                                        </li>
+                                        <li>
+                                            ✅ <strong>Editor di codice</strong> (VS Code
+                                            consigliato)
+                                        </li>
+                                        <li>✅ <strong>Terminale</strong> aperto e pronto</li>
+                                        <li>
+                                            ✅ <strong>Cartella di lavoro</strong> dove salvare i
+                                            progetti
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="info-box welcome">
+                                    <h3>💻 Test rapido dell'ambiente</h3>
+                                    <p>Prova a eseguire questi comandi nel terminale:</p>
+                                    <pre><code># Verifica Node.js
 node --version
 # Dovrebbe mostrare v16.x.x o superiore
 
@@ -354,76 +586,116 @@ npm init -y
 
 # Verifica che sia stato creato
 ls -la</code></pre>
-                                <p>Se tutti i comandi funzionano, sei pronto! 🎉</p>
-                            </div>
-                        </article>
+                                    <p>Se tutti i comandi funzionano, sei pronto! 🎉</p>
+                                </div>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>📖 Glossario rapido dei termini che userem o</h2>
-                            <dl class="definition-list">
-                                <div>
-                                    <dt>Modulo</dt>
-                                    <dd>File JavaScript che esporta funzioni/oggetti riutilizzabili in altre parti del progetto</dd>
-                                </div>
-                                <div>
-                                    <dt>Package</dt>
-                                    <dd>Libreria o modulo scaricabile da NPM che aggiunge funzionalità al progetto</dd>
-                                </div>
-                                <div>
-                                    <dt>Dipendenza</dt>
-                                    <dd>Package esterno di cui il tuo progetto ha bisogno per funzionare</dd>
-                                </div>
-                                <div>
-                                    <dt>Stream</dt>
-                                    <dd>Flusso di dati processati "a pezzi" invece che tutti insieme (utile per file grandi)</dd>
-                                </div>
-                                <div>
-                                    <dt>Buffer</dt>
-                                    <dd>Area di memoria temporanea per gestire dati binari (immagini, video, ecc.)</dd>
-                                </div>
-                                <div>
-                                    <dt>Process</dt>
-                                    <dd>Oggetto globale che rappresenta il processo Node.js in esecuzione</dd>
-                                </div>
-                            </dl>
-                        </article>
+                            <article class="subsection">
+                                <h2>📖 Glossario rapido dei termini che userem o</h2>
+                                <dl class="definition-list">
+                                    <div>
+                                        <dt>Modulo</dt>
+                                        <dd>
+                                            File JavaScript che esporta funzioni/oggetti
+                                            riutilizzabili in altre parti del progetto
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>Package</dt>
+                                        <dd>
+                                            Libreria o modulo scaricabile da NPM che aggiunge
+                                            funzionalità al progetto
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>Dipendenza</dt>
+                                        <dd>
+                                            Package esterno di cui il tuo progetto ha bisogno per
+                                            funzionare
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>Stream</dt>
+                                        <dd>
+                                            Flusso di dati processati "a pezzi" invece che tutti
+                                            insieme (utile per file grandi)
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>Buffer</dt>
+                                        <dd>
+                                            Area di memoria temporanea per gestire dati binari
+                                            (immagini, video, ecc.)
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>Process</dt>
+                                        <dd>
+                                            Oggetto globale che rappresenta il processo Node.js in
+                                            esecuzione
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </article>
 
-                        <article class="subsection">
-                            <h2>🎬 Sei pronto? Iniziamo!</h2>
-                            <div class="info-box success">
-                                <h3>🚀 Prossimi passi</h3>
-                                <p>Ora che hai un quadro completo, procedi con la prima sezione: <strong>Moduli in Node.js</strong></p>
-                                <p>Imparerai come organizzare il tuo codice in modo professionale e scalabile!</p>
-                            </div>
+                            <article class="subsection">
+                                <h2>🎬 Sei pronto? Iniziamo!</h2>
+                                <div class="info-box success">
+                                    <h3>🚀 Prossimi passi</h3>
+                                    <p>
+                                        Ora che hai un quadro completo, procedi con la prima
+                                        sezione: <strong>Moduli in Node.js</strong>
+                                    </p>
+                                    <p>
+                                        Imparerai come organizzare il tuo codice in modo
+                                        professionale e scalabile!
+                                    </p>
+                                </div>
 
-                            <div class="tips-grid">
-                                <div class="tip-card">
-                                    <h3>💡 Consiglio 1</h3>
-                                    <p>Prova ogni esempio di codice nel tuo terminale - è il modo migliore per imparare!</p>
+                                <div class="tips-grid">
+                                    <div class="tip-card">
+                                        <h3>💡 Consiglio 1</h3>
+                                        <p>
+                                            Prova ogni esempio di codice nel tuo terminale - è il
+                                            modo migliore per imparare!
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>📝 Consiglio 2</h3>
+                                        <p>
+                                            Prendi appunti su carta o digitali dei concetti chiave -
+                                            ti aiuterà a memorizzare
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>🤝 Consiglio 3</h3>
+                                        <p>
+                                            Lavora insieme ai compagni - spiegare agli altri
+                                            consolida la tua comprensione
+                                        </p>
+                                    </div>
+                                    <div class="tip-card">
+                                        <h3>⏰ Consiglio 4</h3>
+                                        <p>
+                                            Fai pause regolari - il cervello assimila meglio con
+                                            micro-pause ogni 25-30 minuti
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="tip-card">
-                                    <h3>📝 Consiglio 2</h3>
-                                    <p>Prendi appunti su carta o digitali dei concetti chiave - ti aiuterà a memorizzare</p>
-                                </div>
-                                <div class="tip-card">
-                                    <h3>🤝 Consiglio 3</h3>
-                                    <p>Lavora insieme ai compagni - spiegare agli altri consolida la tua comprensione</p>
-                                </div>
-                                <div class="tip-card">
-                                    <h3>⏰ Consiglio 4</h3>
-                                    <p>Fai pause regolari - il cervello assimila meglio con micro-pause ogni 25-30 minuti</p>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="section-navigation">
-                        <a class="btn btn--outline" href="../../index.html">← Torna alla selezione lezioni</a>
-                        <a class="btn btn--primary" href="moduli-nodejs.html">Inizia: Moduli in Node.js →</a>
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-    <script src="../../app.js"></script>
-</body>
+                            </article>
+                        </div>
+                        <div class="section-navigation">
+                            <a class="btn btn--outline" href="../../index.html"
+                                >← Torna alla selezione lezioni</a
+                            >
+                            <a class="btn btn--primary" href="moduli-nodejs.html"
+                                >Inizia: Moduli in Node.js →</a
+                            >
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script src="../../app.js"></script>
+    </body>
 </html>
