@@ -1098,6 +1098,15 @@ class WebArchitectureApp {
             // Aggiungi listener per i pulsanti di navigazione nella sezione caricata
             this.setupSectionNavigationButtons(extracted);
 
+            // Re-inizializza Prism.js per il syntax highlighting nel nuovo contenuto
+            if (typeof Prism !== 'undefined') {
+                console.log(`🎨 Re-inizializzazione Prism.js per sezione: ${sectionId}`);
+                // Usa un piccolo delay per assicurarsi che il DOM sia aggiornato
+                setTimeout(() => {
+                    Prism.highlightAllUnder(extracted);
+                }, 50);
+            }
+
             this.sectionCache.set(sectionId, true);
             this.contentSections.push(extracted);
         } catch (e) {
