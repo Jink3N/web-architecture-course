@@ -147,8 +147,9 @@ app.use((req, res) => {
 });
 
 // Per Vercel, esportiamo l'app invece di fare listen
-if (process.env.VERCEL) {
+if (process.env.VERCEL || process.env.NODE_ENV === 'vercel') {
     module.exports = app;
+    module.exports.default = app;
 } else {
     // Sviluppo locale
     const server = app.listen(PORT, () => {
