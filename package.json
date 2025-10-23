@@ -1,6 +1,6 @@
 {
     "name": "web-architecture-course",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Corso interattivo completo sull'architettura web - dalla storia ai microservizi",
     "main": "index.js",
     "scripts": {
