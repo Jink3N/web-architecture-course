@@ -265,7 +265,7 @@
                                 </div>
 
                                 <h3>📦 Step 1: Crea il progetto</h3>
-                                <pre class="line-numbers"><code class="language-markdown"># Crea una nuova cartella per il progetto
+                                <pre class="line-numbers"><code class="language-bash"># Crea una nuova cartella per il progetto
 mkdir my-express-app
 cd my-express-app
 
@@ -284,7 +284,7 @@ npm init -y
                                 </div>
 
                                 <h3>📥 Step 2: Installa Express</h3>
-                                <pre class="line-numbers"><code class="language-markdown"># Installa Express come dipendenza
+                                <pre class="line-numbers"><code class="language-bash"># Installa Express come dipendenza
 npm install express
 
 # Installa nodemon per development (riavvia automaticamente il server)
@@ -399,7 +399,7 @@ app.listen(PORT, () => {
                                 </div>
 
                                 <h3>▶️ Step 5: Avvia il server</h3>
-                                <pre class="line-numbers"><code class="language-markdown"># Development (con auto-reload quando modifichi il codice)
+                                <pre class="line-numbers"><code class="language-bash"># Development (con auto-reload quando modifichi il codice)
 npm run dev
 
 # Oppure production (senza auto-reload)
@@ -1012,7 +1012,7 @@ app.use('/assets', express.static('assets'));
                                 <h4>4️⃣ Third-party Middleware (librerie esterne)</h4>
                                 <p>Middleware creati dalla community, installabili con NPM.</p>
 
-                                <pre class="line-numbers"><code class="language-markdown"># Installa middleware popolari
+                                <pre class="line-numbers"><code class="language-bash"># Installa middleware popolari
 npm install cors helmet morgan compression cookie-parser</code></pre>
 
                                 <pre class="line-numbers"><code class="language-javascript">import express from 'express';

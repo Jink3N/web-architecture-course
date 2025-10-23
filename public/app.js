@@ -17,7 +17,10 @@ class WebArchitectureApp {
         this.lessonsCache = new Map();
         
         // Limite massimo per cache (evita memory leak)
-        this.MAX_CACHE_SIZE = 15; // Max 15 sezioni in cache
+        this.MAX_CACHE_SIZE = 20; // Aumentato a 20 per lezioni più grandi
+        
+        // File size tracking per ottimizzazioni
+        this.largeFilesCache = new Set(['express-framework']); // Files > 100K
 
         // UI State
         this.isMobile = window.innerWidth <= 768;
@@ -379,6 +382,7 @@ class WebArchitectureApp {
 
         // Aggiorna sections e pageMap per la lezione corrente
         this.sections = lesson.sections.map(s => s.id);
+        console.log('📋 Sections array popolato per', lessonId, ':', this.sections);
         this.pageMap = {};
         lesson.sections.forEach(section => {
             this.pageMap[section.id] = section.file;
@@ -873,10 +877,23 @@ class WebArchitectureApp {
     // ==================== NAVIGATION ====================
 
     navigateToSection(sectionId, updateHistory = true, dynamicLoad = false) {
-        // Previeni navigazione multipla simultanea
+        // CRITICAL: Cancella immediatamente qualsiasi navigazione precedente
         if (this._isNavigating && this._targetSection !== sectionId) {
-            console.log(`⏸️ Navigazione già in corso, richiesta ignorata per ${sectionId}`);
-            return;
+            console.log(`🛑 Cancellazione navigazione precedente verso ${this._targetSection}, nuova: ${sectionId}`);
+            
+            // Aborta fetch in corso
+            if (this._currentFetch && typeof this._currentFetch.abort === 'function') {
+                try {
+                    this._currentFetch.abort();
+                } catch (e) {
+                    /* ignore */
+                }
+            }
+            
+            // Reset immediato
+            this._loadingSection = null;
+            this._isNavigating = false;
+            this._targetSection = null;
         }
         
         // Se stiamo già navigando verso questa sezione, ignora
@@ -911,11 +928,18 @@ class WebArchitectureApp {
                 .then(() => {
                     console.log(`✅ Caricamento completato per: ${sectionId}`);
                     targetNavItem.classList.remove('loading');
-                    // Reset flag prima di riprovare
-                    this._isNavigating = false;
-                    this._targetSection = null;
-                    // Riprova la navigazione dopo il caricamento
-                    this.navigateToSection(sectionId, updateHistory, false);
+                    
+                    // Verifica che questa sia ancora la sezione desiderata
+                    if (this._targetSection === sectionId) {
+                        // Reset flag prima di riprovare
+                        this._isNavigating = false;
+                        this._targetSection = null;
+                        // Riprova la navigazione dopo il caricamento
+                        this.navigateToSection(sectionId, updateHistory, false);
+                    } else {
+                        console.log(`⚠️ Sezione ${sectionId} caricata ma non più richiesta`);
+                        this._isNavigating = false;
+                    }
                 })
                 .catch(err => {
                     console.error('❌ Errore caricamento:', err);
@@ -940,27 +964,31 @@ class WebArchitectureApp {
         // Sezione potrebbe ancora mancare se caricamento fallito
         targetSection = document.getElementById(sectionId);
         if (!targetSection) {
-            console.error(`Sezione ${sectionId} non trovata nel DOM`);
+            console.error(`❌ Sezione ${sectionId} non trovata nel DOM dopo caricamento`);
+            this._isNavigating = false;
+            this._targetSection = null;
             return;
         }
 
-        // Nascondi sezione attuale
-        const currentSection = document.querySelector('.content-section.active');
-        if (currentSection) {
-            currentSection.classList.remove('active');
-        }
+        console.log(`✅ Sezione ${sectionId} trovata nel DOM, attivazione...`);
 
-        // Rimuovi active dalla nav attuale
-        const currentNavItem = document.querySelector('.nav-item.active');
-        if (currentNavItem) {
-            currentNavItem.classList.remove('active');
-        }
-
-        // Attiva nuova sezione (usando requestAnimationFrame per performance)
-        requestAnimationFrame(() => {
-            targetSection.classList.add('active');
-            targetNavItem.classList.add('active');
+        // STEP 1: Prima nascondi TUTTE le sezioni
+        const allSections = document.querySelectorAll('.content-section');
+        allSections.forEach(section => {
+            section.classList.remove('active');
+            section.style.display = '';
         });
+
+        // STEP 2: Rimuovi active da tutti gli item della nav
+        const allNavItems = document.querySelectorAll('.nav-item.active');
+        allNavItems.forEach(item => {
+            item.classList.remove('active');
+        });
+
+        // STEP 3: Attiva IMMEDIATAMENTE la sezione target (non aspettare requestAnimationFrame)
+        targetSection.classList.add('active');
+        targetNavItem.classList.add('active');
+        console.log(`✅ Sezione ${sectionId} attivata con successo`);
 
         // Scroll to top automaticamente
         this.scrollToTop();
@@ -1030,8 +1058,15 @@ class WebArchitectureApp {
             const nextSectionId = this.sections[currentIndex + 1];
             
             // Carica solo se non è già in cache
-            if (!this.sectionCache.has(nextSectionId) && !document.getElementById(nextSectionId)) {
+            const cacheEntry = this.sectionCache.get(nextSectionId);
+            const alreadyLoaded = cacheEntry && (cacheEntry === true || cacheEntry.loaded);
+            
+            if (!alreadyLoaded && !document.getElementById(nextSectionId)) {
                 console.log(`🔮 Pre-caricamento sezione successiva: ${nextSectionId}`);
+                
+                // Per file grandi, usa timeout più lungo per non interferire
+                const isLargeFile = this.largeFilesCache.has(nextSectionId);
+                const delay = isLargeFile ? 1000 : 500;
                 
                 // Usa requestIdleCallback per non interferire con la UI
                 if ('requestIdleCallback' in window) {
@@ -1039,14 +1074,14 @@ class WebArchitectureApp {
                         this.loadSectionDynamically(nextSectionId).catch(err => {
                             console.warn(`⚠️ Pre-caricamento fallito per ${nextSectionId}:`, err);
                         });
-                    }, { timeout: 2000 });
+                    }, { timeout: delay * 4 });
                 } else {
                     // Fallback: usa setTimeout con delay maggiore
                     setTimeout(() => {
                         this.loadSectionDynamically(nextSectionId).catch(err => {
                             console.warn(`⚠️ Pre-caricamento fallito per ${nextSectionId}:`, err);
                         });
-                    }, 500);
+                    }, delay);
                 }
             }
         }
@@ -1058,7 +1093,8 @@ class WebArchitectureApp {
         }
         
         // Se la sezione è già in cache E presente nel DOM, non ricaricare
-        const existingInCache = this.sectionCache.has(sectionId);
+        const cacheEntry = this.sectionCache.get(sectionId);
+        const existingInCache = cacheEntry && (cacheEntry === true || cacheEntry.loaded);
         const existingInDOM = document.getElementById(sectionId);
         
         if (existingInCache && existingInDOM) {
@@ -1092,7 +1128,8 @@ class WebArchitectureApp {
         console.log(`📥 Caricamento da: ${pagePath}`);
 
         // Solo rimuovi sezione esistente se NON è in cache (significa che è corrotta o obsoleta)
-        if (!this.sectionCache.has(sectionId)) {
+        const cachedEntry = this.sectionCache.get(sectionId);
+        if (!cachedEntry || (typeof cachedEntry === 'object' && !cachedEntry.loaded)) {
             const existingSection = document.getElementById(sectionId);
             if (existingSection) {
                 existingSection.remove();
@@ -1100,11 +1137,24 @@ class WebArchitectureApp {
             }
         }
 
-        // Placeholder spinner (più leggero)
+        // Placeholder spinner con messaggio per file grandi
+        const isLargeFile = this.largeFilesCache.has(sectionId);
         const placeholder = document.createElement('section');
         placeholder.className = 'content-section loading';
         placeholder.id = sectionId;
-        placeholder.innerHTML = `<div class="loading"><div class="loading-spinner"></div></div>`;
+        
+        if (isLargeFile) {
+            placeholder.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        ⏳ Caricamento contenuto esteso in corso...
+                    </p>
+                </div>`;
+        } else {
+            placeholder.innerHTML = `<div class="loading"><div class="loading-spinner"></div></div>`;
+        }
+        
         this.contentContainer.appendChild(placeholder);
 
         const abortController = new AbortController();
@@ -1128,24 +1178,70 @@ class WebArchitectureApp {
             
             const html = await response.text();
             const fetchTime = performance.now() - startTime;
-            console.log(`⚡ Fetch completato in ${fetchTime.toFixed(2)}ms`);
+            const fileSize = (html.length / 1024).toFixed(2);
+            console.log(`⚡ Fetch completato in ${fetchTime.toFixed(2)}ms (${fileSize}KB)`);
 
             // Parse più efficiente: cerca solo il tag section necessario
             const parseStart = performance.now();
-            const sectionMatch = html.match(new RegExp(`<section[^>]*id="${sectionId}"[^>]*>([\\s\\S]*?)<\\/section>`, 'i'));
             
+            // Per file grandi (>100KB), usa strategia ottimizzata
+            const isLargeFile = html.length > 100000;
             let extracted;
-            if (sectionMatch) {
-                // Creazione diretta senza DOMParser (più veloce)
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = sectionMatch[0];
-                extracted = tempDiv.firstElementChild;
-            } else {
-                // Fallback: usa DOMParser solo se necessario
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                extracted = doc.querySelector(`section.content-section#${sectionId}`) || 
-                           doc.querySelector('section.content-section');
+            
+            if (isLargeFile) {
+                console.log(`📦 File grande rilevato (${fileSize}KB), parsing ottimizzato...`);
+                
+                // Trova gli indici di inizio/fine section più velocemente
+                const sectionStartTag = `<section class="content-section active" id="${sectionId}">`;
+                const sectionEndTag = '</section>';
+                const startIdx = html.indexOf(sectionStartTag);
+                
+                if (startIdx !== -1) {
+                    // Trova la chiusura corrispondente contando i tag aperti/chiusi
+                    let depth = 1;
+                    let idx = startIdx + sectionStartTag.length;
+                    const openTag = /<section/gi;
+                    const closeTag = /<\/section>/gi;
+                    
+                    while (depth > 0 && idx < html.length) {
+                        const nextOpen = html.indexOf('<section', idx);
+                        const nextClose = html.indexOf('</section>', idx);
+                        
+                        if (nextClose === -1) break;
+                        
+                        if (nextOpen !== -1 && nextOpen < nextClose) {
+                            depth++;
+                            idx = nextOpen + 8;
+                        } else {
+                            depth--;
+                            idx = nextClose + 10;
+                        }
+                    }
+                    
+                    if (depth === 0) {
+                        const sectionHTML = html.substring(startIdx, idx);
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = sectionHTML;
+                        extracted = tempDiv.firstElementChild;
+                    }
+                }
+            }
+            
+            // Fallback per file normali o se parsing ottimizzato fallisce
+            if (!extracted) {
+                const sectionMatch = html.match(new RegExp(`<section[^>]*id="${sectionId}"[^>]*>([\\s\\S]*?)<\\/section>`, 'i'));
+                
+                if (sectionMatch) {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = sectionMatch[0];
+                    extracted = tempDiv.firstElementChild;
+                } else {
+                    // Ultimo fallback: usa DOMParser
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    extracted = doc.querySelector(`section.content-section#${sectionId}`) || 
+                               doc.querySelector('section.content-section');
+                }
             }
             
             if (!extracted) {
@@ -1176,49 +1272,99 @@ class WebArchitectureApp {
                 return;
             }
 
-            // Sostituisci placeholder in modo efficiente
-            const existing = document.getElementById(sectionId);
-            if (existing) {
-                existing.replaceWith(extracted);
-            } else {
-                this.contentContainer.appendChild(extracted);
-            }
+            // IMPORTANTE: Rimuovi TUTTE le sezioni esistenti con lo stesso ID
+            // per prevenire duplicazioni nel DOM (problema SPA)
+            const allExistingSections = document.querySelectorAll(`#${sectionId}`);
+            allExistingSections.forEach(section => {
+                console.log(`🗑️ Rimuovo sezione duplicata: ${sectionId}`);
+                section.remove();
+            });
+
+            // CRITICAL: La nuova sezione NON deve essere attiva di default
+            // Sarà attivata solo da navigateToSection quando appropriato
+            extracted.classList.remove('active');
+
+            // Inserisci la nuova sezione nel container
+            this.contentContainer.appendChild(extracted);
 
             // Setup navigation buttons
             this.setupSectionNavigationButtons(extracted);
 
-            // Syntax highlighting ottimizzato: usa requestIdleCallback se disponibile
-            if (typeof Prism !== 'undefined') {
-                const highlightCode = () => {
-                    const codeBlocks = extracted.querySelectorAll('pre code');
-                    if (codeBlocks.length > 0) {
-                        console.log(`🎨 Highlighting ${codeBlocks.length} code blocks`);
-                        Prism.highlightAllUnder(extracted);
+            // Syntax highlighting ASINCRONO con Highlight.js (più veloce di Prism.js)
+            if (typeof hljs !== 'undefined') {
+                const codeBlocks = extracted.querySelectorAll('pre code');
+                if (codeBlocks.length > 0) {
+                    console.log(`🎨 Scheduling async highlighting for ${codeBlocks.length} code blocks in ${sectionId}`);
+                    
+                    // Usa requestIdleCallback per highlighting non bloccante
+                    const highlightAsync = () => {
+                        console.log(`✨ Starting async highlighting for ${sectionId}`);
+                        codeBlocks.forEach(block => {
+                            // Highlight.js rileva automaticamente il linguaggio
+                            hljs.highlightElement(block);
+                        });
+                        console.log(`✅ Completed highlighting for ${sectionId}`);
+                    };
+                    
+                    // Usa requestIdleCallback se disponibile, altrimenti setTimeout
+                    if ('requestIdleCallback' in window) {
+                        requestIdleCallback(highlightAsync, { timeout: 1000 });
+                    } else {
+                        setTimeout(highlightAsync, 0);
                     }
-                };
-                
-                // Usa requestIdleCallback per non bloccare il thread principale
-                if ('requestIdleCallback' in window) {
-                    requestIdleCallback(highlightCode, { timeout: 100 });
-                } else {
-                    setTimeout(highlightCode, 0);
                 }
             }
 
             // Gestione cache con limite per evitare memory leak
-            this.sectionCache.set(sectionId, true);
+            // Marca file grandi per priorità cache
+            const cacheEntry = {
+                loaded: true,
+                size: html.length,
+                isLarge: isLargeFile,
+                timestamp: Date.now()
+            };
+            this.sectionCache.set(sectionId, cacheEntry);
             
-            // Se la cache supera il limite, rimuovi la entry più vecchia
+            // Se la cache supera il limite, rimuovi sezioni strategicamente
             if (this.sectionCache.size > this.MAX_CACHE_SIZE) {
-                const firstKey = this.sectionCache.keys().next().value;
-                this.sectionCache.delete(firstKey);
-                console.log(`🧹 Cache limit raggiunto, rimossa: ${firstKey}`);
+                // Non rimuovere mai file grandi dalla cache (sono costosi da ricaricare)
+                const entries = Array.from(this.sectionCache.entries());
+                const smallFiles = entries.filter(([key, value]) => {
+                    return typeof value === 'object' && !value.isLarge;
+                });
+                
+                if (smallFiles.length > 0) {
+                    // Rimuovi il file piccolo più vecchio
+                    smallFiles.sort((a, b) => a[1].timestamp - b[1].timestamp);
+                    const toRemove = smallFiles[0][0];
+                    this.sectionCache.delete(toRemove);
+                    
+                    // Rimuovi anche dal DOM se presente
+                    const elementToRemove = document.getElementById(toRemove);
+                    if (elementToRemove && !elementToRemove.classList.contains('active')) {
+                        elementToRemove.remove();
+                        console.log(`🧹 Rimosso dal DOM: ${toRemove}`);
+                    }
+                    
+                    console.log(`🧹 Cache limit raggiunto, rimossa sezione piccola: ${toRemove}`);
+                } else {
+                    // Se sono tutti file grandi, rimuovi il più vecchio
+                    const firstKey = this.sectionCache.keys().next().value;
+                    this.sectionCache.delete(firstKey);
+                    
+                    const elementToRemove = document.getElementById(firstKey);
+                    if (elementToRemove && !elementToRemove.classList.contains('active')) {
+                        elementToRemove.remove();
+                    }
+                    
+                    console.log(`🧹 Cache limit raggiunto, rimossa: ${firstKey}`);
+                }
             }
             
             this.contentSections.push(extracted);
             
             const totalTime = performance.now() - startTime;
-            console.log(`✅ Caricamento totale: ${totalTime.toFixed(2)}ms | Cache: ${this.sectionCache.size}/${this.MAX_CACHE_SIZE}`);
+            console.log(`✅ Caricamento totale: ${totalTime.toFixed(2)}ms (${fileSize}KB) | Cache: ${this.sectionCache.size}/${this.MAX_CACHE_SIZE}`);
             
         } catch (e) {
             console.error('Errore fetch sezione', sectionId, e);
@@ -1327,11 +1473,19 @@ class WebArchitectureApp {
 
     navigateToNextSection() {
         const currentIndex = this.sections.indexOf(this.currentSection);
+        console.log('🔍 DEBUG navigateToNextSection:');
+        console.log('  currentSection:', this.currentSection);
+        console.log('  currentIndex:', currentIndex);
+        console.log('  sections array:', this.sections);
+        console.log('  sections length:', this.sections.length);
+        
         if (currentIndex < this.sections.length - 1) {
             const nextSection = this.sections[currentIndex + 1];
+            console.log('  nextSection (index +1):', nextSection);
             this.navigateToSection(nextSection, true);
         } else {
             // Se siamo all'ultima sezione della lezione corrente, passa alla lezione successiva
+            console.log('  Ultima sezione, passaggio alla lezione successiva');
             this.goToNextLesson();
         }
     }
@@ -1923,63 +2077,44 @@ document.addEventListener('click', e => {
 // ==================== PRISM.JS INTEGRATION ====================
 
 /**
- * Inizializza Prism.js per tutti i blocchi di codice
+ * Inizializza Highlight.js per syntax highlighting
  */
-function initializePrismHighlighting() {
-    if (typeof Prism === 'undefined') {
-        console.warn('⚠️ Prism.js non ancora caricato');
+function initializeHighlightJS() {
+    if (typeof hljs === 'undefined') {
+        console.warn('⚠️ Highlight.js non ancora caricato');
         return;
     }
 
-    console.log('🎨 Inizializzazione Prism.js...');
+    console.log('🎨 Inizializzazione Highlight.js...');
 
-    // Configura Prism per normalizzare gli spazi bianchi
-    if (Prism.plugins && Prism.plugins.NormalizeWhitespace) {
-        Prism.plugins.NormalizeWhitespace.setDefaults({
-            'remove-trailing': true,
-            'remove-indent': true,
-            'left-trim': true,
-            'right-trim': true,
-        });
+    // Configura Highlight.js per auto-rilevamento linguaggi
+    hljs.configure({
+        ignoreUnescapedHTML: true,
+        languages: ['javascript', 'typescript', 'json', 'xml', 'html', 'css', 'bash', 'shell']
+    });
+
+    // Trova tutti i blocchi <pre><code> e applica highlighting
+    const highlightAllBlocks = () => {
+        const codeBlocks = document.querySelectorAll('pre code:not(.hljs)');
+        if (codeBlocks.length > 0) {
+            console.log(`🎨 Highlighting ${codeBlocks.length} code blocks...`);
+            codeBlocks.forEach(block => {
+                hljs.highlightElement(block);
+            });
+            console.log('✅ Highlight.js inizializzato con successo');
+        }
+    };
+
+    // Esegui highlighting in modo asincrono
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(highlightAllBlocks, { timeout: 1000 });
+    } else {
+        setTimeout(highlightAllBlocks, 0);
     }
-
-    // Trova tutti i blocchi <pre><code> senza linguaggio specificato
-    document.querySelectorAll('pre code:not([class*="language-"])').forEach(block => {
-        // Rileva automaticamente il linguaggio dal contenuto
-        const text = block.textContent || '';
-        const detectedLang = detectLanguage(text);
-
-        // Aggiungi la classe del linguaggio
-        block.classList.add(`language-${detectedLang}`);
-
-        // Aggiungi attributo data-language per label
-        const pre = block.closest('pre');
-        if (pre) {
-            pre.classList.add(`language-${detectedLang}`);
-            pre.setAttribute('data-language', detectedLang);
-            pre.classList.add('line-numbers'); // Abilita numerazione righe
-        }
-    });
-
-    // Trova blocchi che hanno già una classe di linguaggio
-    document.querySelectorAll('pre[class*="language-"]').forEach(pre => {
-        const match = pre.className.match(/language-(\w+)/);
-        if (match && match[1]) {
-            pre.setAttribute('data-language', match[1]);
-            if (!pre.classList.contains('line-numbers')) {
-                pre.classList.add('line-numbers');
-            }
-        }
-    });
-
-    // Evidenzia tutti i blocchi di codice
-    Prism.highlightAll();
-
-    console.log('✅ Prism.js inizializzato con successo');
 }
 
 /**
- * Rileva automaticamente il linguaggio dal contenuto del codice
+ * Rileva automaticamente il linguaggio dal contenuto del codice (DEPRECATED - Highlight.js lo fa automaticamente)
  * @param {string} code - Il codice da analizzare
  * @returns {string} - Il linguaggio rilevato
  */
@@ -2076,9 +2211,9 @@ function logMemoryUsage() {
 }
 
 /**
- * Re-inizializza Prism quando viene caricato nuovo contenuto dinamicamente
+ * Re-inizializza Highlight.js quando viene caricato nuovo contenuto dinamicamente
  */
-function reinitializePrismForNewContent() {
+function reinitializeHighlightJSForNewContent() {
     // Usa MutationObserver per rilevare nuovo contenuto
     if (typeof MutationObserver !== 'undefined') {
         const observer = new MutationObserver(mutations => {
@@ -2087,12 +2222,14 @@ function reinitializePrismForNewContent() {
                     if (node.nodeType === 1) {
                         // Element node
                         const codeBlocks = node.querySelectorAll
-                            ? node.querySelectorAll('pre code')
+                            ? node.querySelectorAll('pre code:not(.hljs)')
                             : [];
 
-                        if (codeBlocks.length > 0) {
-                            console.log('🔄 Nuovo contenuto rilevato, re-inizializzo Prism...');
-                            setTimeout(() => initializePrismHighlighting(), 100);
+                        if (codeBlocks.length > 0 && typeof hljs !== 'undefined') {
+                            console.log('🔄 Nuovo contenuto rilevato, re-inizializzo Highlight.js...');
+                            setTimeout(() => {
+                                codeBlocks.forEach(block => hljs.highlightElement(block));
+                            }, 50);
                         }
                     }
                 });
@@ -2104,7 +2241,7 @@ function reinitializePrismForNewContent() {
             subtree: true,
         });
 
-        console.log('👁️ MutationObserver attivo per Prism.js');
+        console.log('👁️ MutationObserver attivo per Highlight.js');
     }
 }
 
@@ -2148,14 +2285,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Inizializza Prism.js dopo che tutto è caricato
+// Inizializza Highlight.js dopo che tutto è caricato
 window.addEventListener('load', () => {
-    // Attendi che Prism.js sia completamente caricato
-    const checkPrism = setInterval(() => {
-        if (typeof Prism !== 'undefined') {
-            clearInterval(checkPrism);
-            initializePrismHighlighting();
-            reinitializePrismForNewContent();
+    // Attendi che Highlight.js sia completamente caricato
+    const checkHighlightJS = setInterval(() => {
+        if (typeof hljs !== 'undefined') {
+            clearInterval(checkHighlightJS);
+            initializeHighlightJS();
+            reinitializeHighlightJSForNewContent();
         }
     }, 100);
 

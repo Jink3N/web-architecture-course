@@ -99,7 +99,7 @@
                                 </p>
 
                                 <h3>🚀 Creare un package.json</h3>
-                                <pre class="line-numbers"><code class="language-markdown"># Metodo interattivo (fa domande)
+                                <pre class="line-numbers"><code class="language-bash"># Metodo interattivo (fa domande)
 npm init
 
 # Metodo rapido (usa defaults)
@@ -288,7 +288,7 @@ npm init --scope=@myorg</code></pre>
                             <article class="subsection">
                                 <h2>🛠️ Comandi NPM essenziali</h2>
 
-                                <pre class="line-numbers"><code class="language-markdown"># Installazione
+                                <pre class="line-numbers"><code class="language-bash"># Installazione
 npm install                    # Installa tutte le dipendenze
 npm install express            # Installa e salva in dependencies
 npm install -D jest            # Installa in devDependencies
@@ -346,7 +346,7 @@ npm cache clean --force        # Pulisce cache NPM</code></pre>
                                     sensibili
                                 </p>
 
-                                <pre class="line-numbers"><code class="language-markdown"># .env (NON committare questo file!)
+                                <pre class="line-numbers"><code class="language-properties"># .env (NON committare questo file!)
 DATABASE_URL=postgresql://localhost/mydb
 API_KEY=supersecretkey123
 PORT=3000
@@ -359,7 +359,7 @@ console.log(process.env.DATABASE_URL);
 console.log(process.env.PORT);          // "3000"
 console.log(process.env.NODE_ENV);      // "development"</code></pre>
 
-                                <pre class="line-numbers"><code class="language-markdown"># .gitignore - SEMPRE ignorare .env
+                                <pre class="line-numbers"><code class="language-gitignore"># .gitignore - SEMPRE ignorare .env
 node_modules/
 .env
 .env.local
@@ -429,8 +429,8 @@ node_modules/
                             <a class="btn btn--outline" href="moduli-nodejs.html"
                                 >← Moduli in Node.js</a
                             >
-                            <a class="btn btn--primary" href="oggetti-globali.html"
-                                >Oggetti Globali →</a
+                            <a class="btn btn--primary" href="express-framework.html.html"
+                                >Express.js Framework →</a
                             >
                         </div>
                     </section>

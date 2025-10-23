@@ -23,9 +23,30 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 // Sicurezza con Helmet (headers HTTP sicuri)
 app.use(
     helmet({
-        // CSP personalizzabile se necessario; per ora omesso per non bloccare Prism.js
-        contentSecurityPolicy: false,
-        crossOriginEmbedderPolicy: false, // evitiamo conflitti con CDN
+        contentSecurityPolicy: {
+            directives: {
+                defaultSrc: ["'self'"],
+                scriptSrc: [
+                    "'self'",
+                    "'unsafe-inline'", // Necessario per Prism.js inline
+                    "https://cdn.jsdelivr.net",
+                    "https://cdnjs.cloudflare.com"
+                ],
+                styleSrc: [
+                    "'self'",
+                    "'unsafe-inline'", // Necessario per stili inline
+                    "https://cdn.jsdelivr.net"
+                ],
+                imgSrc: ["'self'", "data:", "https:"],
+                fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
+                connectSrc: ["'self'"],
+                frameSrc: ["'none'"],
+                objectSrc: ["'none'"],
+                upgradeInsecureRequests: []
+            }
+        },
+        crossOriginEmbedderPolicy: false, // Manteniamo false per compatibilità CDN
+        crossOriginResourcePolicy: { policy: "cross-origin" }
     })
 );
 
@@ -89,6 +110,22 @@ app.get('/health', (req, res) => {
         environment: process.env.NODE_ENV || 'development',
         version: require('./package.json').version,
     });
+});
+
+// Endpoint di debug per stato cache/loader (usato per diagnostica locale)
+app.get('/debug/perf', (req, res) => {
+    try {
+        // Non possiamo accedere direttamente a variabili client-side, ma
+        // possiamo mostrare informazioni di base sul server
+        const info = {
+            nodeVersion: process.version,
+            uptime: process.uptime(),
+            env: process.env.NODE_ENV || 'development'
+        };
+        res.json({ ok: true, info });
+    } catch (e) {
+        res.status(500).json({ ok: false, error: e.message });
+    }
 });
 
 // API routes (importa le funzioni dall'api directory) con rate limit
